@@ -1,0 +1,1275 @@
+.snacks_header {
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    background-color: #F6F6F8;
+}
+.offer-box{
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    
+    left: 24rem;
+    top: 13rem;
+    width: 59%;
+    height: 315px;
+    background-color: white;
+    position: relative;
+    padding-bottom: 0rem;
+
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.column{
+    border: 1px solid #000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+.column h2{
+    margin: 0 auto 0 auto;
+    font-weight: bold;
+}
+.column h6{
+    margin: 0 auto 0 auto;
+}
+
+.snacks_wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: #E3E3E3;
+}
+
+.snacks_main_component {
+    width: 90%;
+    min-height: 85vh;
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin: auto;
+}
+
+.cards_price_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+}
+
+
+
+.containerCustomer {
+    padding: 5px;
+}
+
+.cardCustomer {
+    display: inline-block;
+    padding: 1px;
+    padding-top: 0;
+    margin: 8px;
+    background-color: #fff;
+    box-shadow: 1px 2px 3px #bbb;
+    transition: all .35s linear;
+}
+
+.cardCustomer:hover {
+    box-shadow: -1px 3px 4px #bbb;
+}
+
+
+.customers_landing_header {
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.customers_links_wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50vw;
+    height: 100px;
+    margin-bottom: 80px;
+}
+
+.links_customers {
+    width: 280px;
+    height: 50px;
+    background-color: rebeccapurple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    z-index: 10;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.links_customers:hover {
+    background-color: rgb(78, 40, 115);
+}
+
+.markets{
+    display: flex;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    justify-content: space-evenly;
+}
+.marketData{
+    width: 300px;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 31px;
+    box-shadow: 5px 20px 15px 0 rgb(0 0 0 / 3%), -2px 2px 14px 0 rgb(0 0 0 / 7%)
+}
+.marketData:hover{
+    box-shadow: 4px 11px 15px 0 rgba(0,0,0,0.2), -2px 2px 14px 0 rgba(0,0,0,0.09);
+}
+
+@media (max-width : 600px) {
+    .snacks_main_component {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .customers_links_wrapper {
+        flex-direction: column;
+        justify-content: space-around;
+        width: 80vw;
+        height: 20vh;
+    }
+    .markets{
+        display: inline;
+    }
+    .offer-box{
+        display: flex;
+        justify-content: space-between;
+       
+        text-align: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        left: 1.5rem;
+        top: 13rem;
+        width: 90%;
+        height: 315px;
+        background-color: white;
+        position: relative;
+        padding-bottom: 0rem;
+        padding-top: 3rem;
+       
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+
+.live-market {
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.market {
+    width: fit-content;
+    text-align: center;
+}
+.marketImages img{
+    border-radius: 20px;
+    height: 180px;
+    width: 260px;
+}
+.market img {
+    width: 250px;
+    border-radius: 7.73239px;
+}
+
+.market h5 {
+    font-size: 20px;
+    font-weight: 400;
+    padding: 10px;
+}
+
+.market p {
+    font-size: 15px;
+    padding: 0 0 5px 0;
+}
+.liveMarket{
+    margin: 0px 0px 30px 35px;
+ }
+ .liveMarket h1{
+     font-weight: bold;
+     position: relative;
+     top: 23px;
+     margin-bottom: -7px;
+ }
+ .liveMarket hr{
+     margin-left: 200px;
+     margin-right: 20px;
+ }
+ 
+.marketData h2{
+    margin-top: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+.downButton{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-left: -9px;
+}
+.downButton a{
+    /* margin-right: 60px; */
+    margin-left: 10px;
+}
+#productID{
+    margin-left: 310px;
+    margin-right: 20px;
+}
+#liveHR{
+    margin-left: 165px;
+    margin-right: 20px;
+}
+.topSellers {
+    display: flex;
+    overflow-x: auto;
+    justify-content: space-evenly;
+}
+#feedbackHR{
+    margin-left: 145px;
+    margin-right: 20px;
+}
+
+.btn {
+    width: 100px;
+    height:
+        35px;
+    padding-top: .8rem;
+    border: none;
+    background: linear-gradient(105.42deg, #3AA54B 33.61%, #107C55 80.31%);
+    border-radius: 50px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px !important;
+    line-height: 128.91%;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin-left: 2rem;
+}
+
+
+.categories-holder {
+    display: flex;
+ 
+    flex-wrap: wrap;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+    height: 600px;
+    justify-content: space-between;
+}
+
+.category {
+    padding: 10px;
+    text-align: center;
+    width: 250px;
+    height: 250px;
+    border-radius: 7.5px;
+    margin:10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.category:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19)
+  }
+
+.category img {
+    width: 230px;
+    height: 180px;
+    /* box-shadow: 0px 13px 8px -2px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1); */
+    border-radius: 25px;
+    margin-bottom: 10px;
+}
+
+.category h5 {
+    font-size: 18px;
+    padding-top: 10px;
+    font-weight: 400;
+    font-family: 'Arturo';
+    ;
+}
+
+
+.divider span {
+    font-family: 'Arturo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 128.91%;
+}
+
+
+
+.top-product {
+    width: 80%;
+    margin: 50px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.product {
+    width: fit-content;
+    text-align: center;
+    border: 1px solid rgba(16, 124, 85, 1);
+    padding: 7px 7px 17px 7px;
+    border-radius: 10px;
+}
+
+.product img {
+    box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 8.54286px;
+    width: 150px;
+}
+
+.product h5 {
+    font-size: 20px;
+    margin: 5px;
+}
+
+.title-br {
+    display: none;
+}
+
+.link {
+    color: #000;
+}
+
+.offerCarousel-container {
+    width: 100%;
+    padding: 50px;
+    background:
+    radial-gradient(ellipse at bottom, #87ca8a 20%, #1f8a70 100%),
+    linear-gradient(to bottom, #1f8a70 0%, #117864 100%);
+
+}
+
+.carousel .control-dots .dot {
+    width: 15px !important;
+    height: 15px !important;
+}
+.carousel .slider-wrapper.axis-horizontal .slider .slide {
+    flex-direction: column;
+    flex-flow: column;
+    height: 100%;
+}
+
+.carousel .slide img {
+    /* border-radius: 30px; */
+    
+   
+    /* height: 50%; */
+}
+
+.carousel .carousel-status {
+    display: none;
+}
+
+.carousel .thumbs-wrapper {
+    display: none;
+}
+
+.banner-carousel-container {
+    width: 100%;
+    padding: 50px;
+    margin-top: 40px;
+}
+.first_header {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 10rem;
+    padding-top: 2.5rem;
+    justify-content: center;
+}
+
+.first_header>h1 {
+    font-weight: 900;
+    font-size: 2rem;
+    width: fit-content;
+}
+
+.first_header>i {
+    color: #E03538;
+    height: 10rem;
+    width: 10rem;
+}
+
+.line1 {
+    padding-top: 3.5rem;
+    margin-top:  3rem;
+    height: 14rem;
+    color: white;
+    background: linear-gradient(91.3deg, #E03538 17.31%, #C4094C 88.09%);
+}
+
+.line1>h1 {
+    text-align: center;
+    font-weight: bolder;
+    font-size: 3rem;
+    padding-left: 2rem;
+    padding-top: 2rem;
+}
+
+
+
+.transimgrC>img {
+    width: 15vh;
+    height: 15vh;
+    position: absolute;
+    opacity: 0.3;
+    margin-left: 86%;
+    margin-top: 5px;
+}
+@media only screen and (max-width: 950px) {
+    .transimgrC>img {
+        width: 9vh;
+        height: 9vh;
+        position: absolute;
+        opacity: 0.3;
+        margin-left: 85%;
+        margin-top: 5px;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    .first_header {
+        display: flex;
+        align-items: flex-start;
+        height: 13vh;
+        padding-left: 10rem;
+        justify-content: center;
+
+    }
+    .marketData {
+        width: 215px;
+        height: 248px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 31px;
+        box-shadow: 5px 20px 15px 0 rgb(0 0 0 / 3%), -2px 2px 14px 0 rgb(0 0 0 / 7%);
+    }
+    .marketImages img {
+        border-radius: 20px;
+        height: 126px;
+        width: 195px;
+    }   
+    
+    .first_header>h1 {
+        font-weight: 900;
+        font-size: 3rem;
+        width: fit-content;
+    }
+    .transimgrC>img {
+        width: 15vw;
+        height: 12vh;
+        position: absolute;
+        opacity: 0.3;
+        margin-left: 84%;
+        margin-top: 10px;
+    }
+    .categories-holder {
+        width: 90%;
+        height: 750px;
+        justify-content: space-between;
+        /* margin-left: 8em; */
+    }
+    .category {
+        padding: 10px;
+        text-align: center;
+        margin: 10px;
+        width: 180px;
+        height: 215px;
+        border-radius: 8px;
+    }
+    .liveMarket h1 {
+        font-weight: bold;
+        position: relative;
+        top: 23px;
+        font-size: 27px;
+        margin-bottom: -7px;
+    }
+    .liveMarket hr {
+        margin-left: 200px;
+        margin-right: 20px;
+        margin-top: 13px;
+    }
+    .category img {
+        width: 160px;
+        height: 150px;
+        border-radius: 15px;
+        margin-bottom: 0px;
+    }
+}
+
+@media (max-width: 768px) {
+    .transimg>img {
+        width: 25vw;
+        height: 15vh;
+        position: absolute;
+        opacity: 0.2;
+    }
+    
+
+    .transimgrC>img {
+        width: 20vw;
+        height: 10vh;
+        position: absolute;
+        opacity: 0.3;
+        margin-left: 80%;
+    }
+
+    .first_header {
+        padding-top: 4.1rem;
+        margin-right: 8rem;
+    }
+
+    .first_header>h1 {
+        font-size: 1.5rem;
+
+    }
+
+    .fa-solid {
+        font-size: 2rem;
+        width: fit-content !important;
+        height: fit-content !important;
+        padding-bottom: 10px;
+    }
+
+    .line1>h1 {
+        font-size: 1.2rem;
+        padding: 2.5rem;
+    }
+
+    .line1 {
+        margin-top: 2rem;
+        height: 6rem;
+        margin-bottom: 0px;
+        padding-top: 0px;
+    }
+    .marketData {
+        width: 215px;
+        height: 248px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 31px;
+        box-shadow: 5px 20px 15px 0 rgb(0 0 0 / 3%), -2px 2px 14px 0 rgb(0 0 0 / 7%);
+    }
+    .marketImages img {
+        border-radius: 20px;
+        height: 126px;
+        width: 195px;
+    }
+    .downButton a {
+        /* margin-right: 60px; */
+        margin-left: 10px;
+        padding-top: 11px;
+        font-size: 11px;
+    }
+
+}
+@media only screen and (max-width: 550px) {
+    .title-br {
+        display: block;
+    }
+    .main-nav {
+        height: 10vh;
+        grid-template-columns: 1rem 4fr 1fr 1fr 1rem;
+        box-shadow: none;
+        border-bottom: 1px solid #eff5f5;
+    }
+
+    a.btn-primary {
+        font-size: 10px !important;
+        width: fit-content !important;
+        height: fit-content !important;
+        padding: 10px 5px 10px 5px !important;
+        margin: 0px;
+    }
+
+    .divider {
+        margin: 20px;
+        border-top-width: 0px !important;
+    }
+
+    .divider span {
+        font-weight: 400;
+        font-size: 20px;
+    }
+
+    .live-market {
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    .market {
+        margin: 20px;
+    }
+
+    .btn-holder {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .first_header {
+        height: 10vh;
+        padding-bottom: 40px;
+        display: flex;
+        align-items: flex-start;
+        padding-left: 8.5rem;
+        padding-top: 3.5rem;
+    }
+    .first_header>h1 {
+        font-size: 1.5rem;
+        font-weight: 900;
+    }
+    .transimgrC>img {
+        width: 8vh;
+        height: 8vh;
+        position: absolute;
+        opacity: 0.4;
+        margin-left: 80%;
+    }
+    .mt-3 {
+        margin-top: 10rem!important;
+    }
+    .cards-wrapper {
+        gap: 10px;
+        height: 120px;
+        margin-top: 10px;
+    }
+
+    .categories-holder {
+        width: 90%;
+        height: 379px;
+        margin-left: 1.5em;
+        padding-left: 38px;
+        padding-top: 20px;
+    }
+    .feedback-para {
+        font-size: 20px;
+        text-align: center;
+        line-height: 40px;
+        margin: 34px 0 30px 0;
+    }
+
+    .category {
+        width: 110px;
+        height: 120px;
+        padding: 5px;
+        text-align: center;
+    }
+    
+
+    .category img {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+    }
+
+    .category h5 {
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    .top-product {
+        width: 100%;
+        margin: 20px auto;
+        padding: 0 10px;
+        flex-wrap: wrap;
+    }
+
+    .product {
+        margin: 5px;
+    }
+
+    .product img {
+        width: 100px;
+    }
+
+    .product h5 {
+        font-size: 15px;
+        margin: 2px;
+    }
+
+    .caro>img {
+        height: 23vh !important;
+    }
+
+    .offerCarousel-container {
+        padding: 10px;
+        height: 26vh !important;
+    }
+
+    .carousel-root {
+        height: 24vh !important;
+    }
+
+    .carousel-slider {
+        height: 24vh !important;
+    }
+
+    .slider-wrapper {
+        height: 23vh !important;
+    }
+
+    .carousel .control-dots .dot {
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    .carousel .control-prev.control-arrow:before {
+        border-right: 8px solid #0d5000;
+    }
+
+    .carousel .control-next.control-arrow:before {
+        border-right: 8px solid #0d5000;
+    }
+
+    .carousel .slide img {
+        border-radius: 10px;
+       
+    }
+
+    .banner-carousel-container {
+        width: 100% !important;
+        padding: 10px !important;
+        margin-top: 20px !important;
+    }
+    textarea[name="feedback"] {
+        
+        min-height: 109px !important;
+        
+    }
+}
+
+
+@media only screen and (max-width: 450px) {
+    .title-br {
+        display: block;
+    }
+    .main-nav {
+        height: 10vh;
+        grid-template-columns: 1rem 4fr 1fr 1fr 1rem;
+        box-shadow: none;
+        border-bottom: 1px solid #eff5f5;
+    }
+
+    a.btn-primary {
+        font-size: 11px !important;
+        width: 112px !important;
+        height: fit-content !important;
+        padding: 10px 15px 10px 15px !important;
+        margin: 0px;
+    }
+
+    .divider {
+        margin: 20px;
+        border-top-width: 0px !important;
+    }
+
+    .divider span {
+        font-weight: 400;
+        font-size: 20px;
+    }
+
+    .live-market {
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+    .feedback-para {
+        font-size: 15px;
+        text-align: justify;
+        line-height: 30px;
+        margin: 55px 0 30px 5px;
+    }
+
+    .market {
+        margin: 20px;
+    }
+    .markets{
+        display: flex;
+    }
+    .marketData{
+        width: 300px;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 31px;
+        box-shadow: 5px 20px 15px 0 rgb(0 0 0 / 3%), -2px 2px 14px 0 rgb(0 0 0 / 7%);
+    }
+
+
+    .btn-holder {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .first_header {
+        height: 10vh;
+        padding-bottom: 40px;
+        display: flex;
+        align-items: flex-start;
+        padding-left: 8.5rem;
+        padding-top: 3.5rem;
+    }
+    .first_header>h1 {
+        font-size: 1.5rem;
+        font-weight: 900;
+    }
+    .transimgrC>img {
+        width: 8vh;
+        height: 8vh;
+        position: absolute;
+        opacity: 0.4;
+        margin-left: 80%;
+    }
+    .mt-3 {
+        margin-top: 2rem!important;
+    }
+    .cards-wrapper {
+        gap: 10px;
+        height: 120px;
+        margin-top: 10px;
+    }
+
+    .categories-holder {
+        width: 99%;
+        height: 360px;
+        margin-left: -1.5em;
+        padding-left: 38px;
+        padding-top: 0px;
+    }
+    .product-categories{
+        margin-bottom: 13px;
+    }
+
+    .category {
+        width: 90px;
+        height: 104px;
+        padding: 5px;
+        text-align: center;
+        margin: 5px;
+    }
+    
+
+    .category img {
+        width: 80px;
+        height: 65px;
+        border-radius: 6px;
+        margin-bottom: 0px;
+    }
+
+    .category h5 {
+        font-size: 10px;
+        font-weight: bold;
+        padding-top: 5px;
+    }
+
+    .top-product {
+        width: 100%;
+        margin: 20px auto;
+        padding: 0 10px;
+        flex-wrap: wrap;
+    }
+
+    .product {
+        margin: 5px;
+    }
+
+    .product img {
+        width: 100px;
+    }
+
+    .product h5 {
+        font-size: 15px;
+        margin: 2px;
+    }
+
+    .caro>img {
+        height: 23vh !important;
+    }
+
+    .offerCarousel-container {
+        padding: 10px;
+        height: 26vh !important;
+    }
+
+    .carousel-root {
+        height: 24vh !important;
+    }
+
+    .carousel-slider {
+        height: 24vh !important;
+    }
+
+    .slider-wrapper {
+        height: 23vh !important;
+    }
+
+    .carousel .control-dots .dot {
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    .carousel .control-prev.control-arrow:before {
+        border-right: 8px solid #0d5000;
+    }
+
+    .carousel .control-next.control-arrow:before {
+        border-right: 8px solid #0d5000;
+    }
+
+    .carousel .slide img {
+        border-radius: 30px;
+    
+    }
+
+    .banner-carousel-container {
+        width: 100% !important;
+        padding: 10px !important;
+        margin-top: 20px !important;
+    }
+    .marketImages{
+        /* margin-left: 35px; */
+    }
+    .marketImages img{
+       border-radius: 20px;
+    height: 150px;
+    width: 260px;
+    margin-left: 0px;
+    }
+    .marketData h2{
+        margin-top: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+    .downButton{
+        display: flex;
+        justify-content: center;
+        margin-left: -6px;
+        margin-bottom: 0px;
+    }
+    .downButton a{
+        /* margin: 3px 40px 30px 0px; */
+    }
+    
+    .liveMarket{
+        margin: 5px 0px 30px 20px;
+    }
+    .liveMarket h1{
+        font-weight: bold;
+        position: relative;
+        top: 23px;
+        margin-bottom: 3px
+    }
+    .liveMarket hr{
+        margin-left: 140px;
+        margin-right: 20px;
+    }
+    .topSellers{
+        display: flex;
+    /* flex-wrap: inherit; */
+    /* row-gap: 30px; */
+    /* justify-content: right; */
+        overflow-x: scroll;
+        margin-left: 18px;
+        margin-right: 18px;
+        justify-content: left;
+    }
+    #productID {
+        margin-left: 223px;
+        margin-right: 20px;
+    }
+}
+@media only screen and (max-width: 300px){
+    .categories-holder  {
+        width: 100%;
+        height: 360px;
+        /* padding-left: 14px; */
+        padding-top: 20px;
+    }
+    .marketData{
+        width: 250px;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 31px;
+        box-shadow: 5px 20px 15px 0 rgb(0 0 0 / 3%), -2px 2px 14px 0 rgb(0 0 0 / 7%);
+    }
+    .marketImages img {
+        border-radius: 20px;
+        height: 150px;
+        width: 210px;
+        margin-left: 0px;
+    }
+
+    .line1>h1 {
+        font-size: 1rem;
+        padding: 2.5rem;
+    }
+    .category {
+        width: 77px;
+        height: 107px;
+        padding: 3px;
+        text-align: center;
+        margin: 5px;
+    }
+    .category img {
+        width: 71px;
+        height: 59px;
+        border-radius: 6px;
+        margin-bottom: 0px;
+    }
+    .liveMarket h1 {
+        font-size: 15px;
+    }
+    .liveMarket hr {
+        margin-left: 113px;
+    }
+    #productID {
+        margin-left: 168px;
+    }
+    #liveHR {
+        margin-left: 94px;
+    }
+    hr {
+        margin: 13px;
+    }
+    .first_header {
+        height: 6vh;
+        padding-bottom: 40px;
+        display: flex;
+        align-items: flex-start;
+        padding-left: 8rem;
+        padding-top: 3rem;
+    }
+    .first_header>h1 {
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+    .transimgrC>img {
+        width: 8vh;
+        height: 8vh;
+        position: absolute;
+        opacity: 0.4;
+        margin-left: 83%;
+    }
+    .feedback-para {
+        font-size: 12px;
+        text-align: center;
+        line-height: 20px;
+        margin: 24px 0 15px 0;
+    }
+    textarea[name="feedback"] {
+        border: 1px solid rgb(169, 169, 169) !important;
+        border-radius: 5px !important;
+        width: 211px !important;
+        min-height: 100px !important;
+        font-size: 12px !important;
+    }
+    .stars {
+        width: -moz-fit-content;
+        width: 192px;
+        margin: auto;
+        border: 1px solid rgba(58, 165, 75, 1);
+        padding: 10px 9px 10px 10px;
+        border-radius: 42px;
+        justify-items: center;
+    }
+    .btn {
+        width: 76px;
+        height: 35px;
+        padding-top: 0.6rem;
+    }
+    a.btn-primary {
+        font-size: 10px !important;
+        width: 98px !important;
+        height: fit-content !important;
+        padding: 12px 6px 8px 6px !important;
+        margin: 0px;
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    .offerCarousel-container {
+        padding: 30px;
+    }
+
+
+    .carousel-root {
+        width: 100%;
+        height: 100% !important;
+    }
+
+    .divider {
+        margin: 20px !important;
+        border-top-width: 0px !important;
+    }
+
+    .live-market {
+        padding: 25px;
+        flex-wrap: wrap;
+    }
+
+    .market {
+        margin: 20px 10px;
+    }
+
+
+
+    .top-product {
+        width: 90%;
+        margin: 30px auto;
+    }
+}
+
+
+.cards-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.card img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.card {
+    margin: 0 5em;
+    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+    border: none;
+    border-radius: 0;
+}
+
+.carousel-inner {
+    padding: 0em;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    margin: 0em 2em;
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (min-width: 768px) {
+    .card img {
+        height: 11em;
+    }
+}
+
+
+
+
+
+
+.feedback {
+    background-color: linear-gradient(91.3deg, #E03538 17.31%, #C4094C 88.09%);
+    width: 100%;
+    display: flex;
+}
+
+.feedback-container {
+    height: 400px;
+    margin-bottom: 3rem;
+}
+
+.feedback>img {
+ 
+    align-items: last baseline;
+    width: 80%;
+}
+
+
+.cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+
+}
+
+.card {
+    width: 300px;
+}
+
+
+@media screen and (max-width: 767px) {
+    .cards-wrapper {
+        gap: 10px;
+        height: 120px;
+    }
+
+    .card {
+        width: 200px;
+        height: 120px;
+    }
+
+    .btn {
+        margin-left: 5px !important;
+    }
+
+    .btn-region {
+        height: 30px;
+    }
+    .carousel-control-next,
+    .carousel-control-prev {
+        margin: 5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+}
+
+@media screen and (max-width: 575px) {
+    .card-body {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .card-body {
+        font-size: 14px;
+    }
+
+}
+.pageBottom{
+    height: 100px;
+}
+@media(max-height: 700px){
+    .pageBottom {
+      height:150px;
+    }
+  }

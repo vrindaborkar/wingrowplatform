@@ -1,0 +1,656 @@
+
+* {
+  font-family:  'Arturo' !important;
+}
+.Test {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  font-family:  'Arturo';
+}
+
+button.MuiPickersDay-root {
+  font-weight: bold;
+}
+.stallname{
+  margin-top: 10px;
+  font-family:  'Arturo';
+}
+.main_container_stalls {
+
+  width: 100%;
+  font-family:  'Arturo';
+}
+
+
+.StallsContainer {
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  display: flex;
+  flex-direction: column;
+  font-family:  'Arturo';
+}
+
+.stall_wrapper {
+  width: 100%;
+  font-family:  'Arturo';
+}
+
+.Stalls_info {
+  min-width: 40%;
+  width: max-content;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-family:  'Arturo';
+}
+
+.Stalls_info_xl {
+  min-width:2880px;
+  width: max-content;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-family:  'Arturo';
+}
+
+.stall-img{
+  width: 60%;
+  height: 45%;
+  margin: 10%;
+  
+  font-family:  'Arturo';
+}
+
+.booked {
+  background-color: #B3B3B3;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  margin: auto;
+  color: #fff;
+
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.hundred {
+  background: #C0B236;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+  rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  margin: auto;
+  cursor: pointer;
+  color: #fff;
+
+  font-family:  'Arturo';
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.two-hundred {
+  background: #AACE48;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  margin: auto;
+  cursor: pointer;
+  color: #fff;
+
+  font-family: 'Arturo';
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.three-hundred {
+  background: #3AA54B;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+  rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  margin: auto;
+  cursor: pointer;
+  color: #fff;
+
+  font-family:  'Arturo';
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.five-hundred {
+  background: #FF5B00;
+  border-radius: 10px;
+
+  margin: auto;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  cursor: pointer;
+  color: #fff;
+
+  font-family: 'Arturo';
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.eight-hundred {
+  background: #A42A56;
+  border-radius: 10px;
+
+  margin: auto;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+  rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  cursor: pointer;
+  color: #fff;
+
+  font-family:  'Arturo';
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.advancebookinglink {
+
+  font-size: 20px;
+  color: #000;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family:  'Arturo';
+}
+
+.advancebookinglinkback {
+  width: fit-content;
+  margin: 0 auto;
+  color: #000;
+  font-size: 15px;
+  font-family:  'Arturo';
+}
+
+.selected {
+  background-color: #4705fcae;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  margin: auto;
+  color: #fff;
+  width: 90px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seatsinput {
+  width: 200px;
+  margin: auto;
+  text-align: center;
+  font-family:  'Arturo';
+}
+
+.select_market {
+  width: 100%;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family:  'Arturo';
+}
+
+.modal_btn {
+  
+  justify-content: flex-start;
+  align-items: center;
+  width: fit-content;
+  margin: auto;
+  font-family:  'Arturo';
+}
+
+.bookStall_btn {
+  width: 110px;
+  height: 40px;
+  background: linear-gradient(90deg, #07952b 41%, #0d6a02);
+  border-radius: 20px;
+  text-align: center;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family:  'Arturo';
+}
+
+.bookStall_btn button {
+  color: #fff;
+  font-family:  'Arturo';
+}
+
+.bookStall_btn:hover {
+  background: linear-gradient(90deg, #0d6a02, #07952b 41%);
+  font-family:  'Arturo';
+}
+
+.closebtn {
+  margin-top: -9px;
+  margin-left: 71px;
+  position: fixed;
+  font-family:  'Arturo';
+}
+
+@keyframes spinner-zp9dbg {
+  to {
+    transform: rotate(1turn);
+    font-family:  'Arturo';
+  }
+}
+
+
+
+.market-name {
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-family:  'Arturo';;
+}
+
+.stall-booking-lable {
+  text-align: center;
+
+  font-size: 15px !important ;
+  margin-bottom: 5px !important;
+  color: rgba(0, 0, 0, 0.6);
+  font-family:  'Arturo' !important;
+  font-weight: 600 !important;;
+}
+
+
+.datepicker {
+  
+  display: grid;
+  align-items: flex-end;
+  font-family:  'Arturo';;
+}
+
+.large-input {
+  font-size: 20px;
+  padding: 10px;
+  width: 500px !important;
+  font-family:  'Arturo';;
+}
+
+.stall-position-grid {
+  margin-top:05px;
+  padding: 1rem 2rem 1rem 2rem;
+  font-family:  'Arturo';;
+}
+
+.stalls-count-div {
+  border-bottom: 1px solid green;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family:  'Arturo';;
+}
+
+.count {
+  font-size: 15px !important;
+  font-family:  'Arturo';;
+}
+
+.stalls-count-cantainer {
+  border: 1px solid green;
+  border-radius: 4px;
+  font-family:  'Arturo';;
+}
+
+.stall-pricing-grid {
+  border: 1px solid green;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-family: 'Arturo';
+}
+
+.stall-pricing-main-div {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Arturo';
+}
+
+.stall-price {
+  width: calc(33.33% - 10px);
+
+}
+.price-holder {
+  display: flex;
+  align-items: center;
+  font-family:  'Arturo';
+  margin-bottom: 10px;
+}
+
+.stall-color {
+  margin: 0 2px;
+  font-family:  'Arturo';;
+}
+
+
+
+.divider {
+  width: 90%;
+  border: none !important;
+  border-top: 2px solid #bad1c2 !important;
+  margin: auto !important;
+  font-family:  'Arturo';;
+}
+
+.MuiFormControl-root{
+  width: 100%;
+  font-family:  'Arturo';;
+  
+}
+.MuiInputBase-root{
+  border-radius: 100px !important;
+  border-color: green !important;
+  font-family:  'Arturo';;
+}
+
+.stall-total-amount-holder {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family:  'Arturo';;
+}
+
+.total-amount {
+  font-size: 15px;
+  font-family:  'Arturo';;
+}
+
+#booking-date[type="date"],
+input[type="number"] {
+  font-size: 15px;
+  text-transform: uppercase;
+  font-family:  'Arturo';;
+}
+
+#booking-date[type="date"] {
+  color: #b2b2b2;
+  font-family:  'Arturo';;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  font-size: 20px;
+  font-family:  'Arturo';;
+}
+
+
+.advance-booking{
+  margin-top: 20px;
+  font-family:  'Arturo';;
+}
+
+.single-stall{
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  font-family:  'Arturo';;
+}
+
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+.down{
+  transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
+}
+@media (max-width: 620px) {
+  .Test {
+    margin-top: 0;
+    margin-bottom: 60px;
+    font-family:  'Arturo';;
+}
+  .market-name {
+    font-size: 20px;
+    font-weight: bold;
+    font-family:  'Arturo';;
+  }
+  .stall-booking-lable {
+    font-size: 17px !important;
+    margin-bottom: 2px;
+    font-family:  'Arturo';;
+  }
+
+  .count {
+    font-size: 15px !important;
+    font-family:  'Arturo';;
+  }
+
+  .stall-color {
+    width: 15px !important;
+    height: 15px !important;
+    font-family:  'Arturo';;
+  }
+  .stall-price {
+    font-size: 15px !important;
+    font-family:  'Arturo';;
+  }
+
+  .total-amount {
+    font-size: 15px;
+    font-family:  'Arturo';;
+  }
+  .farmerPayButton{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+  }
+  .arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+  
+  .right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+  
+  .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+  .down{
+    transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  }
+
+  #booking-date[type="date"],
+  input[type="number"] {
+    font-size: 12px;
+    font-family:  'Arturo';;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    font-size: 15px;
+    font-family:  'Arturo';;
+  }
+
+.stall-img{
+  width: 70%;
+
+  font-family:  'Arturo';;
+}
+.Stalls_info_xl{
+  min-width: 1440px;
+  font-family:  'Arturo';;
+}
+.StallsContainer{
+  
+  padding: 10px;
+  font-family:  'Arturo';;
+}
+.single-stall{
+  
+  text-align: center;
+  font-family:  'Arturo';;
+
+}
+.middleStall {
+  display: none;
+  font-family:  'Arturo';;
+}
+
+
+
+
+.secondary_container_stalls{
+  margin-top: 20px;
+  font-family:  'Arturo';;
+}
+.stall-booking-input{
+  width: 90%;
+  margin: auto;
+}
+
+
+
+}
+
+@media (min-width: 360px) {
+  .closebtn {
+    margin-top: -10px;
+    margin-left: 288px;
+    font-family:  'Arturo';;
+  } .stallDetails {
+     max-width: 25rem;
+     font-family:  'Arturo';;
+   }
+}
+
+@media (min-width: 374px) {
+  .closebtn {
+    margin-top: -10px;
+    margin-left: 308px;
+    font-family:  'Arturo';;
+  } .stallDetails {
+     max-width: 25rem;
+     font-family:  'Arturo';;
+   }
+}
+
+
+@media (min-width: 392px) {
+  .closebtn {
+    margin-top: -10px;
+    margin-left: 323px;
+    font-family:  'Arturo';;
+  } .stallDetails {
+     max-width: 25rem;
+     font-family:  'Arturo';;
+   }
+}
+
+@media (min-width: 550px) {
+  .closebtn {
+    margin-top: -10px;
+    margin-left: 335px;
+    font-family:  'Arturo';;
+  }
+  .stallDetails{
+    max-width: 25rem;
+    font-family:  'Arturo';;
+  }
+
+}
+
+@media (min-width: 1000px) {
+  .closebtn {
+    margin-top: -10px;
+    margin-left: 715px;
+    font-family:  'Arturo';;
+  } .stallDetails {
+     max-width: 70rem;
+     font-family:  'Arturo';;
+   }
+}
+
+.pageBottom{
+  height: 100px;
+}
+@media(max-height: 700px){
+  .pageBottom {
+    height:150px;
+  }
+ 
+}
+
+.firstPara{
+    margin-top: 21px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 18px;
+    width: max-content;
+}
+@media (max-width: 600px){
+  .firstPara{
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 1rem;
+    width: max-content;
+  }
+}

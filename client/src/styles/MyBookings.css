@@ -1,0 +1,159 @@
+* {
+    font-family:  'Arturo';;
+}
+
+.bookings_container {
+    min-height: 90vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    position: relative;
+}
+.location_image_Mybookings {
+    object-fit: cover;
+    object-position: center;
+    margin-right: 1rem;
+    background-color: #F3F4F6;
+    flex-shrink: 0;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 9999px;
+  }
+
+.booking_content {
+    min-height: 80vh;
+    width: 100%;
+    height: 80%;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.booking_cards {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.booking_header {
+    margin-bottom: 1rem;
+    color: #111827;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 500;
+}
+
+.booking_para {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    line-height: 1.625;
+
+}
+
+.card_booking {
+    display: flex;
+    margin-top: 1rem;
+    margin-left: -1.5rem;
+    margin-right: -0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.cards_section {
+    padding: 0.5rem;
+    width: 100%;
+    margin: 1rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: rgb(187, 187, 220);
+}
+
+.card {
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    height: 100%;
+    border-radius: 0.5rem;
+    border-width: 1px;
+    border-color: #E5E7EB;
+}
+
+.card_content {
+    flex-grow: 1;
+}
+
+.card_header {
+    color: #111827;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card_para {
+    color: #505154;
+}
+
+.backbtndiv {
+    margin-top: 16px;
+}
+
+
+
+
+@media (min-width: 1024px) {
+    .booking_para {
+        width: 66.666667%;
+    }
+
+    .cards_section {
+        width: 30%;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .card_booking {
+        width: 80%;
+    }
+     .location_image_main {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+}
+
+
+
+@media (min-width: 640px) {
+    .booking_header {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+
+    .backbtn {
+        width: 10rem;
+        padding: .7rem 0.5rem;
+    }
+}
+@media (max-width: 550px) {
+.backbtndiv{
+margin-right: -800px;
+margin-top: 3px;
+}
+}
+.pageBottom{
+    height: 100px;
+  }
+  @media(max-height: 700px){
+    .pageBottom {
+      height:150px;
+    }
+  }
