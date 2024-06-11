@@ -1,0 +1,10 @@
+export const LOGIN = {
+  START: "LOGIN_START",
+  SUCCESS: "LOGIN_SUCCESS",
+  FAIL: "LOGIN_FAIL",
+};
+export const LOGOUT = {
+  START: "LOGOUT_START",
+  SUCCESS: "LOGOUT_SUCCESS",
+  FAIL: "LOGOUT_FAIL",
+};

@@ -1,0 +1,15 @@
+.text-d-none {
+    text-decoration: none;
+}
+
+.button-font {
+    font-family: 'Arturo';
+}
+
+.winagro-logo {
+    width: 100px;
+    margin: 0 auto 0.5rem auto !important;
+}
+.p-button-rounded{
+    border-radius: 2rem !important;
+}
