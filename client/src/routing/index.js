@@ -5,6 +5,7 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 import LoginScreen from "../containers/loginScreen";
 import RegisterScreen from "../containers/registerScreen";
+import CustomerScreen from "../containers/customerScreen";
 const HomeScreen = lazy(() => import("../containers/homeScreen/index"));
 const Routing = () => {
   const isLoggedIn = false;
@@ -20,6 +21,7 @@ const Routing = () => {
             <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
             <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
             <Route path={ROUTE_PATH.BASE.REGISTER} element={<RegisterScreen />} />
+            <Route path={ROUTE_PATH.BASE.CUSTOMER} element={<CustomerScreen />} />
             <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
           </Routes>
         </main>

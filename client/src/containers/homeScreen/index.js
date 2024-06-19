@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/market";
+import CustomerScreen from "../customerScreen";
 
 const HomeScreen = () => {
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
@@ -31,13 +32,15 @@ const HomeScreen = () => {
         </div>
 
         <h1>Number of Booked Stalls : {2000}</h1>
-        <SliderComponent />
+        <SliderComponent  />
         <div className="mb-2">
           <h1 className="">{t("our_market_heading")}</h1>
           <p className="p-3">{t("our_market")}</p>
         </div>
         <div className=" p-4 mb-2">
           <MarketComponent />
+        </div>
+        <div className=" p-4 mb-2">
         </div>
       </div>
     </>
