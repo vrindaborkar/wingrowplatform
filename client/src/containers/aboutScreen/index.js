@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import imageSrc1 from "../../assets/images/FPO.webp";
 import imageSrc2 from "../../assets/images/WIN.webp";
 import imageSrc3 from "../../assets/images/CONS.webp";
+import { Container } from "react-bootstrap";
 
 const AboutUsScreen = () => {
   useEffect(() => {
@@ -26,6 +27,9 @@ const AboutUsScreen = () => {
   };
 
   return (
+
+    <>
+    <Container>
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <h3>About Us</h3>
       <div>
@@ -105,6 +109,8 @@ const AboutUsScreen = () => {
         </div>
       </div>
     </div>
+    </Container>
+    </>
   );
 };
 
