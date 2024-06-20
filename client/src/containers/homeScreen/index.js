@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/home/market";
 import { WINGROW_VIDEO } from "../../assets/images";
+import AboutUsScreen from "../aboutScreen";
 
 const HomeScreen = () => {
   // eslint-disable-next-line
@@ -63,6 +64,9 @@ const HomeScreen = () => {
         </div>
         <div className=" p-4 mb-2">
           <MarketComponent />
+        </div>
+        <div className=" p-4 mb-2">
+          <AboutUsScreen />
         </div>
       </div>
     </>
