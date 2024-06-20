@@ -8,6 +8,8 @@ import { ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/home/market";
 import { WINGROW_VIDEO } from "../../assets/images";
 import AboutUsScreen from "../aboutScreen";
+import AboutUsComponent from "../../components/home/about";
+import KeyFeatureCompnent from "../../components/home/keyFeature";
 
 const HomeScreen = () => {
   // eslint-disable-next-line
@@ -66,7 +68,10 @@ const HomeScreen = () => {
           <MarketComponent />
         </div>
         <div className=" p-4 mb-2">
-          <AboutUsScreen />
+          <AboutUsComponent />
+        </div>
+        <div className="mb-2">
+          <KeyFeatureCompnent />
         </div>
       </div>
     </>
