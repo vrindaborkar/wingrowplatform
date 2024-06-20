@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 const Header = (props) => {
   // eslint-disable-next-line
   const { t } = useTranslation();
+  // eslint-disable-next-line
   const { isLoggedIn } = props;
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
@@ -67,7 +68,11 @@ const Header = (props) => {
       icon: "pi pi-fw pi-user-plus",
       route: ROUTE_PATH.BASE.REGISTER,
     },
-
+    {
+      label: "Customer",
+      icon: "pi pi-fw pi-user-plus",
+      route: ROUTE_PATH.CUSTOMER.HOME,
+    },
     { separator: true },
 
     { label: "Settings", icon: "pi pi-fw pi-cog", route: ROUTE_PATH.BASE.HOME },
@@ -80,7 +85,7 @@ const Header = (props) => {
 
   const start = (
     <div>
-      <img src={NAME_LOGO} alt="winagrow_agritech_logo.png" className="" />
+      <img src={WINGROW_LOGO} alt="winagrow_agritech_logo.png" className="w-5rem" />
       {/* <img src={WINGROW_LOGO} alt="winagrow_agritech_logo.png" className="h-3rem" /> */}
     </div>
   );
@@ -114,6 +119,13 @@ const Header = (props) => {
         className=" button-font rounded ml-2"
         
         onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
+      />
+         <Button
+        label="Customer"
+        icon="pi pi-user-plus"
+        severity="danger"
+        className=" button-font rounded ml-2"
+        onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
       />
     </>
     //     <>

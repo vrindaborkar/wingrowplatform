@@ -1,5 +1,4 @@
-import { baseUrl } from "./apiService";
-import Moment from "moment";
+// import Moment from "moment";
 
 export const baseUrl = "http://192.168.1.1";
 
@@ -62,6 +61,7 @@ export const postApiWithoutReqAsyn = async (type) => {
       throw error;
     });
 };
+
 
 export function postApiFormData(type, data, token) {
   return fetch(baseUrl + type, {
@@ -300,7 +300,7 @@ export function deleteApi(type, token) {
     method: "DELETE",
   })
     .then((response) => {
-      if (response.status == 401) {
+      if (response.status === 401) {
         loadingShow("none");
         window.location.replace("/");
       }
@@ -333,88 +333,320 @@ export const formatDate = (date) => {
   return formattedDate;
 };
 
-export const getFormattedDate = (
-  date,
-  dateFormat = "dd-MM-YYY",
-  toString = false
-) => {
-  if (data) {
-    const formattedDate = Moment(date, dateFormat);
-    return toString ? formattedDate.format(dateFormat) : formattedDate;
-  }
-  return null;
+// export const getFormattedDate = (
+//   date,
+//   dateFormat = "dd-MM-YYY",
+//   toString = false
+// ) => {
+//   if (data) {
+//     const formattedDate = Moment(date, dateFormat);
+//     return toString ? formattedDate.format(dateFormat) : formattedDate;
+//   }
+//   return null;
+// };
+
+export const putApiAsyn = async (type, data, token) => {
+  let result = await fetch(baseUrl + type, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      authorization: token,
+    },
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+    .then((resposne) => {
+      loadingShow("none");
+      if (resposne.status === 401) {
+        //
+      }
+      return resposne.json();
+    })
+    .then((data) => {
+      data["APIResult"] = 1;
+      return data;
+    })
+    .catch((error) => {
+      loadingShow("none");
+      error["APIResult"] = 0;
+      if (error.TypeError) {
+        error["Message"] = "Internal server error(" + error.TypeError + ")";
+      }
+      return error;
+    });
+  return result;
 };
 
-export const  putApiAsyn = async (type, data, token)=>{
-    let result = await fetch(baseUrl+type,{
-        headers:{
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            authorization: token,
-        },
-        method:'PUT',
-        body:JSON.stringify(data),
-    }).then((resposne)=>{
-        loadingShow("none");
-        if(resposne.status === 401){
-            // 
-        }
-        return resposne.json();
-    }).then((data)=>{
-        data['APIResult']=1;
-        return data;
-    }).catch((error)=>{
-        loadingShow('none');
-        error['APIResult']=0;
-        if(error.TypeError){
-            error['Message']='Internal server error('+error.TypeError+')'
-        }
-        return error;
-    })
-    return result;
-}
-
 // post api with extra props we can add here
-export const  postApiAsyn = async (type, data, token)=>{
-    let result = await fetch(baseUrl+type,{
-        headers:{
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            authorization: token,
-        },
-        method:'POST',
-        body:JSON.stringify(data),
-    }).then((resposne)=>{
-        loadingShow("none");
-        if(resposne.status === 401){
-            // 
+export const postApiAsyn = async (type, data, token) => {
+  let result = await fetch(baseUrl + type, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      authorization: token,
+    },
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+    .then((resposne) => {
+      loadingShow("none");
+      if (resposne.status === 401) {
+        //
+      }
+      return resposne.json();
+    })
+    .then((data) => {
+      data["APIResult"] = 1;
+      return data;
+    })
+    .catch((error) => {
+      loadingShow("none");
+      error["APIResult"] = 0;
+      if (error.TypeError) {
+        error["Message"] = "Internal server error(" + error.TypeError + ")";
+      }
+      return error;
+    });
+  return result;
+};
+
+
+export const postApiAsynWithoutToken = async (type ) => {
+  console.log("type-----",type);
+    let result = await fetch(type, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      method: "POST",
+    })
+      .then((resposne) => {
+        console.log(resposne);
+        // loadingShow("none");
+        if (resposne.status === 401) {
         }
         return resposne.json();
-    }).then((data)=>{
-        data['APIResult']=1;
+      })
+      .then((data) => {
+        console.log(data);
+        data["APIResult"] = 1;
         return data;
-    }).catch((error)=>{
-        loadingShow('none');
-        error['APIResult']=0;
-        if(error.TypeError){
-            error['Message']='Internal server error('+error.TypeError+')'
+      })
+      .catch((error) => {
+        console.log(error);
+        // loadingShow("none");
+        error["APIResult"] = 0;
+        if (error.TypeError) {
+          error["Message"] = "Internal server error(" + error.TypeError + ")";
         }
         return error;
-    })
+      });
     return result;
-}
+  };
 
-export const getApiAsyn = async (type, token, shouldPrependBaseUrl=true)=>{
-    const url = shouldPrependBaseUrl ? baseUrl+type:type;
-    let result = await fetch(url,{
 
-        headers:{
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            authorization: token,
-        },
-        method:'POST',
-       
-
+export const getApiAsyn = async (type, token, shouldPrependBaseUrl = true) => {
+  const url = shouldPrependBaseUrl ? baseUrl + type : type;
+  let result = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      authorization: token,
+    },
+    method: "GET",
+  })
+    .then(
+      (response) => {
+        loadingShow("none");
+        if (response.status === 401) {
+        }
+        if (response.status === 400) {
+          throw new Error(response);
+        }
+        return response.json();
+      },
+      (error) => {
+        console.log("Error", error);
+      }
+    )
+    .then((data) => {
+      data["APIResult"] = 1;
+      return data;
     })
-}
+    .catch((error) => {
+      loadingShow("none");
+
+      if (error.TypeError) {
+        error["Message"] = "Internal server error(" + error.TypeError + ")";
+      }
+      return error;
+    });
+  return result;
+};
+
+export const validationForSpecialchar = (e) => {
+  var result = /[^a-z 0-9 A-Z\\,\\.\\;]/g;
+  if (!result.test(e)) {
+    return false;
+  }
+  return true;
+};
+
+export const validateEmail = (email) => {
+  //    const re =/^(([^<>()[\]\\.,;:\s@\]+))
+  const re = "";
+  return re.test(email);
+};
+
+export const deleteApiAsyn = async (type, data, token) => {
+  let result = await fetch(baseUrl + type, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      authorization: token,
+    },
+    method: "DELETE",
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (response.status === 401) {
+      }
+      return response.json();
+    })
+    .then((data) => {
+      data["APIResult"] = 1;
+      return data;
+    })
+    .catch((error) => {
+      loadingShow("none");
+      data["APIResult"] = 0;
+      if (error.TypeError) {
+        error["Message"] = "Internal server error(" + error.TypeError + ")";
+      }
+      return error;
+    });
+  return result;
+};
+
+export const postApiLoginAsyn = async (type, data) => {
+  let result = await fetch(baseUrl + type, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      loadingShow("none");
+      if (response.status === 401) {
+      }
+      return response;
+    })
+    .then((data) => {
+      data["authorization"] = data.headers.get("authorization");
+      data["APIResult"] = 1;
+      return data;
+    })
+    .catch((error) => {
+      loadingShow("none");
+      data["APIResult"] = 0;
+      if (error.TypeError) {
+        error["Message"] = "Internal server error(" + error.TypeError + ")";
+      }
+      return error;
+    });
+  return result;
+};
+
+export const formDataApiAsyn = async (type, data, token) => {
+  let result = await fetch(baseUrl + type, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      authorization: token,
+    },
+    method: "POST",
+    body: data,
+  })
+    .then((response) => {
+      loadingShow("none");
+      if (response.status === 401) {
+      }
+      return response.json();
+    })
+    .then((data) => {
+      data["APIResult"] = 1;
+      return data;
+    })
+    .catch((error) => {
+      loadingShow("none");
+      data["APIResult"] = 0;
+      if (error.TypeError) {
+        error["Message"] = "Internal server error(" + error.TypeError + ")";
+      }
+      return error;
+    });
+  return result;
+};
+
+// export const getApiAsynBlob = async (type, token) => {
+//   let baseUrl = await fetch(baseUrl + type, {
+//     headers: {
+//       "Content-Type": "application/zip",
+//       Accept: "application/zip",
+//       authorization: token,
+//     },
+//     method: "GET",
+//   })
+//     .then((response) => {
+//       loadingShow("none");
+//       if (response.status === 401) {
+//       }
+//       return response.blob();
+//     })
+//     .then((data) => {
+//       data["APIResult"] = 1;
+//       return data;
+//     })
+//     .catch((error) => {
+//       loadingShow("none");
+//       data["APIResult"] = 0;
+//       if (error.TypeError) {
+//         error["Message"] = "Internal server error(" + error.TypeError + ")";
+//       }
+//       return error;
+//     });
+//   return result;
+// };
+
+// export const getApiAsynBlobImage = async (type, token) => {
+//   let baseUrl = await fetch(baseUrl + type, {
+//     headers: {
+//       "Content-Type": "application/json",
+//       Accept: "application/json",
+//       authorization: token,
+//     },
+//     method: "GET",
+//   })
+//     .then((response) => {
+//       loadingShow("none");
+//       if (response.status === 401) {
+//       }
+//       return response.json();
+//     })
+
+//     .then((data) => {
+//       data["APIResult"] = 1;
+//       return data;
+//     })
+//     .catch((error) => {
+//       loadingShow("none");
+//       data["APIResult"] = 0;
+//       if (error.TypeError) {
+//         error["Message"] = "Internal server error(" + error.TypeError + ")";
+//       }
+//       return error;
+//     });
+//   return result;
+// };

@@ -1,6 +1,6 @@
 import {
   FETCH_MARKET_LIST,
-  INIT_MARKET,
+  // INIT_MARKET,
 } from "../../../constant/actionTypes/market";
 
 const INITIAL_STATE = {

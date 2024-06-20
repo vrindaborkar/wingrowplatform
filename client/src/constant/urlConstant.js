@@ -4,8 +4,10 @@ export const ROUTE_PATH = {
     LOGIN: "/login",
     REGISTER: "/register",
     FORGOT_PASSWORD: "/forgot-password",
-    CUSTOMER:"/customer",
   },
+  CUSTOMER:{
+    HOME:"/customer"
+  }
 };
 
 export const API_PATH = {
@@ -16,5 +18,5 @@ export const API_PATH = {
   MARKET:{
     FETCH_LIST:"/market",
     
-  }
+  },
 };

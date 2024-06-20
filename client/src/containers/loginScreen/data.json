@@ -17,17 +17,13 @@
             }
         }
     ],
-    "role": [
+    "type": [
         {
             "id":1,
             "name": "farmer"
         },
         {
             "id":2,
-            "name": "customer"
-        },
-        {
-            "id":3,
             "name": "customer"
         }
     ]

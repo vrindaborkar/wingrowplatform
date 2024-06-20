@@ -32,7 +32,6 @@ export const fetchMarketListError = (payload) => {
 };
 
 export const fetchMarketList =(payload) => {
-
     return (dispatch)=>{
         dispatch(fetchMarketListStart(payload));
         

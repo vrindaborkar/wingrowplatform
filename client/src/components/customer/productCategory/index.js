@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { t } from 'i18next';
-import { Modal, Backdrop, Fade } from '@material-ui/core';
-import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
 import { Col, Container, Row } from 'react-bootstrap';
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { CardFooter, Col, Container, Row } from "react-bootstrap";
 import { Button } from 'primereact/button';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const iconList = [
@@ -57,7 +58,8 @@ const Footer = () => {
                 <p className="text-white"><span>Wingrow Agritech Innovations Pvt. Ltd </span> Office no.208, Times Square building, Pune satara road, Pune 411037</p>
                 <Button label="+91 777 600 3700" icon="pi pi-phone" className="bg-transparent border-0" rounded onClick={() => window.open('https://react.dev', '_blank')} />
                 <Button label="connect@wingrowagritech.com" icon="pi pi-envelope" className="bg-transparent text-black border-0" rounded onClick={() => window.open('https://react.dev', '_blank')} />
-                <p><a pi-envelope href="mailto:support@company.com"></a></p>
+
+                <p><Link pi-envelope to="mailto:support@company.com"></Link></p>
               </div>
             </Col>
 

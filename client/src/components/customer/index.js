@@ -2,7 +2,7 @@ import React from 'react'
 import ProductCategory from './productCategory'
 import LiveMarket from './liveMarket'
 
-export default function Customer() {
+export default function CustomerComponent() {
     return (
         <>
             <div>

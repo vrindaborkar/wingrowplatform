@@ -48,7 +48,7 @@ const MzDropDown = (props) => {
           options={options}
           onChange={onChange}
           rules={rules}
-          // inputStyle={inputStyle}
+          inputStyle={inputStyle}
           placeholder={placeholder}
         />
          <label htmlFor={name} className={getLabelClassName()}>
@@ -64,7 +64,7 @@ const MzDropDown = (props) => {
 MzDropDown.defaultProps = {
   labelClassName: "",
   wrapperClass: "",
-  inputStyle: {},
+  inputStyle: '',
   filter: false,
   optionLabel: "label",
   optionValue: "value",

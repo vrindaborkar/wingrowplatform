@@ -25,9 +25,6 @@ const MzInput = ({
     });
   };
 
-
-  
-
   return (
     <div className="field">
       <span className={wrapperClass}>
@@ -42,8 +39,8 @@ const MzInput = ({
               name={field.name}
               onChange={onChange}
               disabled={disabled}
-              
               placeholder={placeholder}
+              
               {...field}
               className={classNames({
                 "p-invalid": fieldState.invalid,

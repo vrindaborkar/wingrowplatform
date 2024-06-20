@@ -1,5 +1,6 @@
 export const FORM_FIELDS_NAME = {
-  MOBILE: "username",
+  MOBILE: "phone",
   PASSWORD: "password",
-  ROLE:"role"
+  TYPE:"role",
+  OTP:"otp"
 };

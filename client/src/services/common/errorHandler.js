@@ -1,10 +1,10 @@
-export const handleAPIError = (error)=>{
-    return{
-        isError:true,
-        error
-    }
+export const handleAPIError = (error) => {
+  return {
+    isError: true,
+    error,
+  };
 };
 
-// export function APIError (error){
-//     this.error=error;
-// } 
+export function APIError(error) {
+  this.error = error;
+}

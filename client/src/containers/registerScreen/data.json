@@ -1,34 +1,59 @@
 {
-    "auth": [
-        {
-            "name": "username",
-            "label": "Email address or username",
-            "type": "text",
-            "rule": {
-                "required": true
-            }
-        },
-        {
-            "name": "password",
-            "label": "password",
-            "type": "password",
-            "rule": {
-                "required": true
-            }
-        }
-    ],
     "type": [
         {
             "id":1,
-            "name": "farmer"
+            "name": "Farmer"
         },
         {
             "id":2,
-            "name": "customer"
+            "name": "Customer"
+        }
+    ],
+    "product": [
+        {
+          "id": 1,
+          "name": "None",
+          "value": "none"
         },
         {
-            "id":3,
-            "name": "customer"
+          "id": 2,
+          "name": "Farmer",
+          "value": "farmers"
+        },
+        {
+          "id": 3,
+          "name": "Organic Farmer",
+          "value": "Organic farmers"
+        },
+        {
+          "id": 4,
+          "name": "WSHG/SHG",
+          "value": "Organic farmers"
+        },
+        {
+          "id": 5,
+          "name": "FPO/FPC",
+          "value": "FPO/FPC"
+        },
+        {
+          "id": 6,
+          "name": "Retailer",
+          "value": "Retailer"
+        },
+        {
+          "id": 7,
+          "name": "Wholesaler",
+          "value": "Wholesaler"
+        },
+        {
+          "id": 8,
+          "name": "Start Up",
+          "value": "Start-up"
+        },
+        {
+          "id": 9,
+          "name": "Vocal for Local Producers",
+          "value": "Vocal for local producers"
         }
-    ]
+      ]
 }

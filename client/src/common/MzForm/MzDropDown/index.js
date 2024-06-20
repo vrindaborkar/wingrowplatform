@@ -54,7 +54,7 @@ const DropDown = (props) => {
 DropDown.defaultProps = {
   optionLabel: "label",
   optionValue: "value",
-  shouldFilter: true,
+  shouldFilter: false,
   inputStyle: "",
 };
 

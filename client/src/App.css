@@ -10,6 +10,12 @@
     width: 100px;
     margin: 0 auto 0.5rem auto !important;
 }
-.p-button-rounded{
+
+.p-button-rounded {
     border-radius: 2rem !important;
+}
+
+.spe_btn {
+    /* border-radius: 0.5rem !important; */
+    background: linear-gradient(91.3deg, #E03538 17.31%, #C4094C 88.09%);
 }
