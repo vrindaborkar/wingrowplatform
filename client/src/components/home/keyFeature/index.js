@@ -30,7 +30,7 @@ export default function KeyFeatureCompnent() {
                         <Image src="https://www.wingrowmarket.com/images/centerimagenew.png" alt="Center" width="300" />
                         <Col className="flex-column align-items-center">
                             {[...Array(4)].map((_, index) => (
-                                <Col key={index + 4} className="flex" data-aos="fade-left">
+                                <Col key={index + 4} className="flex" data-aos="fade-right">
                                     <div className="bg-green-400 p-3 w-10 text-xs border-round-3xl flex-column">
                                         {t ? t(`key_feature${index + 5}`) : `Key Feature ${index + 5}`}
                                     </div>
