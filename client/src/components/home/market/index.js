@@ -8,8 +8,6 @@ const MarketComponent = () => {
   const { t } = useTranslation();
  
   const handleLocation = (payload) => {
-
-    console.log(payload);
     window.open(payload, "_blank");
   };
   

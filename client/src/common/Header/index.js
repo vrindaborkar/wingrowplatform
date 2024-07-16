@@ -1,43 +1,21 @@
 import React, { useState } from "react";
 import { Menubar } from "primereact/menubar";
-import { ROUTE_PATH } from "../../constant/urlConstant";
 import { NavLink, useNavigate } from "react-router-dom";
-// eslint-disable-next-line
-import { LOGO, NAME_LOGO, WINGROW_LOGO } from "../../assets/images/index";
+import { ROUTE_PATH } from "../../constant/urlConstant";
 import { Sidebar } from "primereact/sidebar";
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
-import "./index.css";
 import { useTranslation } from "react-i18next";
-// import { useDispatch } from "react-redux";
-// import { logout } from "../../redux/Action/Auth/auth";
+import { LOGO, WINGROW_LOGO } from "../../assets/images/index";
+import { useDispatch, useSelector } from "react-redux";
+import { changeLanguage } from "../../redux/action/translator";
+import { Dropdown } from "primereact/dropdown";
 
-const Header = (props) => {
-  // eslint-disable-next-line
+const Header = ({ isLoggedIn }) => {
   const { t } = useTranslation();
-  // eslint-disable-next-line
-  const { isLoggedIn } = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-  // const dispatch = useDispatch();
-  const customHeader = (
-    <NavLink
-      className="p-ripple no-underline  "
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {/* <img src={LOGO} alt="winagrow_logo.png" /> */}
-      {/* <Avatar
-        image="https://media.licdn.com/dms/image/D4D0BAQESbH4BRPcZDg/company-logo_200_200/0/1703788496436/multigenesys_logo?e=1723680000&v=beta&t=DPJfsOYIpxBWcVHkj5srgqfe0hLq9UtSZtXG6jhEVAg"
-        shape="circle"
-        style={{ marginRight: "0.5rem" }}
-      /> */}
-      {/* <span className="font-bold">KRD Taxation</span> */}
-    </NavLink>
-  );
 
   const handleNavigation = (route) => {
     navigate(route);
@@ -47,104 +25,111 @@ const Header = (props) => {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
   };
-  const sidebarItems = [
-    {
-      label: "Home",
-      icon: "pi pi-fw pi-home",
-      route: ROUTE_PATH.BASE.HOME,
-    },
-    {
-      label: "About",
-      icon: "pi pi-fw pi-info-circle",
-      route: ROUTE_PATH.BASE.HOME,
-    },
-    {
-      label: "Login",
-      icon: "pi pi-fw pi-user",
-      route: ROUTE_PATH.BASE.LOGIN,
-    },
-    {
-      label: "Register",
-      icon: "pi pi-fw pi-user-plus",
-      route: ROUTE_PATH.BASE.REGISTER,
-    },
-    {
-      label: "Customer",
-      icon: "pi pi-fw pi-user-plus",
-      route: ROUTE_PATH.CUSTOMER.HOME,
-    },
-    { separator: true },
 
-    { label: "Settings", icon: "pi pi-fw pi-cog", route: ROUTE_PATH.BASE.HOME },
-    {
-      label: "Logout",
-      icon: "pi pi-fw pi-power-off p-error ",
-      command: handleLogout,
-    },
+
+  const currentLanguage = useSelector(state => state.translatorReducer.language); 
+
+
+  const handleChangeLanguage = (e) => {
+    const newLanguage = e.value;
+    dispatch(changeLanguage(newLanguage)); 
+  };
+  const languageOptions = [
+    { label: t('en'), value: 'en' },
+    { label: t('hi'), value: 'hi' },
+    { label: t('mr'), value: 'mr' },
+  ];
+
+  const sidebarItems = [
+    { label: t("home"), icon: "pi pi-fw pi-home", route: ROUTE_PATH.BASE.HOME },
+    { label: t("about_heading"), icon: "pi pi-fw pi-info-circle", route: ROUTE_PATH.BASE.HOME },
+    { label: t("login"), icon: "pi pi-fw pi-user", route: ROUTE_PATH.BASE.LOGIN, visible: !isLoggedIn },
+    { label: t("register"), icon: "pi pi-fw pi-user-plus", route: ROUTE_PATH.BASE.REGISTER, visible: !isLoggedIn },
+    { label: t("customers"), icon: "pi pi-fw pi-users", route: ROUTE_PATH.CUSTOMER.HOME, visible: isLoggedIn },
+    { separator: true },
+    { label: t("Settings"), icon: "pi pi-fw pi-cog", route: ROUTE_PATH.BASE.HOME },
+    { label: t("logout"), icon: "pi pi-fw pi-power-off p-error", command: handleLogout, visible: isLoggedIn },
   ];
 
   const start = (
     <div>
       <img src={WINGROW_LOGO} alt="winagrow_agritech_logo.png" className="w-5rem" />
-      {/* <img src={WINGROW_LOGO} alt="winagrow_agritech_logo.png" className="h-3rem" /> */}
     </div>
   );
+
   const end = (
-    <>
+    <div className="flex gap-2">
       <Button
-        label="Home"
+        label={t("home")}
         icon="pi pi-home"
-        severity="danger"
-        className=" button-font rounded"
+        text
+        className="text-white no-outline  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
       <Button
-        label="About"
+        label={t("about_heading")}
         icon="pi pi-info-circle"
-        severity="danger"
-        className=" button-font rounded ml-2"
+        text
+        className="text-white no-outline  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
       <Button
-        label="Login"
+        label={t("login")}
         icon="pi pi-user"
-        severity="danger"
-        className=" button-font rounded ml-2"
+        text
+        className="text-white no-outline  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.LOGIN)}
       />
       <Button
-        label="Register"
+        label={t("register")}
         icon="pi pi-user-plus"
-        severity="danger"
-        className=" button-font rounded ml-2"
-        
+        text
+        className="text-white no-outline  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
       />
-         <Button
-        label="Customer"
-        icon="pi pi-user-plus"
-        severity="danger"
-        className=" button-font rounded ml-2"
-        onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
+      {isLoggedIn && (
+        <>
+          <Button
+            label={t("Farmer")}
+            icon="pi pi-users"
+            text
+            className="text-white no-outline  rounded"
+            onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
+          />
+          <Button
+            label={t("customers")}
+            icon="pi pi-users"
+            text
+            className="text-white no-outline  rounded"
+            onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
+          />
+        </>
+      )}
+      {/* <Button
+        label={t("Language")}
+        icon="pi pi-language"
+        text
+        className="text-white no-outline  rounded"
+        onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
+      /> */}
+       <Dropdown
+        value={currentLanguage} 
+        options={languageOptions} 
+        onChange={handleChangeLanguage} 
+        placeholder={t("language")} 
+        autoFocus={false}
+        className="rounded bg-transparent " 
       />
-    </>
-    //     <>
-    //     <Button label="Primary" rounded />
-    // <Button label="Secondary" severity="secondary " rounded  className="rounded"/>
-    // <Button label="Success" severity="success" rounded />
-    // <Button label="Info" severity="info" rounded />
-    // <Button label="Warning" severity="warning" rounded />
-    // <Button label="Help" severity="help" rounded />
-    // <Button label="Danger" severity="danger" rounded /></>
+    </div>
   );
 
   return (
     <div>
-      <div className="flex align-items-center justify-content-between p-1 block md:hidden ">
-        <img src={LOGO} alt="winagrow_logo.png " />
+      <div className="flex align-items-center justify-content-between p-1 block md:hidden">
+        <img src={LOGO} alt="winagrow_logo.png" />
         <Button
           icon="pi pi-bars"
-          className="p-button-text p-button-white "
+          className="p-button-text p-button-white"
           onClick={() => setVisible(true)}
         />
       </div>
@@ -155,44 +140,35 @@ const Header = (props) => {
         className="p-sidebar p-sidebar-right p-sidebar-active"
         position="right"
         baseZIndex={1000}
-        header={customHeader}
+        header={<NavLink className="p-ripple no-underline"><span className="font-bold">KRD Taxation</span></NavLink>}
         modal
       >
         <div className="p-sidebar-content">
           <div className="sidebar-menu">
             {sidebarItems.map((item, index) => (
-              <div
-                key={index}
-                className="sidebar-item p-3 cursor-pointer flex align-items-center"
-                onClick={
-                  item.command
-                    ? item.command
-                    : () => handleNavigation(item.route)
-                }
-              >
-                <i
-                  className={item.icon}
-                  style={{ fontSize: "1.5rem", marginRight: "1rem" }}
-                ></i>
-                <span className="ml-1 button-font ">{item.label}</span>
-              </div>
+              item.visible !== false && (
+                <div
+                  key={index}
+                  className="sidebar-item p-3 cursor-pointer flex align-items-center"
+                  onClick={item.command ? item.command : () => handleNavigation(item.route)}
+                >
+                  <i className={item.icon} style={{ fontSize: "1.5rem", marginRight: "1rem" }}></i>
+                  <span className="ml-1">{item.label}</span>
+                </div>
+              )
             ))}
           </div>
 
-          <div className="p-sidebar-footer  ">
-            <hr className="mb-3 " />
+          <div className="p-sidebar-footer">
+            <hr className="mb-3" />
             <div className="sidebar-item">
               <NavLink className="flex align-items-center no-underline">
-                {/* <Avatar
-                    image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-                    shape="circle"
-                  /> */}
                 <Avatar
                   icon="pi pi-user"
                   style={{ backgroundColor: "#28a745", color: "#ffffff" }}
                   shape="circle"
                 />
-                <span className="font-bold ml-2">Amy Elsner</span>
+                <span className="font-bold">Jon</span>
               </NavLink>
             </div>
           </div>

@@ -10,6 +10,7 @@ import data from "./data.json";
 import { Button } from "primereact/button";
 import { Col, Container, Row } from "react-bootstrap";
 import { sendVerificationCode } from "../../services/business/msg91Service";
+import MzPhoneInput from "../../common/MzForm/MzPhoneInput";
 
 const RegisterScreen = () => {
   const {
@@ -41,8 +42,8 @@ const RegisterScreen = () => {
     console.log("hello");
     const result = await trigger(FORM_FIELDS_NAME.MOBILE_NUMBER);
     if (result) {
-      const payload=  getValues(FORM_FIELDS_NAME.MOBILE_NUMBER)
-      sendVerificationCode(payload)
+      const payload = getValues(FORM_FIELDS_NAME.MOBILE_NUMBER);
+      sendVerificationCode(payload);
     } else {
       setError(FORM_FIELDS_NAME.MOBILE_NUMBER, {
         type: "manual",
@@ -66,10 +67,13 @@ const RegisterScreen = () => {
     <div className="surface-0 md:px-8 mt-3 w-full flex justify-content-center md:align-items-center">
       <Container fluid className="mt-3 mb-3">
         <Row className="g-3">
-          <Col lg={6} className=" flex justify-content-center align-items-center "
+          <Col
+            lg={6}
+            className=" flex justify-content-center align-items-center "
           >
-           <div className="hidden lg:block">
-             <img src={BASKET_FRUIT} className="h-30rem" alt="basket_fruit" /></div>
+            <div className="hidden lg:block">
+              <img src={BASKET_FRUIT} className="h-30rem" alt="basket_fruit" />
+            </div>
           </Col>
           <Col lg={6} className="flex justify-content-center">
             <div className="flex flex-column align-items-center justify-content-center p-2">
@@ -81,7 +85,6 @@ const RegisterScreen = () => {
                     "linear-gradient(180deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)",
                 }}
               >
-                  
                 <div
                   className="w-full text-center surface-card py-5 px-5 sm:px-8 flex flex-column align-items-center"
                   style={{ borderRadius: "53px" }}
@@ -105,7 +108,6 @@ const RegisterScreen = () => {
                     className="mt-5 p-fluid"
                   >
                     <Container fluid>
-                        
                       <Row className="g-3">
                         <Col sm={12}>
                           <MzInput
@@ -137,34 +139,38 @@ const RegisterScreen = () => {
                             wrapperClass={"p-float-label"}
                           />
                         </Col>
-                        <Col sm={12} className="flex justify-content-end">
-                          <div className="w-full">
-                            <MzInput
-                              name={FORM_FIELDS_NAME.MOBILE_NUMBER}
-                              control={control}
-                              label={"Mobile Number"}
-                              type={"number"}
-                              rules={
-                                getBasicValidationRule().DEFAULT.VALIDATION_RULE
-                              }
-                              isError={errors[FORM_FIELDS_NAME.MOBILE_NUMBER]}
-                              errorMsg={getFormErrorMessage(
-                                FORM_FIELDS_NAME.MOBILE_NUMBER
-                              )}
-                              wrapperClass={"p-float-label"}
-                            />
-                          </div>
+                        <Col sm={12}>
+                          <div className="p-inputgroup flex-1 justify-content-center align-items-center ">
+                            <div className="w-full ">
+                              <MzPhoneInput
+                                control={control}
+                                name={FORM_FIELDS_NAME.MOBILE_NUMBER}
+                                label={"Mobile Number"}
+                                rules={
+                                  getBasicValidationRule().DEFAULT
+                                    .VALIDATION_RULE
+                                }
+                                isError={errors[FORM_FIELDS_NAME.MOBILE_NUMBER]}
+                                errorMsg={getFormErrorMessage(
+                                  FORM_FIELDS_NAME.MOBILE_NUMBER
+                                )}
+                                country="in"
+                              />
+                            </div>
 
-                          <div>
-                            <Button
-                              label="Fetch"
-                              onClick={() => handleFetchOtp()}
-                              className=""
-                            />
+                            <div>
+                              <Button
+                                // icon="pi pi-search"
+                                label="fetch"
+                                onClick={() => handleFetchOtp()}
+                                className="mt-3"
+                              />
+                            </div>
                           </div>
                         </Col>
-                        <Col sm={12} className="flex justify-content-end">
-                          <div className="w-full">
+                        <Col sm={12} >
+                        <div className="p-inputgroup flex-1 justify-content-center align-items-center ">
+                        <div className="w-full ">
                             <MzInput
                               name={FORM_FIELDS_NAME.ENTER_OTP}
                               control={control}
@@ -182,7 +188,8 @@ const RegisterScreen = () => {
                           </div>
 
                           <div>
-                            <Button label="Submit" className="" />
+                            <Button label="Submit"className="mt-3"/>
+                          </div>
                           </div>
                         </Col>
                         <Col sm={12}>
@@ -242,7 +249,6 @@ const RegisterScreen = () => {
                           />
                         </Col>
                       </Row>
-                      
                     </Container>
                     <Button
                       type="submit"
@@ -251,7 +257,6 @@ const RegisterScreen = () => {
                       className="w-50"
                     />
                   </form>
-                  
                 </div>
                 {/* <div className="lg:hidden block">
              <img src={BASKET_FRUIT} className="h-30rem" alt="basket_fruit" /></div>

@@ -3,7 +3,7 @@ import {
   INIT_MARKET,
 } from "../../../constant/actionTypes/market";
 
-export const initialMarket = (payload) => {
+export const initialMarketScreen = (payload) => {
   return {
     type: INIT_MARKET,
     payload,

@@ -9,6 +9,9 @@ import HomeScreen from "../containers/homeScreen";
 import { useSelector } from "react-redux";
 import { USER_ROLE } from "../constant/role/index";
 import CustomerScreen from "../containers/customerScreen";
+import AboutUsScreen from "../containers/aboutScreen";
+import MarketScreen from "../containers/marketScreen";
+import StallBookingScreen from "../containers/stallBookingScreen";
 // import ErrorPage from "../common/Error";
 // import AccessDeniedPage from "../common/Access";
 
@@ -58,6 +61,11 @@ const Routing = () => {
               path={ROUTE_PATH.BASE.REGISTER}
               element={<RegisterScreen />}
             />
+               <Route
+              path={ROUTE_PATH.BOOKING.STALL}
+              element={<StallBookingScreen />}
+            />
+                <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
                <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
             <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.LOGIN} />} />
           </Routes>

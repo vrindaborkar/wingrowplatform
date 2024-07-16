@@ -11,7 +11,9 @@ import { Col, Container, Row } from "react-bootstrap";
 import { Button } from "primereact/button";
 import { sendVerificationCode } from "../../services/business/msg91Service";
 import { MSG91_AUTH_KEY, TEMPLATE_ID_VERIFICATION } from "../../constant/msg91";
-
+import MzAutoComplete from "../../common/MzForm/MzAutoComplete";
+import MzPhoneInput from "../../common/MzForm/MzPhoneInput";
+import { InputText } from "primereact/inputtext";
 
 const LoginScreen = () => {
   const {
@@ -42,9 +44,9 @@ const LoginScreen = () => {
       // dispatch( loginSuccess())
       const payload = {
         mobile: `+91${getValues(FORM_FIELDS_NAME.MOBILE)}`,
-        template_id:TEMPLATE_ID_VERIFICATION,
-        authkey:MSG91_AUTH_KEY
-       }
+        template_id: TEMPLATE_ID_VERIFICATION,
+        authkey: MSG91_AUTH_KEY,
+      };
       sendVerificationCode(payload);
     } else {
       setError(FORM_FIELDS_NAME.MOBILE, {
@@ -106,7 +108,24 @@ const LoginScreen = () => {
                     <Container fluid>
                       <Row className="g-3">
                         <Col sm={12}>
-                          <MzDropDown
+                          <MzAutoComplete
+                            control={control}
+                            name={FORM_FIELDS_NAME.TYPE}
+                            label={"Type"}
+                            optionLabel={"name"}
+                            optionValue={"name"}
+                            placeholder={"Select user role"}
+                            isError={!!errors[FORM_FIELDS_NAME.TYPE]}
+                            errorMsg={getFormErrorMessage(
+                              FORM_FIELDS_NAME.TYPE
+                            )}
+                            rules={
+                              getBasicValidationRule().DEFAULT.VALIDATION_RULE
+                            }
+                            suggestions={data.type}
+                            dropdown
+                          />
+                          {/* <MzDropDown
                             name={FORM_FIELDS_NAME.TYPE}
                             control={control}
                             optionLabel={"name"}
@@ -122,32 +141,35 @@ const LoginScreen = () => {
                             )}
                             wrapperClass={"p-float-label"}
                             labelClassName={"ml-2"}
-                          />
+                          /> */}
                         </Col>
-                        <Col sm={12} className="flex justify-content-end">
-                          <div className="w-full">
-                            <MzInput
-                              name={FORM_FIELDS_NAME.MOBILE}
-                              control={control}
-                              label={"Mobile Number"}
-                              type={"number"}
-                              rules={
-                                getBasicValidationRule().DEFAULT.VALIDATION_RULE
-                              }
-                              isError={errors[FORM_FIELDS_NAME.MOBILE]}
-                              errorMsg={getFormErrorMessage(
-                                FORM_FIELDS_NAME.MOBILE
-                              )}
-                              wrapperClass={"p-float-label"}
-                            />
-                          </div>
+                        <Col sm={12}>
+                          <div className="p-inputgroup flex-1 justify-content-center align-items-center ">
+                            <div className="w-full ">
+                              <MzPhoneInput
+                                control={control}
+                                name={FORM_FIELDS_NAME.MOBILE}
+                                label={"Mobile Number"}
+                                rules={
+                                  getBasicValidationRule().DEFAULT
+                                    .VALIDATION_RULE
+                                }
+                                isError={errors[FORM_FIELDS_NAME.MOBILE]}
+                                errorMsg={getFormErrorMessage(
+                                  FORM_FIELDS_NAME.MOBILE
+                                )}
+                                country="in"
+                              />
+                            </div>
 
-                          <div>
-                            <Button
-                              label="Fetch"
-                              onClick={() => handleFetchOtp()}
-                              className=""
-                            />
+                            <div>
+                              <Button
+                                // icon="pi pi-search"
+                                label="fetch"
+                                onClick={() => handleFetchOtp()}
+                                className="mt-3"
+                              />
+                            </div>
                           </div>
                         </Col>
                         <Col sm={12}>
