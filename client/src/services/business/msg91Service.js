@@ -4,6 +4,7 @@ import { postApiAsynWithoutToken } from "../PostAPI";
 import { MSG91_BASE_URL } from "../../constant/msg91";
 
 export const sendVerificationCode = async (payload) => {
+  console.log(payload);
   // const url = getDecoratedTypesUrl({
    const  url= `${MSG91_BASE_URL}/otp?template_id=${payload.template_id}&mobile=${payload.mobile}&authkey=${payload.authkey}`
     // payload,

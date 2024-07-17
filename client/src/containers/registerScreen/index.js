@@ -9,8 +9,11 @@ import MzDropDown from "../../common/MzForm/MzDropDown/WithFloatLabel";
 import data from "./data.json";
 import { Button } from "primereact/button";
 import { Col, Container, Row } from "react-bootstrap";
-import { sendVerificationCode } from "../../services/business/msg91Service";
+
 import MzPhoneInput from "../../common/MzForm/MzPhoneInput";
+import { login, register, sendVerificationCode, verifyCode } from "../../redux/action/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { MSG91_AUTH_KEY, TEMPLATE_ID_LOGIN } from "../../constant/msg91";
 
 const RegisterScreen = () => {
   const {
@@ -34,18 +37,41 @@ const RegisterScreen = () => {
   });
 
   const [selectedType, setSelectedType] = useState("");
+  const isLoggedIn = useSelector((state) => state.authReducer?.isLoggedIn);
+
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
-    console.log(data);
+    if(isLoggedIn){
+      const payload = {
+        otp: data.otp,
+        mobile: `+${getValues(FORM_FIELDS_NAME.MOBILE)}`,
+        authkey: MSG91_AUTH_KEY,
+      };
+      dispatch(verifyCode(payload));
+    }
   };
 
   const handleFetchOtp = async () => {
-    console.log("hello");
-    const result = await trigger(FORM_FIELDS_NAME.MOBILE_NUMBER);
+    const result = await trigger(FORM_FIELDS_NAME.MOBILE);
     if (result) {
-      const payload = getValues(FORM_FIELDS_NAME.MOBILE_NUMBER);
-      sendVerificationCode(payload);
-    } else {
-      setError(FORM_FIELDS_NAME.MOBILE_NUMBER, {
+      const payload = {
+        phone: `+${getValues(FORM_FIELDS_NAME.MOBILE)}`,
+        role: getValues(FORM_FIELDS_NAME.TYPE),
+      };
+      dispatch(register(payload));
+      if(isLoggedIn){
+        const payload = {
+          mobile: `+${getValues(FORM_FIELDS_NAME.MOBILE)}`,
+          template_id: TEMPLATE_ID_LOGIN,
+          authkey: MSG91_AUTH_KEY,
+        };
+        dispatch(sendVerificationCode(payload))
+      }
+    }
+
+   else {
+      setError(FORM_FIELDS_NAME.MOBILE, {
         type: "manual",
         message: "Mobile number is required",
       });

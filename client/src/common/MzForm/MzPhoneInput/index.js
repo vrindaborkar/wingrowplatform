@@ -47,7 +47,7 @@ const MzPhoneInput = ({
                 }}
                 inputStyle={{
                   width: "100%",
-                  height: "43px",
+                  height: "42px",
                   borderRadius:"0px"
                 }}
                 className={classNames("w-full", { "p-invalid": fieldState.invalid })}

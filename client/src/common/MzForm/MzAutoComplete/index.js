@@ -33,9 +33,9 @@ const MzAutoComplete = ({
 
   const search = (event) => {
     const query = event.query;
-    setVal(query);
+    console.log('Suggestions:', suggestions); // Check the structure and contents
     let _filteredSuggestions = [];
-
+  
     if (!query.trim().length) {
       _filteredSuggestions = [...suggestions];
     } else {
@@ -43,9 +43,10 @@ const MzAutoComplete = ({
         item[optionLabel].toLowerCase().includes(query.toLowerCase())
       );
     }
-
+  
     setFilteredSuggestions(_filteredSuggestions);
   };
+  
 
   const handleInputChange = (e) => {
     if (!e.target.value) {
