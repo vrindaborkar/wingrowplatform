@@ -11,6 +11,9 @@ import {
   WINGROW_SLIDE_TWO,
   WINGROW_VIDEO,
 } from "../../assets/images";
+import AboutUsScreen from "../aboutScreen";
+import AboutUsComponent from "../../components/home/about";
+import KeyFeatureCompnent from "../../components/home/keyFeature";
 
 const HomeScreen = () => {
   // eslint-disable-next-line
@@ -115,6 +118,12 @@ const HomeScreen = () => {
         </div>
         <div className=" p-4 mb-2">
           <MarketComponent />
+        </div>
+        <div className=" p-4 mb-2">
+          <AboutUsComponent />
+        </div>
+        <div className="mb-2">
+          <KeyFeatureCompnent />
         </div>
       </div>
     </>

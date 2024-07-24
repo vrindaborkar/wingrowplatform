@@ -137,6 +137,13 @@ const Header = ({ isLoggedIn }) => {
           />
         </>
       )}
+      <Button
+        label="Admin"
+        icon="pi pi-user-plus"
+        severity="danger"
+        className=" button-font rounded ml-2"
+        onClick={() => navigate(ROUTE_PATH.ADMIN.HOME)}
+      />
       <Dropdown
         value={currentLanguage}
         options={languageOptions}

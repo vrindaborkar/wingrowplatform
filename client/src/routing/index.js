@@ -13,6 +13,10 @@ import AboutUsScreen from "../containers/aboutScreen";
 import MarketScreen from "../containers/marketScreen";
 import StallBookingScreen from "../containers/stallBookingScreen";
 import StallScreen from "../containers/stallScreen";
+import AdminScreen from "../containers/adminScreen";
+import FarmersListComponent from "../components/admin/farmerList";
+import CustomersListComponent from "../components/admin/customerList";
+
 // import ErrorPage from "../common/Error";
 // import AccessDeniedPage from "../common/Access";
 
@@ -68,7 +72,11 @@ const Routing = () => {
               element={<StallScreen />}
             />
                 <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
-               <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
+            <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
+            <Route path={ROUTE_PATH.ADMIN.HOME} element={<AdminScreen />} />
+            <Route path={ROUTE_PATH.FARMERS_LIST.HOME} element={<FarmersListComponent />} />
+            <Route path={ROUTE_PATH.CUSTOMER_LIST.HOME} element={<CustomersListComponent />} />
+
             <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.LOGIN} />} />
           </Routes>
         </main>

@@ -14,7 +14,16 @@ export const ROUTE_PATH = {
   },
   BOOKING:{
     STALL:"/stall/:id"
-  }
+  },
+  ADMIN:{
+    HOME:"/admin"
+  },
+  FARMERS_LIST:{
+    HOME:"/farmers-list"
+  },
+  CUSTOMER_LIST:{
+    HOME:"/customer-list"
+  },
 };
 
 export const API_PATH = {
@@ -42,4 +51,13 @@ export const API_PATH = {
     FETCH_PROFILE: "/user-profile",
     UPDATE_PROFILE: "/update-profile",
   },
+  FARMER:{
+    FETCH_LIST:"/farmer"
+  },
+  CUSTOMER:{
+    FETCH_LIST:"/users"
+  },
+  CANCELLED_STALLS:{
+    FETCH_LIST:"/cancelled-stalls"
+  }
 };

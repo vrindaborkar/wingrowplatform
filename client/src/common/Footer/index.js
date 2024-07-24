@@ -25,34 +25,38 @@ const Footer = () => {
 
   return (
     <>
-      <CardFooter className="p-2 w-full" style={{ background: "linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%)" }}>
+      <CardFooter className="p-2 w-full" style={{ background: 'linear-gradient(105.42deg, #3AA54B 33.61%, #107C55 80.31%)', width: '95%' }}>
         <Container fluid className="text-sm py-3">
           <Row  >
-            <Col md={5} className="flex justify-content-center md:justify-content-start ">
-              <div className=" text-center text-red-600 w-full"  >
+            <Col md={5} className="flex justify-content-center md:justify-content-start">
+              <div className="text-center text-red-600 w-full justify-content-center m">
                 <div>
-                  <h3 className=" text-3xl font-bold">Wingrow Agritech </h3>
-                  <h3 className=" text-3xl font-bold">Innovations pvt Ltd</h3>
+                  <h3 className="text-3xl font-bold">Wingrow Agritech</h3>
+                  <h3 className="text-3xl font-bold">Innovations Pvt Ltd</h3>
                 </div>
-                <div className="text-center ">
-                  <ul className="list-none flex gap-4">
-                    {firstRowLinks.map((item) => (
-                      <li key={item.id} className="text-white text-wrap text-xs">
-                        {item.label}
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="list-none flex gap-4 mt-2 ml-4">
-                    {secondRowLinks.map((item) => (
-                      <li key={item.id} className="text-white text-wrap text-xs">
-                        {item.label}
-                      </li>
-                    ))}
-                  </ul>
+
+                <div className="">
+                <div className="flex justify-content-around p-3">
+                  {firstRowLinks.map((item) => (
+                    <li key={item.id} className="text-white text-wrap text-xs list-none">
+                     <p> {item.label}</p>
+                    </li>
+                  ))}
                 </div>
-                <p className="text-black ">Wingrow Agritech.  All rights reserved.</p>
+
+                <div className="flex justify-content-around mt-2 ">
+                  {secondRowLinks.map((item) => (
+                    <li key={item.id} className="text-white text-wrap text-xs px-2 list-none">
+                      <p> {item.label}</p>
+                    </li>
+                  ))}
+                </div>
+
+                </div>
+                <p className="text-black mt-5">Wingrow Agritech. All rights reserved.</p>
               </div>
             </Col>
+
             <Col md={3} className="flex justify-content-center">
               <div className="text-center">
                 <p className="text-white"><span>Wingrow Agritech Innovations Pvt. Ltd </span> Office no.208, Times Square building, Pune satara road, Pune 411037</p>
@@ -94,3 +98,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

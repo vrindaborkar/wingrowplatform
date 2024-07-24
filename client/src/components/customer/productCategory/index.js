@@ -70,6 +70,7 @@ export default function ProductCategory() {
 
     return (
         <>
+        {/* // eslint-disable-next-line  */}
             <Container className='min-w-screen p-3 '>
             <h1>Product Categories</h1>
             <hr/>
