@@ -7,7 +7,19 @@ export const ROUTE_PATH = {
   },
   CUSTOMER:{
     HOME:"/customer"
-  }
+  },
+  ADMIN:{
+    HOME:"/admin"
+  },
+  FARMER:{
+    Home:"/farmer"
+  },
+  FARMERS_LIST:{
+    HOME:"/farmers-list"
+  },
+  CUSTOMER_LIST:{
+    HOME:"/customer-list"
+  },
 };
 
 export const API_PATH = {
@@ -19,4 +31,13 @@ export const API_PATH = {
     FETCH_LIST:"/market",
     
   },
+  FARMER:{
+    FETCH_LIST:"/farmer"
+  },
+  CUSTOMER:{
+    FETCH_LIST:"/users"
+  },
+  CANCELLED_STALLS:{
+    FETCH_LIST:"/cancelled-stalls"
+  }
 };

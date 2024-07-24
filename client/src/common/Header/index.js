@@ -73,6 +73,11 @@ const Header = (props) => {
       icon: "pi pi-fw pi-user-plus",
       route: ROUTE_PATH.CUSTOMER.HOME,
     },
+    {
+      label: "Admin",
+      icon: "pi pi-fw pi-user-plus",
+      route: ROUTE_PATH.ADMIN.HOME,
+    },
     { separator: true },
 
     { label: "Settings", icon: "pi pi-fw pi-cog", route: ROUTE_PATH.BASE.HOME },
@@ -126,6 +131,13 @@ const Header = (props) => {
         severity="danger"
         className=" button-font rounded ml-2"
         onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
+      />
+       <Button
+        label="Admin"
+        icon="pi pi-user-plus"
+        severity="danger"
+        className=" button-font rounded ml-2"
+        onClick={() => navigate(ROUTE_PATH.ADMIN.HOME)}
       />
     </>
     //     <>

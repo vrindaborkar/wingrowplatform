@@ -3,6 +3,8 @@ import { Rating } from "primereact/rating";
 import { Col, Container, Row } from 'react-bootstrap'
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { FloatLabel } from "primereact/floatlabel";
 
 export default function FeedbackComponent() {
     const [value, setValue] = useState(null);
@@ -17,6 +19,12 @@ export default function FeedbackComponent() {
                         <div className="flex justify-content-center ">
                             <Rating value={value} onChange={(e) => setValue(e.value)} cancel={false} className="border border-green-500 p-3 border-round-3xl" />
                         </div>
+                    </Col>
+                    <Col className="mt-4">
+                        <FloatLabel>
+                            <InputText id="customer" value={value} onChange={(e) => setValue(e.target.value)} className="w-full" />
+                            <label htmlFor="customer">customer Name</label>
+                        </FloatLabel>
                     </Col>
                     <Col>
                         <div className="card flex justify-content-center">

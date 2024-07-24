@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_PATH } from "../../constant/urlConstant";
-import { baseUrl } from "../apiService";
+import { baseUrl } from "../PostAPI";
 
 export const fetchMarketList = async () => {
   try {

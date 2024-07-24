@@ -1,102 +1,150 @@
-import React, { useEffect, useRef, useState } from "react";
-// import { MultiSelect } from "primereact/multiselect";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
+import React, { useState, useEffect, useRef } from "react";
 import { DataTable } from "primereact/datatable";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
-
-const getRowsPerPageOption = (pageSize, totalPages, totalRecords) => {
-  return GRID.DEFAULT.PAGINATION.AVAILABLE_PAGE_SIZE.filter(
-    (val) => val <= pageSize * totalPages
-  );
-};
-
-const filterColumnFromDataSet = (dataList, dataKey) => {
-  return dataList.filter((col) => col.dataKey !== dataKey);
-};
+import { MultiSelect } from "primereact/multiselect";
+import { Calendar } from "primereact/calendar";
+import { Dropdown } from "primereact/dropdown";
+import { InputSwitch } from "primereact/inputswitch";
+import { formatDate, isValidTimeStamp } from "../../utils/date";
+import "./index.css";
 
 const GRID = {
-  DEFAULT: {
+  DEFAULTS: {
     PAGINATION: {
-      AVAILABLE_PAGE_SIZE: [1, 5, 10, 15, 20, 50],
-      TEMPLETE: "",
-      CURRENT_PAGE_REPORT_TEMPLETE: "",
+      AVAILABLE_PAGE_SIZES: [1, 5, 10, 20, 50],
+      TEMPLATE:
+        "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink",
+      CURRENT_PAGE_REPORT_TEMPLATE: ""
+      // "Showing record {first} to {last} of {totalRecords} records ",
     },
   },
 };
 
+const getRowsPerPageOptions = (pageSize, totalPages, totalRecords) => {
+  return GRID.DEFAULTS.PAGINATION.AVAILABLE_PAGE_SIZES.filter(
+    (val) => val <= pageSize * totalPages
+  );
+};
+
+const filterColumFromDataSet = (dataList, dataKey) => {
+  return dataList.filter((col) => col.dataKey !== dataKey);
+};
+
+const isDeleteAllowed = (screenPermission) => !!screenPermission?.delete;
+const isEditAllowed = (screenPermission) => !!screenPermission?.update;
+const isReadAllowed = (screenPermission) => !!screenPermission?.read;
+const isDownloadAllowed = (screenPermission) => !!screenPermission?.download;
+
 const MzTable = (props) => {
   const {
+    screenPermission,
     showGlobalFilter,
-    areFilterVisible,
-    loading,
-    columns,
-    paginationInfo,
     dataKey,
+    paginationInfo,
+    areFiltersVisible,
+    columns,
+    onDeleteRecord,
+    onEditRecord,
+    onReadRecord,
+    onDownloadRecord,
     value,
     emptyMessage,
+    globalFilterFields,
     filters,
+    loading,
     sortField,
-    // showMoreAction,
-    globalFilteFields,
-    onReadRecord,
     loadLazyData,
-    // screenPermission,
+    // eslint-disable-next-line
+    moreActionProps,
+    // eslint-disable-next-line
+    selectionMode,
+    showMoreActions,
+    parentCallback,
+    isCallbackEnable,
   } = props;
 
-  const dt = useRef(null);
-  const cm = useRef(null);
-  const [selectedRow, setSelectedRow] = useState([]);
+  const { pageSize, totalRecords, totalPages, pageNumber } = paginationInfo;
 
-  // const [currentRowData, setCurrentRowData] = useState(null);
-
-  const { pageSize, totalRecords, totalPages, pageNumber } =
-    paginationInfo || {};
-
-  let isReadAllowed = (screenPermission) => !!screenPermission?.read;
-
-  const [selectedColumns, setSelectColumns] = useState(
-    filterColumnFromDataSet(columns, "id")
+  const initialSelectedColumns = columns.filter(
+    (col) => !col.extraProps?.hidden
   );
-  //   const onColumnToggle = (event) => {
-  //     let selectedColumns = event.value;
-  //     let orderedSelectedColumns = columns.filters((col) => {
-  //       selectedColumns.some((sCol) => (sCol.dataKey === col.dataKey))
-  //       setSelectColumns(orderedSelectedColumns);
-  //     }
-  //     );
-  //   };
+  const [selectedColumns, setSelectedColumns] = useState(
+    initialSelectedColumns
+  );
+
+  // const [selectedColumns, setSelectedColumns] = useState(
+  //   filterColumFromDataSet(columns, "id")
+  // );
+
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   // eslint-disable-next-line
+  const cm = useRef(null);
+  const dt = useRef(null);
+
+  // eslint-disable-next-line
+  const toBeDeletedRecordId = useRef(-1);
+
   const onColumnToggle = (event) => {
+    console.log("event--------", event);
     let selectedColumns = event.value;
     let orderedSelectedColumns = columns.filter((col) =>
       selectedColumns.some((sCol) => sCol.dataKey === col.dataKey)
     );
-    setSelectColumns(orderedSelectedColumns);
+    setSelectedColumns(orderedSelectedColumns);
   };
-  // eslint-disable-next-line
-  const [globalFilterValue, setGlobalFilterValue] = useState("");
 
+  const [selectedRecords, setSelectedRecords] = useState(0);
+
+  // eslint-disable-next-line
+  const toggleRecordSelection = (rowData) => {
+    const selectedIndex = selectedRecords.findIndex(
+      (record) => record.id === rowData.id
+    );
+    if (selectedIndex === -1) {
+      setSelectedRecords([...selectedRecords, rowData]);
+    } else {
+      const updatedRecords = [...selectedRecords];
+      updatedRecords.splice(selectedIndex, 1);
+      setSelectedRecords(updatedRecords);
+    }
+  };
+
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
   const onGlobalFilterChange = (e) => {
-    let value = e.target.value;
+    const value = e.target.value;
     let _filters = { ...filters };
     _filters["global"].value = value;
+
+    setGlobalFilterValue(value);
   };
 
+  // eslint-disable-next-line
   const renderHeader = () => {
     return (
-      <div style={{ justifyContent: "space-between", display: "flex" }}>
+      <div
+        style={{
+          justifyContent: "space-between",
+          display: "flex",
+          overflow: "scroll",
+        }}
+      >
         <div style={{ textAlign: "left" }}>
-          {/* <MultiSelect
+          <MultiSelect
             className={"grid-multi-select-wrapper"}
-            panelClassName=""
+            panelClassName={""}
             display={"chip"}
             value={selectedColumns}
-            options={filterColumnFromDataSet(columns, "id")}
+            options={filterColumFromDataSet(columns, "id")}
+            // options={columns}
+            // options={columns.filter(col => !col.extraProps?.hidden || selectedColumns.some(sCol => sCol.dataKey === col.dataKey))}
             optionLabel="colLabel"
             onChange={onColumnToggle}
-          /> */}
+          // style={{ width: '20em' }}
+          />
         </div>
         {showGlobalFilter && (
           <span className="p-input-icon-left">
@@ -104,7 +152,7 @@ const MzTable = (props) => {
             <InputText
               value={globalFilterValue}
               onChange={onGlobalFilterChange}
-              placeholder="Global Search In Table"
+              placeholder="Global search in table"
             />
           </span>
         )}
@@ -121,36 +169,44 @@ const MzTable = (props) => {
     filters: filters,
   });
 
+  // Variable to know, if component has alraedy ran once of not.
+  // To Avoid multi fetch of data on first load.
   const isFirstRun = useRef(true);
   useEffect(() => {
-    if (isFirstRun) {
+    if (isFirstRun.current) {
       isFirstRun.current = false;
+      return;
     }
     loadLazyData(getFetchDataParams(lazyParams));
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lazyParams]);
+
+  useEffect(() => {
+    if (isCallbackEnable === true) {
+      parentCallback(selectedRows);
+    }
+    // eslint-disable-next-line
+  }, [selectedRows]);
 
   const getFetchDataParams = () => {
     const { sortOrder, sortField, page, rows, filters } = lazyParams;
-
-    debugger;
     let modifiedFilters = [];
+
     if (filters) {
       const filterKeys = Object.keys(filters);
       modifiedFilters = filterKeys.reduce((acc, filterKey) => {
         if (filters[filterKey]?.value) {
-          const { valueMapper, value } = filters[filterKey];
           return [
             ...acc,
             {
               filterField: filters[filterKey]?.filterKey || filterKey,
-
-              query: valueMapper ? valueMapper(value) : value,
             },
           ];
         }
         return acc;
       }, modifiedFilters);
     }
+
     return {
       filters: filters && modifiedFilters,
       sortOrder,
@@ -160,41 +216,86 @@ const MzTable = (props) => {
     };
   };
 
+  const editRecord = (rowData) => {
+    onEditRecord(rowData);
+  };
   const readRecord = (rowData) => {
     onReadRecord(rowData);
+  };
+  const downloadRecord = (rowData) => {
+    onDownloadRecord(rowData);
+  };
+
+  const deleteRecord = (rowData) => {
+    onDeleteRecord(rowData);
+    // let params = getFetchDataParams();
+    // const { pageNumber, pageSize } = params;
+
+    // let newPageNumber = pageNumber;
+    // if (totalRecords - 1 === 0) {
+    //   newPageNumber = 0;
+    // } else if (totalRecords - 1 <= pageNumber * pageSize) {
+    //   newPageNumber = pageNumber - 1;
+    // }
+    // onDeleteRecord({
+    //   params: {
+    //     ...params,
+    //     pageNumber: newPageNumber,
+    //   },
+    //   id: toBeDeletedRecordId.current,
+    // });
   };
 
   const onPage = (event) => {
     setLazyParams(event);
   };
+
   const onSort = (event) => {
     setLazyParams(event);
   };
+
   const onFilter = (event) => {
     setLazyParams(event);
   };
 
-  //   let isReadAllowed = true;
   const actionBodyTemplate = (rowData) => {
     const btnClass =
-      // "p-button-sm p-button-raised p-component p-button-rounded p-button-text p-button-icon-only";
-      "p-button-sm p-componentd p-button-text";
+      "p-button-sm p-button-raised p-component p-button-rounded p-button-text p-button-icon-only mx-1";
     return (
       <React.Fragment>
-        {isReadAllowed && (
-          // <Button
-          //   icon="pi pi-eye"
-          //   className={`${btnClass} p-button-warning`}
-          //   onClick={() => {
-          //     readRecord(rowData);
-          //   }}
-          // />
+        {isReadAllowed(screenPermission) && (
           <Button
-            // icon="pi pi-eye"
-            label="View Details"
-            className={`${btnClass} p-button-info`}
+            icon="pi pi-eye"
+            className={`${btnClass} p-button-primary`}
             onClick={() => {
               readRecord(rowData);
+            }}
+          />
+        )}
+        {isDownloadAllowed(screenPermission) && (
+          <Button
+            icon="pi pi-plus"
+            className={`${btnClass} p-button-success`}
+            onClick={() => {
+              downloadRecord(rowData);
+            }}
+          />
+        )}
+        {isEditAllowed(screenPermission) && (
+          <Button
+            icon="pi pi-pencil"
+            className={`${btnClass} p-button-info`}
+            onClick={() => {
+              editRecord(rowData);
+            }}
+          />
+        )}
+        {isDeleteAllowed(screenPermission) && (
+          <Button
+            icon="pi pi-trash"
+            className={`${btnClass} p-button-danger`}
+            onClick={() => {
+              deleteRecord(rowData);
             }}
           />
         )}
@@ -206,79 +307,165 @@ const MzTable = (props) => {
       key: "action key",
       body: actionBodyTemplate,
       field: "action",
-      header: "View Details",
+      header: "Actions",
       sortable: false,
-      hidden: false,
+      hidden: true,
     };
   };
-  const onContextMenu = (event) => {
-    if (cm.current) {
-      cm.current.show(event);
-    }
+  const onSelectionChange = (e) => {
+    setSelectedRows(e.value);
   };
+
   const dataTableProps = {
     ref: dt,
-    header: renderHeader(),
+    // header: renderHeader(),
     dataKey,
     selectionMode: "single",
-    size: "small",
+    size: "",
     stripedRows: true,
     resizableColumns: true,
     reorderableColumns: true,
+    showGridlines: true,
     responsiveLayout: "scroll",
     value,
     removableSort: true,
     emptyMessage,
-    globalFilteFields,
-    ...(areFilterVisible ? { filterDisplay: "row" } : {}),
+    globalFilterFields,
+    ...(areFiltersVisible ? { filterDisplay: "row" } : {}),
     paginator: true,
-    paginatorTemplete: GRID.DEFAULT.PAGINATION.TEMPLETE,
-    currentPageReportTemplete:
-      GRID.DEFAULT.PAGINATION.CURRENT_PAGE_REPORT_TEMPLETE,
-    rowsPerPageOption: getRowsPerPageOption(pageSize, totalPages, totalRecords),
+    paginatorTemplate: GRID.DEFAULTS.PAGINATION.TEMPLATE,
+    currentPageReportTemplate:
+      GRID.DEFAULTS.PAGINATION.CURRENT_PAGE_REPORT_TEMPLATE,
+    rowsPerPageOptions: getRowsPerPageOptions(
+      pageSize,
+      totalPages,
+      totalRecords
+    ),
     rows: pageSize,
     contextMenuSelection: selectedRow,
-    selection: selectedRow,
-    onContextMenuSelectionChange: (e) => {
-      setSelectedRow(e.value);
-    },
-    onContextMenu: onContextMenu,
-    // onSelectionChange: (e) => setSelectedRow([...selectedRow, e.value]),
-    onSelectionChange: (e) => setSelectedRow(e.value),
+    onContextMenuSelectionChange: (e) => setSelectedRow(e.value),
+    // onContextMenu: (e) => cm.current.show(e.originalEvent),
+    selection: selectedRows,
+    onSelectionChange: onSelectionChange,
     lazy: true,
     totalRecords,
     onSort,
-    onPage,
     onFilter,
+    onPage,
     first: lazyParams.first,
     sortField: lazyParams.sortField,
     sortOrder: lazyParams.sortOrder,
-    filters: filters,
+    filters: lazyParams.filters,
     loading,
+  };
+
+  const dateBodyTemplate = (dataKey, rowData, strategy) => {
+    const dateValue = rowData[dataKey];
+    const value = isValidTimeStamp(dateValue)
+      ? formatDate(dateValue, strategy)
+      : dateValue;
+
+    return (
+      <span style={{ display: "flex" }}>
+        <span style={{ alignContent: "center" }}>{value}</span>
+      </span>
+    );
+  };
+  const monthNavigatorTemplate = (e) => {
+    return (
+      <Dropdown
+        value={e.value}
+        options={e.options}
+        onChange={(event) => e.onChange(event.originalEvent, event.value)}
+        style={{ lineHeight: 1 }}
+      />
+    );
+  };
+
+  const yearNavigatorTemplate = (e) => {
+    return (
+      <Dropdown
+        value={e.value}
+        options={e.options}
+        onChange={(event) => e.onChange(event.originalEvent, event.value)}
+        className="ml-2"
+        style={{ lineHeight: 1 }}
+      />
+    );
+  };
+
+  const dateFilterTemplate = (options) => {
+    return (
+      <Calendar
+        monthNavigator
+        yearNavigator
+        monthNavigatorTemplate={monthNavigatorTemplate}
+        yearNavigatorTemplate={yearNavigatorTemplate}
+        yearRange={"2010:2040"}
+        showIcon
+        onChange={(e) => {
+          filterDate(e.value, options);
+        }}
+        dateFormat="dd/mm/yy"
+        placeholder="DD/MM/YYYY"
+        mask="99/99/99"
+      />
+    );
+  };
+  const filterDate = (calendarValue, options) => {
+    if (calendarValue) {
+      setLazyParams({
+        ...lazyParams,
+        filters: {
+          ...filters,
+          date: { value: formatDate(calendarValue) },
+        },
+      });
+    }
   };
 
   const getFilterProps = (extraProps, dataKey) => {
     if (extraProps) {
-      const { shouldFilter, showFilterMenu } = extraProps;
+      const { isDateField, shouldFilter, showFilterMenu, strategy } =
+        extraProps;
       let enrichedFilterProps = {
         filter: shouldFilter ?? false,
         showFilterMenu: showFilterMenu ?? false,
       };
 
+      if (isDateField) {
+        enrichedFilterProps = {
+          ...enrichedFilterProps,
+          dataType: "date",
+          filterField: "date",
+          body: (rowData) => dateBodyTemplate(dataKey, rowData, strategy),
+          filterElement: dateFilterTemplate,
+        };
+      }
+
       return enrichedFilterProps;
     }
+
     return {};
   };
-
   const showActionColumn = () => {
-    return (isReadAllowed = true);
-    //   isDeleteAllowed(screenPermissions) ||
-    //   isReadAllowed(screenPermissions) ||
-    //   isDeleteAllowed(screenPermissions)
+    return (
+      showMoreActions ||
+      isEditAllowed(screenPermission) ||
+      isDeleteAllowed(screenPermission) ||
+      isReadAllowed(screenPermission) ||
+      isDeleteAllowed(screenPermission)
+    );
+  };
+
+  const handleToggleActive = (rowData, newValue) => {
+    onDeleteRecord(rowData);
+    console.log("Toggle active status for", rowData.id, "to", newValue);
   };
 
   const getColumnProps = (column) => {
     const filterProps = getFilterProps(column?.extraProps, column.dataKey);
+
     return {
       ...column,
       key: column.dataKey,
@@ -286,92 +473,103 @@ const MzTable = (props) => {
       header: column.colLabel,
       sortable: column?.extraProps?.isSortable,
       sortField: column?.extraProps?.sortField,
-      hidden: column?.extraProps?.hidden,
-      //   body: (rowData) => {
-      //     column?.extraProps?.body
-      //       ? column?.extraProps?.body(rowData)
-      //       : rowData[column.dataKey];
-      //   },
-
-      //   body: (rowData) => {
-      //     return column?.extraProps?.body
-      //       ? column?.extraProps?.body(rowData)
-      //       : rowData[column.dataKey];
-      //   },
-      //   body: (rowData) => {
-      //     if (column.dataKey === "account") {
-      //       return (
-      //         <ul>
-      //           {rowData.account.map((acc) => (
-      //             <li key={acc.id}>
-      //               {acc.bankName} - {acc.accountNo}
-      //             </li>
-      //           ))}
-      //         </ul>
-      //       );
-      //     } else {
-
-      //       return rowData[column.dataKey];
-      //     }
-      //   },
       body: (rowData) => {
-        if (column.dataKey === "taxPaidStatus") {
-          const taxPaidStatus = rowData[column.dataKey];
-          if (taxPaidStatus === "Paid") {
-            return (
-              <Button
-                className="w-full"
-                style={{
-                  backgroundColor: "rgba(196, 241, 214, 1)",
-                  color: "#3E8B5C",
-                  border: "none",
-                }}
-                label="Paid"
-              />
-            );
-          } else if (taxPaidStatus === "Unpaid") {
-            return (
-              <Button
-                className="w-full"
-                style={{
-                  backgroundColor: "rgba(254, 129, 58, 0.2)",
-                  color: "#FE813A",
-                  border: "none",
-                }}
-                label="Not Paid"
-              />
-            );
-          } else {
-            return (
-              <Button
-                className="w-full"
-                style={{
-                  backgroundColor: "rgba(196, 241, 214, 1)",
-                  color: "#3E8B5C",
-                  border: "none",
-                }}
-                label={taxPaidStatus}
-              />
-            );
+        // Split dataKey to handle nested properties
+        const keys = column.dataKey.split(".");
+        let value = rowData;
+        keys.forEach((key) => {
+          if (value) {
+            value = value[key];
           }
+        });
+
+        if (column.dataKey.includes("+")) {
+          const keys = column.dataKey.split("+");
+          const concatenatedValue = keys
+            .map((key) => rowData[key.trim()])
+            .join(" ");
+          return concatenatedValue;
+        }
+        const columnContent = column?.extraProps?.body
+          ? column?.extraProps?.body(rowData)
+          : value;
+
+        // Render special components based on column.dataKey
+        if (column.dataKey === "active") {
+          return (
+            <InputSwitch
+              checked={rowData.active}
+              onChange={(e) => handleToggleActive(rowData, e.value)}
+            />
+          );
         } else {
-          return rowData[column.dataKey];
+          return columnContent;
         }
       },
       ...filterProps,
     };
   };
+
+  // const getColumnProps = (column) => {
+  //   const filterProps = getFilterProps(column?.extraProps, column.dataKey);
+
+  //   return {
+  //     ...column,
+  //     key: column.dataKey,
+  //     field: column.dataKey,
+  //     header: column.colLabel,
+  //     sortable: column?.extraProps?.isSortable,
+  //     sortField: column?.extraProps?.sortField,
+  //     // hidden: column?.extraProps?.hidden,
+  //     body: (rowData) => {
+  //       let columnContent;
+  //       if (column.dataKey === "active") {
+  //         columnContent = (
+  //             <InputSwitch
+  //               checked={rowData.active}
+  //               onChange={(e) => handleToggleActive(rowData, e.value)}
+  //             />
+  //         );
+  //       } else {
+  //         columnContent = column?.extraProps?.body
+  //           ? column?.extraProps?.body(rowData)
+  //           : rowData[column.dataKey];
+  //       }
+  //       return columnContent;
+  //     },
+  //     ...filterProps,
+  //   };
+  // };
+  const indexBodyTemplate = (rowData, { rowIndex }) => {
+    return rowIndex + 1;
+  };
   return (
-    <div className="card">
-      <DataTable {...dataTableProps}>
-        {selectedColumns.map((column) => (
-          <Column {...getColumnProps(column)} />
-        ))}
-        {showActionColumn() && <Column {...getActionBodyColumn()} />}
-      </DataTable>
+    <div>
+      <div className="card">
+        <DataTable {...dataTableProps}>
+          <Column
+            key="index"
+            field="index"
+            header="Sr.No"
+            body={indexBodyTemplate}
+          />
+          {selectedColumns.map((column) => (
+            <Column
+              {...getColumnProps(column)}
+              style={{
+                maxWidth: "10rem",
+                overflow: "scroll",
+                textWrap: "nowrap",
+              }}
+            />
+          ))}
+          {showActionColumn() && <Column {...getActionBodyColumn()} />}
+        </DataTable>
+      </div>
     </div>
   );
 };
+
 MzTable.defaultProps = {
   showGlobalFilter: false,
   showMoreActions: true,
@@ -379,4 +577,5 @@ MzTable.defaultProps = {
   sortField: "date",
   emptyMessage: "No Record found",
 };
+
 export default MzTable;
