@@ -34,7 +34,9 @@ const getInitialStateFromLocalStorage = () => {
     isLoginSuccess: false,
     isLoginError: false,
     isLogoutSuccess: false,
-    sLogoutError: false,
+    LogoutError: false,
+    sendVerificationCodeSuccess:false
+
   };
 };
 
@@ -65,6 +67,14 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
       };
+
+    case SEND_VERIFICATION_CODE.SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: true,
+        sendVerificationCodeSuccess:true
+      };
+
     case VERIFY_CODE: {
       return {
         ...state,

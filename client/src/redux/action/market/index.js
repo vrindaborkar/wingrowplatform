@@ -2,6 +2,7 @@ import {
   FETCH_MARKET_LIST,
   INIT_MARKET,
 } from "../../../constant/actionTypes/market";
+import { marketService } from "../../../services";
 
 export const initialMarketScreen = (payload) => {
   return {
@@ -34,8 +35,17 @@ export const fetchMarketListError = (payload) => {
 export const fetchMarketList =(payload) => {
     return (dispatch)=>{
         dispatch(fetchMarketListStart(payload));
+        marketService.fetchMarketList(payload).then((marketData)=>{
+          if(!marketData.isError){
+            dispatch(fetchMarketListSuccess(marketData));
+          }
+          else{
+            dispatch(fetchMarketListError(marketData));
+          }
+        })
         
     }
+  
     // return (dispatch) => {
     //     dispatch(userTransactionListFetchStart(payload));
     

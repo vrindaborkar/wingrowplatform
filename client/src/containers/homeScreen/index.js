@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import SliderComponent from "../../components/home/slider";
 import { useTranslation } from "react-i18next";
 import { Button } from "primereact/button";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/home/market";
@@ -15,7 +14,6 @@ import {
 
 const HomeScreen = () => {
   // eslint-disable-next-line
-  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const handleBookStall = () => {

@@ -12,13 +12,14 @@ import CustomerScreen from "../containers/customerScreen";
 import AboutUsScreen from "../containers/aboutScreen";
 import MarketScreen from "../containers/marketScreen";
 import StallBookingScreen from "../containers/stallBookingScreen";
+import StallScreen from "../containers/stallScreen";
 // import ErrorPage from "../common/Error";
 // import AccessDeniedPage from "../common/Access";
 
 const Routing = () => {
-  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
-  const isVerify = useSelector((state) => state.authReducer.isVerify);
-  const userRole = useSelector((state) => state.authReducer.userRole);
+  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
+  const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
+  const userRole = useSelector((state) => state.loginReducer.userRole);
   
 
   if (isLoggedIn && isVerify && userRole === USER_ROLE.FARMER)
@@ -64,7 +65,7 @@ const Routing = () => {
             />
                <Route
               path={ROUTE_PATH.BOOKING.STALL}
-              element={<StallBookingScreen />}
+              element={<StallScreen />}
             />
                 <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
                <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />

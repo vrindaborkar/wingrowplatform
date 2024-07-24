@@ -26,34 +26,66 @@ const Header = ({ isLoggedIn }) => {
     localStorage.removeItem("isLoggedIn");
   };
 
-
-  const currentLanguage = useSelector(state => state.translatorReducer.language); 
-
+  const currentLanguage = useSelector(
+    (state) => state.translatorReducer.language
+  );
 
   const handleChangeLanguage = (e) => {
     const newLanguage = e.value;
-    dispatch(changeLanguage(newLanguage)); 
+    dispatch(changeLanguage(newLanguage));
   };
   const languageOptions = [
-    { label: t('en'), value: 'en' },
-    { label: t('hi'), value: 'hi' },
-    { label: t('mr'), value: 'mr' },
+    { label: t("en"), value: "en" },
+    { label: t("hi"), value: "hi" },
+    { label: t("mr"), value: "mr" },
   ];
 
   const sidebarItems = [
     { label: t("home"), icon: "pi pi-fw pi-home", route: ROUTE_PATH.BASE.HOME },
-    { label: t("about_heading"), icon: "pi pi-fw pi-info-circle", route: ROUTE_PATH.BASE.HOME },
-    { label: t("login"), icon: "pi pi-fw pi-user", route: ROUTE_PATH.BASE.LOGIN, visible: !isLoggedIn },
-    { label: t("register"), icon: "pi pi-fw pi-user-plus", route: ROUTE_PATH.BASE.REGISTER, visible: !isLoggedIn },
-    { label: t("customers"), icon: "pi pi-fw pi-users", route: ROUTE_PATH.CUSTOMER.HOME, visible: isLoggedIn },
+    {
+      label: t("about_heading"),
+      icon: "pi pi-fw pi-info-circle",
+      route: ROUTE_PATH.BASE.HOME,
+    },
+    {
+      label: t("login"),
+      icon: "pi pi-fw pi-user",
+      route: ROUTE_PATH.BASE.LOGIN,
+      visible: !isLoggedIn,
+    },
+    {
+      label: t("register"),
+      icon: "pi pi-fw pi-user-plus",
+      route: ROUTE_PATH.BASE.REGISTER,
+      visible: !isLoggedIn,
+    },
+    {
+      label: t("customers"),
+      icon: "pi pi-fw pi-users",
+      route: ROUTE_PATH.CUSTOMER.HOME,
+      visible: isLoggedIn,
+    },
     { separator: true },
-    { label: t("Settings"), icon: "pi pi-fw pi-cog", route: ROUTE_PATH.BASE.HOME },
-    { label: t("logout"), icon: "pi pi-fw pi-power-off p-error", command: handleLogout, visible: isLoggedIn },
+    {
+      label: t("Settings"),
+      icon: "pi pi-fw pi-cog",
+      route: ROUTE_PATH.BASE.HOME,
+    },
+    {
+      label: t("logout"),
+      icon: "pi pi-fw pi-power-off p-error",
+      command: handleLogout,
+      visible: isLoggedIn,
+    },
   ];
 
   const start = (
     <div>
-      <img src={WINGROW_LOGO} alt="winagrow_agritech_logo.png" className="w-5rem" />
+      <img
+        src={WINGROW_LOGO}
+        alt="winagrow_agritech_logo.png"
+        className="w-5rem"
+      />
     </div>
   );
 
@@ -63,28 +95,28 @@ const Header = ({ isLoggedIn }) => {
         label={t("home")}
         icon="pi pi-home"
         text
-        className="text-white no-outline  rounded"
+        className="text-white no-outline font-bold  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
       <Button
         label={t("about_heading")}
         icon="pi pi-info-circle"
         text
-        className="text-white no-outline  rounded"
+        className="text-white no-outline font-bold rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
       <Button
         label={t("login")}
         icon="pi pi-user"
         text
-        className="text-white no-outline  rounded"
+        className="text-white no-outline font-bold rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.LOGIN)}
       />
       <Button
         label={t("register")}
         icon="pi pi-user-plus"
         text
-        className="text-white no-outline  rounded"
+        className="text-white no-outline font-bold  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
       />
       {isLoggedIn && (
@@ -93,38 +125,31 @@ const Header = ({ isLoggedIn }) => {
             label={t("Farmer")}
             icon="pi pi-users"
             text
-            className="text-white no-outline  rounded"
+            className="text-white no-outline font-bold rounded"
             onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
           />
           <Button
             label={t("customers")}
             icon="pi pi-users"
             text
-            className="text-white no-outline  rounded"
+            className="text-white no-outline font-bold  rounded"
             onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
           />
         </>
       )}
-      {/* <Button
-        label={t("Language")}
-        icon="pi pi-language"
-        text
-        className="text-white no-outline  rounded"
-        onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
-      /> */}
-       <Dropdown
-        value={currentLanguage} 
-        options={languageOptions} 
-        onChange={handleChangeLanguage} 
-        placeholder={t("language")} 
+      <Dropdown
+        value={currentLanguage}
+        options={languageOptions}
+        onChange={handleChangeLanguage}
+        placeholder={t("language")}
         autoFocus={false}
-        className="rounded bg-transparent " 
+        className="rounded  bg-transparent "
       />
     </div>
   );
 
   return (
-    <div>
+    <div className="border-bottom-1 border-400">
       <div className="flex align-items-center justify-content-between p-1 block md:hidden">
         <img src={LOGO} alt="winagrow_logo.png" />
         <Button
@@ -140,28 +165,57 @@ const Header = ({ isLoggedIn }) => {
         className="p-sidebar p-sidebar-right p-sidebar-active"
         position="right"
         baseZIndex={1000}
-        header={<NavLink className="p-ripple no-underline"><span className="font-bold">KRD Taxation</span></NavLink>}
+        header={
+          <div className="flex align-items-center justify-content-between p-1 block md:hidden">
+            <img src={LOGO} alt="winagrow_logo.png" />
+            <NavLink className="p-ripple no-underline">
+              <span className="font-bold">Wingrow Market</span>
+            </NavLink>
+          </div>
+        }
         modal
       >
-        <div className="p-sidebar-content">
+        <div className="p-sidebar-content flex flex-column justify-content-between">
           <div className="sidebar-menu">
-            {sidebarItems.map((item, index) => (
-              item.visible !== false && (
-                <div
-                  key={index}
-                  className="sidebar-item p-3 cursor-pointer flex align-items-center"
-                  onClick={item.command ? item.command : () => handleNavigation(item.route)}
-                >
-                  <i className={item.icon} style={{ fontSize: "1.5rem", marginRight: "1rem" }}></i>
-                  <span className="ml-1">{item.label}</span>
-                </div>
-              )
-            ))}
+            {sidebarItems.map(
+              (item, index) =>
+                item.visible !== false && (
+                  <div
+                    key={index}
+                    className="sidebar-item p-3 cursor-pointer flex align-items-center"
+                    onClick={
+                      item.command
+                        ? item.command
+                        : () => handleNavigation(item.route)
+                    }
+                  >
+                    <i
+                      className={item.icon}
+                      style={{ fontSize: "1.5rem", marginRight: "1rem" }}
+                    ></i>
+                    <span className="ml-1">{item.label}</span>
+                  </div>
+                )
+            )}
           </div>
-
-          <div className="p-sidebar-footer">
-            <hr className="mb-3" />
+          
+         
+         
+         
+          <div className="p-sidebar-footer ">
+       
             <div className="sidebar-item">
+            <Dropdown
+                value={currentLanguage}
+                options={languageOptions}
+                onChange={handleChangeLanguage}
+                placeholder={t("language")}
+                autoFocus={false}
+                className="rounded bg-transparent w-full"
+              />
+            </div>
+            <hr className="mb-3" />
+            <div className="sidebar-item mt-3">
               <NavLink className="flex align-items-center no-underline">
                 <Avatar
                   icon="pi pi-user"
