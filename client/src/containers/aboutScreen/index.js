@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import StallBookingComponent from "../../components/stallBooking/index.js";
 import "aos/dist/aos.css";
 import AOS from "aos";
 import { Image } from 'primereact/image';
@@ -10,10 +11,12 @@ import { Col, Container, Row } from "react-bootstrap";
 
 const AboutUsScreen = () => {
 
-  return (
+  return ( (
     <>
-      <h1>AboutUsScreen</h1>
+      <h1>
+    <StallBookingComponent />
+  </h1>
     </>
-  );
+  ));
 };
 export default AboutUsScreen;

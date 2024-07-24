@@ -36,7 +36,7 @@ export default function SliderComponent({ slides }) {
               <img
                 src={slide.url}
                 alt={slide.name}
-                className="w-full h-30rem border border-round-xl border-green-400"
+                className="bg-contain h-20rem md:h-30rem w-full border-round-xl"
               />
             </>
           )}
@@ -48,7 +48,7 @@ export default function SliderComponent({ slides }) {
                 autoPlay
                 loop
                 muted
-                className="w-full h-30rem  border-round-xl "
+                className="bg-cover h-20rem md:h-30rem w-full border-round-xl"
               >
                 <source src={slide.url} type="video/mp4" />
                 Your browser does not support the video tag.
@@ -69,7 +69,7 @@ export default function SliderComponent({ slides }) {
         responsiveOptions={responsiveOptions}
         itemTemplate={slideTemplate}
         circular
-        autoplayInterval={120000}
+        autoplayInterval={2000}
       />
     </div>
   );

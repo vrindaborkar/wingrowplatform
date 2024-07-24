@@ -3,9 +3,10 @@ import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import Routing from "./routing";
 import "./assets/fonts/fontStyle.css"
+import { useSelector } from "react-redux";
 
 const App = () => {
-
+  const currentLanguage = useSelector(state => state.translatorReducer.language); 
   return (
     <BrowserRouter>
       <Routing />

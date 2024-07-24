@@ -19,3 +19,31 @@
     /* border-radius: 0.5rem !important; */
     background: linear-gradient(91.3deg, #E03538 17.31%, #C4094C 88.09%);
 }
+
+
+.layout {
+    background: #f0f0f0;
+}
+
+.box {
+    background: #fff;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    overflow: hidden;
+}
+
+.no-outline:focus {
+    /* outline: none !important; */
+    box-shadow: none !important;
+  }
+
+  ol ,ul{
+    padding-left: 0px !important;
+    /* margin-left: 2rem; */
+  }
+  

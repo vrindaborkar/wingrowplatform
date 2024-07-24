@@ -9,6 +9,10 @@ import HomeScreen from "../containers/homeScreen";
 import { useSelector } from "react-redux";
 import { USER_ROLE } from "../constant/role/index";
 import CustomerScreen from "../containers/customerScreen";
+import AboutUsScreen from "../containers/aboutScreen";
+import MarketScreen from "../containers/marketScreen";
+import StallBookingScreen from "../containers/stallBookingScreen";
+import StallScreen from "../containers/stallScreen";
 import AdminScreen from "../containers/adminScreen";
 import FarmersListComponent from "../components/admin/farmerList";
 import CustomersListComponent from "../components/admin/customerList";
@@ -17,9 +21,10 @@ import CustomersListComponent from "../components/admin/customerList";
 // import AccessDeniedPage from "../common/Access";
 
 const Routing = () => {
-  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
-  const isVerify = useSelector((state) => state.authReducer.isVerify);
-  const userRole = useSelector((state) => state.authReducer.userRole);
+  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
+  const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
+  const userRole = useSelector((state) => state.loginReducer.userRole);
+  
 
   if (isLoggedIn && isVerify && userRole === USER_ROLE.FARMER)
     return (
@@ -62,6 +67,11 @@ const Routing = () => {
               path={ROUTE_PATH.BASE.REGISTER}
               element={<RegisterScreen />}
             />
+               <Route
+              path={ROUTE_PATH.BOOKING.STALL}
+              element={<StallScreen />}
+            />
+                <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
             <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
             <Route path={ROUTE_PATH.ADMIN.HOME} element={<AdminScreen />} />
             <Route path={ROUTE_PATH.FARMERS_LIST.HOME} element={<FarmersListComponent />} />

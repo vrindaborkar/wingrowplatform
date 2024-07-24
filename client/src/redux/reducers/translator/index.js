@@ -9,7 +9,7 @@ const INIT_STATE = {
   language: LANGUAGE.MARATHI,
   isLoading: false,
   error: null,
-  // t:t
+  
 };
 
 const translatorReducer = (state = INIT_STATE, action) => {

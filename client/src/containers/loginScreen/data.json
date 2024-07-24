@@ -20,11 +20,13 @@
     "type": [
         {
             "id":1,
-            "name": "farmer"
+            "name": "farmer",
+            "label": "Farmer"
         },
         {
             "id":2,
-            "name": "customer"
+            "name": "customer",
+            "label": "Customer"
         }
     ]
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import { classNames } from "primereact/utils";
 import { InputText } from "primereact/inputtext";
+import { Message } from "primereact/message";
 
 const MzInput = ({
   control,
@@ -26,7 +27,11 @@ const MzInput = ({
   };
 
   return (
-    <div className="field">
+    <div className="field" style={{textAlign:"start"}}>
+       <label htmlFor={name} className={getLabelClassName()}>
+          {label}
+          {rules?.required ? <span className="p-error">*</span> : null}
+        </label>
       <span className={wrapperClass}>
         <Controller
           name={name}
@@ -49,22 +54,29 @@ const MzInput = ({
             />
           )}
         />
-        <label htmlFor={name} className={getLabelClassName()}>
-          {label}
-          {rules?.required ? <span className="p-error">*</span> : null}
-        </label>
+
+       
       </span>
-      {errorMsg}
+      {errorMsg && (
+        <Message
+          className="mt-1 flex"
+          style={{
+            borderWidth: "0 0 0 2px",
+          }}
+          severity="error"
+          content={errorMsg}
+        />
+      )}
     </div>
   );
 };
 
-MzInput.defaultProps = {
-  labelClassName: "",
-  wrapperClass: "",
-  disabled: false,
-  inputStyle: "",
-  type: "text",
-};
+// MzInput.defaultProps = {
+//   labelClassName: "",
+//   wrapperClass: "",
+//   disabled: false,
+//   inputStyle: "",
+//   type: "text",
+// };
 
 export default MzInput;

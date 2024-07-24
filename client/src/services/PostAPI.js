@@ -1,8 +1,6 @@
 // import Moment from "moment";
 
 export const baseUrl = "http://localhost:4000";
-export const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTQwYWM2OTQ2ZGU0MGJkNWVjOTllMiIsImlhdCI6MTcyMTc0NjIwMiwiZXhwIjoxNzIxODMyNjAyfQ.j_VrvMncNH5yZ-ubtRZ7lTV8duSc5xRnpAlotsG7ES4";
-
 
 export function loadingShow(hidden) {
   let loading = document.getElementById("loading");
