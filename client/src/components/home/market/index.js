@@ -14,27 +14,30 @@ const MarketComponent = () => {
   return (
     <div className="grid">
       {schedule.map((market, index) => (
-      <div key={index} className="col-12 md:col-6 lg:col-3 ">
-        <div className="surface-0 shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-5">
-          <div className="flex justify-content-between mb-3">
-            <div>
-              <span className="block text-500 font-medium mb-3">{t(market.day)}</span>
-              <div className="text-900 font-medium text-xl">{market.time}</div>
-            </div>
-            <div
-              className="flex align-items-center justify-content-center bg-green-100 border-round"
-              style={{ width: "2.5rem", height: "2.5rem" }}
-              onClick={() => handleLocation(market.location)}
-            >
-              <i className="pi pi-map-marker text-green-500 text-xl"></i>
+        <div key={index} className="col-12 md:col-6 lg:col-3">
+          <div className="h-full test">
+            <div className="img-cover"></div>
+            <div className="overlay"></div>
+            <div className="content font-bold shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-8">
+              <div className="flex justify-content-between mb-3">
+                <div>
+                  <span className=" text-900  mb-3">{t(market.day)}</span>
+                  <div className="text-900 font-medium text-xl">{market.time}</div>
+                </div>
+                <div
+                  className="flex align-items-center bg-white justify-content-center cursor-pointer text-white border-round"
+                  style={{ width: "2.5rem", height: "2.5rem" }}
+                  onClick={() => handleLocation(market.location)}
+                >
+                  <i className="pi pi-map-marker text-green-900 text-xl"></i>
+                </div>
+              </div>
+              <div className="text-red-900">{t(market.name)}</div>
+              <span className="">{t(market.address)}</span>
             </div>
           </div>
-          <div className="text-red-500 ">{t(market.name)}</div>
-          <span className="font-medium">{t(market.address)}</span>
-        
         </div>
-      </div>
-       ))}
+      ))}
     </div>
   );
 };

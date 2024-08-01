@@ -1,120 +1,152 @@
 // import {
-//   INIT_STALL_BOOKING,
-//   FETCH_STALL_BOOKING_LIST,
-//   FETCH_STALL_BOOKING_RECORD_BY_ID,
-//   FETCH_STALL_BOOKING_RECORD_BY_MARKET,
-//   CREATE_STALL_BOOKING,
-// } from "../../../constant/actionTypes/stallBooking";
-// import { stallBookingService } from "../../../services";
-
-
-// export const initialStallBookingScreen = () => {
-//   return {
+//     INIT_STALL_BOOKING,
+//     FETCH_STALL_BOOKING_LIST,
+//     FETCH_STALL_BOOKING_RECORD,
+//     CREATE_STALL_BOOKING_RECORD,
+//     DELETE_STALL_BOOKING,
+//     UPDATE_STALL_BOOKING_RECORD,
+//   } from "../../../constant/actionTypes/stallBooking";
+//   import { stallBookingService } from "../../../services";
+  
+//   export const initTenant = () => ({
 //     type: INIT_STALL_BOOKING,
-//   };
-// };
-
-// export const stallBookingFetchListStart = (payload) => {
-//   return {
+//   });
+  
+//   export const fetchTenantListStart = (payload) => ({
 //     type: FETCH_STALL_BOOKING_LIST.START,
 //     payload,
-//   };
-// };
-
-// export const stallBookingFetchListSuccess = (payload) => {
-//   return {
+//   });
+  
+//   export const fetchTenantListSuccess = (stallBookings) => ({
 //     type: FETCH_STALL_BOOKING_LIST.SUCCESS,
-//     payload,
-//   };
-// };
-
-// export const stallBookingFetchListError = (payload) => {
-//   return {
+//     payload: stallBookings,
+//   });
+  
+//   export const fetchTenantListError = (error) => ({
 //     type: FETCH_STALL_BOOKING_LIST.ERROR,
-//     payload,
-//   };
-// };
-
-// export const fetchStallBookingList = (payload) => {
-//   return (dispatch) => {
-//     dispatch(stallBookingFetchListStart(payload));
-//     stallBookingService
-//       .fetchStallBookingList(payload)
-//       .then((stallBookingData) => {
+//     payload: { error },
+//   });
+  
+//   export const fetchTenantList = (payload) => {
+//     console.log(payload);
+//     return (dispatch) => {
+//       dispatch(fetchTenantListStart(payload));
+//       stallBookingService.fetchTenantList(payload).then((stallBookingData) => {
 //         if (!stallBookingData.isError) {
-//           dispatch(stallBookingFetchListSuccess(stallBookingData));
+//           dispatch(fetchTenantListSuccess(stallBookingData));
 //         } else {
-//           dispatch(stallBookingFetchListError(stallBookingData));
+//           dispatch(fetchTenantListError(stallBookingData));
 //         }
 //       });
+//     };
 //   };
-// };
-
-// export const createStallBookingStart = (payload) => {
-//   return {
-//     type: CREATE_STALL_BOOKING.START,
-//     payload,
-//   };
-// };
-// export const createStallBookingSuccess = (payload) => {
-//   return {
-//     type: CREATE_STALL_BOOKING.SUCCESS,
-//     payload,
-//   };
-// };
-
-// export const createStallBookingError = (payload) => {
-//   return {
-//     type: CREATE_STALL_BOOKING.ERROR,
-//     payload,
-//   };
-// };
-
-// export const createStallBooking = (payload) => {
-//   return (dispatch) => {
-//     dispatch(createStallBookingStart(payload));
-//     stallBookingService.createStallBooking(payload).then((stallBookingData) => {
-//       if (!stallBookingData.isError) {
-//         dispatch(createStallBookingSuccess(stallBookingData));
-//       } else {
-//         dispatch(createStallBookingError(stallBookingData));
-//       }
-//     });
-//   };
-// };
-
-// export const stallBookingFetchByIdStart = (payload) => {
-//   return {
-//     type: FETCH_STALL_BOOKING_RECORD_BY_ID.START,
-//     payload,
-//   };
-// };
-
-// export const stallBookingFetchByIdSuccess = (payload) => {
-//   return {
-//     type: FETCH_STALL_BOOKING_RECORD_BY_ID.SUCCESS,
-//     payload,
-//   };
-// };
-
-// export const stallBookingFetchByIdError = (payload) => {
-//   return {
-//     type: FETCH_STALL_BOOKING_RECORD_BY_ID.ERROR,
-//     payload,
-//   };
-// };
-
-// export const fetchStallBookingById = (payload) => {
-//   return (dispatch) => {
-//     dispatch(stallBookingFetchByIdStart(payload));
-//     stallBookingService
-//       .fetchStallBookingById(payload)
-//       .then((stallBookingData) => {
+  
+//   export const fetchTenantRecordStart = () => ({
+//     type: FETCH_STALL_BOOKING_RECORD.START,
+//   });
+  
+//   export const fetchTenantRecordSuccess = (stallBooking) => ({
+//     type: FETCH_STALL_BOOKING_RECORD.SUCCESS,
+//     payload: stallBooking,
+//   });
+  
+//   export const fetchTenantRecordError = (error) => ({
+//     type: FETCH_STALL_BOOKING_RECORD.ERROR,
+//     payload: { error },
+//   });
+  
+//   export const fetchTenantRecord = (payload) => {
+//     return (dispatch) => {
+//       dispatch(fetchTenantRecordStart(payload));
+//       stallBookingService.fetchTenantRecord(payload).then((stallBookingData) => {
 //         if (!stallBookingData.isError) {
-//           dispatch(stallBookingFetchByIdSuccess(stallBookingData));
+//           dispatch(fetchTenantRecordSuccess(stallBookingData));
 //         } else {
-//           dispatch(stallBookingFetchByIdError(stallBookingData));
+//           dispatch(fetchTenantRecordError(stallBookingData));
 //         }
 //       });
+//     };
 //   };
-// };
+  
+//   export const createTenantRecordStart = () => ({
+//     type: CREATE_STALL_BOOKING_RECORD.START,
+//   });
+  
+//   export const createTenantRecordSuccess = (newTenant) => ({
+//     type: CREATE_STALL_BOOKING_RECORD.SUCCESS,
+//     payload: newTenant,
+//   });
+  
+//   export const createTenantRecordError = (error) => ({
+//     type: CREATE_STALL_BOOKING_RECORD.ERROR,
+//     payload: { error },
+//   });
+  
+//   export const createTenantRecord = (payload) => {
+//     return (dispatch) => {
+//       dispatch(createTenantRecordStart(payload));
+//       stallBookingService.createTenantRecord(payload).then((stallBookingData) => {
+//         if (!stallBookingData.isError) {
+//           dispatch(createTenantRecordSuccess(stallBookingData));
+//         } else {
+//           dispatch(createTenantRecordError(stallBookingData));
+//         }
+//       });
+//     };
+//   };
+  
+//   export const updateTenantRecordStart = (payload,id) => ({
+//     type: UPDATE_STALL_BOOKING_RECORD.START,
+//     payload,id
+//   });
+  
+//   export const updateTenantRecordSuccess = (newTenant) => ({
+//     type: UPDATE_STALL_BOOKING_RECORD.SUCCESS,
+//     payload: newTenant,
+//   });
+  
+//   export const updateTenantRecordError = (error) => ({
+//     type: UPDATE_STALL_BOOKING_RECORD.ERROR,
+//     payload: { error },
+//   });
+  
+//   export const updateTenantRecord = (payload,id) => {
+//     return (dispatch) => {
+//       dispatch(updateTenantRecordStart(payload,id));
+//       stallBookingService.updateTenantRecord(payload,id).then((stallBookingData) => {
+//         if (!stallBookingData.isError) {
+//           dispatch(updateTenantRecordSuccess(stallBookingData));
+//         } else {
+//           dispatch(updateTenantRecordError(stallBookingData));
+//         }
+//       });
+//     };
+//   };
+  
+//   export const deleteTenantStart = () => ({
+//     type: DELETE_STALL_BOOKING.START,
+//   });
+  
+//   export const deleteTenantSuccess = (stallBookingId) => ({
+//     type: DELETE_STALL_BOOKING.SUCCESS,
+//     payload: { stallBookingId },
+//   });
+  
+//   export const deleteTenantError = (error) => ({
+//     type: DELETE_STALL_BOOKING.ERROR,
+//     payload: { error },
+//   });
+  
+//   export const deleteTenant = (stallBookingId) => {
+//     return (dispatch) => {
+//       dispatch(deleteTenantStart());
+//       stallBookingService.deleteTenant(stallBookingId).then((stallBookingData) => {
+//         if (!stallBookingData.isError) {
+//           dispatch(deleteTenantSuccess(stallBookingData));
+//         } else {
+//           dispatch(deleteTenantError(stallBookingData));
+//         }
+//       });
+//     };
+//   };
+  

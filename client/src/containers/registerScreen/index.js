@@ -307,6 +307,7 @@ import RegisterComponent from "../../components/register";
 import { connect } from "react-redux";
 import { MzToast, TOAST_SEVERITY } from "../../common/MzToast";
 import { init_register, register } from "../../redux/action/auth/register";
+import { sendVerificationCode, verifyCode } from "../../redux/action/auth/smg91";
 
 const RegisterScreen = (props) => {
   const {
@@ -318,6 +319,11 @@ const RegisterScreen = (props) => {
     isRegisterError,
     error,
     register,
+    sendVerificationCode,
+    verifyCode,
+    isLoggedIn,
+    logout,
+    sendVerificationCodeSuccess
   } = props;
 
   useEffect(() => {
@@ -331,6 +337,11 @@ const RegisterScreen = (props) => {
     isRegisterSuccess,
     isLoading,
     register,
+    sendVerificationCode,
+    verifyCode,
+    isLoggedIn,
+    logout,
+    sendVerificationCodeSuccess
   };
 
   const getToastProps = () => {
@@ -369,6 +380,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     initRegisterScreen: () => dispatch(init_register()),
     register: (registerData) => dispatch(register(registerData)),
+    sendVerificationCode:(payload)=>  dispatch(sendVerificationCode(payload)),
+    verifyCode:(payload)=>  dispatch(verifyCode(payload)),
   };
 };
 

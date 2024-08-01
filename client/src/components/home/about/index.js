@@ -27,7 +27,11 @@ export default function AboutUsComponent() {
     };
     return (
         <>
-            <Container>
+
+        <div className="w-full">
+
+        </div>
+            <Container className="w-full">
                 <Row>
                     <Col>
                         <h3>About Us</h3>

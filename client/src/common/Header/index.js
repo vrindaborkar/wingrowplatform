@@ -63,7 +63,7 @@ const Header = ({ isLoggedIn }) => {
       label: t("customers"),
       icon: "pi pi-fw pi-users",
       route: ROUTE_PATH.CUSTOMER.HOME,
-      visible: isLoggedIn,
+      visible: !isLoggedIn,
     },
     { separator: true },
     {
@@ -119,14 +119,14 @@ const Header = ({ isLoggedIn }) => {
         className="text-white no-outline font-bold  rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
       />
-      {isLoggedIn && (
+      {!isLoggedIn && (
         <>
           <Button
-            label={t("Farmer")}
+            label={t("farmer")}
             icon="pi pi-users"
             text
             className="text-white no-outline font-bold rounded"
-            onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
+            onClick={() => navigate(ROUTE_PATH.FARMER.HOME)}
           />
           <Button
             label={t("customers")}
@@ -135,15 +135,16 @@ const Header = ({ isLoggedIn }) => {
             className="text-white no-outline font-bold  rounded"
             onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
           />
+          <Button
+            label={t("admin")}
+            icon="pi pi-user-plus"
+            text
+            className="text-white no-outline font-bold  rounded"
+            onClick={() => navigate(ROUTE_PATH.ADMIN.HOME)}
+          />
         </>
       )}
-      <Button
-        label="Admin"
-        icon="pi pi-user-plus"
-        severity="danger"
-        className=" button-font rounded ml-2"
-        onClick={() => navigate(ROUTE_PATH.ADMIN.HOME)}
-      />
+
       <Dropdown
         value={currentLanguage}
         options={languageOptions}
@@ -157,11 +158,11 @@ const Header = ({ isLoggedIn }) => {
 
   return (
     <div className="border-bottom-1 border-400">
-      <div className="flex align-items-center justify-content-between p-1 block md:hidden">
-        <img src={LOGO} alt="winagrow_logo.png" />
+      <div className="flex bg-green-400 align-items-center justify-content-between p-1 block md:hidden">
+        <img src={WINGROW_LOGO} alt="winagrow_logo.png" className="w-5rem" />
         <Button
           icon="pi pi-bars"
-          className="p-button-text p-button-white"
+          className="p-button-text text-white"
           onClick={() => setVisible(true)}
         />
       </div>
@@ -205,14 +206,10 @@ const Header = ({ isLoggedIn }) => {
                 )
             )}
           </div>
-          
-         
-         
-         
+
           <div className="p-sidebar-footer ">
-       
             <div className="sidebar-item">
-            <Dropdown
+              <Dropdown
                 value={currentLanguage}
                 options={languageOptions}
                 onChange={handleChangeLanguage}

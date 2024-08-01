@@ -3,10 +3,22 @@ import {
   LANGUAGE_CHANGE,
   LANGUAGE
 } from "../../../constant/actionTypes/translator";
-// const { t } = useTranslation();
+
+
+const getCookieValue = (name) => {
+  const value = `; ${document.cookie}`;
+  console.log(value);
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+};
+
+const getLanguageFromCookie = () => {
+  return getCookieValue('i18next') || LANGUAGE.ENGLISH;
+};
 
 const INIT_STATE = {
-  language: LANGUAGE.MARATHI,
+  language: getLanguageFromCookie(),
   isLoading: false,
   error: null,
   

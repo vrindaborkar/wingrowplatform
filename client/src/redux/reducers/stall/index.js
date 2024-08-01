@@ -5,6 +5,8 @@ import {
   CREATE_STALL_RECORD,
   DELETE_STALL,
   UPDATE_STALL_RECORD,
+  FETCH_BOOKED_STALL_LIST,
+  FETCH_BOOKED_STALL_LIST_BY_USER,
 } from "../../../constant/actionTypes/stall";
 
 const formFieldValueMap = {
@@ -14,6 +16,7 @@ const formFieldValueMap = {
 
 const initialState = {
   stallList: [],
+  stallBookList: [],
   selectedStall: null,
   isLoading: false,
   error: null,
@@ -26,7 +29,7 @@ const initialState = {
   isStallDetailError: false,
   isCreateStallError: false,
   isEditStallError: false,
-  isPageLevelError:false,
+  isPageLevelError: false,
 };
 
 const stallReducer = (state = initialState, action) => {
@@ -35,6 +38,7 @@ const stallReducer = (state = initialState, action) => {
       return {
         ...state,
         stallList: [],
+        stallBookList: [],
         formFieldValueMap: null,
         selectedStall: null,
         isLoading: false,
@@ -45,9 +49,13 @@ const stallReducer = (state = initialState, action) => {
     case CREATE_STALL_RECORD.START:
     case DELETE_STALL.START:
     case UPDATE_STALL_RECORD.START:
+    case FETCH_BOOKED_STALL_LIST.START:
+    case FETCH_BOOKED_STALL_LIST_BY_USER.START:
       return {
         ...state,
         isLoading: true,
+        stallList: [],
+        stallBookList: [],
         error: null,
         isCreateStallSuccess: false,
         isEditStallSuccess: false,
@@ -65,71 +73,33 @@ const stallReducer = (state = initialState, action) => {
         isLoading: false,
         error: null,
       };
-      case FETCH_STALL_RECORD.SUCCESS:
-        let otherLinks = action.payload.otherLinks ?? "";
-        let linkobj = {};
-        
-        if (otherLinks) {
-          try {
-            linkobj = JSON.parse(otherLinks);
-          } catch (error) {
-            console.log("Error parsing otherLinks:", error);
-          }
-        }
-      console.log(linkobj);
-        return {
-          ...state,
-          formFieldValueMap: {
-            id: action.payload.id ?? "",
-            companyName: action.payload.companyName ?? "",
-            email: action.payload.stallConfigDTO?.email ?? "",
-            phoneNumber: action.payload.phoneNumber ?? "",
-            baseUrl: action.payload.stallConfigDTO?.baseUrl ?? "",
-            contactPerson: action.payload.contactPerson ?? "",
-            h1Font: action.payload.h1Font ?? "",
-            h2Font: action.payload.h2Font ?? "",
-            h3Font: action.payload.h3Font ?? "",
-            headerColor: action.payload.headerColor ?? "",
-            footerColor: action.payload.footerColor ?? "",
-            bgColor: action.payload.bgColor ?? "",
-            iconColor: action.payload.iconColor ?? "",
-            bandColor: action.payload.bandColor ?? "",
-            facebookLink: linkobj.facebook ?? "",
-            instagramLink: linkobj.instagram ?? "",
-            twitterLink: linkobj.twitter ?? "",
-            linkedinLink: linkobj.linkedin ?? "",
-            websiteLink: linkobj.website ?? "",
-            companyLogo:action.payload.companyLogo ?? "",
-            companyIntro:action.payload.companyIntro ??"",
-          },
-          selectedStall:{
-            id: action.payload.id ?? "",
-            companyName: action.payload.companyName ?? "",
-            email: action.payload.stallConfigDTO?.email ?? "",
-            phoneNumber: action.payload.phoneNumber ?? "",
-            baseUrl: action.payload.stallConfigDTO?.baseUrl ?? "",
-            contactPerson: action.payload.contactPerson ?? "",
-            h1Font: action.payload.h1Font ?? "",
-            h2Font: action.payload.h2Font ?? "",
-            h3Font: action.payload.h3Font ?? "",
-            headerColor: action.payload.headerColor ?? "",
-            footerColor: action.payload.footerColor ?? "",
-            bgColor: action.payload.bgColor ?? "",
-            iconColor: action.payload.iconColor ?? "",
-            bandColor: action.payload.bandColor ?? "",
-            facebookLink: linkobj.facebook ?? "",
-            instagramLink: linkobj.instagram ?? "",
-            twitterLink: linkobj.twitter ?? "",
-            linkedinLink: linkobj.linkedin ?? "",
-            websiteLink: linkobj.website ?? "",
-            companyLogo:action.payload.companyLogo ?? "",
-            companyIntro:action.payload.companyIntro ??"",
-          },
-          isLoading: false,
-          error: null,
-          isStallDetailSuccess: true,
-        };
-       case CREATE_STALL_RECORD.SUCCESS:
+    case FETCH_BOOKED_STALL_LIST.SUCCESS:
+      return {
+        ...state,
+        stallBookList: action.payload,
+        isLoading: false,
+        error: null,
+        isStallDetailSuccess: true,
+      };
+
+    case FETCH_BOOKED_STALL_LIST_BY_USER.SUCCESS:
+      return {
+        ...state,
+        stallBookList: action.payload,
+        isLoading: false,
+        error: null,
+        isStallDetailSuccess: true,
+      };
+
+    case FETCH_STALL_RECORD.SUCCESS:
+      return {
+        ...state,
+        stallList: action.payload,
+        isLoading: false,
+        error: null,
+        isStallDetailSuccess: true,
+      };
+    case CREATE_STALL_RECORD.SUCCESS:
       return {
         ...state,
         stallList: [...state.stallList, action.payload],
@@ -150,7 +120,7 @@ const stallReducer = (state = initialState, action) => {
     case DELETE_STALL.SUCCESS:
       return {
         ...state,
-        stallList: state.stallList.filter(
+        stallBookList: state.stallBookList.filter(
           (stall) => stall.id !== action.payload.stallId
         ),
         isLoading: false,
@@ -158,6 +128,8 @@ const stallReducer = (state = initialState, action) => {
         isDeleteStallSuccess: true,
       };
     case FETCH_STALL_LIST.ERROR:
+    case FETCH_BOOKED_STALL_LIST.ERROR:
+    case FETCH_BOOKED_STALL_LIST_BY_USER.ERROR:
       return {
         ...state,
         isLoading: false,
@@ -186,7 +158,7 @@ const stallReducer = (state = initialState, action) => {
     case DELETE_STALL.ERROR:
       return {
         ...state,
-        isLoading: false,
+       isLoading: false,
         error: action.payload.error,
         isDeleteStallError: true,
       };

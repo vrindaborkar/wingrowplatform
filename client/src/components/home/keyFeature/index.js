@@ -3,7 +3,7 @@ import { Image } from 'primereact/image';
 import "aos/dist/aos.css";
 import AOS from "aos";
 import { useTranslation } from "react-i18next";
-import { Col, Container, Row } from 'react-bootstrap';
+import { BOOK_STALL_HOME } from "../../../assets/images";
 
 export default function KeyFeatureCompnent() {
     useEffect(() => {
@@ -13,34 +13,34 @@ export default function KeyFeatureCompnent() {
 
     return (
         <>
-            <Container>
-                <Row className="p-4 mb-2 text-center">
+        
+                <div className=" mb-2 text-center w-full">
                     <h2>{t ? t('key_features') : 'Key Features'}</h2>
-                    <div className="xl:flex flex-row justify-content-center text-white">
-                        <Col className="flex-column align-items-center">
+                    <div className="md:flex flex-row align-items-center justify-content-center md:justify-content-between text-white">
+                        <div className="flex-column align-items-center w-full">
                             {[...Array(4)].map((_, index) => (
-                                <Col key={index} className="flex" data-aos="fade-left">
-                                    <div className="bg-green-400 p-3 w-10 text-xs border-round-3xl flex-column">
+                                <div key={index} className="flex gap-3 mb-3 align-items-center" data-aos="fade-left">
+                                    <div className="bg-green-400 p-3  w-full text-lg border-round-3xl flex-column">
                                         {t ? t(`key_feature${index + 1}`) : `Key Feature ${index + 1}`}
                                     </div>
-                                    <div className="bg-red-400 border-round-3xl text-center p-3 ml-5">{index + 1}</div>
-                                </Col>
+                                    <div className="bg-red-400 border-round-3xl text-center p-3 ">{index + 1}</div>
+                                </div>
                             ))}
-                        </Col>
-                        <Image src="https://www.wingrowmarket.com/images/centerimagenew.png" alt="Center" width="300" />
-                        <Col className="flex-column align-items-center">
+                        </div>
+                       <div className="flex align-items-center justify-content-center w-full "> <Image src={BOOK_STALL_HOME} alt="Center"  width="300"  /></div>
+                        <div className="flex-column align-items-center w-full">
                             {[...Array(4)].map((_, index) => (
-                                <Col key={index + 4} className="flex" data-aos="fade-right">
-                                    <div className="bg-green-400 p-3 w-10 text-xs border-round-3xl flex-column">
+                                <div key={index + 4} className="flex gap-3 mb-3 align-items-center" data-aos="fade-right">
+                                    <div className="bg-green-400 p-3 w-full text-lg border-round-3xl flex-column">
                                         {t ? t(`key_feature${index + 5}`) : `Key Feature ${index + 5}`}
                                     </div>
-                                    <div className="bg-red-400 border-round-3xl text-center p-3 ml-5">{index + 5}</div>
-                                </Col>
+                                    <div className="bg-red-400 border-round-3xl text-center p-3 ">{index + 5}</div>
+                                </div>
                             ))}
-                        </Col>
+                        </div>
                     </div>
-                </Row>
-            </Container>
+                </div>
+            
         </>
     )
 }

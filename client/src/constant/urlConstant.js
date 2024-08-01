@@ -11,6 +11,10 @@ export const ROUTE_PATH = {
   FARMER: {
     HOME: "/farmer",
     MARKET: "/market",
+    MY_BOOKING:"/my_bookings",
+    DATA:"/market/data",
+    INWARD:"/inward",
+    OUTWARD:"/outward",
   },
   BOOKING:{
     STALL:"/stall/:id"
@@ -37,12 +41,27 @@ export const API_PATH = {
   },
   STALL: {
     FETCH: "/stalls",
+    BOOK:"/stall",
+    BOOK_BY_USER:"/bookedstalls",
     ADD: "/stall",
     EDIT: "/stall",
-    DELETE: "/stall",
+    DELETE: "/bookedstalls",
     FETCH_LIST: "/stall",
     FETCH_DETAIL: "/stall/:id",
   },
+  INWARD: {
+    FETCH: "/inward",
+    ADD: "/inward",
+    EDIT: "/inward",
+    DELETE: "/inward",
+  },
+  OUTWARD: {
+    FETCH: "/outward",
+    ADD: "/outward",
+    EDIT: "/outward",
+    DELETE: "/outward",
+  },
+
   BOOKING_STALL: {
     FETCH_LIST: "/booking-stall",
     FETCH_DETAIL: "/booking-stall/:id",

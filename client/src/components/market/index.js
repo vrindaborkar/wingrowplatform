@@ -50,7 +50,7 @@ const MarketComponent = (props) => {
       {shouldRenderMarketList() && (
         <div className="text-center mt-3 px-5">
           <div className="">
-            <Link to="/farmers" className="text-d-none">
+            <Link to="/farmer" className="text-d-none">
               <Button
                 className="p-button-rounded flex justify-content-start"
                 icon="pi pi-angle-left mr-2"
@@ -58,9 +58,9 @@ const MarketComponent = (props) => {
                 {t("back")}
               </Button>
             </Link>
-            <h2 className="main_header_places">{t("select_market_in_pune")}</h2>
+            <h2 className="mt-3">{t("select_market_in_pune")}</h2>
           </div>
-          <div className="grid px-5 py-3">
+          <div className="grid md:px-5 py-3">
             {schedule.map((market, index) => (
               <div
                 key={index}

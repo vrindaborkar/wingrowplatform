@@ -28,20 +28,20 @@ export default function CustomerComponent() {
         },
     ];
     return (
-        <><Container>
-            <div>
+       <>
+            <div className='mt-2'>
                 <SliderComponent slides={slides} />
             </div>
-            <div>
+             <div className="md:px-8 px-2">
                 <LiveMarket />
             </div>
-            <div>
+            <div className="md:px-8 px-2">
                 <ProductCategory />
             </div>
-            <div>
+            <div className="md:px-8 px-2">
                 <FeedbackComponent />
             </div>
-        </Container>
+       
         </>
 
     )

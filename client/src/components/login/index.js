@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { WINGROW_LOGO, WINGROW_SLIDE_THREE } from "../../assets/images";
 import { useForm } from "react-hook-form";
-import MzInput from "../../common/MzForm/MzInput";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Button } from "primereact/button";
 import { MSG91_AUTH_KEY, TEMPLATE_ID_LOGIN } from "../../constant/msg91";
@@ -12,10 +11,6 @@ import MzOptInput from "../../common/MzForm/MzOptInput";
 
 const LoginComponent = (props) => {
   const {
-    formFieldValueMap,
-    isPageLevelError,
-    isLoginSuccess,
-    isLoading,
     login,
     sendVerificationCode,
     verifyCode,
@@ -84,7 +79,7 @@ const LoginComponent = (props) => {
   };
 
   return (
-    <div className="grid grid-nogutter surface-0 text-800">
+    <div className="grid grid-nogutter surface-0  text-800" style={{height:"90Vh"}}>
       <div className="col-12 md:col-6 overflow-hidden hidden lg:block">
         <img
           src={WINGROW_SLIDE_THREE}

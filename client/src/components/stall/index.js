@@ -46,7 +46,7 @@ const StallComponent = (props) => {
 
   return (
     <>
-      <div className="flex w-full bg-white flex-column align-items-center justify-content-center border-1 border-200 border-round mt-3 p-2 md:p-0">
+      <div className="flex w-full bg-white flex-column align-items-center justify-content-center border-round mt-3 p-2 md:p-0">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="mt-2 w-full px-4 md:mt-5"
@@ -67,16 +67,12 @@ const StallComponent = (props) => {
             />
           </div>
           <div className="card">
-          <div className="market-layout p-grid">
-           
-            
-
-            
+            <div className="market-layout p-grid">
               {stallList.map((stall, index) => (
                 <div key={index} className="p-col-12 p-md-6 p-lg-4 p-xl-3">
                   <div className="p-card p-shadow-2">
                     <div className="p-card-header">
-                    <div dangerouslySetInnerHTML={{ __html: GREEN_STALL }} />
+                      <div dangerouslySetInnerHTML={{ __html: GREEN_STALL }} />
                     </div>
                     <div className="p-card-body">
                       <h5>{stall.stallName}</h5>
@@ -87,7 +83,6 @@ const StallComponent = (props) => {
                 </div>
               ))}
             </div>
-
           </div>
         </form>
       </div>
