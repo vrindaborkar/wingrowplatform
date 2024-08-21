@@ -31,6 +31,7 @@ const OutwardScreen = (props) => {
 
   useEffect(()=>{
     initOutward()
+    // eslint-disable-next-line 
   },[])
 
   const getToastProps = () => {

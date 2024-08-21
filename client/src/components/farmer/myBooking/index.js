@@ -22,10 +22,7 @@ const MyBookingComponent = (props) => {
         window.open(payload, "_blank");
       };
     
-      const shouldRenderFullPageError = () => isPageLevelError;
-      const shouldRenderStallBookList = () => stallBookList.length > 0;
-      const shouldRenderNotFoundView = () =>
-        !shouldRenderFullPageError && !shouldRenderStallBookList;
+      
     
       const formatDate = (dateStr) => {
         const date = new Date(dateStr);
@@ -58,6 +55,12 @@ const MyBookingComponent = (props) => {
       }
   
       }, [stallBookList]);
+
+
+      const shouldRenderFullPageError = () => isPageLevelError;
+      const shouldRenderStallBookList = () => myStalls?.length  > 0;
+      const shouldRenderNotFoundView = () =>
+        !shouldRenderFullPageError && !shouldRenderStallBookList;
  
   return (
     <>
@@ -85,7 +88,7 @@ const MyBookingComponent = (props) => {
             <h2 className="mt-3">My Booking</h2>
           </div>
           <div className="grid grid-nogutter w-full md:px-5 ">
-            {myStalls.map((stall, index) => {
+            {myStalls?.map((stall, index) => {
               const formattedDate = formatDate(stall.bookedAt);
               //   const buttonLabel = isBookingExpired(stall.bookedAt) ? 'Expired' : 'Upcoming';
 
@@ -147,6 +150,8 @@ const MyBookingComponent = (props) => {
           </div>
         </div>
       )}
+   
+
     </>
   );
 };

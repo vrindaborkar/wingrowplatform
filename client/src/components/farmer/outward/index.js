@@ -22,7 +22,7 @@ const AddOutwardComponent = (props) => {
     handleFetchOutwardRecord,
     commodity,
     marketData,
-    initOutward
+    initOutward,
   } = props.addOutwardProps;
 
   console.log(isOutwardDetailSuccess);
@@ -46,12 +46,12 @@ const AddOutwardComponent = (props) => {
   useEffect(() => {
     if (isCreateOutwardSuccess || isEditOutwardSuccess) {
       reset();
-      setTimeout(()=>{
-        initOutward()
-        history(ROUTE_PATH.FARMER.HOME)
-       },2000)
-        
+      setTimeout(() => {
+        initOutward();
+        history(ROUTE_PATH.FARMER.HOME);
+      }, 2000);
     }
+    // eslint-disable-next-line
   }, [isCreateOutwardSuccess]);
 
   useEffect(() => {
@@ -60,6 +60,7 @@ const AddOutwardComponent = (props) => {
         ...formFieldValueMap,
       });
     }
+    // eslint-disable-next-line
   }, [isOutwardDetailSuccess]);
 
   useEffect(() => {
