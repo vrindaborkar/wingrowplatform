@@ -6,11 +6,19 @@ const formFieldValueMap = {
   role: "",
 };
 const getInitialStateFromLocalStorage = () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  const userRole = localStorage.getItem("userRole");
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+  const userRole = sessionStorage.getItem("role");
+  const user = sessionStorage.getItem("user");
+
+  const parsedUser = user ? JSON.parse(user) : null;
+
+  console.log("user---------------------------------------------", parsedUser?.id);
+
   return {
-    isLoggedIn: isLoggedIn === "true" ? true : false,
-    userRole: userRole ? userRole : "",
+    isLoggedIn: isLoggedIn === "true",
+    userRole: userRole || "",
+    //user
+    user: parsedUser || null,
     formFieldValueMap,
     error: "",
     isLoading: false,
@@ -19,7 +27,7 @@ const getInitialStateFromLocalStorage = () => {
     isLoginSuccess: false,
     isLoginError: false,
     isLogoutSuccess: false,
-    LogoutError: false,
+    isLogoutError: false,
   };
 };
 
@@ -42,20 +50,23 @@ const loginReducer = (state = initialState, action) => {
         isLoginSuccess: false,
         isLoginError: false,
         isLogoutSuccess: false,
-        LogoutError: false,
+        isLogoutError: false,
       };
     case LOGIN.SUCCESS:
       return {
         ...state,
         isLoading: false,
         isLoggedIn: true,
+        user: action.payload.user,
+        userRole: action.payload.userRole,
       };
     case LOGIN.ERROR:
     case LOGOUT.ERROR:
       return {
         ...state,
-        isLoading: true,
-        isLoginError: true,
+        isLoading: false,
+        isLoginError: action.type === LOGIN.ERROR,
+        isLogoutError: action.type === LOGOUT.ERROR,
       };
 
     case LOGOUT.SUCCESS:
@@ -63,6 +74,8 @@ const loginReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isLoggedIn: false,
+        user: null,
+        userRole: "",
         isLogoutSuccess: true,
         isLogoutError: false,
       };

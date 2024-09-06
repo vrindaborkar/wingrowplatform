@@ -21,7 +21,7 @@ const User = mongoose.model(
     },
     phone:{
       type:String,
-      maxlength:10,
+      maxlength:15,
       minlength:10,
       
    

@@ -50,6 +50,7 @@ const MzPhoneInput = ({
                   height: "42px",
                   borderRadius:"0px"
                 }}
+                countryCodeEditable={false}
                 className={classNames("w-full", { "p-invalid": fieldState.invalid })}
               />
             </>

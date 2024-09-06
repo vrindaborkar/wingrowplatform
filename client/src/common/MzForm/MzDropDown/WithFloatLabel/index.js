@@ -33,9 +33,12 @@ const MzDropDown = (props) => {
   };
 
   return (
-    <div className="field">
+    <div className="field" style={{ textAlign: "start" }}>
+      <label htmlFor={name} className={getLabelClassName()}>
+        {label}
+        {rules?.required ? <span className="p-error">*</span> : null}
+      </label>
       <span className={wrapperClass}>
-       
         <DropDown
           id={id}
           name={name}
@@ -51,10 +54,6 @@ const MzDropDown = (props) => {
           inputStyle={inputStyle}
           placeholder={placeholder}
         />
-         <label htmlFor={name} className={getLabelClassName()}>
-          {label}
-          {rules?.required ? <span style={{ color: "red" }}>*</span> : null}
-        </label>
       </span>
       {errorMsg}
     </div>
@@ -64,7 +63,7 @@ const MzDropDown = (props) => {
 MzDropDown.defaultProps = {
   labelClassName: "",
   wrapperClass: "",
-  inputStyle: '',
+  inputStyle: "",
   filter: false,
   optionLabel: "label",
   optionValue: "value",

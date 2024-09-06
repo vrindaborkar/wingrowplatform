@@ -56,10 +56,10 @@ export const fetchStallListBookSuccess = (payload) => {
   };
 };
 
-export const fetchStallListBookError = (payload) => {
+export const fetchStallListBookError = (error) => {
   return {
     type: FETCH_BOOKED_STALL_LIST.ERROR,
-    payload,
+    payload: { error },
   };
 };
 export const fetchStallBookList = (payload) => {
@@ -89,9 +89,10 @@ export const fetchStallListBookByUserSuccess = (payload) => {
     payload,
   };
 };
-export const fetchStallListBookByUserError = (payload) => {
+export const fetchStallListBookByUserError = (error) => {
   return {
     type: FETCH_BOOKED_STALL_LIST_BY_USER.ERROR,
+    payload: { error },
   };
 };
 
@@ -109,8 +110,9 @@ export const fetchStallBookByUserList = (payload) => {
   };
 };
 
-export const fetchStallRecordStart = () => ({
+export const fetchStallRecordStart = (payload) => ({
   type: FETCH_STALL_RECORD.START,
+  payload,
 });
 
 export const fetchStallRecordSuccess = (stall) => ({
@@ -211,7 +213,7 @@ export const deleteStall = (stallId) => {
     dispatch(deleteStallStart());
     stallService.deleteStall(stallId).then((stallData) => {
       if (!stallData.isError) {
-        dispatch(deleteStallSuccess(stallData));
+        dispatch(deleteStallSuccess(stallId));  // Pass stallId instead of stallData
       } else {
         dispatch(deleteStallError(stallData));
       }

@@ -11,7 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLoggedIn, userRole, isVerify }) => {
+  const VerifyLogin = sessionStorage.getItem("isVerifyLogin");
+  const VerifyRole = sessionStorage.getItem("role");
+  const isLoggedInCheck = sessionStorage.getItem("isLoggedIn");
+
+  console.log("isLoggedInCheck", isLoggedInCheck);
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,7 +29,8 @@ const Header = ({ isLoggedIn }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
+    sessionStorage.clear();
+    navigate(ROUTE_PATH.BASE.HOME);
   };
 
   const currentLanguage = useSelector(
@@ -47,37 +54,49 @@ const Header = ({ isLoggedIn }) => {
       icon: "pi pi-fw pi-info-circle",
       route: ROUTE_PATH.BASE.HOME,
     },
-    {
+    !VerifyLogin && {
       label: t("login"),
       icon: "pi pi-fw pi-user",
       route: ROUTE_PATH.BASE.LOGIN,
-      visible: !isLoggedIn,
+      visible: !isVerify,
     },
-    {
+    !VerifyLogin && {
       label: t("register"),
       icon: "pi pi-fw pi-user-plus",
       route: ROUTE_PATH.BASE.REGISTER,
-      visible: !isLoggedIn,
+      visible: !isVerify,
     },
     {
       label: t("customers"),
       icon: "pi pi-fw pi-users",
       route: ROUTE_PATH.CUSTOMER.HOME,
-      visible: !isLoggedIn,
+      visible: !isVerify,
     },
-    { separator: true },
+    VerifyLogin &&
+      VerifyRole === "farmer" && {
+        label: t("farmer"),
+        icon: "pi pi-fw pi-users",
+        route: ROUTE_PATH.FARMER.HOME,
+      },
+    VerifyLogin &&
+      VerifyRole === "admin" && {
+        label: t("admin"),
+        icon: "pi pi-user-plus",
+        route: ROUTE_PATH.ADMIN.HOME,
+      },
+    // { separator: true },
     {
       label: t("Settings"),
       icon: "pi pi-fw pi-cog",
       route: ROUTE_PATH.BASE.HOME,
     },
-    {
+    VerifyLogin && {
       label: t("logout"),
       icon: "pi pi-fw pi-power-off p-error",
       command: handleLogout,
-      visible: isLoggedIn,
+      visible: !isLoggedIn,
     },
-  ];
+  ].filter(Boolean);
 
   const start = (
     <div>
@@ -105,21 +124,33 @@ const Header = ({ isLoggedIn }) => {
         className="text-white no-outline font-bold rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
+      {!VerifyLogin && (
+        <Button
+          label={t("login")}
+          icon="pi pi-user"
+          text
+          className="text-white no-outline font-bold rounded"
+          onClick={() => navigate(ROUTE_PATH.BASE.LOGIN)}
+        />
+      )}
+      {!VerifyLogin && (
+        <Button
+          label={t("register")}
+          icon="pi pi-user-plus"
+          text
+          className="text-white no-outline font-bold  rounded"
+          onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
+        />
+      )}
       <Button
-        label={t("login")}
-        icon="pi pi-user"
-        text
-        className="text-white no-outline font-bold rounded"
-        onClick={() => navigate(ROUTE_PATH.BASE.LOGIN)}
-      />
-      <Button
-        label={t("register")}
-        icon="pi pi-user-plus"
+        label={t("customers")}
+        icon="pi pi-users"
         text
         className="text-white no-outline font-bold  rounded"
-        onClick={() => navigate(ROUTE_PATH.BASE.REGISTER)}
+        onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
       />
-      {!isLoggedIn && (
+
+      {VerifyLogin && VerifyRole === "farmer" && (
         <>
           <Button
             label={t("farmer")}
@@ -128,13 +159,10 @@ const Header = ({ isLoggedIn }) => {
             className="text-white no-outline font-bold rounded"
             onClick={() => navigate(ROUTE_PATH.FARMER.HOME)}
           />
-          <Button
-            label={t("customers")}
-            icon="pi pi-users"
-            text
-            className="text-white no-outline font-bold  rounded"
-            onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
-          />
+        </>
+      )}
+      {VerifyLogin && VerifyRole === "admin" && (
+        <>
           <Button
             label={t("admin")}
             icon="pi pi-user-plus"
@@ -144,7 +172,17 @@ const Header = ({ isLoggedIn }) => {
           />
         </>
       )}
-
+      {VerifyLogin && (
+        <>
+          <Button
+            label={t("logout")}
+            icon="pi pi-power-off"
+            text
+            className="text-white no-outline font-bold  rounded"
+            onClick={handleLogout}
+          />
+        </>
+      )}
       <Dropdown
         value={currentLanguage}
         options={languageOptions}

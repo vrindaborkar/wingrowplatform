@@ -53,7 +53,7 @@ export const fetchStallBookByUserList = async (payload) => {
     const result = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        'x-access-token': `${token}`,
       },
     });
     if (result.data.error || result.status !== 200) {

@@ -6,62 +6,58 @@ import ErrorPage from "../../../common/Error";
 import AccessDeniedPage from "../../../common/Access";
 
 const MyBookingComponent = (props) => {
-    const {
-        stallBookList,
-        isPageLevelError,
-        isLoading,
-        userRole,
-        handleOnDeleteRecord
-      } = props.stallProps;
-    
-      const [myStalls, setMyStalls] = useState([]);
-      const { t } = useTranslation();
-      const navigate = useNavigate();
-    
-      const handleLocation = (payload) => {
-        window.open(payload, "_blank");
-      };
-    
+  const {
+    stallBookList,
+    isPageLevelError,
+    isLoading,
+    userRole,
+    user,
+    handleOnDeleteRecord,
+  } = props.stallProps;
+
+  const [myStalls, setMyStalls] = useState([]);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleLocation = (payload) => {
+    window.open(payload, "_blank");
+  };
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    return date
+      .toLocaleDateString("en-GB", options)
+      .replace(/ /g, "/")
+      .toUpperCase();
+  };
+
+  const isBookingExpired = (dateStr) => {
+    const today = new Date();
+    const bookingDate = new Date(dateStr);
+    return bookingDate < today;
+  };
+
+  useEffect(() => {
+    // user = getCurrentUser();
+
+    if (Array.isArray(stallBookList) && user?.id) {
+      const userId = user.id;
+      console.log("User from props:-----------------", user);
       
-    
-      const formatDate = (dateStr) => {
-        const date = new Date(dateStr);
-        const options = { day: "2-digit", month: "short", year: "numeric" };
-        return date
-          .toLocaleDateString("en-GB", options)
-          .replace(/ /g, "/")
-          .toUpperCase();
-      };
-    
-      const isBookingExpired = (dateStr) => {
-        const today = new Date();
-        const bookingDate = new Date(dateStr);
-        return bookingDate < today;
-      };
-    
-      useEffect(() => {
-        const getCurrentUser = () => {
-          return JSON.parse(sessionStorage.getItem("user"));
-        };
-    
-        const user = getCurrentUser();
+      const filteredData = stallBookList.filter((e) => e.bookedBy === userId);
+      const sortedData = filteredData.sort(
+        (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
+      );
+      setMyStalls(sortedData);
+    }
+  }, [user, stallBookList]);
 
-    if (Array.isArray(stallBookList)) {
-        const filteredData = stallBookList.filter((e) => e.bookedBy === user.id);
-        const sortedData = filteredData.sort(
-          (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
-        );
-        setMyStalls(sortedData);
-      }
-  
-      }, [stallBookList]);
+  const shouldRenderFullPageError = () => isPageLevelError;
+  const shouldRenderStallBookList = () => myStalls?.length > 0;
+  const shouldRenderNotFoundView = () =>
+    !shouldRenderFullPageError && !shouldRenderStallBookList;
 
-
-      const shouldRenderFullPageError = () => isPageLevelError;
-      const shouldRenderStallBookList = () => myStalls?.length  > 0;
-      const shouldRenderNotFoundView = () =>
-        !shouldRenderFullPageError && !shouldRenderStallBookList;
- 
   return (
     <>
       {shouldRenderFullPageError() && (
@@ -138,7 +134,9 @@ const MyBookingComponent = (props) => {
                             : "Cancel"
                         }
                         disabled={isBookingExpired(stall.bookedAt)}
-                        onClick={()=>{handleOnDeleteRecord(stall)}}
+                        onClick={() => {
+                          handleOnDeleteRecord(stall);
+                        }}
                         className="p-3 w-full mt-auto"
                       />
                     </div>
@@ -150,8 +148,6 @@ const MyBookingComponent = (props) => {
           </div>
         </div>
       )}
-   
-
     </>
   );
 };

@@ -26,16 +26,17 @@ const MyBookingScreen = (props) => {
     stallBookList,
     isDeleteStallSuccess,
     isDeleteStallError,
-    
+    user,
   } = props;
 
   useEffect(() => {
     initStall();
-  
+    fetchStallBookByUserList();
+    if (user && user.id) {
+      console.log("User ID in effect:-------------------", user.id);
       fetchStallBookByUserList();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeleteStallSuccess]);
+    }
+  }, [initStall, fetchStallBookByUserList, isDeleteStallSuccess, user]);
 
   const history = useNavigate();
 
@@ -70,6 +71,7 @@ const MyBookingScreen = (props) => {
     isPageLevelError,
     isLoading,
     // stallTableData,
+    user,
     userRole,
     navigatetoFarmer,
     handleOnReadRecord,
@@ -110,7 +112,7 @@ const MyBookingScreen = (props) => {
     }
 
     if (isDeleteStallError) {
-      let toastTitle =  "Error while delete Booking";
+      let toastTitle = "Error while delete Booking";
       return {
         severity: TOAST_SEVERITY.ERROR,
         toastTitle,
@@ -128,18 +130,35 @@ const MyBookingScreen = (props) => {
         visible={isDeleteDialogVisible}
         onHide={cancelDelete}
         footer={
-            <div>
-          <Button rounded label="No" severity="secondary" icon="pi pi-times" onClick={cancelDelete} className="" />
-          <Button rounded label="Yes" icon="pi pi-check" onClick={confirmDelete} autoFocus className="ml-2" />
-        </div>
-       
+          <div>
+            <Button
+              rounded
+              label="No"
+              severity="secondary"
+              icon="pi pi-times"
+              onClick={cancelDelete}
+              className=""
+            />
+            <Button
+              rounded
+              label="Yes"
+              icon="pi pi-check"
+              onClick={confirmDelete}
+              autoFocus
+              className="ml-2"
+            />
+          </div>
         }
       >
         <div className="text-center">
-        <p className="font-semibold mb-3">Are you sure you want to cancel this booking?</p>
-        <div className="text-primary text-xl mb-2">{selectedStall?.stallNo}</div>
-        <div className="text-600">{selectedStall?.location}</div>
-      </div>
+          <p className="font-semibold mb-3">
+            Are you sure you want to cancel this booking?
+          </p>
+          <div className="text-primary text-xl mb-2">
+            {selectedStall?.stallNo}
+          </div>
+          <div className="text-600">{selectedStall?.location}</div>
+        </div>
       </Dialog>
     </>
   );
@@ -158,6 +177,7 @@ const mapStateToProps = (state, ownProps) => ({
   error: state.stallReducer.error,
   stallBookList: state.stallReducer.stallBookList,
 
+  user: state.loginReducer.user,
   userRole: state.loginReducer.userRole,
   isDeleteStallSuccess: state.stallReducer.isDeleteStallSuccess,
   isDeleteStallError: state.stallReducer.isDeleteStallError,
