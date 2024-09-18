@@ -106,10 +106,10 @@ export const register = async (payload) => {
 
 export const postLogout = async () => {
   try {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("isVerfiy");
-    sessionStorage.removeItem("role");
-    sessionStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
+    localStorage.removeItem("isVerfiy");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
     let result = "Logout Successfully";
     return result;
   } catch (error) {

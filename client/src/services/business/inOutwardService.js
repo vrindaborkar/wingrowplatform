@@ -6,7 +6,7 @@ import { baseUrl } from "../PostAPI";
 
 export const fetchOutwardList = async () => {
   const url = `${baseUrl}${API_PATH.OUTWARD.FETCH}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -26,7 +26,7 @@ export const fetchOutwardList = async () => {
 
 export const fetchOutwardRecord = async (payload) => {
   const url = `${baseUrl}${API_PATH.OUTWARD.FETCH}/${payload}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -46,7 +46,7 @@ export const fetchOutwardRecord = async (payload) => {
 
 export const createOutwardRecord = async (payload) => {
   const url = `${baseUrl}${API_PATH.OUTWARD.ADD}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.post(url,payload, {
       headers: {
@@ -66,7 +66,7 @@ export const createOutwardRecord = async (payload) => {
 
 export const updateOutwardRecord = async (payload,id) => {
   const url = `${baseUrl}${API_PATH.OUTWARD.EDIT}/${id}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.put(url, payload, {
       headers: {
@@ -86,7 +86,7 @@ export const updateOutwardRecord = async (payload,id) => {
 
 export const deleteOutward = async (outwardId) => {
   const url = `${baseUrl}${API_PATH.OUTWARD.DELETE}/${outwardId}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.delete(url, {
       headers: {
@@ -108,7 +108,7 @@ export const deleteOutward = async (outwardId) => {
 
 export const fetchInwardList = async () => {
   const url = `${baseUrl}${API_PATH.INWARD.FETCH}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -128,7 +128,7 @@ export const fetchInwardList = async () => {
 
 export const fetchInwardRecord = async (payload) => {
   const url = `${baseUrl}${API_PATH.INWARD.FETCH}/${payload}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -149,7 +149,7 @@ export const fetchInwardRecord = async (payload) => {
 export const createInwardRecord = async (payload) => {
 
   const url = `${baseUrl}${API_PATH.INWARD.ADD}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.post(url,payload, {
       headers: {
@@ -169,7 +169,7 @@ export const createInwardRecord = async (payload) => {
 
 export const updateInwardRecord = async (payload,id) => {
   const url = `${baseUrl}${API_PATH.INWARD.EDIT}/${id}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.put(url, payload, {
       headers: {
@@ -189,7 +189,7 @@ export const updateInwardRecord = async (payload,id) => {
 
 export const deleteInward = async (inwardId) => {
   const url = `${baseUrl}${API_PATH.INWARD.DELETE}/${inwardId}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.delete(url, {
       headers: {

@@ -6,9 +6,9 @@ const formFieldValueMap = {
   role: "",
 };
 const getInitialStateFromLocalStorage = () => {
-  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
-  const userRole = sessionStorage.getItem("role");
-  const user = sessionStorage.getItem("user");
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const userRole = localStorage.getItem("role");
+  const user = localStorage.getItem("user");
 
   const parsedUser = user ? JSON.parse(user) : null;
 

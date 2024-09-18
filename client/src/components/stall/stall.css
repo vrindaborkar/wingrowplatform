@@ -1,0 +1,54 @@
+.selected-stalls-details {
+  padding: 1rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.selected-stalls-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.selected-stalls-details li {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+
+
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.required {
+  color: red;
+}
+
+.custom-calendar input {
+  padding-right: 3rem; 
+}
+
+.custom-calendar .p-inputtext {
+  border-radius: 5px; 
+  border: 1px solid #ced4da;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.custom-calendar .p-datepicker-trigger {
+  background-color: #28a745; 
+  border: none;
+  border-radius: 0 5px 5px 0; 
+  color: white;
+  padding: 0.5rem;
+}
+
+.custom-calendar .p-datepicker-trigger .pi {
+  font-size: 1.2rem;
+}
+
+.custom-calendar .p-calendar .p-inputtext {
+  width: calc(100% - 2rem); 
+}

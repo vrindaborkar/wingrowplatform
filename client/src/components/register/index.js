@@ -10,9 +10,9 @@ import MzDropDown from "../../common/MzForm/MzDropDown/WithFloatLabel";
 import { useTranslation } from "react-i18next";
 import data from "./data.json";
 import MzOtpInput from "../../common/MzForm/MzOptInput";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const DUMMY_OTP = "1234"; 
+const DUMMY_OTP = "1234";
 
 const RegisterComponent = (props) => {
   const {
@@ -54,9 +54,10 @@ const RegisterComponent = (props) => {
   const [step, setStep] = useState(0);
   const [otpSent, setOtpSent] = useState(false);
   const [selectedType, setSelectedType] = useState(null);
-  const Navigate=useNavigate();
+  const Navigate = useNavigate();
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
+    console.log(data);
     const userData = {
       firstName: getValues(FORM_FIELDS_NAME.FIRST_NAME.name),
       lastName: getValues(FORM_FIELDS_NAME.LAST_NAME.name),
@@ -66,14 +67,12 @@ const RegisterComponent = (props) => {
       address: getValues(FORM_FIELDS_NAME.ADDRESS.name),
     };
 
-    const isOtpValid = await verifyCode(data.otp);
-
-    if (isOtpValid) {
+    if (data.otp === DUMMY_OTP) {
       setOtpSent(true);
-      register(userData); 
-      sessionStorage.setItem("userData", JSON.stringify(userData));
-      
-      setStep((prevStep) => Math.min(prevStep + 1, 1)); 
+      register(userData);
+      localStorage.setItem("userData", JSON.stringify(userData));
+
+      setStep((prevStep) => Math.min(prevStep + 1, 1));
       Navigate("/login");
     } else {
       setError(FORM_FIELDS_NAME.OTP.name, {
@@ -99,12 +98,12 @@ const RegisterComponent = (props) => {
           firstName: getValues(FORM_FIELDS_NAME.FIRST_NAME.name),
           lastName: getValues(FORM_FIELDS_NAME.LAST_NAME.name),
         };
-        register(payload);
+        // register(payload);
+        await sendVerificationCode(payload);
         setOtpSent(true);
-      } else {
-        setStep((prevStep) => Math.min(prevStep + 1, 1));
       }
-      handleFetchOtp();
+      setStep((prevStep) => Math.min(prevStep + 1, 1));
+      // handleFetchOtp();
     }
   };
 
@@ -139,28 +138,29 @@ const RegisterComponent = (props) => {
   };
 
   return (
-    <div className="w-screen">
-      <div className="grid grid-nogutter surface-0 text-800">
-        <div className="col-12 md:col-6 overflow-hidden hidden md:block lg:block">
-          <img
-            src={WINGROW_SLIDE_THREE}
-            alt="WINGROW_SLIDE_THREE"
-            className="md:ml-auto block h-full w-full"
-            style={{ clipPath: "polygon(0 0%, 100% 0%, 90% 100%, 0% 100%)" }}
-          />
-        </div>
-        <div className="col-12 md:col-6 md:p-6 text-center flex align-items-center justify-content-center">
+    <div className="grid grid-nogutter surface-0 text-800">
+      <div className="col-12 md:col-6 overflow-hidden hidden md:block lg:block">
+        <img
+          src={WINGROW_SLIDE_THREE}
+          alt="WINGROW_SLIDE_THREE"
+          className="md:ml-auto block h-full w-full"
+          style={{ clipPath: "polygon(0 0%, 100% 0%, 90% 100%, 0% 100%)" }}
+        />
+      </div>
+      <div className="col-12 md:col-6 md:p-6 text-center flex align-items-center justify-content-center">
+        <section>
           <div className="flex flex-column align-items-center justify-content-center">
             <div
               style={{
                 borderRadius: "56px",
                 padding: "1rem",
+                margin: "1rem",
                 background:
                   "linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)",
               }}
             >
               <div
-                className="w-100 text-center surface-card py-5 px-5 sm:px-8 flex flex-column align-items-center"
+                className="w-full text-center surface-card py-5 px-5 sm:px-8 flex flex-column align-items-center"
                 style={{
                   borderRadius: "53px",
                   height: "600px",
@@ -333,7 +333,7 @@ const RegisterComponent = (props) => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

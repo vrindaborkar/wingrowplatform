@@ -33,12 +33,12 @@ export const login = (payload) => {
       
       if (!logindata.isError) {
        
-          sessionStorage.setItem("isLoggedIn", "true");
-          sessionStorage.setItem("token", logindata.accessToken);
-          sessionStorage.setItem("user", JSON.stringify(logindata));
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("token", logindata.accessToken);
+          localStorage.setItem("user", JSON.stringify(logindata));
           
           const userRole = logindata.role || "farmer";
-          sessionStorage.setItem("role", userRole);
+          localStorage.setItem("role", userRole);
           
           dispatch(loginSuccess(logindata));
       } else {
@@ -77,10 +77,10 @@ export const logout = () => {
       .postLogout()
       .then((response) => {
         if (!response.isError) {
-          sessionStorage.removeItem("isLoggedIn");
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user");
-          sessionStorage.removeItem("role");
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
 
           dispatch(logoutSuccess());
         } else {

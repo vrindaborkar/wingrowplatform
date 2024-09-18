@@ -42,6 +42,12 @@ const LoginComponent = (props) => {
   const [step, setStep] = useState(0);
   const Navigate= useNavigate();
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setStep(0);
+    }
+  }, [isLoggedIn])
+
   const onSubmit = (data) => {
     console.log(data);
     if (isLoggedIn && sendVerificationCodeSuccess) {
@@ -51,8 +57,8 @@ const LoginComponent = (props) => {
         authkey: MSG91_AUTH_KEY,
       };
       verifyCode(payload);
-      sessionStorage.setItem("isLoggedIn", true);
-      sessionStorage.setItem("isVerifyLogin", true);
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("isVerifyLogin", true);
       Navigate("/home");
     }
   };
@@ -69,16 +75,17 @@ const LoginComponent = (props) => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && step === 0) {
       const payload = {
         mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
         template_id: TEMPLATE_ID_LOGIN,
         authkey: MSG91_AUTH_KEY,
       };
       sendVerificationCode(payload);
-      setStep((prevStep) => Math.min(prevStep + 1, 1));
+      setStep(1);
+      // setStep((prevStep) => Math.min(prevStep + 1, 1));
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn,step, getValues, sendVerificationCode]);
 
   const handlePrevStep = () => {
     logout();

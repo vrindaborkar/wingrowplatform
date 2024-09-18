@@ -6,7 +6,7 @@ import { baseUrl } from "../PostAPI";
 export const fetchStallList = async (payload) => {
   console.log(payload);
   const url = `${baseUrl}${API_PATH.STALL.FETCH}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -27,7 +27,7 @@ export const fetchStallList = async (payload) => {
 export const fetchStallBookList = async (payload) => {
   console.log(payload);
   const url = `${baseUrl}${API_PATH.STALL.BOOK}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -48,7 +48,7 @@ export const fetchStallBookList = async (payload) => {
 export const fetchStallBookByUserList = async (payload) => {
   console.log(payload);
   const url = `${baseUrl}${API_PATH.STALL.BOOK_BY_USER}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -68,7 +68,7 @@ export const fetchStallBookByUserList = async (payload) => {
 
 export const fetchStallRecord = async (payload) => {
   const url = `${baseUrl}${API_PATH.STALL.FETCH}/${payload}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {
       headers: {
@@ -88,7 +88,7 @@ export const fetchStallRecord = async (payload) => {
 
 export const createStallRecord = async (payload) => {
   const url = `${baseUrl}${API_PATH.STALL.ADD}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.post(url, payload, {
       headers: {
@@ -108,7 +108,7 @@ export const createStallRecord = async (payload) => {
 
 export const updateStallRecord = async (payload, id) => {
   const url = `${baseUrl}${API_PATH.STALL.EDIT}/${id}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.put(url, payload, {
       headers: {
@@ -131,7 +131,7 @@ export const deleteStall = async (id) => {
     id: id,
   };
   const url = `${baseUrl}${API_PATH.STALL.DELETE}`;
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   try {
     const result = await axios.delete(url, {
       headers: {

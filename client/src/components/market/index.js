@@ -8,13 +8,14 @@ import { MARKET_WITH_PEOPLE } from "../../assets/images";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
+import { useState } from "react";
 
 const MarketComponent = (props) => {
   const { isPageLevelError, isLoading, marketList } = props;
   const { schedule } = scheduleData;
   const { t } = useTranslation();
 
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const handleLocation = (payload) => {
     window.open(payload, "_blank");
   };
@@ -33,6 +34,8 @@ const MarketComponent = (props) => {
 
   const handleMarket = (market) => {
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market?.name)}`);
+    const selectedMarket = market?.name; //
+    localStorage.setItem("selectedMarket", selectedMarket); //
     console.log(market);
   };
   return (

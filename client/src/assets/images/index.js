@@ -44,6 +44,7 @@ import DRY_FRUITS_STALL from "./dryFruitStall.png"
 import GENERAL_STALL from "./generalStall.png"
 import ANTIQUE_STALL from "./AntiqueStall.png"
 import MUKHVAS_STALL from "./mukhavasStall.png"
+import   HIDDEN_STALL_IMAGE from "./hidden_stall_image.png";
 
 
 export {
@@ -92,5 +93,6 @@ export {
   DRY_FRUITS_STALL,
   GENERAL_STALL,
   ANTIQUE_STALL,
-  MUKHVAS_STALL
+  MUKHVAS_STALL,
+  HIDDEN_STALL_IMAGE
 };

@@ -12,9 +12,9 @@ import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
 
 const Header = ({ isLoggedIn, userRole, isVerify }) => {
-  const VerifyLogin = sessionStorage.getItem("isVerifyLogin");
-  const VerifyRole = sessionStorage.getItem("role");
-  const isLoggedInCheck = sessionStorage.getItem("isLoggedIn");
+  const VerifyLogin = localStorage.getItem("isVerifyLogin");
+  const VerifyRole = localStorage.getItem("role");
+  const isLoggedInCheck = localStorage.getItem("isLoggedIn");
 
   console.log("isLoggedInCheck", isLoggedInCheck);
 
@@ -29,7 +29,7 @@ const Header = ({ isLoggedIn, userRole, isVerify }) => {
   };
 
   const handleLogout = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     navigate(ROUTE_PATH.BASE.HOME);
   };
 

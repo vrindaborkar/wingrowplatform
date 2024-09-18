@@ -38,11 +38,11 @@ export const login = (payload) => {
     dispatch(loginStart());
     authService.login(payload).then((logindata) => {
       if (!logindata.isError) {
-        sessionStorage.setItem("isLoggedIn", "true");
-        sessionStorage.setItem("token", logindata.accessToken);
-        sessionStorage.setItem("user", JSON.stringify(logindata));
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("token", logindata.accessToken);
+        localStorage.setItem("user", JSON.stringify(logindata));
         console.log("logindata", logindata);
-        sessionStorage.setItem("role", "farmer");
+        localStorage.setItem("role", "farmer");
         
         dispatch(loginSuccess(logindata));
       } else {
@@ -142,8 +142,8 @@ export const verifyCode = (payload) => {
     authService.verifyCode(payload).then((registerdata) => {
       if (!registerdata.isError) {
         // set isverfy to true
-        sessionStorage.setItem("VERIFY_CODE", "true");
-        // sessionStorage.setItem("isVerify", true);
+        localStorage.setItem("VERIFY_CODE", "true");
+        // localStorage.setItem("isVerify", true);
         dispatch(verifyCodeSuccess(registerdata));
       } else {
         dispatch(verifyCodeError(registerdata));

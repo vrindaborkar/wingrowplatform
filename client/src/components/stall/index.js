@@ -1,260 +1,16 @@
-// import React, { useMemo, useState } from "react";
-// import MzCalendar from "../../common/MzForm/MzCalendar";
-// import { Calendar } from "primereact/calendar";
-// import { FORM_FIELDS_NAME } from "./constant";
-// import { useForm } from "react-hook-form";
-// import { GREEN_STALL } from "../../assets/images";
-// import stallList from "./data.json";
-
-// const StallComponent = (props) => {
-//   const {
-//     fetchStallList,
-//     isPageLevelError,
-//     isLoading,
-//     userRole,
-//     handleOnReadRecord,
-//     handleOnDeleteRecord,
-//     handleOnEditRecord,
-//     handleOnCreatedRecord,
-//     formFieldValueMap,
-//   } = props.stallProps;
-//   const [date, setDate] = useState(null);
-//   const {
-//     control,
-//     formState: { errors },
-//     watch,
-//     handleSubmit,
-//     reset,
-//     setValue,
-//   } = useForm({
-//     defaultValues: useMemo(() => {
-//       return formFieldValueMap;
-//     }, [formFieldValueMap]),
-//     mode: "onChange",
-//     reValidateMode: "onChange",
-//   });
-//   const getFormErrorMessage = (name) => {
-//     return (
-//       errors[name] && <small className="p-error">{errors[name].message}</small>
-//     );
-//   };
-//   const dat = new Date();
-
-//   const onSubmit = (data) => {
-//     console.log(data);
-//   };
-
-//   return (
-//     <>
-
-//       <div className="flex w-full bg-white flex-column align-items-center justify-content-center border-round mt-3 p-2 md:p-0">
-//         <form
-//           onSubmit={handleSubmit(onSubmit)}
-//           className="mt-2 w-full px-4 md:mt-5"
-//         >
-//           {" "}
-//           <div className="flex justify-content-end">
-//             <MzCalendar
-//               control={control}
-//               name={FORM_FIELDS_NAME.B_DATE.name}
-//               label={FORM_FIELDS_NAME.B_DATE.label}
-//               placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
-//               rules={FORM_FIELDS_NAME.B_DATE.rules}
-//               isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
-//               errorMsg={getFormErrorMessage(FORM_FIELDS_NAME.B_DATE.name)}
-//               showButtonBar={true}
-//               minDate={dat}
-//               disabledDays={[0, 2, 3, 4, 5, 6]}
-//             />
-//           </div>
-//           <div className="card">
-//             <div className="market-layout p-grid">
-//               {stallList.map((stall, index) => (
-//                 <div key={index} className="p-col-12 p-md-6 p-lg-4 p-xl-3">
-//                   <div className="p-card p-shadow-2">
-//                     <div className="p-card-header">
-//                       <div dangerouslySetInnerHTML={{ __html: GREEN_STALL }} />
-//                     </div>
-//                     <div className="p-card-body">
-//                       <h5>{stall.stallName}</h5>
-//                       <p>Stall No: {stall.stallNo}</p>
-//                       <p>Price Range: {stall.stallPrice}</p>
-//                     </div>
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-//           </div>
-//         </form>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default StallComponent;
-
-// import React, { useMemo, useState } from "react";
-// import MzCalendar from "../../common/MzForm/MzCalendar";
-// import { useForm } from "react-hook-form";
-// import { FORM_FIELDS_NAME } from "./constant";
-
-// import stallList from "./data.json";
-
-// const stallPositions = [
-//   [false, false, true, false, true, false, false],
-//   [false, true, false, false, false, true, false],
-//   [false, false, false, true, false, false, false],
-//   [true, false, true, false, true, false, true],
-//   [true, false, true, false, true, false, true],
-//   [true, false, true, false, true, false, true],
-//   [true, false, true, false, true, false, true],
-//   [true, false, true, false, true, false, true],
-//   [false, false, false, true, false, false, false],
-//   [false, true, false, false, false, true, false],
-//   [false, false, true, false, true, false, false],
-// ];
-
-// const StallComponent = (props) => {
-//   const {
-//     fetchStallList,
-//     isPageLevelError,
-//     isLoading,
-//     userRole,
-//     handleOnReadRecord,
-//     handleOnDeleteRecord,
-//     handleOnEditRecord,
-//     handleOnCreatedRecord,
-//     formFieldValueMap,
-//   } = props.stallProps;
-
-//   const [selectedStalls, setSelectedStalls] = useState([]);
-//   const [date, setDate] = useState(null);
-
-//   const {
-//     control,
-//     formState: { errors },
-//     watch,
-//     handleSubmit,
-//     reset,
-//     setValue,
-//   } = useForm({
-//     defaultValues: useMemo(() => {
-//       return formFieldValueMap;
-//     }, [formFieldValueMap]),
-//     mode: "onChange",
-//     reValidateMode: "onChange",
-//   });
-
-//   const getFormErrorMessage = (name) => {
-//     return (
-//       errors[name] && <small className="p-error">{errors[name].message}</small>
-//     );
-//   };
-
-//   const dat = new Date();
-
-//   const onSubmit = (data) => {
-//     console.log("Selected Stalls:", selectedStalls);
-//     console.log("Form Data:", data);
-//   };
-//   const handleStallClick = (row, col) => {
-//     const stallId = `${row}-${col}`;
-//     let newSelectedStalls = [...selectedStalls];
-
-//     if (newSelectedStalls.includes(stallId)) {
-
-//       newSelectedStalls = newSelectedStalls.filter((s) => s !== stallId);
-//     } else {
-
-//       if (newSelectedStalls.length >= 3) {
-
-//         newSelectedStalls.shift();
-//       }
-//       newSelectedStalls.push(stallId);
-//     }
-
-//     setSelectedStalls(newSelectedStalls);
-//   };
-
-//   const getStallClass = (row, col) => {
-//     const stallId = `${row}-${col}`;
-
-//     if (selectedStalls.includes(stallId)) return "selected";
-//     return "available";
-//   };
-
-//   return (
-//     <div className="stall-container">
-//       <div className="summary">
-//         <span>
-//           Total stalls: {stallPositions.flat().filter(Boolean).length}
-//         </span>
-//         <span>
-//           Available stalls:{" "}
-//           {
-//             stallPositions
-//               .flat()
-//               .filter(
-//                 (isStall, index) => isStall && !selectedStalls.includes(index)
-//               ).length
-//           }
-//         </span>
-//       </div>
-//       <form onSubmit={handleSubmit(onSubmit)} className="stall-form">
-//         <div className="calendar-section">
-//           <MzCalendar
-//             control={control}
-//             name={FORM_FIELDS_NAME.B_DATE.name}
-//             label={FORM_FIELDS_NAME.B_DATE.label}
-//             placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
-//             rules={FORM_FIELDS_NAME.B_DATE.rules}
-//             isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
-//             errorMsg={getFormErrorMessage(FORM_FIELDS_NAME.B_DATE.name)}
-//             showButtonBar={true}
-//             minDate={dat}
-//             disabledDays={[0, 2, 3, 4, 5, 6]}
-//           />
-//         </div>
-//         <div className="market-layout">
-//           {stallPositions.map((row, rowIndex) =>
-//             row.map((isStall, colIndex) => (
-//               <div
-//                 key={`${rowIndex}-${colIndex}`}
-//                 className={`stall  ${
-//                   isStall ? getStallClass(rowIndex, colIndex) : ""
-//                 }`}
-//                 onClick={() => isStall && handleStallClick(rowIndex, colIndex)}
-//               >
-//                 {isStall && (
-//                   <div className="stall-content">
-
-//                     <div>{`${rowIndex+colIndex + 1}`}</div>
-//                   </div>
-//                 )}
-//               </div>
-//             ))
-//           )}
-//         </div>
-//         <div className="total-amount">
-//           <span>Total Amount</span>
-//           <span>Rs. xxx/-</span>
-//         </div>
-//         <div className="pay-button-container">
-//           <button type="submit" className="pay-button">
-//             Pay
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default StallComponent;
-import React, { useMemo, useState } from "react";
-import MzCalendar from "../../common/MzForm/MzCalendar";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useMemo, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Tooltip } from "primereact/tooltip";
+import { Button } from "primereact/button";
+import { ROUTE_PATH } from "../../constant/urlConstant";
+import { useNavigate } from "react-router-dom";
+import "./stall.css";
+
+import { Calendar } from "primereact/calendar";
+import "primereact/resources/themes/saga-green/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 import {
   ANTIQUE_STALL,
@@ -271,22 +27,16 @@ import {
   SPICE_STALL,
   TARKARI_STALL,
 } from "../../assets/images";
-import { Button } from "primereact/button";
-// import stallList from "./data.json";
+import PaymentPage from "../payment";
+import { Dropdown } from "primereact/dropdown";
+import scheduleData from "../market/data.json";
+import StallDetailsDialog from "./stallDetailsDialog";
 
-const stallPositions = [
-  [false, false, true, false, true, false, false],
-  [false, true, false, false, false, true, false],
-  [true, false, false, true, false, false, true],
-  [true, false, true, false, true, false, true],
-  [true, false, true, false, true, false, true],
-  [true, false, true, false, true, false, true],
-  [true, false, true, false, true, false, true],
-  [true, false, true, false, true, false, true],
-  [true, false, false, true, false, false, true],
-  [false, true, false, false, false, true, false],
-  [false, false, true, false, true, false, false],
-];
+const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
+  label: market.name,
+  value: market.name,
+  disabledDays: market.disabledDays || [0, 2, 3, 4, 5, 6],
+}));
 
 const StallComponent = (props) => {
   const {
@@ -302,9 +52,30 @@ const StallComponent = (props) => {
     stallList,
   } = props.stallProps;
 
+  const savedMarket = scheduleOptions.length
+    ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
+    : "";
+
   const [selectedStalls, setSelectedStalls] = useState([]);
+  const [selectedStallsMap, setSelectedStallsMap] = useState({});
+
+  const [stallDataMap, setStallDataMap] = useState(new Map());
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [date, setDate] = useState(null);
+  const [dates, setDates] = useState({});
+  const [selectedMarket, setSelectedMarket] = useState(savedMarket);
+  const [stallPositions, setStallPositions] = useState(
+    scheduleData.marketStallPositions.Default
+  );
+  const [disabledDays, setDisabledDays] = useState(
+    scheduleOptions[0].disabledDays || []
+  );
+
+  const [showDetails, setShowDetails] = useState(false);
+  const [modalStalls, setModalStalls] = useState([]);
+
+  const { schedule, marketStallPositions } = scheduleData || {};
 
   const {
     control,
@@ -314,12 +85,12 @@ const StallComponent = (props) => {
     reset,
     setValue,
   } = useForm({
-    defaultValues: useMemo(() => {
-      return formFieldValueMap;
-    }, [formFieldValueMap]),
+    defaultValues: useMemo(() => formFieldValueMap, [formFieldValueMap]),
     mode: "onChange",
     reValidateMode: "onChange",
   });
+
+  const navigate = useNavigate();
 
   const getFormErrorMessage = (name) => {
     return (
@@ -330,68 +101,151 @@ const StallComponent = (props) => {
   const dat = new Date();
 
   const onSubmit = (data) => {
-    console.log("Selected Stalls:", selectedStalls);
-    console.log("Form Data:", data);
+    if (!validateStalls()) {
+      alert("Please select at least one stall before proceeding.");
+      return;
+    }
+    console.log(
+      "Total price before redirect: -------------------------------",
+      totalPrice
+    );
+    navigate("/payment-success", {
+      state: {
+        totalPrice,
+        selectedStallsMap,
+        // selectedMarket,
+        // date,
+      },
+    });
   };
-  const handleStallClick = (row, col) => {
-    const stallId = `${row}-${col}`;
-    let newSelectedStalls = [...selectedStalls];
-    const stall = stallDataMap.get(stallId);
+  const validateStalls = () => {
+    const stallsSelected =
+      selectedStallsMap[selectedMarket]?.[
+        dates[selectedMarket]?.toLocaleDateString()
+      ];
+    return stallsSelected && stallsSelected.length > 0;
+  };
 
-    if (newSelectedStalls.includes(stallId)) {
-      newSelectedStalls = newSelectedStalls.filter((s) => s !== stallId);
+  const handleStallClick = (row, col) => {
+    if (!dates[selectedMarket]) {
+      alert("Please select a date first.");
+      return;
+    }
+
+    const stallId = `${row}-${col}`;
+    const stall = stallDataMap.get(stallId);
+    if (!stall) return;
+
+    const currentDate = dates[selectedMarket].toLocaleDateString();
+    const newSelectedStalls = { ...selectedStallsMap };
+
+    if (!newSelectedStalls[selectedMarket]) {
+      newSelectedStalls[selectedMarket] = {};
+    }
+
+    if (!newSelectedStalls[selectedMarket][currentDate]) {
+      newSelectedStalls[selectedMarket][currentDate] = [];
+    }
+
+    let dateStalls = newSelectedStalls[selectedMarket][currentDate];
+
+    if (dateStalls.includes(stallId)) {
+      dateStalls = dateStalls.filter((s) => s !== stallId);
       setTotalPrice((prevPrice) => prevPrice - stall.stallPrice);
     } else {
-      if (newSelectedStalls.length >= 3) {
-        const removedStallId = newSelectedStalls.shift();
+      if (dateStalls.length >= 3) {
+        const removedStallId = dateStalls.shift();
         const removedStall = stallDataMap.get(removedStallId);
         setTotalPrice((prevPrice) => prevPrice - removedStall.stallPrice);
       }
-      newSelectedStalls.push(stallId);
+      dateStalls.push(stallId);
       setTotalPrice((prevPrice) => prevPrice + stall.stallPrice);
     }
 
-    setSelectedStalls(newSelectedStalls);
+    newSelectedStalls[selectedMarket][currentDate] = dateStalls;
+    setSelectedStallsMap(newSelectedStalls);
   };
-  // const handleStallClick = (row, col) => {
-  //   const stallId = `${row}-${col}`;
-  //   let newSelectedStalls = [...selectedStalls];
-
-  //   if (newSelectedStalls.includes(stallId)) {
-  //     newSelectedStalls = newSelectedStalls.filter((s) => s !== stallId);
-  //   } else {
-  //     if (newSelectedStalls.length >= 3) {
-  //       newSelectedStalls.shift();
-  //     }
-  //     newSelectedStalls.push(stallId);
-  //   }
-
-  //   setSelectedStalls(newSelectedStalls);
-  // };
 
   const getStallClass = (row, col) => {
     const stallId = `${row}-${col}`;
+    const marketStalls =
+      selectedStallsMap[selectedMarket]?.[
+        dates[selectedMarket]?.toLocaleDateString()
+      ] || [];
 
-    if (selectedStalls.includes(stallId)) return "selected";
-    return "available";
+    if (marketStalls.includes(stallId)) {
+      return "selected";
+    }
+    return stallDataMap.has(stallId) ? "available" : "unknown";
+    // return "available";
   };
 
-  // Create a list of active positions
-  const activePositions = [];
-  stallPositions.forEach((row, rowIndex) =>
-    row.forEach((isStall, colIndex) => {
-      if (isStall) {
-        activePositions.push({ row: rowIndex, col: colIndex });
-      }
-    })
-  );
+  useEffect(() => {
+    const activePositions = [];
+    stallPositions.forEach((row, rowIndex) =>
+      row.forEach((isStall, colIndex) => {
+        if (isStall) {
+          activePositions.push({ row: rowIndex, col: colIndex });
+        }
+      })
+    );
 
-  const stallDataMap = new Map(
-    activePositions.map((position, index) => [
-      `${position.row}-${position.col}`,
-      stallList[index],
-    ])
-  );
+    const newStallDataMap = new Map(
+      activePositions.map((position, index) => [
+        `${position.row}-${position.col}`,
+        stallList[index],
+      ])
+    );
+
+    setStallDataMap(newStallDataMap);
+  }, [stallPositions, stallList]);
+
+  useEffect(() => {
+    if (selectedMarket) {
+      const positions =
+        marketStallPositions[selectedMarket] || marketStallPositions.Default;
+      // const selectedMarketObj = scheduleOptions.find(
+      //   (m) => m.value === selectedMarket
+      // );
+      setStallPositions(positions);
+      setSelectedStalls([]);
+
+      fetchStallList(selectedMarket);
+
+      localStorage.setItem("selectedMarket", selectedMarket);
+      const selectedMarketObj = scheduleOptions.find(
+        (m) => m.value === selectedMarket
+      );
+
+      setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
+    }
+  }, [selectedMarket, scheduleOptions]);
+
+  useEffect(() => {
+    if (stallDataMap.size) {
+      console.log("Updated stallDataMap:", stallDataMap);
+    }
+  }, [stallDataMap]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedStallsMap",
+      JSON.stringify(selectedStallsMap)
+    );
+  }, [selectedStallsMap]);
+
+  useEffect(() => {
+    const savedStalls = localStorage.getItem("selectedStallsMap");
+    if (savedStalls) {
+      setSelectedStallsMap(JSON.parse(savedStalls));
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("Stall Data Map:", stallDataMap);
+    console.log("Selected Stalls Map:", selectedStallsMap);
+  }, [stallDataMap, selectedStallsMap]);
+
   const stallImageMap = {
     Masale: SPICE_STALL,
     Antic: ANTIQUE_STALL,
@@ -405,23 +259,133 @@ const StallComponent = (props) => {
     Flowers: FLOWER_STALL,
     Dryfruits: DRY_FRUITS_STALL,
     Mukhvas: MUKHVAS_STALL,
+    Default: GENERAL_STALL || null,
   };
+
+  const handleMarket = (e) => {
+    const marketName = e.value;
+    setSelectedMarket(marketName);
+
+    fetchStallList(marketName);
+
+    const positions =
+      marketStallPositions[marketName] || marketStallPositions.Default;
+    setStallPositions(positions);
+
+    // setSelectedStalls([]);
+
+    setDates((prevDates) => ({ ...prevDates, [marketName]: null }));
+
+    const selectedMarketObj = scheduleOptions.find(
+      (m) => m.value === marketName
+    );
+
+    setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
+
+    setDates((prevDates) => ({
+      ...prevDates,
+      [marketName]: prevDates[marketName] || null,
+    }));
+
+    navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
+  };
+
+  const handleShowClick = (e) => {
+    e.preventDefault();
+    const groupedStalls = {};
+
+    Object.keys(selectedStallsMap).forEach((marketName) => {
+      const marketStalls = selectedStallsMap[marketName];
+
+      Object.keys(marketStalls).forEach((date) => {
+        const dateStalls = marketStalls[date].map((stallId) => {
+          const stall = stallDataMap.get(stallId);
+          return {
+            id: stallId,
+            name: stall ? stall.stallName : "Unknown Stall",
+            price: stall ? stall.stallPrice : 0,
+            date: date || "Not selected",
+          };
+        });
+
+        if (dateStalls.length > 0) {
+          if (!groupedStalls[marketName]) {
+            groupedStalls[marketName] = {};
+          }
+
+          if (!groupedStalls[marketName][date]) {
+            groupedStalls[marketName][date] = [];
+          }
+
+          groupedStalls[marketName][date] = dateStalls;
+        }
+      });
+    });
+
+    if (Object.keys(groupedStalls).length === 0) {
+      alert("Please select at least one stall before showing details.");
+      return;
+    }
+
+    setModalStalls(groupedStalls);
+    setShowDetails(true);
+  };
+
+  useEffect(() => {
+    if (modalStalls && Object.keys(modalStalls).length) {
+      console.log("Modal Stalls:", modalStalls);
+    }
+  }, [modalStalls]);
+
   return (
     <div className="stall-container">
       <form onSubmit={handleSubmit(onSubmit)} className="stall-form">
-        <div className="calendar-section">
-          <MzCalendar
-            control={control}
-            name={FORM_FIELDS_NAME.B_DATE.name}
-            label={FORM_FIELDS_NAME.B_DATE.label}
-            placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
-            rules={FORM_FIELDS_NAME.B_DATE.rules}
-            isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
-            errorMsg={getFormErrorMessage(FORM_FIELDS_NAME.B_DATE.name)}
-            showButtonBar={true}
-            minDate={dat}
-            disabledDays={[0, 2, 3, 4, 5, 6]}
-          />
+        <div className="flex row justify-content-between align-items-flex-start">
+          <div className="market-dropdown-section col-6">
+            <label htmlFor="market">Select Market</label>
+            <Dropdown
+              id="market"
+              value={selectedMarket}
+              options={scheduleOptions}
+              onChange={handleMarket}
+              placeholder="Choose a market"
+              className="w-full"
+            />
+          </div>
+          <div className="calendar-section col-6">
+            <div className="field">
+              <label htmlFor="date">
+                Select Date<span className="required">*</span>
+              </label>
+              <Controller
+                name={FORM_FIELDS_NAME.B_DATE.name}
+                control={control}
+                rules={FORM_FIELDS_NAME.B_DATE.rules}
+                render={({ field }) => (
+                  <Calendar
+                    {...field}
+                    id="date"
+                    value={dates[selectedMarket]}
+                    onChange={(e) => {
+                      setDates((prevDates) => ({
+                        ...prevDates,
+                        [selectedMarket]: e.value,
+                      }));
+                      field.onChange(e.value);
+                    }}
+                    placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
+                    disabledDays={disabledDays}
+                    minDate={dat}
+                    showIcon={true}
+                    showButtonBar={true}
+                    className="w-full custom-calendar"
+                    isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
+                    errorMsg={getFormErrorMessage(FORM_FIELDS_NAME.B_DATE.name)}
+                  />
+                )}
+              />
+            </div>
+          </div>
         </div>
         <div className="border-green-200 border-1 p-2">
           <div className="summary">
@@ -433,11 +397,11 @@ const StallComponent = (props) => {
             </span>
           </div>
           <hr />
-          
+
           <div className="bg-black flex justify-content-between py-2 mb-3 text-white text-center ">
             <div className="p-2"></div>
-            Main Road 
-            <div className="p-2"></div> 
+            Main Road
+            <div className="p-2"></div>
           </div>
           <div className="market-layout">
             {stallPositions.map((row, rowIndex) =>
@@ -455,7 +419,6 @@ const StallComponent = (props) => {
                       isStall && handleStallClick(rowIndex, colIndex)
                     }
                     data-pr-tooltip={stall ? stall.stallName : ""}
-                    
                     style={{ fontSize: "1rem", cursor: "pointer" }}
                   >
                     <div className="md:flex justify-content-between align-items-center">
@@ -465,10 +428,9 @@ const StallComponent = (props) => {
                             src={
                               stallImageMap[stall.stallName] || GENERAL_STALL
                             }
-                            alt={stall.stallName}
+                            alt={stall.stallName || "General stall"}
                             className="stall-image w-8 md:w-4"
                           />
-                          {/* <div>{stall.stallName}</div> */}
                           <div className="text-xs md:text-base">
                             {stall.stallPrice}
                           </div>
@@ -491,21 +453,33 @@ const StallComponent = (props) => {
           </div>
           <hr />
           <div className="flex justify-content-end ">
-          <Button
-              type="submit"
-              label="Pay"
-              className="border-2 te border-round-md md:w-10rem"
-            ></Button>
+            <Button
+              label="Show"
+              onClick={handleShowClick}
+              className="border-2 border-round-md md:w-10rem mr-2"
+            />
+            <PaymentPage
+              amount={totalPrice}
+              selectedStallsMap={selectedStallsMap}
+              validateStalls={validateStalls}
+            />
             <Button
               type="submit"
               severity="danger"
-              label="Pay in market "
-              className="border-2 te  border-round-md md:w-10rem ml-2"
-            ></Button>
+              label="Pay in market"
+              className="border-2 te border-round-md md:w-10rem ml-2"
+              disabled={!validateStalls()}
+            />
           </div>
         </div>
       </form>
       <Tooltip target=".stall" mouse className="text-green-400" />
+
+      <StallDetailsDialog
+        modalStalls={modalStalls}
+        showDetails={showDetails}
+        setShowDetails={setShowDetails}
+      />
     </div>
   );
 };
