@@ -27,10 +27,10 @@ import {
   SPICE_STALL,
   TARKARI_STALL,
 } from "../../assets/images";
-import PaymentPage from "../payment";
 import { Dropdown } from "primereact/dropdown";
 import scheduleData from "../market/data.json";
-import StallDetailsDialog from "./stallDetailsDialog";
+import PaymentPage from "../payment";
+
 
 const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
   label: market.name,
@@ -440,7 +440,12 @@ const StallComponent = (props) => {
             Main Road
             <div className="p-2"></div>
           </div>
-          <div className="market-layout">
+          <div
+            className="market-layout"
+            style={{
+              gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+            }}
+          >
             {stallPositions.map((row, rowIndex) =>
               row.map((isStall, colIndex) => {
                 const stallId = `${rowIndex}-${colIndex}`;
@@ -495,11 +500,6 @@ const StallComponent = (props) => {
               onClick={handleShowClick}
               className="border-2 border-round-md md:w-10rem mr-2"
             />
-            {/* <PaymentPage
-              amount={totalPrice}
-              selectedStallsMap={selectedStallsMap}
-              validateStalls={validateStalls}
-            /> */}
             <Button
               type="submit"
               severity="danger"
@@ -512,7 +512,7 @@ const StallComponent = (props) => {
       </form>
       <Tooltip target=".stall" mouse className="text-green-400" />
 
-      <StallDetailsDialog
+      <PaymentPage
         modalStalls={modalStalls}
         showDetails={showDetails}
         setShowDetails={setShowDetails}

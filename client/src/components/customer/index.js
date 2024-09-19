@@ -4,6 +4,7 @@ import LiveMarket from './liveMarket'
 import { Container } from 'react-bootstrap'
 import SliderComponent from '../home/slider'
 import FeedbackComponent from './feedback'
+import { WINGROW_SLIDE_ONE, WINGROW_SLIDE_THREE, WINGROW_SLIDE_TWO } from '../../assets/images'
 
 export default function CustomerComponent() {
 
@@ -11,19 +12,19 @@ export default function CustomerComponent() {
         {
             id: 1,
             name: "Slide 1",
-            url: "https://www.thefruitshop.in/images/header3/slider3.jpg",
+            url: WINGROW_SLIDE_ONE,
             isImage: true,
         },
         {
             id: 2,
             name: "Slide 2",
-            url: "https://www.thefruitshop.in/images/header3/slider1.png",
+            url: WINGROW_SLIDE_TWO,
             isImage: true,
         },
         {
             id: 3,
             name: "Slide 3",
-            url: "https://www.thefruitshop.in/images/header3/slider2.jpg",
+            url: WINGROW_SLIDE_THREE,
             isImage: true,
         },
     ];

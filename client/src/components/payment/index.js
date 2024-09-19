@@ -1,6 +1,14 @@
+import React from "react";
+import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 
-const PaymentPage = ({ amount, validateStalls }) => {
+const PaymentPage = ({
+  modalStalls,
+  showDetails,
+  setShowDetails,
+  amount,
+  validateStalls,
+}) => {
   const loadScript = (src) => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -46,14 +54,61 @@ const PaymentPage = ({ amount, validateStalls }) => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
-
   return (
-    <Button
-      type="button"
-      label="Pay"
-      className="border-2 te border-round-md md:w-10rem"
-      onClick={displayRazorpay}
-    />
+    <Dialog
+      header="Selected Stalls Details"
+      visible={showDetails}
+      style={{ width: "50vw", maxHeight: "80vh", overflowY: "auto" }}
+      className="w-full md:w-6"
+      onHide={() => setShowDetails(false)}
+      footer={
+        <>
+          <Button
+            label="Cancel"
+            icon="pi pi-times"
+            onClick={() => setShowDetails(false)}
+            className="border-2 te border-round-md md:w-10rem mr-2"
+          />
+
+          <Button
+            type="button"
+            label="Pay"
+            className="border-2 te border-round-md md:w-10rem"
+            onClick={displayRazorpay}
+          />
+        </>
+      }
+    >
+      <div className="selected-stalls-details">
+        {Object.keys(modalStalls).map((marketName) => (
+          <div key={marketName}>
+            <h3>Market Name: {marketName}</h3>
+            {Object.keys(modalStalls[marketName]).map((date) => (
+              <div key={date}>
+                <h4>Date: {date}</h4>
+                {modalStalls[marketName][date] && (
+                  <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
+                    {modalStalls[marketName][date].map((stall) => (
+                      <li key={stall.id}>
+                        <div>
+                          <strong>Stall ID:</strong> {stall.id}
+                        </div>
+                        <div>
+                          <strong>Stall Name:</strong> {stall.name}
+                        </div>
+                        <div>
+                          <strong>Stall Price:</strong> {stall.price}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </Dialog>
   );
 };
 
