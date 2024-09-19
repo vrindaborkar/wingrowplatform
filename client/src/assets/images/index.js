@@ -9,43 +9,41 @@ import WINGROW_SLIDE_ONE from "./wingrowSlideOne.png";
 import WINGROW_SLIDE_TWO from "./wingrowSlideTwo.png";
 import WINGROW_SLIDE_THREE from "./wingrowSlideThree.png";
 import MARKET_WITH_PEOPLE from "./marketPeople.webp";
-import FPO from "./FPO.webp"
-import WIN from "./WIN.webp"
-import CONS from "./CONS.webp"
-import LEFT_ARROW from "./leftArrows.png"
-import RIGHT_ARROW from "./rightArrows.png"
-import APPLE from "./apple.png"
-import GRAPHS from "./graphs.png"
-import LEFT_CHERRY from "./leftCherry.png"
-import RIGHT_CHERRY from "./rightCherry.png"
-import VEGETABLES_BOX from "./vegetablesBox.webp"
-import FAST_DELIVERY from "./fast-delivery.png"
-import PODCAST from "./podcast.png"
-import PLANE from "./plane.png"
-import UUSERS from "./multiple-users-silhouette.png"
-import TRASH_BIN from "./003-trash-bin.png"
-import HAND from "./002-hand.png"
-import USER from"./001-user.png"
-import LIGHT_BULB from "./light-bulb.png"
-import BOOK_STALL_HOME from "./BooStallHome.png"
-import RED_STALL from "./stallRed.png"
-import CALENDER from "./calender.png"
-import COMMODITY from "./comudity.png"
-import SUBCRIPTION from "./subc.png"
-import FLOWER_STALL from "./flowerStall.png"
-import LEAFY_STALL from "./LeafyStall.png"
-import KOBI_STALL from "./kobiStall.png"
-import FRUITS_STALL  from "./fruitStall.png"
-import SANACK_STALL from "./snackStall.png"
-import TARKARI_STALL from "./Tarkari.png"
-import ONION_STALL from "./onionStall.png"
-import SPICE_STALL from "./spicesStall.png"
-import DRY_FRUITS_STALL from "./dryFruitStall.png"
-import GENERAL_STALL from "./generalStall.png"
-import ANTIQUE_STALL from "./AntiqueStall.png"
-import MUKHVAS_STALL from "./mukhavasStall.png"
-import   HIDDEN_STALL_IMAGE from "./hidden_stall_image.png";
-
+import FPO from "./FPO.webp";
+import WIN from "./WIN.webp";
+import CONS from "./CONS.webp";
+import LEFT_ARROW from "./leftArrows.png";
+import RIGHT_ARROW from "./rightArrows.png";
+import APPLE from "./apple.png";
+import GRAPHS from "./graphs.png";
+import LEFT_CHERRY from "./leftCherry.png";
+import RIGHT_CHERRY from "./rightCherry.png";
+import VEGETABLES_BOX from "./vegetablesBox.webp";
+import FAST_DELIVERY from "./fast-delivery.png";
+import PODCAST from "./podcast.png";
+import PLANE from "./plane.png";
+import UUSERS from "./multiple-users-silhouette.png";
+import TRASH_BIN from "./003-trash-bin.png";
+import HAND from "./002-hand.png";
+import USER from "./001-user.png";
+import LIGHT_BULB from "./light-bulb.png";
+import BOOK_STALL_HOME from "./BooStallHome.png";
+import RED_STALL from "./stallRed.png";
+import CALENDER from "./calender.png";
+import COMMODITY from "./comudity.png";
+import SUBCRIPTION from "./subc.png";
+import FLOWER_STALL from "./flowerStall.png";
+import LEAFY_STALL from "./LeafyStall.png";
+import KOBI_STALL from "./kobiStall.png";
+import FRUITS_STALL from "./fruitStall.png";
+import SANACK_STALL from "./snackStall.png";
+import TARKARI_STALL from "./Tarkari.png";
+import ONION_STALL from "./onionStall.png";
+import SPICE_STALL from "./spicesStall.png";
+import DRY_FRUITS_STALL from "./dryFruitStall.png";
+import GENERAL_STALL from "./generalStall.png";
+import ANTIQUE_STALL from "./AntiqueStall.png";
+import MUKHVAS_STALL from "./mukhavasStall.png";
 
 export {
   LOGO,
@@ -94,5 +92,4 @@ export {
   GENERAL_STALL,
   ANTIQUE_STALL,
   MUKHVAS_STALL,
-  HIDDEN_STALL_IMAGE
 };
