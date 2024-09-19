@@ -53,7 +53,7 @@ const StallComponent = (props) => {
   } = props.stallProps;
 
   const savedMarket = scheduleOptions.length
-    ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
+    ? sessionStorage.getItem("selectedMarket") || scheduleOptions[0].value
     : "";
 
   const [selectedStalls, setSelectedStalls] = useState([]);
@@ -62,7 +62,6 @@ const StallComponent = (props) => {
   const [stallDataMap, setStallDataMap] = useState(new Map());
 
   const [totalPrice, setTotalPrice] = useState(0);
-  const [date, setDate] = useState(null);
   const [dates, setDates] = useState({});
   const [selectedMarket, setSelectedMarket] = useState(savedMarket);
   const [stallPositions, setStallPositions] = useState(
@@ -75,7 +74,15 @@ const StallComponent = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const [modalStalls, setModalStalls] = useState([]);
 
+  const [selectedStall, setSelectedStall] = React.useState(null);
+
+  const [mergedStallDetails, setMergedStallDetails] = useState(null);
+
+  const [selectedStallsData, setSelectedStallsData] = useState({});
+
   const { schedule, marketStallPositions } = scheduleData || {};
+
+  console.log("stallList----------------------------", stallList);
 
   const {
     control,
@@ -105,25 +112,45 @@ const StallComponent = (props) => {
       alert("Please select at least one stall before proceeding.");
       return;
     }
-    console.log(
-      "Total price before redirect: -------------------------------",
-      totalPrice
-    );
+    console.log("Total price before redirect:", totalPrice);
     navigate("/payment-success", {
       state: {
         totalPrice,
         selectedStallsMap,
-        // selectedMarket,
-        // date,
+        selectedMarket,
+        date: dates[selectedMarket],
       },
     });
   };
+
+  const getStallDetails = (selectedStalls) => {
+    const fullStallDetails = stallList.find(
+      (stall) => stall.id === selectedStalls.id
+    );
+    if (fullStallDetails) {
+      return {
+        ...fullStallDetails,
+        ...selectedStalls,
+      };
+    }
+    return selectedStalls;
+  };
+
+  useEffect(() => {
+    if (selectedStalls) {
+      const details = getStallDetails(selectedStalls);
+      setMergedStallDetails(details);
+    }
+  }, [selectedStalls, stallList]);
+
   const validateStalls = () => {
     const stallsSelected =
       selectedStallsMap[selectedMarket]?.[
         dates[selectedMarket]?.toLocaleDateString()
       ];
-    return stallsSelected && stallsSelected.length > 0;
+    const isValid = stallsSelected && stallsSelected.length > 0;
+
+    return isValid;
   };
 
   const handleStallClick = (row, col) => {
@@ -164,6 +191,12 @@ const StallComponent = (props) => {
 
     newSelectedStalls[selectedMarket][currentDate] = dateStalls;
     setSelectedStallsMap(newSelectedStalls);
+
+    // Store selected stall details independently of the current market
+    setSelectedStallsData((prevData) => ({
+      ...prevData,
+      [stallId]: stall,
+    }));
   };
 
   const getStallClass = (row, col) => {
@@ -176,8 +209,7 @@ const StallComponent = (props) => {
     if (marketStalls.includes(stallId)) {
       return "selected";
     }
-    return stallDataMap.has(stallId) ? "available" : "unknown";
-    // return "available";
+    return stallDataMap.has(stallId) ? "available" : "unknown"; // Return based on availability
   };
 
   useEffect(() => {
@@ -204,22 +236,19 @@ const StallComponent = (props) => {
     if (selectedMarket) {
       const positions =
         marketStallPositions[selectedMarket] || marketStallPositions.Default;
-      // const selectedMarketObj = scheduleOptions.find(
-      //   (m) => m.value === selectedMarket
-      // );
       setStallPositions(positions);
       setSelectedStalls([]);
 
       fetchStallList(selectedMarket);
 
-      localStorage.setItem("selectedMarket", selectedMarket);
+      sessionStorage.setItem("selectedMarket", selectedMarket);
       const selectedMarketObj = scheduleOptions.find(
         (m) => m.value === selectedMarket
       );
 
       setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
     }
-  }, [selectedMarket, scheduleOptions]);
+  }, [selectedMarket, marketStallPositions, fetchStallList, scheduleOptions]);
 
   useEffect(() => {
     if (stallDataMap.size) {
@@ -228,14 +257,21 @@ const StallComponent = (props) => {
   }, [stallDataMap]);
 
   useEffect(() => {
-    localStorage.setItem(
+    setDates((prevDates) => ({
+      ...prevDates,
+      [selectedMarket]: prevDates[selectedMarket] || null,
+    }));
+  }, [selectedMarket]);
+
+  useEffect(() => {
+    sessionStorage.setItem(
       "selectedStallsMap",
       JSON.stringify(selectedStallsMap)
     );
   }, [selectedStallsMap]);
 
   useEffect(() => {
-    const savedStalls = localStorage.getItem("selectedStallsMap");
+    const savedStalls = sessionStorage.getItem("selectedStallsMap");
     if (savedStalls) {
       setSelectedStallsMap(JSON.parse(savedStalls));
     }
@@ -274,7 +310,10 @@ const StallComponent = (props) => {
 
     // setSelectedStalls([]);
 
-    setDates((prevDates) => ({ ...prevDates, [marketName]: null }));
+    setDates((prevDates) => ({
+      ...prevDates,
+      [marketName]: prevDates[marketName] || null,
+    }));
 
     const selectedMarketObj = scheduleOptions.find(
       (m) => m.value === marketName
@@ -285,6 +324,11 @@ const StallComponent = (props) => {
     setDates((prevDates) => ({
       ...prevDates,
       [marketName]: prevDates[marketName] || null,
+    }));
+
+    setSelectedStallsMap((prevSelectedStallsMap) => ({
+      ...prevSelectedStallsMap,
+      [marketName]: prevSelectedStallsMap[marketName] || {},
     }));
 
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
@@ -299,7 +343,7 @@ const StallComponent = (props) => {
 
       Object.keys(marketStalls).forEach((date) => {
         const dateStalls = marketStalls[date].map((stallId) => {
-          const stall = stallDataMap.get(stallId);
+          const stall = selectedStallsData[stallId]; // Use the stored stall data
           return {
             id: stallId,
             name: stall ? stall.stallName : "Unknown Stall",
@@ -309,14 +353,7 @@ const StallComponent = (props) => {
         });
 
         if (dateStalls.length > 0) {
-          if (!groupedStalls[marketName]) {
-            groupedStalls[marketName] = {};
-          }
-
-          if (!groupedStalls[marketName][date]) {
-            groupedStalls[marketName][date] = [];
-          }
-
+          groupedStalls[marketName] = groupedStalls[marketName] || {};
           groupedStalls[marketName][date] = dateStalls;
         }
       });
@@ -454,15 +491,15 @@ const StallComponent = (props) => {
           <hr />
           <div className="flex justify-content-end ">
             <Button
-              label="Show"
+              label="Pay"
               onClick={handleShowClick}
               className="border-2 border-round-md md:w-10rem mr-2"
             />
-            <PaymentPage
+            {/* <PaymentPage
               amount={totalPrice}
               selectedStallsMap={selectedStallsMap}
               validateStalls={validateStalls}
-            />
+            /> */}
             <Button
               type="submit"
               severity="danger"
@@ -479,6 +516,8 @@ const StallComponent = (props) => {
         modalStalls={modalStalls}
         showDetails={showDetails}
         setShowDetails={setShowDetails}
+        validateStalls={validateStalls}
+        amount={totalPrice}
       />
     </div>
   );
