@@ -67,7 +67,7 @@ const Footer = () => {
                 <div key={index} className="col-6 md:col-3 ">
                   <Link
                     to={item.link}
-                    className=" text-sm md:text-base text-white py-2 block hover:text-900 text-d-none white-space-nowrap"
+                    className=" text-sm text-white py-2 block hover:text-900 text-d-none"
                   >
                     {item.label}
                   </Link>
@@ -84,7 +84,7 @@ const Footer = () => {
               Office no.208, Times Square building, Pune satara road, Pune
               411037
             </p>
-            <div className="md:flex">
+            <div>
               <Button
                 label="+91 777 600 3700"
                 icon="pi pi-phone text-red-600 "
@@ -95,7 +95,7 @@ const Footer = () => {
               <Button
                 label="connect@wingrowagritech.com"
                 icon="pi pi-envelope text-red-600"
-                className="p-1 hover:text-900  bg-transparent border-0"
+                className="p-1 hover:text-900 bg-transparent border-0"
                 rounded
                 size="small"
                 onClick={() =>

@@ -9,7 +9,7 @@
             "name": "Customer"
         }
     ],
-    "product": [
+    "producer": [
         {
           "id": 1,
           "name": "None",

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorPage from "../../../common/Error";
-import AccessDeniedPage from "../../../common/Access";
 
 const MyBookingComponent = (props) => {
   const {
@@ -43,8 +42,6 @@ const MyBookingComponent = (props) => {
 
     if (Array.isArray(stallBookList) && user?.id) {
       const userId = user.id;
-      console.log("User from props:-----------------", user);
-      
       const filteredData = stallBookList.filter((e) => e.bookedBy === userId);
       const sortedData = filteredData.sort(
         (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
@@ -56,7 +53,7 @@ const MyBookingComponent = (props) => {
   const shouldRenderFullPageError = () => isPageLevelError;
   const shouldRenderStallBookList = () => myStalls?.length > 0;
   const shouldRenderNotFoundView = () =>
-    !shouldRenderFullPageError && !shouldRenderStallBookList;
+    !isPageLevelError && !isLoading && myStalls.length === 0;
 
   return (
     <>
@@ -66,8 +63,8 @@ const MyBookingComponent = (props) => {
         </div>
       )}
       {shouldRenderNotFoundView() && (
-        <div>
-          <AccessDeniedPage />
+        <div className="text-center w-full mt-3 md:px-5">
+          <h3>{t("no booking found")}</h3>
         </div>
       )}
       {shouldRenderStallBookList() && (

@@ -52,13 +52,13 @@ export const FORM_FIELDS_NAME = {
     },
   },
 
-  PRODUCT: {
-    name: "product",
-    label: "Product",
+  PRODUCER: {
+    name: "producer",
+    label: "Producer Type",
     type: "text",
-    placeholder: "Enter your Product",
+    placeholder: "Enter Producer Type",
     rules: {
-      required: "Product is required",
+      required: "Producer is required",
     },
   },
 
