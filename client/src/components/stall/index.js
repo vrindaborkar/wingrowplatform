@@ -31,7 +31,6 @@ import { Dropdown } from "primereact/dropdown";
 import scheduleData from "../market/data.json";
 import PaymentPage from "../payment";
 
-
 const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
   label: market.name,
   value: market.name,
@@ -56,11 +55,8 @@ const StallComponent = (props) => {
     ? sessionStorage.getItem("selectedMarket") || scheduleOptions[0].value
     : "";
 
-  const [selectedStalls, setSelectedStalls] = useState([]);
   const [selectedStallsMap, setSelectedStallsMap] = useState({});
-
   const [stallDataMap, setStallDataMap] = useState(new Map());
-
   const [totalPrice, setTotalPrice] = useState(0);
   const [dates, setDates] = useState({});
   const [selectedMarket, setSelectedMarket] = useState(savedMarket);
@@ -74,15 +70,10 @@ const StallComponent = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const [modalStalls, setModalStalls] = useState([]);
 
-  const [selectedStall, setSelectedStall] = React.useState(null);
-
-  const [mergedStallDetails, setMergedStallDetails] = useState(null);
-
+  const [selectedStalls, setSelectedStalls] = useState([]);
   const [selectedStallsData, setSelectedStallsData] = useState({});
 
-  const { schedule, marketStallPositions } = scheduleData || {};
-
-  console.log("stallList----------------------------", stallList);
+  const { marketStallPositions } = scheduleData || {};
 
   const {
     control,
@@ -122,26 +113,6 @@ const StallComponent = (props) => {
       },
     });
   };
-
-  const getStallDetails = (selectedStalls) => {
-    const fullStallDetails = stallList.find(
-      (stall) => stall.id === selectedStalls.id
-    );
-    if (fullStallDetails) {
-      return {
-        ...fullStallDetails,
-        ...selectedStalls,
-      };
-    }
-    return selectedStalls;
-  };
-
-  useEffect(() => {
-    if (selectedStalls) {
-      const details = getStallDetails(selectedStalls);
-      setMergedStallDetails(details);
-    }
-  }, [selectedStalls, stallList]);
 
   const validateStalls = () => {
     const stallsSelected =
@@ -192,7 +163,6 @@ const StallComponent = (props) => {
     newSelectedStalls[selectedMarket][currentDate] = dateStalls;
     setSelectedStallsMap(newSelectedStalls);
 
-    // Store selected stall details independently of the current market
     setSelectedStallsData((prevData) => ({
       ...prevData,
       [stallId]: stall,
@@ -209,7 +179,7 @@ const StallComponent = (props) => {
     if (marketStalls.includes(stallId)) {
       return "selected";
     }
-    return stallDataMap.has(stallId) ? "available" : "unknown"; // Return based on availability
+    return stallDataMap.has(stallId) ? "available" : "unknown";
   };
 
   useEffect(() => {
@@ -248,13 +218,7 @@ const StallComponent = (props) => {
 
       setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
     }
-  }, [selectedMarket, marketStallPositions, fetchStallList, scheduleOptions]);
-
-  useEffect(() => {
-    if (stallDataMap.size) {
-      console.log("Updated stallDataMap:", stallDataMap);
-    }
-  }, [stallDataMap]);
+  }, [selectedMarket, marketStallPositions, fetchStallList]);
 
   useEffect(() => {
     setDates((prevDates) => ({
@@ -276,11 +240,6 @@ const StallComponent = (props) => {
       setSelectedStallsMap(JSON.parse(savedStalls));
     }
   }, []);
-
-  useEffect(() => {
-    console.log("Stall Data Map:", stallDataMap);
-    console.log("Selected Stalls Map:", selectedStallsMap);
-  }, [stallDataMap, selectedStallsMap]);
 
   const stallImageMap = {
     Masale: SPICE_STALL,
@@ -307,8 +266,6 @@ const StallComponent = (props) => {
     const positions =
       marketStallPositions[marketName] || marketStallPositions.Default;
     setStallPositions(positions);
-
-    // setSelectedStalls([]);
 
     setDates((prevDates) => ({
       ...prevDates,
