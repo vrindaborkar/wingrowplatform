@@ -34,8 +34,8 @@ const PaymentPage = ({
 
     const selectedStallsPayload = Object.keys(modalStalls).map((marketName) => {
       return {
-        market_name: marketName,
         dates: Object.keys(modalStalls[marketName]).map((date) => ({
+          market_name: marketName,
           date: date,
           stalls: modalStalls[marketName][date].map((stall) => ({
             stall_id: stall.id,
@@ -136,9 +136,9 @@ const PaymentPage = ({
         <div className="selected-stalls-details">
           {Object.keys(modalStalls).map((marketName) => (
             <div key={marketName}>
-              <h3>Market Name: {marketName}</h3>
               {Object.keys(modalStalls[marketName]).map((date) => (
                 <div key={date}>
+                  <h3>Market Name: {marketName}</h3>
                   <h4>Date: {date}</h4>
                   {modalStalls[marketName][date] && (
                     <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>

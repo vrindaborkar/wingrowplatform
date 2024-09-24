@@ -222,7 +222,7 @@ ul {
 }
 
 .stall.available {
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
 }
 
 .stall.selected {
@@ -263,7 +263,7 @@ ul {
 
   .market-layout {
     row-gap: 10px;
-    column-gap: 0px;
+    column-gap: 10px;
   }
 
   .stall-container {

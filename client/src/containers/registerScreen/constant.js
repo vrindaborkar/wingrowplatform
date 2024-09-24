@@ -5,5 +5,5 @@ export const FORM_FIELDS_NAME = {
   ENTER_OTP:'otp',
   TYPE:'type',
   ADDRESS:'address',
-  PRODUCT:'product',
+  PRODUCER:'producer',
 };

@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { useState } from "react";
+import { Dropdown } from "primereact/dropdown";
 
 const MarketComponent = (props) => {
   const { isPageLevelError, isLoading, marketList } = props;
@@ -16,6 +17,46 @@ const MarketComponent = (props) => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
+
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [filteredMarkets, setFilteredMarkets] = useState(schedule);
+
+  const stateOptions = [
+    { label: "Maharashtra", value: "Maharashtra" },
+    { label: "Karnataka", value: "Karnataka" },
+    { label: "Telangana", value: "Telangana" },
+  ];
+
+  const cityOptions = {
+    Maharashtra: [
+      { label: "Pune", value: "Pune" },
+      { label: "Mumbai", value: "Mumbai" },
+      { label: "Nagpur", value: "Nagpur" },
+    ],
+    Karnataka: [
+      { label: "Bangalore", value: "Bangalore" },
+      { label: "Mysore", value: "Mysore" },
+    ],
+    Telangana: [
+      { label: "Hyderabad", value: "Hyderabad" },
+      { label: "Warangal", value: "Warangal" },
+    ],
+  };
+
+  const handleStateChange = (e) => {
+    setSelectedState(e.value);
+    setSelectedCity(null);
+    setFilteredMarkets([]);
+  };
+  const handleCityChange = (e) => {
+    setSelectedCity(e.value);
+    const filtered = schedule.filter(
+      (market) => market.state === selectedState && market.city === e.value
+    );
+    setFilteredMarkets(filtered);
+  };
+
   const handleLocation = (payload) => {
     window.open(payload, "_blank");
   };
@@ -61,11 +102,28 @@ const MarketComponent = (props) => {
                 {t("back")}
               </Button>
             </Link>
+            <Dropdown
+              value={selectedState}
+              options={stateOptions}
+              onChange={handleStateChange}
+              placeholder="Select a State"
+              className="mr-2"
+            />
+
+            {selectedState && (
+              <Dropdown
+                value={selectedCity}
+                options={cityOptions[selectedState] || []}
+                onChange={handleCityChange}
+                placeholder="Select a City"
+              />
+            )}
+         
             <h2 className="mt-3">{t("select_market_in_pune")}</h2>
           </div>
           <div className="grid md:px-5 py-3">
             {schedule.map((market, index) => (
-              <div
+              <div  
                 key={index}
                 className="col-12 md:col-6 lg:col-3 cursor-pointer "
                 onClick={() => handleMarket(market)}

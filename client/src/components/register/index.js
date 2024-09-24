@@ -14,6 +14,12 @@ import { useNavigate } from "react-router-dom";
 
 const DUMMY_OTP = "1234";
 
+console.log("Auth Key:---------------------------", MSG91_AUTH_KEY);
+console.log(
+  "Template ID: -----------------------------",
+  TEMPLATE_ID_VERIFICATION
+);
+
 const RegisterComponent = (props) => {
   const {
     formFieldValueMap,
@@ -43,7 +49,7 @@ const RegisterComponent = (props) => {
         [FORM_FIELDS_NAME.PHONE_NUMBER.name]: "",
         [FORM_FIELDS_NAME.OTP.name]: "",
         [FORM_FIELDS_NAME.TYPE.name]: "",
-        [FORM_FIELDS_NAME.PRODUCT.name]: "",
+        [FORM_FIELDS_NAME.PRODUCER.name]: "",
         [FORM_FIELDS_NAME.ADDRESS.name]: "",
       }),
       []
@@ -63,7 +69,7 @@ const RegisterComponent = (props) => {
       lastName: getValues(FORM_FIELDS_NAME.LAST_NAME.name),
       phone: getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name),
       role: getValues(FORM_FIELDS_NAME.TYPE.name),
-      farmertype: getValues(FORM_FIELDS_NAME.PRODUCT.name),
+      farmertype: getValues(FORM_FIELDS_NAME.PRODUCER.name),
       address: getValues(FORM_FIELDS_NAME.ADDRESS.name),
     };
 
@@ -91,38 +97,60 @@ const RegisterComponent = (props) => {
           console.error("Type is not selected or is undefined.");
           return;
         }
-
+        const phone = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
+        const firstName = getValues(FORM_FIELDS_NAME.FIRST_NAME.name);
+        const lastName = getValues(FORM_FIELDS_NAME.LAST_NAME.name);
         const payload = {
-          phone: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+          phone: phone,
           role: selectedType,
-          firstName: getValues(FORM_FIELDS_NAME.FIRST_NAME.name),
-          lastName: getValues(FORM_FIELDS_NAME.LAST_NAME.name),
+          firstName: firstName,
+          lastName: lastName,
         };
-        // register(payload);
-        await sendVerificationCode(payload);
+
+        console.log("Register Payload:", payload);
+        await register(payload);
+        await handleFetchOtp();
+        
         setOtpSent(true);
+        setStep((prevStep) => Math.min(prevStep + 1, 1));
+      } else {
+        setStep((prevStep) => Math.min(prevStep + 1, 1));
       }
-      setStep((prevStep) => Math.min(prevStep + 1, 1));
-      // handleFetchOtp();
     }
   };
 
   const handleFetchOtp = async () => {
     const isStepValid = await trigger([FORM_FIELDS_NAME.PHONE_NUMBER.name]);
     if (isStepValid) {
+      const phoneNumber = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
       const payload = {
-        mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+        mobile: phoneNumber,
         template_id: TEMPLATE_ID_VERIFICATION,
         authkey: MSG91_AUTH_KEY,
       };
-      sendVerificationCode(payload);
-      setOtpSent(true);
+      console.log("OTP Payload:", payload);
+      try {
+        await sendVerificationCode(payload);
+        console.log("OTP sent successfully");
+      } catch (error) {
+        console.error("Error sending OTP:", error);
+      }
     }
   };
 
   useEffect(() => {
     if (isRegisterSuccess && sendVerificationCodeSuccess) {
-      setStep((prevStep) => Math.min(prevStep + 1, 1));
+      const mobileNumber = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
+      if (TEMPLATE_ID_VERIFICATION && MSG91_AUTH_KEY && mobileNumber) {
+        const payload = {
+          mobile: mobileNumber,
+          template_id: TEMPLATE_ID_VERIFICATION,
+          authkey: MSG91_AUTH_KEY,
+        };
+        setStep((prevStep) => Math.min(prevStep + 1, 1));
+      } else {
+        console.error("Missing template_id, authkey, or mobile number");
+      }
     }
   }, [isRegisterSuccess, sendVerificationCodeSuccess]);
 
@@ -253,16 +281,16 @@ const RegisterComponent = (props) => {
                       {selectedType === "Farmer" && (
                         <div className="col-12">
                           <MzDropDown
-                            name={FORM_FIELDS_NAME.PRODUCT.name}
+                            name={FORM_FIELDS_NAME.PRODUCER.name}
                             control={control}
                             optionLabel={"name"}
                             optionValue={"value"}
-                            options={data.product}
-                            label={FORM_FIELDS_NAME.PRODUCT.label}
-                            rules={FORM_FIELDS_NAME.PRODUCT.rules}
-                            isError={errors[FORM_FIELDS_NAME.PRODUCT.name]}
+                            options={data.producer}
+                            label={FORM_FIELDS_NAME.PRODUCER.label}
+                            rules={FORM_FIELDS_NAME.PRODUCER.rules}
+                            isError={errors[FORM_FIELDS_NAME.PRODUCER.name]}
                             errorMsg={getFormErrorMessage(
-                              FORM_FIELDS_NAME.PRODUCT.name
+                              FORM_FIELDS_NAME.PRODUCER.name
                             )}
                             wrapperClass={"p-float-label"}
                           />

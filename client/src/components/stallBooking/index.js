@@ -78,7 +78,7 @@ const StallBookingComponent = () => {
         <Road x={0} y={0} width={window.innerWidth} height={40} label="Main Road" />
         <Road x={0} y={window.innerHeight - 40} width={window.innerWidth} height={40} label="Bottom Road" />
         <Line
-          points={[50, 50, 1150, 50, 1150, 550, 50, 550, 50, 50]} // Market layout outline
+          points={[50, 50, 1150, 50, 1150, 550, 50, 550, 50, 50]}
           closed
           stroke="black"
           strokeWidth={2}
