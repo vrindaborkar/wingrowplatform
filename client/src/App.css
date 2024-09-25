@@ -159,14 +159,6 @@ ul {
   color: #fe0132;
 }
 
-.main-road {
-  grid-column: span 6;
-  background-color: black;
-  padding: 10px;
-  margin-bottom: 10px;
-  color: white;
-  text-align: center;
-}
 .stall-container {
   /* width: 100%; */
   display: flex;
@@ -203,7 +195,7 @@ ul {
   grid-template-columns: repeat(7, 1fr);
   row-gap: 20px;
   column-gap: 20px;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   position: relative;
 }

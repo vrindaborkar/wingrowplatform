@@ -36,6 +36,7 @@ const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
   label: market.name,
   value: market.name,
   disabledDays: market.disabledDays || [0, 2, 3, 4, 5, 6],
+  roadPosition: market.roadPosition || "right",
 }));
 
 const StallComponent = (props) => {
@@ -53,7 +54,7 @@ const StallComponent = (props) => {
   } = props.stallProps;
 
   const savedMarket = scheduleOptions.length
-    ? sessionStorage.getItem("selectedMarket") || scheduleOptions[0].value
+    ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
     : "";
 
   const [selectedStallsMap, setSelectedStallsMap] = useState({});
@@ -62,10 +63,14 @@ const StallComponent = (props) => {
   const [dates, setDates] = useState({});
   const [selectedMarket, setSelectedMarket] = useState(savedMarket);
   const [stallPositions, setStallPositions] = useState(
-    scheduleData.marketStallPositions.Default,
+    scheduleData.marketStallPositions.Default
   );
   const [disabledDays, setDisabledDays] = useState(
     scheduleOptions[0].disabledDays || []
+  );
+
+  const [roadPosition, setRoadPosition] = useState(
+    scheduleOptions[0].roadPosition || "right"
   );
 
   const [showDetails, setShowDetails] = useState(false);
@@ -221,7 +226,8 @@ const StallComponent = (props) => {
 
       fetchStallList(selectedMarket);
 
-      sessionStorage.setItem("selectedMarket", selectedMarket);
+      localStorage.setItem("selectedMarket", selectedMarket);
+      localStorage.setItem("roadPosition", roadPosition);
       const selectedMarketObj = scheduleOptions.find(
         (m) => m.value === selectedMarket
       );
@@ -238,14 +244,14 @@ const StallComponent = (props) => {
   }, [selectedMarket]);
 
   useEffect(() => {
-    sessionStorage.setItem(
+    localStorage.setItem(
       "selectedStallsMap",
       JSON.stringify(selectedStallsMap)
     );
   }, [selectedStallsMap]);
 
   useEffect(() => {
-    const savedStalls = sessionStorage.getItem("selectedStallsMap");
+    const savedStalls = localStorage.getItem("selectedStallsMap");
     if (savedStalls) {
       setSelectedStallsMap(JSON.parse(savedStalls));
     }
@@ -285,6 +291,10 @@ const StallComponent = (props) => {
     const selectedMarketObj = scheduleOptions.find(
       (m) => m.value === marketName
     );
+
+    if (selectedMarketObj) {
+      setRoadPosition(selectedMarketObj.roadPosition || "right");
+    }
 
     setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
 
@@ -402,55 +412,64 @@ const StallComponent = (props) => {
               </span>
             </div>
             <hr />
-
-            <div className="bg-black flex justify-content-between py-2 mb-3 text-white text-center ">
-              <div className="p-2"></div>
-              Main Road
-              <div className="p-2"></div>
-            </div>
             <div
-              className="market-layout"
-              style={{
-                gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
-              }}
+              className={`market-container p-3 ${
+                roadPosition === "right" ? "row" : "col"
+              }`}
             >
-              {stallPositions.map((row, rowIndex) =>
-                row.map((isStall, colIndex) => {
-                  const stallId = `${rowIndex}-${colIndex}`;
-                  const stall = stallDataMap.get(stallId);
+              <div className={`${roadPosition}-road`}>Main Road</div>
+              <div
+                className="market-layout"
+                style={{
+                  gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                }}
+              >
+                {stallPositions.map((row, rowIndex) =>
+                  row.map((isStall, colIndex) => {
+                    const stallId = `${rowIndex}-${colIndex}`;
+                    const stall = stallDataMap.get(stallId);
 
-                  return (
-                    <div
-                      key={stallId}
-                      className={`stall w-full ${
-                        isStall.value ? getStallClass(rowIndex, colIndex) : ""
-                      }`}
-                      onClick={() =>
-                        isStall.value && handleStallClick(rowIndex, colIndex)
-                      }
-                      data-pr-tooltip={stall ? stall.stallPrice : ""}
-                      style={{ fontSize: "1rem", cursor: "pointer" }}
-                    >
-                      <div className="justify-content-between align-items-center">
-                        {isStall.value && stall && (
-                          <>
-                            <img
-                              src={
-                                stallImageMap[stall.stallName] || GENERAL_STALL
-                              }
-                              alt={stall.stallName || "General stall"}
-                              className={`${isStall.direction} stall-image w-6 md:w-6`}
-                            />
-                            <div style={{fontSize: window.innerWidth <= 768 ? "0.4rem" : "0.7rem"}}>
-                              {stall.stallName}
-                            </div>
-                          </>
-                        )}
+                    return (
+                      <div
+                        key={stallId}
+                        className={`stall ${
+                          isStall.value ? getStallClass(rowIndex, colIndex) : ""
+                        }`}
+                        onClick={() =>
+                          isStall.value && handleStallClick(rowIndex, colIndex)
+                        }
+                        data-pr-tooltip={stall ? stall.stallPrice : ""}
+                        style={{ fontSize: "1rem", cursor: "pointer" }}
+                      >
+                        <div className="justify-content-between align-items-center">
+                          {isStall.value && stall && (
+                            <>
+                              <img
+                                src={
+                                  stallImageMap[stall.stallName] ||
+                                  GENERAL_STALL
+                                }
+                                alt={stall.stallName || "General stall"}
+                                className={`${isStall.direction} stall-image w-7 md:w-5`}
+                              />
+                              <div
+                                style={{
+                                  fontSize:
+                                    window.innerWidth <= 768
+                                      ? "0.4rem"
+                                      : "0.7rem",
+                                }}
+                              >
+                                {stall.stallName}
+                              </div>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              )}
+                    );
+                  })
+                )}
+              </div>
             </div>
             <hr />
             <div className="total-amount">
