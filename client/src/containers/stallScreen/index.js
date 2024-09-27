@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import StallComponent from "../../components/stall";
 import { connect } from "react-redux";
 import { ProgressBar } from "primereact/progressbar";
 import { fetchStallList, initStall } from "../../redux/action/stall";
 
-import { useNavigate, useParams } from "react-router-dom";
-import { MzToast, TOAST_SEVERITY } from "../../common/MzToast";
+import { useParams } from "react-router-dom";
+import { MzToast} from "../../common/MzToast";
 
 const StallScreen = (props) => {
   const {
@@ -14,23 +14,14 @@ const StallScreen = (props) => {
     isLoading,
     isPageLevelError,
     userRole,
-    error,
     stallList,
   } = props;
   const { id } = useParams();
   useEffect(() => {
     initStall();
-
     fetchStallList(id);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const history = useNavigate();
-
-  // const [selectedStall, setSelectedStall] = useState(null);
-
-
 
   const handleOnReadRecord = (data) => {
     console.log(data);

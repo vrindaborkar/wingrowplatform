@@ -4,7 +4,6 @@ import { handleAPIError } from "../common/errorHandler";
 import { baseUrl } from "../PostAPI";
 
 export const fetchStallList = async (payload) => {
-  console.log(payload);
   const url = `${baseUrl}${API_PATH.STALL.FETCH}`;
   const token = localStorage.getItem("token");
   try {

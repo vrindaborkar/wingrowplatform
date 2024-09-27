@@ -1,15 +1,14 @@
 import React, { useRef } from "react";
-import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import axios from "axios";
 import { Toast } from "primereact/toast";
-const PaymentPage = ({
-  modalStalls,
-  showDetails,
-  setShowDetails,
-  amount,
-  validateStalls,
-}) => {
+
+const PaymentPage = (props) => {
+  const{
+    selectedStalls,
+    amount,
+
+  }=props
+
   const toast = useRef(null);
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -21,33 +20,22 @@ const PaymentPage = ({
     });
   };
 
-  const displayRazorpay = async () => {
-    if (!validateStalls()) {
-      toast.current.show({
-        severity: "error",
-        summary: "Error",
-        detail:
-          "Please select at least one stall before proceeding to payment.",
-      });
-      return;
-    }
-
-    const selectedStallsPayload = Object.keys(modalStalls).map((marketName) => {
-      return {
-        dates: Object.keys(modalStalls[marketName]).map((date) => ({
-          market_name: marketName,
-          date: date,
-          stalls: modalStalls[marketName][date].map((stall) => ({
-            stall_id: stall.id,
-            stall_no: stall.stallNo,
-            stall_name: stall.name,
-            price: stall.price,
-          })),
+  const selectedStallsPayload = Object.keys(selectedStalls).map((marketName) => {
+    return {
+      dates: Object.keys(selectedStalls[marketName]).map((date) => ({
+        market_name: marketName,
+        date: date,
+        stalls: selectedStalls[marketName][date].map((stall) => ({
+          stall_id: stall.id,
+          stall_no: stall.stallNo,
+          stall_name: stall.name,
+          price: stall.price,
         })),
-      };
-    });
+      })),
+    };
+  });
 
-    const res = await loadScript(
+    const res = loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
     if (!res) {
@@ -105,69 +93,11 @@ const PaymentPage = ({
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
-  };
+
   return (
     <>
       <Toast ref={toast} />
-      <Dialog
-        header="Selected Stalls Details"
-        visible={showDetails}
-        style={{ width: "50vw", maxHeight: "80vh", overflowY: "auto" }}
-        className="w-full md:w-6"
-        onHide={() => setShowDetails(false)}
-        footer={
-          <>
-            <Button
-              label="Cancel"
-              icon="pi pi-times"
-              onClick={() => setShowDetails(false)}
-              className="border-2 te border-round-md md:w-10rem mr-2"
-            />
-
-            <Button
-              type="button"
-              label="Pay"
-              className="border-2 te border-round-md md:w-10rem"
-              onClick={displayRazorpay}
-            />
-          </>
-        }
-      >
-        <div className="selected-stalls-details">
-          {Object.keys(modalStalls).map((marketName) => (
-            <div key={marketName}>
-              {Object.keys(modalStalls[marketName]).map((date) => (
-                <div key={date}>
-                  <h3>Market Name: {marketName}</h3>
-                  <h4>Date: {date}</h4>
-                  {modalStalls[marketName][date] && (
-                    <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
-                      <h5>Stalls:</h5>
-                      {modalStalls[marketName][date].map((stall) => (
-                        <div>
-                          <div>
-                            <li key={stall.id}>
-                              <div>
-                                <strong>Stall No:</strong> {stall.stallNo}
-                              </div>
-                              <div>
-                                <strong>Stall Name:</strong> {stall.name}
-                              </div>
-                              <div>
-                                <strong>Stall Price:</strong> {stall.price}
-                              </div>
-                            </li>
-                          </div>
-                        </div>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </Dialog>
+      
     </>
   );
 };

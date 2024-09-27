@@ -1,18 +1,16 @@
 import React from "react";
 import ErrorPage from "../../common/Error";
 import AccessDeniedPage from "../../common/Access";
-import MarketList from "../home/market/index";
 import scheduleData from "./data.json";
 import { useTranslation } from "react-i18next";
-import { MARKET_WITH_PEOPLE } from "../../assets/images";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
-import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
+import {  ROUTE_PATH } from "../../constant/urlConstant";
 import { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 
 const MarketComponent = (props) => {
-  const { isPageLevelError, isLoading, marketList } = props;
+  const { isPageLevelError} = props;
   const { schedule } = scheduleData;
   const { t } = useTranslation();
 
@@ -20,7 +18,8 @@ const MarketComponent = (props) => {
 
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [filteredMarkets, setFilteredMarkets] = useState(schedule);
+ // eslint-disable-next-line
+ const [filteredMarkets, setFilteredMarkets] = useState(schedule);
 
   const stateOptions = [
     { label: "Maharashtra", value: "Maharashtra" },
@@ -64,14 +63,6 @@ const MarketComponent = (props) => {
   const shouldRenderMarketList = () => true;
   const shouldRenderNotFoundView = () =>
     !shouldRenderFullPageError && !shouldRenderMarketList;
-
-  const containerStyle = {
-    position: "relative",
-    backgroundImage: `url(${MARKET_WITH_PEOPLE})`,
-    backgroundSize: "cover",
-    width: "100%",
-    height: "100%",
-  };
 
   const handleMarket = (market) => {
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market?.name)}`);

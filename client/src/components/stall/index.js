@@ -6,7 +6,8 @@ import { Button } from "primereact/button";
 import { ROUTE_PATH } from "../../constant/urlConstant";
 import { useNavigate } from "react-router-dom";
 import "./stall.css";
-
+import { useDispatch, useSelector } from "react-redux";
+import { selectedStall } from "../../redux/action/stall";
 import { Calendar } from "primereact/calendar";
 import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -22,15 +23,15 @@ import {
   LEAFY_STALL,
   MUKHVAS_STALL,
   ONION_STALL,
-  RED_STALL,
   SANACK_STALL,
   SPICE_STALL,
   TARKARI_STALL,
 } from "../../assets/images";
 import { Dropdown } from "primereact/dropdown";
 import scheduleData from "../market/data.json";
-import PaymentPage from "../payment";
+import PaymentScreen from "../../containers/paymentScreen";
 import { Toast } from "primereact/toast";
+import { Dialog } from "primereact/dialog";
 
 const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
   label: market.name,
@@ -39,21 +40,10 @@ const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
 }));
 
 const StallComponent = (props) => {
-  const {
-    fetchStallList,
-    isPageLevelError,
-    isLoading,
-    userRole,
-    handleOnReadRecord,
-    handleOnDeleteRecord,
-    handleOnEditRecord,
-    handleOnCreatedRecord,
-    formFieldValueMap,
-    stallList,
-  } = props.stallProps;
+  const { fetchStallList, formFieldValueMap, stallList } = props.stallProps;
 
   const savedMarket = scheduleOptions.length
-    ? sessionStorage.getItem("selectedMarket") || scheduleOptions[0].value
+    ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
     : "";
 
   const [selectedStallsMap, setSelectedStallsMap] = useState({});
@@ -61,36 +51,49 @@ const StallComponent = (props) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [dates, setDates] = useState({});
   const [selectedMarket, setSelectedMarket] = useState(savedMarket);
-  const [stallPositions, setStallPositions] = useState(
-    scheduleData.marketStallPositions.Default,
-  );
+  const [showDetails, setShowDetails] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [modalStalls, setModalStalls] = useState([]);
+  const [selectedStallsData, setSelectedStallsData] = useState({});
+  const [showPaymentScreen, setShowPaymentScreen] = useState(false);
+  const userString = localStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null; 
+
+
+  const { marketStallPositions } = scheduleData || {};
+  const sessionSelectedMarketDate = [];
+
+  const dat = new Date();
+  const toast = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [disabledDays, setDisabledDays] = useState(
     scheduleOptions[0].disabledDays || []
   );
+  const [stallPositions, setStallPositions] = useState(
+    scheduleData.marketStallPositions.Default
+  );
+  const selectedStallItems = sessionStorage.getItem("selectedStalls");
+  const sessionSelsctedStalls = selectedStallItems
+    ? JSON.parse(selectedStallItems)
+    : {};
 
-  const [showDetails, setShowDetails] = useState(false);
-  const [modalStalls, setModalStalls] = useState([]);
+  const selectedStallsRedux = useSelector((state) => {
+    return state.stallReducer.selectedStalls;
+  });
 
-  const [selectedStallsData, setSelectedStallsData] = useState({});
-
-  const { marketStallPositions } = scheduleData || {};
-
-  const toast = useRef(null);
+  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
 
   const {
     control,
     formState: { errors },
-    watch,
     handleSubmit,
-    reset,
-    setValue,
   } = useForm({
     defaultValues: useMemo(() => formFieldValueMap, [formFieldValueMap]),
     mode: "onChange",
     reValidateMode: "onChange",
   });
-
-  const navigate = useNavigate();
 
   const getFormErrorMessage = (name) => {
     return (
@@ -98,10 +101,45 @@ const StallComponent = (props) => {
     );
   };
 
-  const dat = new Date();
+
+  if (selectedStallsRedux && selectedStallsRedux[selectedMarket]) {
+    const stalls = selectedStallsRedux[selectedMarket];
+    const dateKey = Object.keys(stalls)[0];
+
+    const dateValue = stalls[dateKey];
+
+    if (Array.isArray(dateValue) && dateValue.length > 0) {
+      const dates = dateValue.map((stall) => stall.date);
+
+      const firstDateString = dates[0];
+      const [day, month, year] = firstDateString.split("/");
+      const formattedDateString = `${year}-${month}-${day}`;
+
+      const firstDate = new Date(formattedDateString);
+
+      if (!isNaN(firstDate.getTime())) {
+        sessionSelectedMarketDate.push(firstDate);
+      } else {
+        console.error("Invalid date:", formattedDateString);
+      }
+    } else {
+      console.error("No valid stalls found for the date:", dateKey);
+    }
+  } else {
+    console.error("selectedMarket does not exist.");
+  }
+
+  useEffect(() => {
+    if (selectedStallsRedux.length === 0) {
+      const savedStalls = JSON.parse(sessionStorage.getItem("selectedStalls"));      
+      if (savedStalls) {
+        dispatch({ type: 'SELECT_STALL', payload: savedStalls });
+      }
+    }
+  }, [selectedStallsRedux, dispatch]);
 
   const onSubmit = (data) => {
-    if (!validateStalls()) {
+    if (selectedStallsRedux.length === 0) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -118,16 +156,6 @@ const StallComponent = (props) => {
         date: dates[selectedMarket],
       },
     });
-  };
-
-  const validateStalls = () => {
-    const stallsSelected =
-      selectedStallsMap[selectedMarket]?.[
-        dates[selectedMarket]?.toLocaleDateString()
-      ];
-    const isValid = stallsSelected && stallsSelected.length > 0;
-
-    return isValid;
   };
 
   const handleStallClick = (row, col) => {
@@ -173,6 +201,32 @@ const StallComponent = (props) => {
 
     newSelectedStalls[selectedMarket][currentDate] = dateStalls;
     setSelectedStallsMap(newSelectedStalls);
+    const groupedStalls = {};
+
+    Object.keys(newSelectedStalls).forEach((marketName) => {
+      const marketStalls = newSelectedStalls[marketName];
+
+      Object.keys(marketStalls).forEach((date) => {
+        const dateStalls = marketStalls[date].map((id) => {
+          const stall = stallDataMap.get(id);
+          return {
+            stall_id: stall._id,
+            stallNo: stall ? stall.stallNo : "No Stall No",
+            name: stall ? stall.stallName : "No Stall",
+            price: stall ? stall.stallPrice : 0,
+            date: date || "Not selected",
+            bookedBy:user.id
+          };
+        });
+
+        if (dateStalls.length > 0) {
+          groupedStalls[marketName] = groupedStalls[marketName] || {};
+          groupedStalls[marketName][date] = dateStalls;
+        }
+      });
+    });
+    sessionStorage.setItem("selectedStalls", JSON.stringify(groupedStalls));
+    dispatch(selectedStall(groupedStalls));
 
     setSelectedStallsData((prevData) => ({
       ...prevData,
@@ -180,16 +234,49 @@ const StallComponent = (props) => {
     }));
   };
 
+  function calculateTotalPrices(data) {
+    let totalPrices = {};
+    let overallTotal = 0;
+
+    for (const market in data) {
+      const dates = data[market];
+      totalPrices[market] = 0;
+      for (const date in dates) {
+        const stalls = dates[date];
+        const marketTotal = stalls.reduce((sum, stall) => sum + stall.price, 0);
+
+        overallTotal += marketTotal;
+      }
+    }
+    totalPrices["TotalAmount"] = overallTotal;
+    return totalPrices;
+  }
+
+  const totalAmount = calculateTotalPrices(selectedStallsRedux);
+
   const getStallClass = (row, col) => {
     const stallId = `${row}-${col}`;
     const marketStalls =
-      selectedStallsMap[selectedMarket]?.[
-        dates[selectedMarket]?.toLocaleDateString()
+      sessionSelsctedStalls[selectedMarket]?.[
+      dates[selectedMarket]?.toLocaleDateString()
       ] || [];
+    const isSelectedInSession = marketStalls.some(
+      (stall) => stall.id === stallId
+    );
 
-    if (marketStalls.includes(stallId)) {
+    if (isSelectedInSession) {
       return "selected";
     }
+
+    const marketStallsFromMap =
+      selectedStallsMap[selectedMarket]?.[
+      dates[selectedMarket]?.toLocaleDateString()
+      ] || [];
+
+    if (marketStallsFromMap.includes(stallId)) {
+      return "selected";
+    }
+
     return stallDataMap.has(stallId) ? "available" : "unknown";
   };
 
@@ -221,7 +308,7 @@ const StallComponent = (props) => {
 
       fetchStallList(selectedMarket);
 
-      sessionStorage.setItem("selectedMarket", selectedMarket);
+      localStorage.setItem("selectedMarket", selectedMarket);
       const selectedMarketObj = scheduleOptions.find(
         (m) => m.value === selectedMarket
       );
@@ -238,14 +325,14 @@ const StallComponent = (props) => {
   }, [selectedMarket]);
 
   useEffect(() => {
-    sessionStorage.setItem(
+    localStorage.setItem(
       "selectedStallsMap",
       JSON.stringify(selectedStallsMap)
     );
   }, [selectedStallsMap]);
 
   useEffect(() => {
-    const savedStalls = sessionStorage.getItem("selectedStallsMap");
+    const savedStalls = localStorage.getItem("selectedStallsMap");
     if (savedStalls) {
       setSelectedStallsMap(JSON.parse(savedStalls));
     }
@@ -296,6 +383,14 @@ const StallComponent = (props) => {
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
   };
 
+  const handlePaymentClick = () => {
+    if (isLoggedIn) {
+      setShowPaymentScreen(true);
+    } else {
+      navigate(ROUTE_PATH.BASE.LOGIN);
+    }
+  };
+
   const handleShowClick = (e) => {
     e.preventDefault();
     const groupedStalls = {};
@@ -322,7 +417,7 @@ const StallComponent = (props) => {
       });
     });
 
-    if (Object.keys(groupedStalls).length === 0) {
+    if (Object.keys(selectedStallsRedux).length === 0) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -422,9 +517,8 @@ const StallComponent = (props) => {
                   return (
                     <div
                       key={stallId}
-                      className={`stall w-full ${
-                        isStall.value ? getStallClass(rowIndex, colIndex) : ""
-                      }`}
+                      className={`stall w-full ${isStall.value ? getStallClass(rowIndex, colIndex) : ""
+                        }`}
                       onClick={() =>
                         isStall.value && handleStallClick(rowIndex, colIndex)
                       }
@@ -441,7 +535,14 @@ const StallComponent = (props) => {
                               alt={stall.stallName || "General stall"}
                               className={`${isStall.direction} stall-image w-6 md:w-6`}
                             />
-                            <div style={{fontSize: window.innerWidth <= 768 ? "0.4rem" : "0.7rem"}}>
+                            <div
+                              style={{
+                                fontSize:
+                                  window.innerWidth <= 768
+                                    ? "0.4rem"
+                                    : "0.7rem",
+                              }}
+                            >
                               {stall.stallName}
                             </div>
                           </>
@@ -452,12 +553,13 @@ const StallComponent = (props) => {
                 })
               )}
             </div>
+
             <hr />
             <div className="total-amount">
               <span>Total Amount</span>
               <span>
                 {" "}
-                {totalPrice} <i className="pi pi-indian-rupee" />
+                {totalAmount.TotalAmount} <i className="pi pi-indian-rupee" />
                 /-{" "}
               </span>
             </div>
@@ -467,20 +569,85 @@ const StallComponent = (props) => {
                 label="Pay"
                 onClick={handleShowClick}
                 className="border-2 border-round-md md:w-10rem mr-2"
-                disabled={!validateStalls()}
+                disabled={selectedStallsRedux.length === 0}
               />
             </div>
           </div>
         </form>
         <Tooltip target=".stall" mouse className="text-green-400" />
 
-        <PaymentPage
-          modalStalls={modalStalls}
-          showDetails={showDetails}
-          setShowDetails={setShowDetails}
-          validateStalls={validateStalls}
-          amount={totalPrice}
-        />
+        {showPaymentScreen && (
+          <PaymentScreen
+            amount={totalAmount.TotalAmount}
+            selectedStalls={selectedStallsRedux}
+          />
+        )}
+        <Dialog
+          header="Selected Stalls Details"
+          visible={showDetails}
+          style={{ width: "50vw", maxHeight: "80vh", overflowY: "auto" }}
+          className="w-full md:w-6"
+          onHide={() => setShowDetails(false)}
+          footer={
+            <>
+              <Button
+                label="Cancel"
+                icon="pi pi-times"
+                onClick={() => setShowDetails(false)}
+                className="border-2 te border-round-md md:w-10rem mr-2"
+              />
+
+              <Button
+                type="button"
+                label="Pay"
+                className="border-2 te border-round-md md:w-10rem"
+                onClick={
+                  isLoggedIn
+                    ? handlePaymentClick
+                    : navigate(ROUTE_PATH.BASE.LOGIN)
+                }
+              />
+            </>
+          }
+        >
+          <div className="selected-stalls-details">
+            {selectedStallsRedux &&
+              Object.keys(selectedStallsRedux).length > 0 ? (
+              Object.keys(selectedStallsRedux).map((marketName) => (
+                <div key={marketName}>
+                  {Object.keys(selectedStallsRedux[marketName]).map((date) => (
+                    <div key={date}>
+                      <h3>Market Name: {marketName}</h3>
+                      <h4>Date: {date}</h4>
+                      {selectedStallsRedux[marketName][date] && (
+                        <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
+                          <h5>Stalls:</h5>
+                          {selectedStallsRedux[marketName][date].map(
+                            (stall) => (
+                              <li key={stall.id}>
+                                <div>
+                                  <strong>Stall No:</strong> {stall.stallNo}
+                                </div>
+                                <div>
+                                  <strong>Stall Name:</strong> {stall.name}
+                                </div>
+                                <div>
+                                  <strong>Stall Price:</strong> {stall.price}
+                                </div>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))
+            ) : (
+              <p>No stalls selected.</p>
+            )}
+          </div>
+        </Dialog>
       </div>
     </>
   );

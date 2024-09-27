@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import MzOptInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
 
+
 const LoginComponent = (props) => {
   const {
     login,
@@ -26,7 +27,6 @@ const LoginComponent = (props) => {
     handleSubmit,
     getValues,
     trigger,
-    setError,
   } = useForm({
     defaultValues: useMemo(
       () => ({
