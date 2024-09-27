@@ -65,7 +65,9 @@ const MarketComponent = (props) => {
   const handleMarket = (market) => {
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market?.name)}`);
     const selectedMarket = market?.name;
+    const newroadPosition = market?.roadPosition;
     localStorage.setItem("selectedMarket", selectedMarket);
+    localStorage.setItem("roadPosition", newroadPosition);
     console.log(market);
   };
 
