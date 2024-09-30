@@ -26,6 +26,14 @@ const MarketComponent = (props) => {
     fetchMarketList();
   }, [fetchMarketList]);
 
+  useEffect(() => {
+    if (marketList) {
+      console.log("Fetched marketList:------------------", marketList);
+    }
+  }, [marketList]);
+  
+  console.log("marketList: ----------------------------", fetchMarketList);
+
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -99,7 +107,7 @@ const MarketComponent = (props) => {
               options={states}
               onChange={handleStateChange}
               placeholder="Select a State"
-              className="mr-3 mb-3"
+              className="m-3"
             />
 
             {selectedState && (

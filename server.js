@@ -6,6 +6,14 @@ require('dotenv/config')
 var bodyParser = require('body-parser');
 const path = require('path');
 const fileUpload = require('express-fileupload')
+const bookingRoutes = require('./routes/bookingRoutes');
+
+const marketBookingRoutes = require('./routes/marketBooking');
+
+
+
+
+
 
 const https = require('https');
 const fs = require('fs');
@@ -54,6 +62,7 @@ require("./routes/user.routes")(app);
 require("./routes/payment.routes")(app);
 require("./routes/stalls.routes")(app);
 require("./routes/twilio.routes")(app);
+// require("./routes/bookingRoutes.js")(app);
 
 mongoose.connect(process.env.DB_CONNECTION, 
   { useNewUrlParser: true,
@@ -70,6 +79,13 @@ app.get('/*', function(req, res) {
     }
   })
 })
+
+app.use(express.json());
+app.use('/api/bookings', bookingRoutes);
+app.use('/api', marketBookingRoutes);
+
+
+
 
 
 // set port, listen for requests

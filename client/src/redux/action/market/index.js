@@ -9,6 +9,7 @@ export const initialMarketScreen = (payload) => {
   return {
     type: INIT_MARKET,
     payload,
+    
   };
 };
 
@@ -25,10 +26,10 @@ export const fetchMarketListSuccess = (payload) => {
   };
 };
 
-export const fetchMarketListError = (payload) => {
+export const fetchMarketListError = (error) => {
   return {
     type: FETCH_MARKET_LIST.ERROR,
-    payload,
+    payload: { error }, 
   };
 };
 

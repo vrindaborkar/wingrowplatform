@@ -75,11 +75,12 @@
 
 .left-road {
   writing-mode: vertical-rl;
-  border-left: 1px dashed #ccc;
-  border-right: 1px dashed #ccc;
+  border-left: 2.5px dashed #ccc;
+  /* border-right: 1px dashed #ccc; */
   /* transform: rotate(-90deg); */
   /* background-color: #ccc; */
-  padding-top: 30px;
+  padding-top: 35px;
+  padding-left: 25px;
   font-size: 1.2rem;
   display: flex;
   justify-content: start;
@@ -90,8 +91,8 @@
 }
 
 .right-road {
-  border-top: 1px dashed #ccc;
-  border-bottom: 1px dashed #ccc;
+  border-top: 2.5px dashed #ccc;
+  /* border-bottom: 3px dashed #ccc; */
   writing-mode: horizontal-tb;
   padding: 5px;
   font-size: 1.2rem;
