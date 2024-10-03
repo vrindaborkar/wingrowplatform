@@ -324,6 +324,7 @@ const StallComponent = (props) => {
 
       setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMarket, marketStallPositions, fetchStallList]);
 
   useEffect(() => {
@@ -558,7 +559,9 @@ const StallComponent = (props) => {
                       fill-opacity="0.5"
                     />
                   </svg>
+                // eslint-disable-next-line no-mixed-operators
                 ) : roadPosition === "right" &&
+                  // eslint-disable-next-line no-mixed-operators
                   selectedMarket === "godrejPrana" || selectedMarket === "undri" ? (
                   <svg
                     width="31"

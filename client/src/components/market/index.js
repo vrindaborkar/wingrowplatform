@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { fetchMarketList } from "../../redux/action/market";
 import ErrorPage from "../../common/Error";
 import AccessDeniedPage from "../../common/Access";
-import MarketList from "../home/market/index";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
@@ -36,28 +35,6 @@ const MarketComponent = (props) => {
   const [selectedCity, setSelectedCity] = useState(null);
  // eslint-disable-next-line
  const [filteredMarkets, setFilteredMarkets] = useState(schedule);
-
-  const stateOptions = [
-    { label: "Maharashtra", value: "Maharashtra" },
-    { label: "Karnataka", value: "Karnataka" },
-    { label: "Telangana", value: "Telangana" },
-  ];
-
-  const cityOptions = {
-    Maharashtra: [
-      { label: "Pune", value: "Pune" },
-      { label: "Mumbai", value: "Mumbai" },
-      { label: "Nagpur", value: "Nagpur" },
-    ],
-    Karnataka: [
-      { label: "Bangalore", value: "Bangalore" },
-      { label: "Mysore", value: "Mysore" },
-    ],
-    Telangana: [
-      { label: "Hyderabad", value: "Hyderabad" },
-      { label: "Warangal", value: "Warangal" },
-    ],
-  };
 
   const handleStateChange = (e) => {
     setSelectedState(e.value);

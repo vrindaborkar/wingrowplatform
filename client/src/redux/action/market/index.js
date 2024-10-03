@@ -2,7 +2,6 @@ import {
   FETCH_MARKET_LIST,
   INIT_MARKET,
 } from "../../../constant/actionTypes/market";
-import { marketService } from "../../../services";
 import scheduleData from "../../../components/market/data.json";
 
 export const initialMarketScreen = (payload) => {
