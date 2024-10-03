@@ -5,6 +5,9 @@ import {
 
 const INITIAL_STATE = {
   marketList: [],
+  schedule: [],
+  cities: {},
+  states: [],
   market: null,
   error: null,
   isLoading: false,
@@ -24,10 +27,13 @@ export const marketReducer = (state = INITIAL_STATE, action) => {
       if (action.payload == null) {
         return { ...state };
       }
-      const { data } = action.payload;
+      const { data, schedule , cities , states } = action.payload;
       return {
         ...state,
         marketList: data,
+        cities: cities || {},
+        states: states || [],
+        schedule: schedule || [],
         error: null,
         isLoading: false,
         isPageLevelError: false,

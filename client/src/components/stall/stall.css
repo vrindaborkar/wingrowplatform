@@ -15,9 +15,6 @@
   padding-bottom: 0.5rem;
 }
 
-
-
-
 .field {
   margin-bottom: 1rem;
 }
@@ -27,20 +24,20 @@
 }
 
 .custom-calendar input {
-  padding-right: 3rem; 
+  padding-right: 3rem;
 }
 
 .custom-calendar .p-inputtext {
-  border-radius: 5px; 
+  border-radius: 5px;
   border: 1px solid #ced4da;
   width: 100%;
   padding: 0.5rem;
 }
 
 .custom-calendar .p-datepicker-trigger {
-  background-color: #28a745; 
+  background-color: #28a745;
   border: none;
-  border-radius: 0 5px 5px 0; 
+  border-radius: 0 5px 5px 0;
   color: white;
   padding: 0.5rem;
 }
@@ -50,18 +47,74 @@
 }
 
 .custom-calendar .p-calendar .p-inputtext {
-  width: calc(100% - 2rem); 
+  width: calc(100% - 2rem);
 }
 
-.north{
+.north {
   transform: rotate(180deg);
 }
-.south{
+.south {
   transform: rotate(0deg);
 }
-.east{
+.east {
   transform: rotate(90deg);
 }
-.west{
+.west {
   transform: rotate(-90deg);
+}
+
+.market-container {
+  display: flex;
+}
+.market-container .row {
+  flex-direction: row;
+}
+.market-container .column {
+  flex-direction: column;
+}
+
+.left-road {
+  writing-mode: vertical-rl;
+  border-left: 2.5px dashed #ccc;
+  /* border-right: 1px dashed #ccc; */
+  /* transform: rotate(-90deg); */
+  /* background-color: #ccc; */
+  padding-top: 35px;
+  padding-left: 25px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  /* min-width: 50px; */
+}
+
+.right-road {
+  border-top: 2.5px dashed #ccc;
+  /* border-bottom: 3px dashed #ccc; */
+  writing-mode: horizontal-tb;
+  padding: 5px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .left-road {
+    min-width: 40px;
+    padding: 5px;
+    font-size: 1rem;
+    height: auto;
+  }
+
+  .right-road {
+    padding: 5px;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
 }

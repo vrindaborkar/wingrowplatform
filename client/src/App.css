@@ -159,14 +159,6 @@ ul {
   color: #fe0132;
 }
 
-.main-road {
-  grid-column: span 6;
-  background-color: black;
-  padding: 10px;
-  margin-bottom: 10px;
-  color: white;
-  text-align: center;
-}
 .stall-container {
   /* width: 100%; */
   display: flex;
@@ -182,9 +174,10 @@ ul {
 .summary {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+  /* margin-bottom: 20px; */
+  /* font-size: 1.2rem; */
 }
 
 .stall-form {
@@ -192,30 +185,36 @@ ul {
 }
 
 .calendar-section {
-  display: flex;
-  justify-content: flex-end;
+  /* display: flex; */
+  /* justify-content: flex-end; */
+  margin-bottom: 20px;
+}
+
+.market-dropdown-section {
   margin-bottom: 20px;
 }
 
 .market-layout {
   display: grid;
-  overflow: scroll;
+  /* overflow: scroll; */
+  border: 2.5px dashed #ccc;
+  /* margin-left: 5px; */
   grid-template-columns: repeat(7, 1fr);
   row-gap: 20px;
   column-gap: 20px;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   position: relative;
 }
 
 .stall {
   /* border: 1px solid #ccc; */
-  padding: 10px;
+  /* padding: 10px; */
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5px;
-  height: 50px;
+  /* height: 50px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -251,7 +250,7 @@ ul {
   margin-top: 20px;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 768px) {
   .arrow {
     transform: rotate(90deg);
     /* rotate: 90; */
@@ -262,8 +261,8 @@ ul {
   }
 
   .market-layout {
-    row-gap: 10px;
-    column-gap: 10px;
+    row-gap: 5px;
+    column-gap: 5px;
   }
 
   .stall-container {

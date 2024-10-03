@@ -77,11 +77,7 @@ export const logout = () => {
       .postLogout()
       .then((response) => {
         if (!response.isError) {
-          localStorage.removeItem("isLoggedIn");
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          localStorage.removeItem("role");
-
+          localStorage.clear();
           dispatch(logoutSuccess());
         } else {
           dispatch(logoutError(response));

@@ -3,18 +3,24 @@
     {
       "day": "tuesday",
       "name": "karveNagar",
+      "roadPosition": "right",
       "location": "https://goo.gl/maps/5sETcJGzXWoXC5SG9",
       "address": "karveNagarLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 3, 4, 5, 6]
+      "disabledDays": [0, 1, 3, 4, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "tuesday",
       "name": "godrejPrana",
+      "roadPosition": "right",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "godrejPranaLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 3, 4, 5, 6]
+      "disabledDays": [0, 1, 3, 4, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "tuesday",
@@ -22,7 +28,9 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "wadgaonSheriLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 4, 5, 6]
+      "disabledDays": [0, 1, 2, 4, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "wednesday",
@@ -30,23 +38,31 @@
       "location": "https://maps.app.goo.gl/bh7wNdiyVWcvy15p9?g_st=iw",
       "address": "hadapsarLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 4, 5, 6]
+      "disabledDays": [0, 1, 2, 4, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "wednesday",
       "name": "undri",
+      "roadPosition": "right",
       "location": "https://goo.gl/maps/GWympTKEp5Jqj8EB7",
       "address": "undriLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 4, 5, 6]
+      "disabledDays": [0, 1, 2, 4, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "thursday",
       "name": "kharadi",
+      "roadPosition": "left",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "kharadiLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 5, 6]
+      "disabledDays": [0, 1, 2, 3, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "thursday",
@@ -54,15 +70,20 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "nottingHillLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 5, 6]
+      "disabledDays": [0, 1, 2, 3, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "friday",
       "name": "wagholi",
+      "roadPosition": "right",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "dabhadeChowkwagholiLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 4, 6]
+      "disabledDays": [0, 1, 2, 3, 4, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "friday",
@@ -70,7 +91,9 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "vadgoanSheriLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 4, 6]
+      "disabledDays": [0, 1, 2, 3, 4, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "saturday",
@@ -78,7 +101,9 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "adityaNandanvanLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 4, 5]
+      "disabledDays": [0, 1, 2, 3, 4, 5],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "saturday",
@@ -86,7 +111,9 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "wadachiWadiLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 4, 5]
+      "disabledDays": [0, 1, 2, 3, 4, 5],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "saturday",
@@ -94,7 +121,9 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "dabhadeChowkwagholiLocation",
       "time": "3PM - 9PM",
-      "disabledDays": [0, 1, 2, 3, 4, 5]
+      "disabledDays": [0, 1, 2, 3, 4, 5],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "sunday",
@@ -102,30 +131,59 @@
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "magarpattaLocation",
       "time": "7AM - 1PM",
-      "disabledDays": [1, 2, 3, 4, 5, 6]
+      "disabledDays": [1, 2, 3, 4, 5, 6],
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "sunday",
       "name": "sadeSatraNali",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "sadeSatraNaliLocation",
-      "time": "3PM - 9PM"
+      "time": "3PM - 9PM",
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "sunday",
       "name": "ivyEstateWagholi",
+      "roadPosition": "left",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "ivyEstateWagholiLocation",
-      "time": "3PM - 9PM"
+      "time": "3PM - 9PM",
+      "state": "Maharashtra",
+      "city": "Pune"
     },
     {
       "day": "sunday",
       "name": "nottingHill",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "nottingHillLocation",
-      "time": "3PM - 9PM"
+      "time": "3PM - 9PM",
+      "state": "Maharashtra",
+      "city": "Pune"
     }
   ],
+  "states": [
+    { "label": "Maharashtra", "value": "Maharashtra" },
+    { "label": "Karnataka", "value": "Karnataka" },
+    { "label": "Telangana", "value": "Telangana" }
+  ],
+  "cities": {
+    "Maharashtra": [
+      { "label": "Pune", "value": "Pune" },
+      { "label": "Mumbai", "value": "Mumbai" },
+      { "label": "Nagpur", "value": "Nagpur" }
+    ],
+    "Karnataka": [
+      { "label": "Bangalore", "value": "Bangalore" },
+      { "label": "Mysore", "value": "Mysore" }
+    ],
+    "Telangana": [
+      { "label": "Hyderabad", "value": "Hyderabad" },
+      { "label": "Warangal", "value": "Warangal" }
+    ]
+  },
   "marketStallPositions": {
     "Default": [
       [
@@ -141,7 +199,7 @@
         { "direction": "west", "value": false },
         { "direction": "south", "value": true },
         { "direction": "south", "value": false },
-        { "direction": "north", "value": true },
+        { "direction": "north", "value": false },
         { "direction": "west", "value": false },
         { "direction": "south", "value": true },
         { "direction": "south", "value": false }
@@ -149,11 +207,20 @@
       [
         { "direction": "west", "value": true },
         { "direction": "north", "value": false },
-        { "direction": "east", "value": true },
         { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
       ],
       [
         { "direction": "west", "value": true },
@@ -192,7 +259,7 @@
         { "direction": "east", "value": false }
       ],
       [
-        { "direction": "east", "value": true },
+        { "direction": "west", "value": true },
         { "direction": "south", "value": false },
         { "direction": "north", "value": false },
         { "direction": "south", "value": true },
@@ -354,7 +421,7 @@
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "south", "value": false },
@@ -364,7 +431,27 @@
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "south", "value": false },
@@ -374,31 +461,11 @@
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "south", "value": false },
         { "direction": "west", "value": false }
-      ],
-      [
-        { "direction": "north", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "north", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
-        { "direction": "east", "value": true }
-      ],
-      [
-        { "direction": "north", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "north", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
-        { "direction": "east", "value": true }
       ],
       [
         { "direction": "north", "value": false },
@@ -423,9 +490,7 @@
     ],
     "ivyEstateWagholi": [
       [
-        { "direction": "north", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -433,9 +498,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -443,9 +506,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -453,9 +514,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -463,9 +522,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -473,9 +530,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -483,9 +538,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -493,9 +546,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -503,9 +554,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -513,9 +562,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -523,9 +570,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -533,9 +578,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -543,9 +586,7 @@
         { "direction": "west", "value": false }
       ],
       [
-        { "direction": "north", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "north", "value": false },
         { "direction": "north", "value": true },
         { "direction": "north", "value": true },
         { "direction": "east", "value": false },
