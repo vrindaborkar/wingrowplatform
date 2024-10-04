@@ -104,17 +104,22 @@
   margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1280px) {
   .left-road {
-    min-width: 40px;
-    padding: 5px;
-    font-size: 1rem;
+    padding: 6px;
     height: auto;
+    padding-top: 30px;
   }
 
   .right-road {
     padding: 5px;
     font-size: 1rem;
     margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 440px) {
+  .left-road {
+    padding-top: 60px;
   }
 }

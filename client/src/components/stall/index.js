@@ -487,7 +487,7 @@ const StallComponent = (props) => {
                       disabledDays={disabledDays}
                       minDate={dat}
                       showIcon={true}
-                      showButtonBar={true}
+                      showButtonBar={false}
                       className="w-full"
                       isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
                       errorMsg={getFormErrorMessage(
@@ -559,16 +559,18 @@ const StallComponent = (props) => {
                       fill-opacity="0.5"
                     />
                   </svg>
-                // eslint-disable-next-line no-mixed-operators
-                ) : roadPosition === "right" &&
-                  // eslint-disable-next-line no-mixed-operators
-                  selectedMarket === "godrejPrana" || selectedMarket === "undri" ? (
+                ) : // eslint-disable-next-line no-mixed-operators
+                (roadPosition === "right" &&
+                    // eslint-disable-next-line no-mixed-operators
+                    selectedMarket === "godrejPrana") ||
+                  selectedMarket === "undri" ? (
                   <svg
                     width="31"
                     height="42"
                     viewBox="0 0 31 42"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className="stall"
                   >
                     <path
                       opacity="0.8"
@@ -624,54 +626,160 @@ const StallComponent = (props) => {
                   </svg>
                 )}
               </div>
-              <div
-                className={`market-layout ${
-                  roadPosition === "left" ? "pl-3" : ""
-                }`}
-                style={{
-                  gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
-                  borderLeft: roadPosition === "left" ? "none" : "",
-                  borderTop: roadPosition === "right" ? "none" : "",
-                }}
-              >
-                {stallPositions.map((row, rowIndex) =>
-                  row.map((isStall, colIndex) => {
-                    const stallId = `${rowIndex}-${colIndex}`;
+              {roadPosition === "left" && selectedMarket === "kharadi" ? (
+                <div
+                  className={`market-layout-kharadi  ${
+                    roadPosition === "left" ? "pl-1" : ""
+                  }`}
+                  style={{
+                    gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                    borderLeft: roadPosition === "left" ? "none" : "",
+                    borderTop: roadPosition === "right" ? "none" : "",
+                  }}
+                >
+                  {stallPositions.map((row, rowIndex) =>
+                    row.map((isStall, colIndex) => {
+                      const stallId = `${rowIndex}-${colIndex}`;
+                      const stall = stallDataMap.get(stallId);
 
-                    const stall = stallDataMap.get(stallId);
-
-                    return (
-                      <div
-                        key={stallId}
-                        className={`stall ${
-                          isStall.value ? getStallClass(rowIndex, colIndex) : ""
-                        }`}
-                        onClick={() =>
-                          isStall.value && handleStallClick(rowIndex, colIndex)
-                        }
-                        data-pr-tooltip={stall ? stall.stallName : ""}
-                        style={{ fontSize: "1rem", cursor: "pointer" }}
-                      >
-                        <div className="justify-content-between align-items-center">
-                          {isStall.value && stall && (
-                            <>
-                              <img
-                                src={
-                                  stallImageMap[stall.stallName] ||
-                                  GENERAL_STALL
-                                }
-                                alt={stall.stallName || "General stall"}
-                                className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
-                              />
-                              <div>{/* {stall.stallName} */}</div>
-                            </>
-                          )}
+                      return (
+                        <div
+                          key={stallId}
+                          className={`stall ${
+                            isStall.value
+                              ? getStallClass(rowIndex, colIndex)
+                              : ""
+                          }`}
+                          onClick={() =>
+                            isStall.value &&
+                            handleStallClick(rowIndex, colIndex)
+                          }
+                          data-pr-tooltip={stall ? stall.stallName : ""}
+                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                        >
+                          <div className="justify-content-between align-items-center">
+                            {isStall.value && stall && (
+                              <>
+                                <img
+                                  src={
+                                    stallImageMap[stall.stallName] ||
+                                    GENERAL_STALL
+                                  }
+                                  alt={stall.stallName || "General stall"}
+                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                />
+                                <div>{/* {stall.stallName} */}</div>
+                              </>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
+                      );
+                    })
+                  )}
+                </div>
+              ) : selectedMarket === "ivyEstateWagholi" ? (
+                <div
+                  className={`market-layout-ivyEstateWagholi  ${
+                    roadPosition === "left" ? "pl-1" : ""
+                  }`}
+                  style={{
+                    gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                    borderLeft: roadPosition === "left" ? "none" : "",
+                    borderTop: roadPosition === "right" ? "none" : "",
+                  }}
+                >
+                  {stallPositions.map((row, rowIndex) =>
+                    row.map((isStall, colIndex) => {
+                      const stallId = `${rowIndex}-${colIndex}`;
+                      const stall = stallDataMap.get(stallId);
+
+                      return (
+                        <div
+                          key={stallId}
+                          className={`stall ${
+                            isStall.value
+                              ? getStallClass(rowIndex, colIndex)
+                              : ""
+                          }`}
+                          onClick={() =>
+                            isStall.value &&
+                            handleStallClick(rowIndex, colIndex)
+                          }
+                          data-pr-tooltip={stall ? stall.stallName : ""}
+                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                        >
+                          <div className="justify-content-between align-items-center">
+                            {isStall.value && stall && (
+                              <>
+                                <img
+                                  src={
+                                    stallImageMap[stall.stallName] ||
+                                    GENERAL_STALL
+                                  }
+                                  alt={stall.stallName || "General stall"}
+                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                />
+                                <div>{/* {stall.stallName} */}</div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              ) : (
+                <div
+                  className={`market-layout ${
+                    roadPosition === "left" ? "pl-1" : ""
+                  }`}
+                  style={{
+                    gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                    borderLeft: roadPosition === "left" ? "none" : "",
+                    borderTop: roadPosition === "right" ? "none" : "",
+                  }}
+                >
+                  {stallPositions.map((row, rowIndex) =>
+                    row.map((isStall, colIndex) => {
+                      const stallId = `${rowIndex}-${colIndex}`;
+                      const stall = stallDataMap.get(stallId);
+
+                      return (
+                        <div
+                          key={stallId}
+                          className={`stall ${
+                            isStall.value
+                              ? getStallClass(rowIndex, colIndex)
+                              : ""
+                          }`}
+                          onClick={() =>
+                            isStall.value &&
+                            handleStallClick(rowIndex, colIndex)
+                          }
+                          data-pr-tooltip={stall ? stall.stallName : ""}
+                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                        >
+                          <div className="justify-content-between align-items-center">
+                            {isStall.value && stall && (
+                              <>
+                                <img
+                                  src={
+                                    stallImageMap[stall.stallName] ||
+                                    GENERAL_STALL
+                                  }
+                                  alt={stall.stallName || "General stall"}
+                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                />
+                                <div>{/* {stall.stallName} */}</div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
             </div>
 
             <hr />
