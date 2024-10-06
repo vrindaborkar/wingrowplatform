@@ -6,6 +6,13 @@ require('dotenv/config')
 var bodyParser = require('body-parser');
 const path = require('path');
 const fileUpload = require('express-fileupload')
+const bookingRoutes = require('./routes/bookingRoutes');
+const stallStatusRoutes = require('./routes/stallStatusRoutes');
+const cityRoutes = require('./routes/cityRoutes');
+const marketRoutes = require('./routes/marketRoutes');
+
+
+
 
 const https = require('https');
 const fs = require('fs');
@@ -54,6 +61,10 @@ require("./routes/user.routes")(app);
 require("./routes/payment.routes")(app);
 require("./routes/stalls.routes")(app);
 require("./routes/twilio.routes")(app);
+require("./routes/bookingRoutes.routes")(app);
+require("./routes/cityRoutes.routes")(app);
+require("./routes/marketRoutes.routes")(app);
+require("./routes/stallStatusRoutes.routes")(app);
 
 mongoose.connect(process.env.DB_CONNECTION, 
   { useNewUrlParser: true,
@@ -70,6 +81,15 @@ app.get('/*', function(req, res) {
     }
   })
 })
+
+app.use(express.json());
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/stallStatus', stallStatusRoutes);
+app.use('/api/cities', cityRoutes);
+app.use('/api/markets', marketRoutes);
+
+
+
 
 
 // set port, listen for requests
