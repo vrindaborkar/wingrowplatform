@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { fetchMarketList } from "../../redux/action/market";
 import ErrorPage from "../../common/Error";
 import AccessDeniedPage from "../../common/Access";
-import MarketList from "../home/market/index";
 import { useTranslation } from "react-i18next";
 import { MARKET_WITH_PEOPLE } from "../../assets/images";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,26 +10,14 @@ import { Dropdown } from "primereact/dropdown";
 
 const MarketComponent = (props) => {
   const {
-    isPageLevelError,
-    isLoading,
+    fetchMarketList,
     marketList,
     schedule,
     cities,
     states,
-    fetchMarketList,
+    isLoading,
+    isPageLevelError,
   } = props;
-
-  useEffect(() => {
-    fetchMarketList();
-  }, [fetchMarketList]);
-
-  useEffect(() => {
-    if (marketList) {
-      console.log("Fetched marketList:------------------", marketList);
-    }
-  }, [marketList]);
-  
-  console.log("marketList: ----------------------------", fetchMarketList);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -71,9 +56,9 @@ const MarketComponent = (props) => {
   };
 
   const handleMarket = (market) => {
-    navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market?.name)}`);
-    const selectedMarket = market?.name;
-    const newroadPosition = market?.roadPosition;
+    navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market.name)}`);
+    const selectedMarket = market.name;
+    const newroadPosition = market.roadPosition;
     localStorage.setItem("selectedMarket", selectedMarket);
     localStorage.setItem("roadPosition", newroadPosition);
     console.log(market);
@@ -81,16 +66,8 @@ const MarketComponent = (props) => {
 
   return (
     <div>
-      {shouldRenderFullPageError() && (
-        <div>
-          <ErrorPage />
-        </div>
-      )}
-      {shouldRenderNotFoundView() && (
-        <div>
-          <AccessDeniedPage />
-        </div>
-      )}
+      {shouldRenderFullPageError() && <ErrorPage />}
+      {shouldRenderNotFoundView() && <AccessDeniedPage />}
       {shouldRenderMarketList() && (
         <div className="text-center mt-3 px-5">
           <div className="">
@@ -172,15 +149,4 @@ const MarketComponent = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  marketList: state.marketReducer.marketList || [],
-  schedule: state.marketReducer.schedule || [],
-  cities: state.marketReducer.cities || {},
-  states: state.marketReducer.states || [],
-});
-
-const mapDispatchToProps = {
-  fetchMarketList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MarketComponent);
+export default MarketComponent;

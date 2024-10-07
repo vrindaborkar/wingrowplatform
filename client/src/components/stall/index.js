@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Tooltip } from "primereact/tooltip";
 import { Button } from "primereact/button";
-import { ROUTE_PATH } from "../../constant/urlConstant";
+import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { useNavigate } from "react-router-dom";
 import "./stall.css";
 
@@ -40,18 +40,7 @@ const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
 }));
 
 const StallComponent = (props) => {
-  const {
-    fetchStallList,
-    isPageLevelError,
-    isLoading,
-    userRole,
-    handleOnReadRecord,
-    handleOnDeleteRecord,
-    handleOnEditRecord,
-    handleOnCreatedRecord,
-    formFieldValueMap,
-    stallList,
-  } = props.stallProps;
+  const { fetchStallList, formFieldValueMap, stallList } = props.stallProps;
 
   const savedMarket = scheduleOptions.length
     ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
@@ -75,12 +64,9 @@ const StallComponent = (props) => {
   );
 
   const [roadPosition, setRoadPosition] = useState(newroadPosition);
-
   const [showDetails, setShowDetails] = useState(false);
   const [modalStalls, setModalStalls] = useState([]);
-
   const [selectedStallsData, setSelectedStallsData] = useState({});
-
   const { marketStallPositions } = scheduleData || {};
 
   const toast = useRef(null);
@@ -88,10 +74,7 @@ const StallComponent = (props) => {
   const {
     control,
     formState: { errors },
-    watch,
     handleSubmit,
-    reset,
-    setValue,
   } = useForm({
     defaultValues: useMemo(() => formFieldValueMap, [formFieldValueMap]),
     mode: "onChange",
@@ -463,8 +446,9 @@ const StallComponent = (props) => {
                       fill-opacity="0.5"
                     />
                   </svg>
-                ) : roadPosition === "right" &&
-                  selectedMarket === "godrejPrana" || selectedMarket === "undri" ? (
+                ) : (roadPosition === "right" &&
+                    selectedMarket === "godrejPrana") ||
+                  selectedMarket === "undri" ? (
                   <svg
                     width="31"
                     height="42"

@@ -12,7 +12,7 @@ import data from "./data.json";
 import MzOtpInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
 
-const DUMMY_OTP = "1234";
+// const DUMMY_OTP = "1234";
 
 console.log("Auth Key:---------------------------", MSG91_AUTH_KEY);
 console.log(
@@ -73,7 +73,7 @@ const RegisterComponent = (props) => {
       address: getValues(FORM_FIELDS_NAME.ADDRESS.name),
     };
 
-    if (data.otp === DUMMY_OTP) {
+    if (data.otp) {
       setOtpSent(true);
       register(userData);
       localStorage.setItem("userData", JSON.stringify(userData));

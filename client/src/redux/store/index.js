@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../reducers/rootReducers';
 import { logout } from './../action/auth/login';
+import 'react-toastify/dist/ReactToastify.css';
 
-const inactivityTimeout = 10 * 60 * 1000; 
+const  inactivityTimeout = 15 * 60 * 1000; 
 let inactivityTimer;
 
 const resetInactivityTimer = (store) => {
@@ -10,7 +11,7 @@ const resetInactivityTimer = (store) => {
     clearTimeout(inactivityTimer);
   }
   inactivityTimer = setTimeout(() => {
-    store.dispatch(logout()); 
+    store.dispatch(logout());
   }, inactivityTimeout);
 };
 

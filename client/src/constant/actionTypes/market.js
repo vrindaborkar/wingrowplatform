@@ -1,4 +1,4 @@
-export const INIT_MARKET = "INIT_MARKET";
+// import { INIT_MARKET } from './market';
 
 export const FETCH_MARKET_LIST = {
   START: "FETCH_MARKET_LIST_START",
@@ -11,3 +11,6 @@ export const FETCH_MARKET_RECORD = {
   SUCCESS: "FETCH_MARKET_RECORD_SUCCESS",
   ERROR: "FETCH_MARKET_RECORD_ERROR",
 };
+
+
+export const INIT_MARKET = "INIT_MARKET";
