@@ -61,10 +61,10 @@ require("./routes/user.routes")(app);
 require("./routes/payment.routes")(app);
 require("./routes/stalls.routes")(app);
 require("./routes/twilio.routes")(app);
-require("./routes/bookingRoutes.routes")(app);
-require("./routes/cityRoutes.routes")(app);
-require("./routes/marketRoutes.routes")(app);
-require("./routes/stallStatusRoutes.routes")(app);
+require("./routes/bookingRoutes")(app);
+require("./routes/cityRoutes")(app);
+require("./routes/marketRoutes")(app);
+require("./routes/stallStatusRoutes")(app);
 
 mongoose.connect(process.env.DB_CONNECTION, 
   { useNewUrlParser: true,
