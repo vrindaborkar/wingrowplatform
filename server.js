@@ -6,16 +6,28 @@ require('dotenv/config')
 var bodyParser = require('body-parser');
 const path = require('path');
 const fileUpload = require('express-fileupload')
-const bookingRoutes = require('./routes/bookingRoutes');
-const stallStatusRoutes = require('./routes/stallStatusRoutes');
-const cityRoutes = require('./routes/cityRoutes');
-const marketRoutes = require('./routes/marketRoutes');
-
+const bookingRoutes = require('./routes/bookingRoutes.routes');
+const stallStatusRoutes = require('./routes/stallStatusRoutes.routes');
+const cityRoutes = require('./routes/cityRoutes.routes');
+const marketRoutes = require('./routes/marketRoutes.routes');
 
 
 
 const https = require('https');
 const fs = require('fs');
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // // certificates
@@ -49,11 +61,15 @@ app.use(function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors(corsOptions));
+
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/stallStatus', stallStatusRoutes);
+app.use('/api/cities', cityRoutes);
+app.use('/api/markets', marketRoutes);
+
 app.use(express.static('client/build'))
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(fileUpload({
-  useTempFiles:true
-}))
+app.use(fileUpload({useTempFiles:true}))
 
 // routes
 require("./routes/auth.routes")(app);
@@ -61,10 +77,10 @@ require("./routes/user.routes")(app);
 require("./routes/payment.routes")(app);
 require("./routes/stalls.routes")(app);
 require("./routes/twilio.routes")(app);
-require("./routes/bookingRoutes")(app);
-require("./routes/cityRoutes")(app);
-require("./routes/marketRoutes")(app);
-require("./routes/stallStatusRoutes")(app);
+// require("./routes/bookingRoutes.routes")(app);
+// require("./routes/cityRoutes.routes")(app);
+// require("./routes/marketRoutes.routes")(app);
+// require("./routes/stallStatusRoutes.routes")(app);
 
 mongoose.connect(process.env.DB_CONNECTION, 
   { useNewUrlParser: true,
@@ -83,10 +99,7 @@ app.get('/*', function(req, res) {
 })
 
 app.use(express.json());
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/stallStatus', stallStatusRoutes);
-app.use('/api/cities', cityRoutes);
-app.use('/api/markets', marketRoutes);
+
 
 
 

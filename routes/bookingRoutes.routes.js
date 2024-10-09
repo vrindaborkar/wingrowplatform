@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const BookedStalls = require('../models/BookedStalls');
 const Stalls = require('../models/Stalls');
 const State = require('../models/State'); // Importing the State model
+const Market = require('../models/Market'); // Import the Market model
 
 // POST: Book multiple stalls in different markets and dates
 router.post('/book-multiple-stalls', async (req, res) => {
@@ -50,7 +51,7 @@ router.post('/book-multiple-stalls', async (req, res) => {
     }
 });
 
-// Existing GET routes (for reference)
+// GET: Retrieve booked stalls by farmer ID
 router.get('/booked-stalls/:farmerId', async (req, res) => {
     try {
         const farmerId = req.params.farmerId;
@@ -71,7 +72,6 @@ router.get('/booked-stalls/:farmerId', async (req, res) => {
     }
 });
 
-
 // GET: Retrieve all states
 router.get('/states', async (req, res) => {
     try {
@@ -91,6 +91,30 @@ router.get('/states', async (req, res) => {
     }
 });
 
+// GET: Search markets by city and state
+router.get('/markets/search', async (req, res) => {
+    try {
+        const { city, state } = req.query; // Get city and state from query parameters
 
+        // Build the query based on provided parameters
+        const query = {};
+        if (city) query.location = city; // Filter by city if provided
+        if (state) query.state = state;   // Filter by state if provided
+
+        const markets = await Market.find(query); // Find markets matching the query
+
+        if (!markets.length) {
+            return res.status(404).json({ message: 'No markets found for the specified criteria' });
+        }
+
+        res.status(200).json({
+            message: 'Markets retrieved successfully',
+            markets
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error while searching markets' });
+    }
+});
 
 module.exports = router;
