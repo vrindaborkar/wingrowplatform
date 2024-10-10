@@ -51,26 +51,33 @@ router.post('/book-multiple-stalls', async (req, res) => {
     }
 });
 
-// GET: Retrieve booked stalls by farmer ID
-router.get('/booked-stalls/:farmerId', async (req, res) => {
-    try {
-        const farmerId = req.params.farmerId;
-        const bookedStalls = await BookedStalls.find({ bookedBy: farmerId }).populate('stallId');
 
-        if (!bookedStalls.length) {
+
+// GET: Retrieve booked stalls by farmer ID
+router.get('/booked-stalls/:id', async (req, res) => {
+    try {
+        console.log("Received request for booked stall with ID:", req.params.id);
+
+        // Use BookedStalls instead of Booking
+        const bookedStall = await BookedStalls.findById(req.params.id);
+
+        if (!bookedStall) {
+            console.log("No stall found for this farmer ID:", req.params.id);
             return res.status(404).json({ message: 'No booked stalls found for this farmer' });
         }
 
-        res.status(200).json({
-            message: 'Retrieved booked stalls successfully',
-            bookedStalls
-        });
-
+        // Return the booked stall data
+        res.status(200).json(bookedStall);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error retrieving booked stalls' });
+        console.error("Error occurred:", error.message);
+        res.status(500).json({ message: 'Server error', error });
     }
 });
+
+
+
+
+
 
 // GET: Retrieve all states
 router.get('/states', async (req, res) => {
