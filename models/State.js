@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
 
-// Define the State Schema
 const StateSchema = new mongoose.Schema({
-  name: { 
-    type: String, 
-    required: true 
-  },
-  code: { 
-    type: String, 
-    required: true 
-  } // Example: 'MH' for Maharashtra
+    stateName: {
+        type: String,
+        required: true,
+        // unique: true
+    },
+    stateCode: {
+        type: String,
+        required: true,
+        // unique: true
+    }
 });
 
-// Create the model from the schema
-const State = mongoose.model('State', StateSchema);
-
-module.exports = State;
+module.exports = mongoose.model('State', StateSchema);

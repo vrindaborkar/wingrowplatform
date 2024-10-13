@@ -1,43 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const City = require('../models/City');
+const CityController = require('../controllers/CityController'); // Adjust the path as necessary
 
-// Create a new city
-router.post('/', async (req, res) => {
-  try {
-    const { name, stateId } = req.body;
+// POST route to add a city
+router.post('/', CityController.addCity); // Adjust the controller method as needed
 
-    // Check if the city already exists
-    const existingCity = await City.findOne({ name, stateId });
-    if (existingCity) {
-      return res.status(400).json({ message: 'City already exists' });
-    }
-
-    // Create new city
-    const city = new City({ name, stateId });
-    await city.save();
-
-    res.status(201).json({ message: 'City created successfully', city });
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating city', error });
-  }
-});
-
-// Get all cities or filter by stateId
-router.get('/', async (req, res) => {
-  try {
-    const { stateId } = req.query;
-
-    // If stateId is provided, filter cities by that stateId
-    const cities = stateId
-      ? await City.find({ stateId }).populate('stateId')
-      : await City.find().populate('stateId');
-
-    res.status(200).json(cities);
-  } catch (error) {
-    res.status(500).json({ message: 'Error retrieving cities', error });
-  }
-});
+// GET all cities or filter by stateId
+router.get('/', CityController.getAllCities); // Use your controller method to get cities
 
 // Get a single city by its ID
 router.get('/:cityId', async (req, res) => {

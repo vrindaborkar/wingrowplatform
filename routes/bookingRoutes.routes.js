@@ -30,7 +30,7 @@ router.post('/book-multiple-stalls', async (req, res) => {
                     date: date,
                     stallPrice: stall.price,
                     isBooked: true,
-                    bookedBy: req.user.id, // assuming you have some user identification
+                    bookedBy: req.user ? req.user.id : "unknown", // Handle missing user ID
                     bookedAt: new Date().toISOString(),
                     stallNo: stallData.stallNo
                 });
@@ -46,10 +46,11 @@ router.post('/book-multiple-stalls', async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error during stall booking' });
+        console.error("Error during stall booking:", error);
+        res.status(500).json({ message: 'Server error during stall booking', error });
     }
 });
+
 
 
 
@@ -74,7 +75,37 @@ router.get('/booked-stalls/:id', async (req, res) => {
     }
 });
 
+// Existing routes...
 
+router.post('/states', async (req, res) => {
+    try {
+        const { stateName, stateCode } = req.body;
+
+        if (!stateName || !stateCode) {
+            return res.status(400).json({ message: 'stateName and stateCode are required' });
+        }
+
+        const existingState = await State.findOne({ stateCode });
+        if (existingState) {
+            return res.status(409).json({ message: 'State with this code already exists' });
+        }
+
+        const newState = new State({
+            stateName,
+            stateCode
+        });
+
+        await newState.save();
+        res.status(201).json({ message: 'State added successfully', state: newState });
+    } catch (error) {
+        if (error.code === 11000) {
+            res.status(409).json({ message: 'Duplicate entry detected. State already exists.' });
+        } else {
+            console.error('Error adding state:', error);
+            res.status(500).json({ message: 'Server error while adding state' });
+        }
+    }
+});
 
 
 

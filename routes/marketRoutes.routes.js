@@ -39,4 +39,36 @@ router.get('/markets', async (req, res) => {
     }
 });
 
+// POST: Create a new market for a specific city
+router.post('/markets', async (req, res) => {
+    try {
+        const { marketName, location, cityId } = req.body;
+
+        // Validate if city exists
+        const city = await City.findById(cityId);
+        if (!city) {
+            return res.status(404).json({ message: 'City not found' });
+        }
+
+        // Create a new market
+        const newMarket = new Market({
+            marketName,
+            location,
+            cityId: city._id
+        });
+
+        // Save the new market to the database
+        await newMarket.save();
+
+        res.status(201).json({
+            message: 'Market created successfully',
+            newMarket
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error creating market' });
+    }
+});
+
 module.exports = router;
+

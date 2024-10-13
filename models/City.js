@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
 
-// Define the City Schema
-const CitySchema = new mongoose.Schema({
-  name: { 
-    type: String, 
-    required: true 
-  },
-  stateId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'State', 
-    required: true 
-  }
+const citySchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    cityCode: {
+        type: String,
+        required: true,
+    },
+    stateId: {
+        type: mongoose.Schema.Types.ObjectId, // Assuming stateId references a State model
+        required: true, // Make sure this is set to true to enforce the requirement
+        ref: 'State', // Reference the State model if needed
+    },
 });
 
-// Create the City model from the schema
-const City = mongoose.model('City', CitySchema);
-
-module.exports = City;
+module.exports = mongoose.model('City', citySchema);
