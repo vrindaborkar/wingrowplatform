@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { initStall  } from "../../redux/action/stall";
 
 const PaymentScreen = (props) => {
-  const { amount ,selectedStalls} =props;
+  const { amount ,bookStalls } =props;
     
   return (
     <>
       <PaymentPage amount={amount}
-      selectedStalls={selectedStalls}/>
+      selectedStalls={bookStalls}/>
     </>
   );
 };

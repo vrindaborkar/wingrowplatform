@@ -14,6 +14,7 @@ const MarketScreen = (props) => {
     marketList,
     isPageLevelError,
     isLoading,
+    selectedCity,
   } = props;
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const MarketScreen = (props) => {
     screenPermission: data.screenPermission,
     isPageLevelError,
     isLoading,
+    selectedCity
   };
   return (
     <div>
@@ -44,6 +46,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     marketList: selectMarketList(state.marketReducer),
+    selectedCity:state.marketReducer.selectedCity
   };
 };
 const selectMarketList = (marketReducer) => {

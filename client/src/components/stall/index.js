@@ -71,9 +71,9 @@ const StallComponent = (props) => {
   const [modalStalls, setModalStalls] = useState([]);
   const [selectedStallsData, setSelectedStallsData] = useState({});
   const [showPaymentScreen, setShowPaymentScreen] = useState(false);
-  const userString = localStorage.getItem('user');
-  const user = userString ? JSON.parse(userString) : null; 
-
+  const [bookStalls, setBookStallas] = useState([]);
+  const userString = localStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
 
   const { marketStallPositions } = scheduleData || {};
   const sessionSelectedMarketDate = [];
@@ -109,7 +109,6 @@ const StallComponent = (props) => {
     );
   };
 
-
   if (selectedStallsRedux && selectedStallsRedux[selectedMarket]) {
     const stalls = selectedStallsRedux[selectedMarket];
     const dateKey = Object.keys(stalls)[0];
@@ -139,9 +138,9 @@ const StallComponent = (props) => {
 
   useEffect(() => {
     if (selectedStallsRedux.length === 0) {
-      const savedStalls = JSON.parse(sessionStorage.getItem("selectedStalls"));      
+      const savedStalls = JSON.parse(sessionStorage.getItem("selectedStalls"));
       if (savedStalls) {
-        dispatch({ type: 'SELECT_STALL', payload: savedStalls });
+        dispatch({ type: "SELECT_STALL", payload: savedStalls });
       }
     }
   }, [selectedStallsRedux, dispatch]);
@@ -165,7 +164,6 @@ const StallComponent = (props) => {
       },
     });
   };
-
   const handleStallClick = (row, col) => {
     if (!dates[selectedMarket]) {
       toast.current.show({
@@ -209,33 +207,40 @@ const StallComponent = (props) => {
 
     newSelectedStalls[selectedMarket][currentDate] = dateStalls;
     setSelectedStallsMap(newSelectedStalls);
-    const groupedStalls = {};
 
-    Object.keys(newSelectedStalls).forEach((marketName) => {
-      const marketStalls = newSelectedStalls[marketName];
+    const groupedStall = Object.keys(newSelectedStalls)
+      .map((marketName) => {
+        const marketStalls = newSelectedStalls[marketName];
 
-      Object.keys(marketStalls).forEach((date) => {
-        const dateStalls = marketStalls[date].map((id) => {
-          const stall = stallDataMap.get(id);
-          return {
-            stall_id: stall._id,
-            stallNo: stall ? stall.stallNo : "No Stall No",
-            name: stall ? stall.stallName : "No Stall",
-            price: stall ? stall.stallPrice : 0,
-            date: date || "Not selected",
-            bookedBy:user.id
-          };
-        });
+        return Object.keys(marketStalls)
+          .map((date) => {
+            const dateStalls = marketStalls[date].map((stallId) => {
+              const stall = stallDataMap.get(stallId);
 
-        if (dateStalls.length > 0) {
-          groupedStalls[marketName] = groupedStalls[marketName] || {};
-          groupedStalls[marketName][date] = dateStalls;
-        }
-      });
-    });
-    sessionStorage.setItem("selectedStalls", JSON.stringify(groupedStalls));
-    dispatch(selectedStall(groupedStalls));
+              return {
+                id: stall ? stall._id : "",
+                stallNo: stall ? stall.stallNo : "No Stall No",
+                name: stall ? stall.stallName : "No Stall",
+                price: stall ? stall.stallPrice : 0,
+                date: date || "Not selected",
+              };
+            });
 
+            return dateStalls.length > 0
+              ? {
+                  market_name: marketName,
+                  date: date || "Not selected",
+                  stalls: dateStalls,
+                  bookedBy: user.id,
+                }
+              : null;
+          })
+          .filter(Boolean);
+      })
+      .flat();
+    setBookStallas(groupedStall);
+    sessionStorage.setItem("selectedStalls", JSON.stringify(groupedStall));
+    dispatch(selectedStall(groupedStall));
     setSelectedStallsData((prevData) => ({
       ...prevData,
       [stallId]: stall,
@@ -246,27 +251,29 @@ const StallComponent = (props) => {
     let totalPrices = {};
     let overallTotal = 0;
 
-    for (const market in data) {
-      const dates = data[market];
-      totalPrices[market] = 0;
-      for (const date in dates) {
-        const stalls = dates[date];
-        const marketTotal = stalls.reduce((sum, stall) => sum + stall.price, 0);
+    (Array.isArray(data) ? data : []).forEach((marketData) => {
+      const marketName = marketData.market_name;
+      const stalls = marketData.stalls || []; 
+      totalPrices[marketName] = 0;
+      const marketTotal = stalls.reduce(
+        (sum, stall) => sum + (stall.price || 0),
+        0
+      );
+      totalPrices[marketName] = marketTotal;
+      overallTotal += marketTotal;
+    });
 
-        overallTotal += marketTotal;
-      }
-    }
     totalPrices["TotalAmount"] = overallTotal;
-    return totalPrices;
+    return totalPrices.TotalAmount;
   }
 
-  const totalAmount = calculateTotalPrices(selectedStallsRedux);
+  const totalAmount = calculateTotalPrices(bookStalls);
 
   const getStallClass = (row, col) => {
     const stallId = `${row}-${col}`;
     const marketStalls =
       sessionSelsctedStalls[selectedMarket]?.[
-      dates[selectedMarket]?.toLocaleDateString()
+        dates[selectedMarket]?.toLocaleDateString()
       ] || [];
     const isSelectedInSession = marketStalls.some(
       (stall) => stall.id === stallId
@@ -278,7 +285,7 @@ const StallComponent = (props) => {
 
     const marketStallsFromMap =
       selectedStallsMap[selectedMarket]?.[
-      dates[selectedMarket]?.toLocaleDateString()
+        dates[selectedMarket]?.toLocaleDateString()
       ] || [];
 
     if (marketStallsFromMap.includes(stallId)) {
@@ -324,7 +331,7 @@ const StallComponent = (props) => {
 
       setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMarket, marketStallPositions, fetchStallList]);
 
   useEffect(() => {
@@ -407,29 +414,36 @@ const StallComponent = (props) => {
 
   const handleShowClick = (e) => {
     e.preventDefault();
-    const groupedStalls = {};
 
-    Object.keys(selectedStallsMap).forEach((marketName) => {
-      const marketStalls = selectedStallsMap[marketName];
+    const groupedStalls = Object.keys(selectedStallsMap)
+      .map((marketName) => {
+        const marketStalls = selectedStallsMap[marketName];
 
-      Object.keys(marketStalls).forEach((date) => {
-        const dateStalls = marketStalls[date].map((stallId) => {
-          const stall = selectedStallsData[stallId];
-          return {
-            id: stallId,
-            stallNo: stall ? stall.stallNo : "No Stall N0",
-            name: stall ? stall.stallName : "No Stall",
-            price: stall ? stall.stallPrice : 0,
-            date: date || "Not selected",
-          };
-        });
+        return Object.keys(marketStalls)
+          .map((date) => {
+            const dateStalls = marketStalls[date].map((stallId) => {
+              const stall = selectedStallsData[stallId];
+              return {
+                id: stall._id,
+                stallNo: stall ? stall.stallNo : "No Stall No",
+                name: stall ? stall.stallName : "No Stall",
+                price: stall ? stall.stallPrice : 0,
+                date: date || "Not selected",
+              };
+            });
 
-        if (dateStalls.length > 0) {
-          groupedStalls[marketName] = groupedStalls[marketName] || {};
-          groupedStalls[marketName][date] = dateStalls;
-        }
-      });
-    });
+            return dateStalls.length > 0
+              ? {
+                  market_name: marketName,
+                  date: date || "Not selected",
+                  stalls: dateStalls,
+                  bookedBy: user.id,
+                }
+              : null;
+          })
+          .filter(Boolean);
+      })
+      .flat();
 
     if (Object.keys(selectedStallsRedux).length === 0) {
       toast.current.show({
@@ -444,6 +458,8 @@ const StallComponent = (props) => {
     setModalStalls(groupedStalls);
     setShowDetails(true);
   };
+
+  console.log(selectedStallsRedux);
 
   return (
     <>
@@ -787,7 +803,7 @@ const StallComponent = (props) => {
               <span>Total Amount</span>
               <span>
                 {" "}
-                {totalAmount.TotalAmount} <i className="pi pi-indian-rupee" />
+                {totalAmount} <i className="pi pi-indian-rupee" />
                 /-{" "}
               </span>
             </div>
@@ -805,10 +821,7 @@ const StallComponent = (props) => {
         <Tooltip target=".stall" mouse className="text-green-400" />
 
         {showPaymentScreen && (
-          <PaymentScreen
-            amount={totalAmount.TotalAmount}
-            selectedStalls={selectedStallsRedux}
-          />
+          <PaymentScreen amount={totalAmount} bookStalls={bookStalls} />
         )}
         <Dialog
           header="Selected Stalls Details"
@@ -829,48 +842,42 @@ const StallComponent = (props) => {
                 type="button"
                 label="Pay"
                 className="border-2 te border-round-md md:w-10rem"
-                onClick={
-                  isLoggedIn
-                    ? handlePaymentClick
-                    : navigate(ROUTE_PATH.BASE.LOGIN)
-                }
+                onClick={handlePaymentClick}
               />
             </>
           }
         >
           <div className="selected-stalls-details">
             {selectedStallsRedux &&
-              Object.keys(selectedStallsRedux).length > 0 ? (
-              Object.keys(selectedStallsRedux).map((marketName) => (
-                <div key={marketName}>
-                  {Object.keys(selectedStallsRedux[marketName]).map((date) => (
-                    <div key={date}>
-                      <h3>Market Name: {marketName}</h3>
-                      <h4>Date: {date}</h4>
-                      {selectedStallsRedux[marketName][date] && (
-                        <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
-                          <h5>Stalls:</h5>
-                          {selectedStallsRedux[marketName][date].map(
-                            (stall) => (
-                              <li key={stall.id}>
-                                <div>
-                                  <strong>Stall No:</strong> {stall.stallNo}
-                                </div>
-                                <div>
-                                  <strong>Stall Name:</strong> {stall.name}
-                                </div>
-                                <div>
-                                  <strong>Stall Price:</strong> {stall.price}
-                                </div>
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))
+            Object.keys(selectedStallsRedux).length > 0 ? (
+              Object.keys(selectedStallsRedux).map((key) => {
+                const marketData = selectedStallsRedux[key];
+                return (
+                  <div key={key}>
+                    <h3>Market Name: {marketData.market_name}</h3>
+                    <h4>Date: {marketData.date}</h4>
+
+                    <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
+                      <h5>Stalls:</h5>
+                      {marketData.stalls.map((stall) => (
+                        <li key={stall.id}>
+                          <div>
+                            <strong>Stall No:</strong>{" "}
+                            {stall.stallNo || "No Stall No"}
+                          </div>
+                          <div>
+                            <strong>Stall Name:</strong>{" "}
+                            {stall.name || "No Stall"}
+                          </div>
+                          <div>
+                            <strong>Stall Price:</strong> {stall.price || 0}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })
             ) : (
               <p>No stalls selected.</p>
             )}

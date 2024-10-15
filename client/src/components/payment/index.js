@@ -8,6 +8,7 @@ const PaymentPage = (props) => {
     amount,
 
   }=props
+  
 
   const toast = useRef(null);
   const loadScript = (src) => {
@@ -20,20 +21,20 @@ const PaymentPage = (props) => {
     });
   };
 
-  const selectedStallsPayload = Object.keys(selectedStalls).map((marketName) => {
-    return {
-      dates: Object.keys(selectedStalls[marketName]).map((date) => ({
-        market_name: marketName,
-        date: date,
-        stalls: selectedStalls[marketName][date].map((stall) => ({
-          stall_id: stall.id,
-          stall_no: stall.stallNo,
-          stall_name: stall.name,
-          price: stall.price,
-        })),
-      })),
-    };
-  });
+  const formatDate = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  };
+
+  const selectedStallsPayload = selectedStalls.map((market) => ({
+    market_name: market.market_name,
+    date: formatDate(market.date),
+    bookedBy: market.bookedBy,
+    stalls: market.stalls.map((stall) => ({
+      stall_id: stall.id,
+      price: stall.price,
+    }))
+  }));
 
     const res = loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
@@ -49,7 +50,7 @@ const PaymentPage = (props) => {
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-      amount: amount * 100,
+      amount: amount * 100, 
       currency: "INR",
       name: "Wingrow Market",
       description: "Payment for stalls",
@@ -63,9 +64,10 @@ const PaymentPage = (props) => {
 
         try {
           const apiResponse = await axios.post(
-            "/api/bookmultiplestalls",
-            paymentSuccessPayload
+            "http://localhost:4000/api/bookings/book-multiple-stalls",
+            selectedStallsPayload
           );
+
           toast.current.show({
             severity: "success",
             summary: "Success",
@@ -73,11 +75,11 @@ const PaymentPage = (props) => {
           });
           console.log("API Response:", apiResponse.data);
         } catch (error) {
-          console.error("Error booking stalls:", error);
+          console.error("Error booking stalls after payment:", error);
           toast.current.show({
             severity: "error",
             summary: "Error",
-            detail: "Error booking stalls",
+            detail: "Payment succeeded, but stall booking failed.",
           });
         }
       },

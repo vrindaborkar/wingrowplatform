@@ -17,6 +17,7 @@ const MarketComponent = (props) => {
     cities,
     states,
     fetchMarketList,
+    
   } = props;
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const MarketComponent = (props) => {
   const [selectedCity, setSelectedCity] = useState(null);
  // eslint-disable-next-line
  const [filteredMarkets, setFilteredMarkets] = useState(schedule);
+//  const [filteredMarkets, setFilteredMarkets] = useState(marketList);
 
   const handleStateChange = (e) => {
     setSelectedState(e.value);
@@ -123,7 +125,7 @@ const MarketComponent = (props) => {
                           <div className="flex justify-content-between mb-3">
                             <div>
                               <span className="block text-500 font-medium mb-3">
-                                {t(market.day)}
+                                {t(market.marketDay)}
                               </span>
                               <div className="text-900 font-medium text-xl">
                                 {market.time}
