@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import ErrorPage from "../../common/Error";
 import AccessDeniedPage from "../../common/Access";
 import { useTranslation } from "react-i18next";
-import { MARKET_WITH_PEOPLE } from "../../assets/images";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
-import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
+import {  ROUTE_PATH } from "../../constant/urlConstant";
 import { Dropdown } from "primereact/dropdown";
 
 const MarketComponent = (props) => {
@@ -24,7 +23,9 @@ const MarketComponent = (props) => {
 
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [filteredMarkets, setFilteredMarkets] = useState([]);
+ // eslint-disable-next-line
+ const [filteredMarkets, setFilteredMarkets] = useState(schedule);
+//  const [filteredMarkets, setFilteredMarkets] = useState(marketList);
 
   const handleStateChange = (e) => {
     setSelectedState(e.value);
@@ -46,14 +47,6 @@ const MarketComponent = (props) => {
   const shouldRenderMarketList = () => true;
   const shouldRenderNotFoundView = () =>
     !shouldRenderFullPageError && !shouldRenderMarketList;
-
-  const containerStyle = {
-    position: "relative",
-    backgroundImage: `url(${MARKET_WITH_PEOPLE})`,
-    backgroundSize: "cover",
-    width: "100%",
-    height: "100%",
-  };
 
   const handleMarket = (market) => {
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market.name)}`);
@@ -113,7 +106,7 @@ const MarketComponent = (props) => {
                           <div className="flex justify-content-between mb-3">
                             <div>
                               <span className="block text-500 font-medium mb-3">
-                                {t(market.day)}
+                                {t(market.marketDay)}
                               </span>
                               <div className="text-900 font-medium text-xl">
                                 {market.time}

@@ -4,7 +4,6 @@ import { handleAPIError } from "../common/errorHandler";
 import { baseUrl } from "../PostAPI";
 
 export const fetchStallList = async (payload) => {
-  console.log(payload);
   const url = `${baseUrl}${API_PATH.STALL.FETCH}`;
   const token = localStorage.getItem("token");
   try {
@@ -23,6 +22,20 @@ export const fetchStallList = async (payload) => {
     return handleAPIError(error);
   }
 };
+
+// export const fetchStallList = async (marketId,date) => {
+//   const url = `${baseUrl}${API_PATH.STALL.FETCH}?marketId=${marketId}&date=${date}`;
+//   try {
+//     const result = await axios.get(url);
+//     if (result.data.error || result.status !== 200) {
+//       return handleAPIError(result.data.detail);
+//     }
+//     return result.data;
+//   } catch (error) {
+//     console.error(error);
+//     return handleAPIError(error);
+//   }
+// };
 
 export const fetchStallBookList = async (payload) => {
   console.log(payload);
