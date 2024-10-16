@@ -1,6 +1,7 @@
 {
   "schedule": [
     {
+      "marketId": "1",
       "day": "tuesday",
       "name": "karveNagar",
       "roadPosition": "right",
@@ -12,6 +13,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "2",
       "day": "tuesday",
       "name": "godrejPrana",
       "roadPosition": "right",
@@ -23,6 +25,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "3",
       "day": "tuesday",
       "name": "wadgaonSheri",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -33,6 +36,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "4",
       "day": "wednesday",
       "name": "hadapsar",
       "location": "https://maps.app.goo.gl/bh7wNdiyVWcvy15p9?g_st=iw",
@@ -43,6 +47,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "5",
       "day": "wednesday",
       "name": "undri",
       "roadPosition": "right",
@@ -54,6 +59,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "6",
       "day": "thursday",
       "name": "kharadi",
       "roadPosition": "left",
@@ -65,6 +71,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "7",
       "day": "thursday",
       "name": "nottingHill",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -75,6 +82,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "8",
       "day": "friday",
       "name": "wagholi",
       "roadPosition": "right",
@@ -86,6 +94,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "9",
       "day": "friday",
       "name": "wadgaonSheri",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -96,6 +105,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "10",
       "day": "saturday",
       "name": "adityaNandanvan",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -105,7 +115,8 @@
       "state": "Maharashtra",
       "city": "Pune"
     },
-    {
+    { 
+      "marketId": "11",
       "day": "saturday",
       "name": "wadachiWadi",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -116,6 +127,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "12",
       "day": "saturday",
       "name": "wagholi",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -126,8 +138,9 @@
       "city": "Pune"
     },
     {
+      "marketId": "13",
       "day": "sunday",
-      "name": "magarpatta",
+      "name": "Magarpatta",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "magarpattaLocation",
       "time": "7AM - 1PM",
@@ -136,6 +149,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "14",
       "day": "sunday",
       "name": "sadeSatraNali",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -145,6 +159,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "15",
       "day": "sunday",
       "name": "ivyEstateWagholi",
       "roadPosition": "left",
@@ -155,6 +170,7 @@
       "city": "Pune"
     },
     {
+      "marketId": "16",
       "day": "sunday",
       "name": "nottingHill",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",

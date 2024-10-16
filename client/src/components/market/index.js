@@ -1,38 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { fetchMarketList } from "../../redux/action/market";
 import ErrorPage from "../../common/Error";
 import AccessDeniedPage from "../../common/Access";
-import MarketList from "../home/market/index";
 import { useTranslation } from "react-i18next";
 import { MARKET_WITH_PEOPLE } from "../../assets/images";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { Dropdown } from "primereact/dropdown";
+import axios from "axios";
 
 const MarketComponent = (props) => {
-  const {
-    isPageLevelError,
-    isLoading,
-    marketList,
-    schedule,
-    cities,
-    states,
-    fetchMarketList,
-  } = props;
-
-  useEffect(() => {
-    fetchMarketList();
-  }, [fetchMarketList]);
-
-  useEffect(() => {
-    if (marketList) {
-      console.log("Fetched marketList:------------------", marketList);
-    }
-  }, [marketList]);
-  
-  console.log("marketList: ----------------------------", fetchMarketList);
+  const { isPageLevelError } =
+    props;
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -40,19 +19,77 @@ const MarketComponent = (props) => {
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [filteredMarkets, setFilteredMarkets] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState({});
+
+  useEffect(() => {
+    const fetchStates = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/bookings/states"
+        );
+        console.log("States response:", response.data);
+        const formattedStates = response.data.states
+          .filter((state) => state.stateName)
+          .map((state) => ({
+            label: state.stateName,
+            value: state._id,
+          }));
+        setStates(formattedStates);
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+
+    fetchStates();
+  }, []);
+  const fetchCities = async (stateId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/cities?stateId=${stateId}`
+      );
+      const formattedCities = response.data.map((city) => ({
+        label: city.name,
+        value: city._id,
+      }));
+      setCities((prevCities) => ({
+        ...prevCities,
+        [stateId]: formattedCities,
+      }));
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+  };
+
+  const fetchMarkets = async (cityId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/markets/markets?cityId=${cityId}`
+      );
+      if (response.data.markets) {
+        setFilteredMarkets(response.data.markets);
+      } else {
+        setFilteredMarkets([]);
+      }
+    } catch (error) {
+      console.error("Error fetching markets:", error);
+    }
+  };
 
   const handleStateChange = (e) => {
-    setSelectedState(e.value);
+    const stateId = e.value;
+    setSelectedState(stateId);
     setSelectedCity(null);
     setFilteredMarkets([]);
-  };
-  const handleCityChange = (e) => {
-    setSelectedCity(e.value);
-    const filtered = schedule.filter(
-      (market) => market.state === selectedState && market.city === e.value
-    );
-    setFilteredMarkets(filtered);
-  };
+    fetchCities(stateId);
+};
+
+const handleCityChange = (e) => {
+    const city = e.value;
+    setSelectedCity(city);
+    setFilteredMarkets([]); 
+    fetchMarkets(city);
+};
 
   const handleLocation = (payload) => {
     window.open(payload, "_blank");
@@ -71,26 +108,22 @@ const MarketComponent = (props) => {
   };
 
   const handleMarket = (market) => {
-    navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", market?.name)}`);
-    const selectedMarket = market?.name;
-    const newroadPosition = market?.roadPosition;
+    const selectedMarket = market.name;
+    const newroadPosition = market.roadPosition || "right";
     localStorage.setItem("selectedMarket", selectedMarket);
     localStorage.setItem("roadPosition", newroadPosition);
-    console.log(market);
+    
+    const marketPath = `${ROUTE_PATH.BOOKING.STALL.replace(":id", selectedMarket)}`;
+    console.log("Navigating to:", marketPath);
+    
+    navigate(marketPath);
   };
+  
 
   return (
     <div>
-      {shouldRenderFullPageError() && (
-        <div>
-          <ErrorPage />
-        </div>
-      )}
-      {shouldRenderNotFoundView() && (
-        <div>
-          <AccessDeniedPage />
-        </div>
-      )}
+      {shouldRenderFullPageError() && <ErrorPage />}
+      {shouldRenderNotFoundView() && <AccessDeniedPage />}
       {shouldRenderMarketList() && (
         <div className="text-center mt-3 px-5">
           <div className="">
@@ -122,7 +155,13 @@ const MarketComponent = (props) => {
             {selectedState && selectedCity ? (
               <>
                 <h2 className="mt-3">
-                  {t(`select_market_in_${selectedCity}`)}
+                  {t(
+                    `select_market_in_${
+                      cities[selectedState].find(
+                        (city) => city.value === selectedCity
+                      )?.label
+                    }`
+                  )}
                 </h2>
                 <div className="grid md:px-5 py-3">
                   {filteredMarkets.length > 0 ? (
@@ -172,15 +211,4 @@ const MarketComponent = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  marketList: state.marketReducer.marketList || [],
-  schedule: state.marketReducer.schedule || [],
-  cities: state.marketReducer.cities || {},
-  states: state.marketReducer.states || [],
-});
-
-const mapDispatchToProps = {
-  fetchMarketList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MarketComponent);
+export default MarketComponent;

@@ -4,12 +4,14 @@ import { BrowserRouter } from "react-router-dom";
 import Routing from "./routing";
 import "./assets/fonts/fontStyle.css"
 import { useSelector } from "react-redux";
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   const currentLanguage = useSelector(state => state.translatorReducer.language); 
   return (
     <BrowserRouter>
       <Routing />
+      <ToastContainer />
     </BrowserRouter>
   );
 };

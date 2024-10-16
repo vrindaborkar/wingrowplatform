@@ -3,9 +3,11 @@ import { Controller, useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Tooltip } from "primereact/tooltip";
 import { Button } from "primereact/button";
-import { ROUTE_PATH } from "../../constant/urlConstant";
+import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { useNavigate } from "react-router-dom";
 import "./stall.css";
+
+import axios from "axios";
 
 import { Calendar } from "primereact/calendar";
 import "primereact/resources/themes/saga-green/theme.css";
@@ -40,27 +42,13 @@ const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
 }));
 
 const StallComponent = (props) => {
-  const {
-    fetchStallList,
-    isPageLevelError,
-    isLoading,
-    userRole,
-    handleOnReadRecord,
-    handleOnDeleteRecord,
-    handleOnEditRecord,
-    handleOnCreatedRecord,
-    formFieldValueMap,
-    stallList,
-  } = props.stallProps;
+  const { fetchStallList, formFieldValueMap } = props.stallProps;
 
   const savedMarket = scheduleOptions.length
     ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
     : "";
 
-  const newroadPosition =
-    localStorage.getItem("roadPosition") ||
-    scheduleOptions[0].roadPosition ||
-    "right";
+  const newroadPosition = localStorage.getItem("roadPosition") || "right";
 
   const [selectedStallsMap, setSelectedStallsMap] = useState({});
   const [stallDataMap, setStallDataMap] = useState(new Map());
@@ -75,23 +63,19 @@ const StallComponent = (props) => {
   );
 
   const [roadPosition, setRoadPosition] = useState(newroadPosition);
-
   const [showDetails, setShowDetails] = useState(false);
   const [modalStalls, setModalStalls] = useState([]);
-
   const [selectedStallsData, setSelectedStallsData] = useState({});
-
   const { marketStallPositions } = scheduleData || {};
+
+  const [stallList, setStallList] = useState([]);
 
   const toast = useRef(null);
 
   const {
     control,
     formState: { errors },
-    watch,
     handleSubmit,
-    reset,
-    setValue,
   } = useForm({
     defaultValues: useMemo(() => formFieldValueMap, [formFieldValueMap]),
     mode: "onChange",
@@ -276,36 +260,49 @@ const StallComponent = (props) => {
     Default: GENERAL_STALL || null,
   };
 
-  const handleMarket = (e) => {
+  const handleMarket = async (e) => {
     const marketName = e.value;
     setSelectedMarket(marketName);
-
-    fetchStallList(marketName);
-
+  
+    // Fetch stall list from API based on marketName
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/stallStatus/stalls?marketName=${marketName}`
+      );
+      if (response.data && response.data.stalls) {
+        setStallList(response.data.stalls); // Update stallList state
+      } else {
+        setStallList([]); // Clear list if no stalls are found
+      }
+    } catch (error) {
+      console.error("Error fetching stall list:", error);
+      setStallList([]); // Clear list in case of error
+    }
+  
     const positions =
       marketStallPositions[marketName] || marketStallPositions.Default;
     setStallPositions(positions);
-
+  
     setDates((prevDates) => ({
       ...prevDates,
       [marketName]: prevDates[marketName] || null,
     }));
-
+  
     const selectedMarketObj = scheduleOptions.find(
       (m) => m.value === marketName
     );
-
+  
     if (selectedMarketObj) {
       setRoadPosition(selectedMarketObj.roadPosition || "right");
     }
-
+  
     setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
-
+  
     setSelectedStallsMap((prevSelectedStallsMap) => ({
       ...prevSelectedStallsMap,
       [marketName]: prevSelectedStallsMap[marketName] || {},
     }));
-
+  
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
   };
 
@@ -463,8 +460,9 @@ const StallComponent = (props) => {
                       fill-opacity="0.5"
                     />
                   </svg>
-                ) : roadPosition === "right" &&
-                  selectedMarket === "godrejPrana" || selectedMarket === "undri" ? (
+                ) : (roadPosition === "right" &&
+                    selectedMarket === "godrejPrana") ||
+                  selectedMarket === "undri" ? (
                   <svg
                     width="31"
                     height="42"
