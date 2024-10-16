@@ -4,6 +4,7 @@ import { FORM_FIELDS_NAME } from "./constant";
 import { Tooltip } from "primereact/tooltip";
 import { Button } from "primereact/button";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
+import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { useNavigate } from "react-router-dom";
 import "./stall.css";
 
@@ -24,15 +25,15 @@ import {
   LEAFY_STALL,
   MUKHVAS_STALL,
   ONION_STALL,
-  RED_STALL,
   SANACK_STALL,
   SPICE_STALL,
   TARKARI_STALL,
 } from "../../assets/images";
 import { Dropdown } from "primereact/dropdown";
 import scheduleData from "../market/data.json";
-import PaymentPage from "../payment";
+import PaymentScreen from "../../containers/paymentScreen";
 import { Toast } from "primereact/toast";
+import { Dialog } from "primereact/dialog";
 
 const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
   label: market.name,
@@ -42,7 +43,18 @@ const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
 }));
 
 const StallComponent = (props) => {
-  const { fetchStallList, formFieldValueMap } = props.stallProps;
+  const {
+    fetchStallList,
+    isPageLevelError,
+    isLoading,
+    userRole,
+    handleOnReadRecord,
+    handleOnDeleteRecord,
+    handleOnEditRecord,
+    handleOnCreatedRecord,
+    formFieldValueMap,
+    stallList,
+  } = props.stallProps;
 
   const savedMarket = scheduleOptions.length
     ? localStorage.getItem("selectedMarket") || scheduleOptions[0].value
@@ -64,13 +76,26 @@ const StallComponent = (props) => {
 
   const [roadPosition, setRoadPosition] = useState(newroadPosition);
   const [showDetails, setShowDetails] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [modalStalls, setModalStalls] = useState([]);
   const [selectedStallsData, setSelectedStallsData] = useState({});
+
   const { marketStallPositions } = scheduleData || {};
 
-  const [stallList, setStallList] = useState([]);
-
+  const dat = new Date();
   const toast = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const selectedStallItems = sessionStorage.getItem("selectedStalls");
+  const sessionSelsctedStalls = selectedStallItems
+    ? JSON.parse(selectedStallItems)
+    : {};
+
+  const selectedStallsRedux = useSelector((state) => {
+    return state.stallReducer.selectedStalls;
+  });
+
+  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
 
   const {
     control,
@@ -82,18 +107,50 @@ const StallComponent = (props) => {
     reValidateMode: "onChange",
   });
 
-  const navigate = useNavigate();
-
   const getFormErrorMessage = (name) => {
     return (
       errors[name] && <small className="p-error">{errors[name].message}</small>
     );
   };
 
-  const dat = new Date();
+  if (selectedStallsRedux && selectedStallsRedux[selectedMarket]) {
+    const stalls = selectedStallsRedux[selectedMarket];
+    const dateKey = Object.keys(stalls)[0];
+
+    const dateValue = stalls[dateKey];
+
+    if (Array.isArray(dateValue) && dateValue.length > 0) {
+      const dates = dateValue.map((stall) => stall.date);
+
+      const firstDateString = dates[0];
+      const [day, month, year] = firstDateString.split("/");
+      const formattedDateString = `${year}-${month}-${day}`;
+
+      const firstDate = new Date(formattedDateString);
+
+      if (!isNaN(firstDate.getTime())) {
+        sessionSelectedMarketDate.push(firstDate);
+      } else {
+        console.error("Invalid date:", formattedDateString);
+      }
+    } else {
+      console.error("No valid stalls found for the date:", dateKey);
+    }
+  } else {
+    console.error("selectedMarket does not exist.");
+  }
+
+  useEffect(() => {
+    if (selectedStallsRedux.length === 0) {
+      const savedStalls = JSON.parse(sessionStorage.getItem("selectedStalls"));
+      if (savedStalls) {
+        dispatch({ type: "SELECT_STALL", payload: savedStalls });
+      }
+    }
+  }, [selectedStallsRedux, dispatch]);
 
   const onSubmit = (data) => {
-    if (!validateStalls()) {
+    if (selectedStallsRedux.length === 0) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -111,17 +168,6 @@ const StallComponent = (props) => {
       },
     });
   };
-
-  const validateStalls = () => {
-    const stallsSelected =
-      selectedStallsMap[selectedMarket]?.[
-        dates[selectedMarket]?.toLocaleDateString()
-      ];
-    const isValid = stallsSelected && stallsSelected.length > 0;
-
-    return isValid;
-  };
-
   const handleStallClick = (row, col) => {
     if (!dates[selectedMarket]) {
       toast.current.show({
@@ -166,22 +212,90 @@ const StallComponent = (props) => {
     newSelectedStalls[selectedMarket][currentDate] = dateStalls;
     setSelectedStallsMap(newSelectedStalls);
 
+    const groupedStall = Object.keys(newSelectedStalls)
+      .map((marketName) => {
+        const marketStalls = newSelectedStalls[marketName];
+
+        return Object.keys(marketStalls)
+          .map((date) => {
+            const dateStalls = marketStalls[date].map((stallId) => {
+              const stall = stallDataMap.get(stallId);
+
+              return {
+                id: stall ? stall._id : "",
+                stallNo: stall ? stall.stallNo : "No Stall No",
+                name: stall ? stall.stallName : "No Stall",
+                price: stall ? stall.stallPrice : 0,
+                date: date || "Not selected",
+              };
+            });
+
+            return dateStalls.length > 0
+              ? {
+                  market_name: marketName,
+                  date: date || "Not selected",
+                  stalls: dateStalls,
+                  bookedBy: user.id,
+                }
+              : null;
+          })
+          .filter(Boolean);
+      })
+      .flat();
+    setBookStallas(groupedStall);
+    sessionStorage.setItem("selectedStalls", JSON.stringify(groupedStall));
+    dispatch(selectedStall(groupedStall));
     setSelectedStallsData((prevData) => ({
       ...prevData,
       [stallId]: stall,
     }));
   };
 
+  function calculateTotalPrices(data) {
+    let totalPrices = {};
+    let overallTotal = 0;
+
+    (Array.isArray(data) ? data : []).forEach((marketData) => {
+      const marketName = marketData.market_name;
+      const stalls = marketData.stalls || []; 
+      totalPrices[marketName] = 0;
+      const marketTotal = stalls.reduce(
+        (sum, stall) => sum + (stall.price || 0),
+        0
+      );
+      totalPrices[marketName] = marketTotal;
+      overallTotal += marketTotal;
+    });
+
+    totalPrices["TotalAmount"] = overallTotal;
+    return totalPrices.TotalAmount;
+  }
+
+  const totalAmount = calculateTotalPrices(bookStalls);
+
   const getStallClass = (row, col) => {
     const stallId = `${row}-${col}`;
     const marketStalls =
+      sessionSelsctedStalls[selectedMarket]?.[
+        dates[selectedMarket]?.toLocaleDateString()
+      ] || [];
+    const isSelectedInSession = marketStalls.some(
+      (stall) => stall.id === stallId
+    );
+
+    if (isSelectedInSession) {
+      return "selected";
+    }
+
+    const marketStallsFromMap =
       selectedStallsMap[selectedMarket]?.[
         dates[selectedMarket]?.toLocaleDateString()
       ] || [];
 
-    if (marketStalls.includes(stallId)) {
+    if (marketStallsFromMap.includes(stallId)) {
       return "selected";
     }
+
     return stallDataMap.has(stallId) ? "available" : "unknown";
   };
 
@@ -221,6 +335,7 @@ const StallComponent = (props) => {
 
       setDisabledDays(selectedMarketObj ? selectedMarketObj.disabledDays : []);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMarket, marketStallPositions, fetchStallList]);
 
   useEffect(() => {
@@ -306,33 +421,48 @@ const StallComponent = (props) => {
     navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
   };
 
+  const handlePaymentClick = () => {
+    if (isLoggedIn) {
+      setShowPaymentScreen(true);
+    } else {
+      navigate(ROUTE_PATH.BASE.LOGIN);
+    }
+  };
+
   const handleShowClick = (e) => {
     e.preventDefault();
-    const groupedStalls = {};
 
-    Object.keys(selectedStallsMap).forEach((marketName) => {
-      const marketStalls = selectedStallsMap[marketName];
+    const groupedStalls = Object.keys(selectedStallsMap)
+      .map((marketName) => {
+        const marketStalls = selectedStallsMap[marketName];
 
-      Object.keys(marketStalls).forEach((date) => {
-        const dateStalls = marketStalls[date].map((stallId) => {
-          const stall = selectedStallsData[stallId];
-          return {
-            id: stallId,
-            stallNo: stall ? stall.stallNo : "No Stall N0",
-            name: stall ? stall.stallName : "No Stall",
-            price: stall ? stall.stallPrice : 0,
-            date: date || "Not selected",
-          };
-        });
+        return Object.keys(marketStalls)
+          .map((date) => {
+            const dateStalls = marketStalls[date].map((stallId) => {
+              const stall = selectedStallsData[stallId];
+              return {
+                id: stall._id,
+                stallNo: stall ? stall.stallNo : "No Stall No",
+                name: stall ? stall.stallName : "No Stall",
+                price: stall ? stall.stallPrice : 0,
+                date: date || "Not selected",
+              };
+            });
 
-        if (dateStalls.length > 0) {
-          groupedStalls[marketName] = groupedStalls[marketName] || {};
-          groupedStalls[marketName][date] = dateStalls;
-        }
-      });
-    });
+            return dateStalls.length > 0
+              ? {
+                  market_name: marketName,
+                  date: date || "Not selected",
+                  stalls: dateStalls,
+                  bookedBy: user.id,
+                }
+              : null;
+          })
+          .filter(Boolean);
+      })
+      .flat();
 
-    if (Object.keys(groupedStalls).length === 0) {
+    if (Object.keys(selectedStallsRedux).length === 0) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -345,6 +475,8 @@ const StallComponent = (props) => {
     setModalStalls(groupedStalls);
     setShowDetails(true);
   };
+
+  console.log(selectedStallsRedux);
 
   return (
     <>
@@ -388,7 +520,7 @@ const StallComponent = (props) => {
                       disabledDays={disabledDays}
                       minDate={dat}
                       showIcon={true}
-                      showButtonBar={true}
+                      showButtonBar={false}
                       className="w-full"
                       isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
                       errorMsg={getFormErrorMessage(
@@ -469,6 +601,7 @@ const StallComponent = (props) => {
                     viewBox="0 0 31 42"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className="stall"
                   >
                     <path
                       opacity="0.8"
@@ -524,61 +657,168 @@ const StallComponent = (props) => {
                   </svg>
                 )}
               </div>
-              <div
-                className={`market-layout ${
-                  roadPosition === "left" ? "pl-3" : ""
-                }`}
-                style={{
-                  gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
-                  borderLeft: roadPosition === "left" ? "none" : "",
-                  borderTop: roadPosition === "right" ? "none" : "",
-                }}
-              >
-                {stallPositions.map((row, rowIndex) =>
-                  row.map((isStall, colIndex) => {
-                    const stallId = `${rowIndex}-${colIndex}`;
+              {roadPosition === "left" && selectedMarket === "kharadi" ? (
+                <div
+                  className={`market-layout-kharadi  ${
+                    roadPosition === "left" ? "pl-1" : ""
+                  }`}
+                  style={{
+                    gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                    borderLeft: roadPosition === "left" ? "none" : "",
+                    borderTop: roadPosition === "right" ? "none" : "",
+                  }}
+                >
+                  {stallPositions.map((row, rowIndex) =>
+                    row.map((isStall, colIndex) => {
+                      const stallId = `${rowIndex}-${colIndex}`;
+                      const stall = stallDataMap.get(stallId);
 
-                    const stall = stallDataMap.get(stallId);
-
-                    return (
-                      <div
-                        key={stallId}
-                        className={`stall ${
-                          isStall.value ? getStallClass(rowIndex, colIndex) : ""
-                        }`}
-                        onClick={() =>
-                          isStall.value && handleStallClick(rowIndex, colIndex)
-                        }
-                        data-pr-tooltip={stall ? stall.stallName : ""}
-                        style={{ fontSize: "1rem", cursor: "pointer" }}
-                      >
-                        <div className="justify-content-between align-items-center">
-                          {isStall.value && stall && (
-                            <>
-                              <img
-                                src={
-                                  stallImageMap[stall.stallName] ||
-                                  GENERAL_STALL
-                                }
-                                alt={stall.stallName || "General stall"}
-                                className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
-                              />
-                              <div>{/* {stall.stallName} */}</div>
-                            </>
-                          )}
+                      return (
+                        <div
+                          key={stallId}
+                          className={`stall ${
+                            isStall.value
+                              ? getStallClass(rowIndex, colIndex)
+                              : ""
+                          }`}
+                          onClick={() =>
+                            isStall.value &&
+                            handleStallClick(rowIndex, colIndex)
+                          }
+                          data-pr-tooltip={stall ? stall.stallName : ""}
+                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                        >
+                          <div className="justify-content-between align-items-center">
+                            {isStall.value && stall && (
+                              <>
+                                <img
+                                  src={
+                                    stallImageMap[stall.stallName] ||
+                                    GENERAL_STALL
+                                  }
+                                  alt={stall.stallName || "General stall"}
+                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                />
+                                <div>{/* {stall.stallName} */}</div>
+                              </>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
+                      );
+                    })
+                  )}
+                </div>
+              ) : selectedMarket === "ivyEstateWagholi" ? (
+                <div
+                  className={`market-layout-ivyEstateWagholi  ${
+                    roadPosition === "left" ? "pl-1" : ""
+                  }`}
+                  style={{
+                    gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                    borderLeft: roadPosition === "left" ? "none" : "",
+                    borderTop: roadPosition === "right" ? "none" : "",
+                  }}
+                >
+                  {stallPositions.map((row, rowIndex) =>
+                    row.map((isStall, colIndex) => {
+                      const stallId = `${rowIndex}-${colIndex}`;
+                      const stall = stallDataMap.get(stallId);
+
+                      return (
+                        <div
+                          key={stallId}
+                          className={`stall ${
+                            isStall.value
+                              ? getStallClass(rowIndex, colIndex)
+                              : ""
+                          }`}
+                          onClick={() =>
+                            isStall.value &&
+                            handleStallClick(rowIndex, colIndex)
+                          }
+                          data-pr-tooltip={stall ? stall.stallName : ""}
+                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                        >
+                          <div className="justify-content-between align-items-center">
+                            {isStall.value && stall && (
+                              <>
+                                <img
+                                  src={
+                                    stallImageMap[stall.stallName] ||
+                                    GENERAL_STALL
+                                  }
+                                  alt={stall.stallName || "General stall"}
+                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                />
+                                <div>{/* {stall.stallName} */}</div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              ) : (
+                <div
+                  className={`market-layout ${
+                    roadPosition === "left" ? "pl-1" : ""
+                  }`}
+                  style={{
+                    gridTemplateColumns: `repeat(${stallPositions[0].length}, 1fr)`,
+                    borderLeft: roadPosition === "left" ? "none" : "",
+                    borderTop: roadPosition === "right" ? "none" : "",
+                  }}
+                >
+                  {stallPositions.map((row, rowIndex) =>
+                    row.map((isStall, colIndex) => {
+                      const stallId = `${rowIndex}-${colIndex}`;
+                      const stall = stallDataMap.get(stallId);
+
+                      return (
+                        <div
+                          key={stallId}
+                          className={`stall ${
+                            isStall.value
+                              ? getStallClass(rowIndex, colIndex)
+                              : ""
+                          }`}
+                          onClick={() =>
+                            isStall.value &&
+                            handleStallClick(rowIndex, colIndex)
+                          }
+                          data-pr-tooltip={stall ? stall.stallName : ""}
+                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                        >
+                          <div className="justify-content-between align-items-center">
+                            {isStall.value && stall && (
+                              <>
+                                <img
+                                  src={
+                                    stallImageMap[stall.stallName] ||
+                                    GENERAL_STALL
+                                  }
+                                  alt={stall.stallName || "General stall"}
+                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                />
+                                <div>{/* {stall.stallName} */}</div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
             </div>
+
             <hr />
             <div className="total-amount">
               <span>Total Amount</span>
               <span>
                 {" "}
-                {totalPrice} <i className="pi pi-indian-rupee" />
+                {totalAmount} <i className="pi pi-indian-rupee" />
                 /-{" "}
               </span>
             </div>
@@ -588,20 +828,76 @@ const StallComponent = (props) => {
                 label="Pay"
                 onClick={handleShowClick}
                 className="border-2 border-round-md md:w-10rem mr-2"
-                disabled={!validateStalls()}
+                disabled={selectedStallsRedux.length === 0}
               />
             </div>
           </div>
         </form>
         <Tooltip target=".stall" mouse className="text-green-400" />
 
-        <PaymentPage
-          modalStalls={modalStalls}
-          showDetails={showDetails}
-          setShowDetails={setShowDetails}
-          validateStalls={validateStalls}
-          amount={totalPrice}
-        />
+        {showPaymentScreen && (
+          <PaymentScreen amount={totalAmount} bookStalls={bookStalls} />
+        )}
+        <Dialog
+          header="Selected Stalls Details"
+          visible={showDetails}
+          style={{ width: "50vw", maxHeight: "80vh", overflowY: "auto" }}
+          className="w-full md:w-6"
+          onHide={() => setShowDetails(false)}
+          footer={
+            <>
+              <Button
+                label="Cancel"
+                icon="pi pi-times"
+                onClick={() => setShowDetails(false)}
+                className="border-2 te border-round-md md:w-10rem mr-2"
+              />
+
+              <Button
+                type="button"
+                label="Pay"
+                className="border-2 te border-round-md md:w-10rem"
+                onClick={handlePaymentClick}
+              />
+            </>
+          }
+        >
+          <div className="selected-stalls-details">
+            {selectedStallsRedux &&
+            Object.keys(selectedStallsRedux).length > 0 ? (
+              Object.keys(selectedStallsRedux).map((key) => {
+                const marketData = selectedStallsRedux[key];
+                return (
+                  <div key={key}>
+                    <h3>Market Name: {marketData.market_name}</h3>
+                    <h4>Date: {marketData.date}</h4>
+
+                    <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
+                      <h5>Stalls:</h5>
+                      {marketData.stalls.map((stall) => (
+                        <li key={stall.id}>
+                          <div>
+                            <strong>Stall No:</strong>{" "}
+                            {stall.stallNo || "No Stall No"}
+                          </div>
+                          <div>
+                            <strong>Stall Name:</strong>{" "}
+                            {stall.name || "No Stall"}
+                          </div>
+                          <div>
+                            <strong>Stall Price:</strong> {stall.price || 0}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No stalls selected.</p>
+            )}
+          </div>
+        </Dialog>
       </div>
     </>
   );

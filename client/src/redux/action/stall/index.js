@@ -7,6 +7,7 @@ import {
   UPDATE_STALL_RECORD,
   FETCH_BOOKED_STALL_LIST,
   FETCH_BOOKED_STALL_LIST_BY_USER,
+  SELECT_STALL
 } from "../../../constant/actionTypes/stall";
 import { stallService } from "../../../services";
 
@@ -220,3 +221,8 @@ export const deleteStall = (stallId) => {
     });
   };
 };
+export const selectedStall = (stallDetails) => ({
+  type: SELECT_STALL,
+  payload: stallDetails,
+});
+

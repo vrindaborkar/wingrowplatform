@@ -31,3 +31,19 @@ export const updateProfile = async (payload) => {
     return handleAPIError(error);
   }
 };
+
+// API to book multiple stalls
+export const bookMultipleStalls = async (payload) => {
+  const url = `${API_PATH.STALL.BOOK}`;
+  const token = ""; 
+  try {
+    let result = await postApi(url, payload, token);
+    if (result?.error) {
+      throw new APIError(result);
+    }
+    return result;
+  } catch (error) {
+    console.error(error);
+    return handleAPIError(error);
+  }
+};

@@ -7,7 +7,9 @@ import {
   UPDATE_STALL_RECORD,
   FETCH_BOOKED_STALL_LIST,
   FETCH_BOOKED_STALL_LIST_BY_USER,
+  SELECT_STALL
 } from "../../../constant/actionTypes/stall";
+
 
 const formFieldValueMap = {
   stall: "",
@@ -17,7 +19,7 @@ const formFieldValueMap = {
 const initialState = {
   stallList: [],
   stallBookList: [],
-  selectedStall: null,
+  selectedStalls: [],
   isLoading: false,
   error: null,
   formFieldValueMap,
@@ -40,7 +42,7 @@ const stallReducer = (state = initialState, action) => {
         stallList: [],
         stallBookList: [],
         formFieldValueMap: null,
-        selectedStall: null,
+        selectedStalls: [],
         isLoading: false,
         error: null,
       };
@@ -56,6 +58,7 @@ const stallReducer = (state = initialState, action) => {
         isLoading: true,
         stallList: [],
         stallBookList: [],
+        selectedStalls:[],
         error: null,
         isCreateStallSuccess: false,
         isEditStallSuccess: false,
@@ -126,6 +129,12 @@ const stallReducer = (state = initialState, action) => {
         isLoading: false,
         error: null,
         isDeleteStallSuccess: true,
+      };
+
+    case SELECT_STALL:
+      return {
+        ...state,
+        selectedStalls: action.payload, 
       };
     case FETCH_STALL_LIST.ERROR:
     case FETCH_BOOKED_STALL_LIST.ERROR:

@@ -1,15 +1,15 @@
 import React, { useRef } from "react";
-import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import axios from "axios";
 import { Toast } from "primereact/toast";
-const PaymentPage = ({
-  modalStalls,
-  showDetails,
-  setShowDetails,
-  amount,
-  validateStalls,
-}) => {
+
+const PaymentPage = (props) => {
+  const{
+    selectedStalls,
+    amount,
+
+  }=props
+  
+
   const toast = useRef(null);
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -21,33 +21,22 @@ const PaymentPage = ({
     });
   };
 
-  const displayRazorpay = async () => {
-    if (!validateStalls()) {
-      toast.current.show({
-        severity: "error",
-        summary: "Error",
-        detail:
-          "Please select at least one stall before proceeding to payment.",
-      });
-      return;
-    }
+  const formatDate = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  };
 
-    const selectedStallsPayload = Object.keys(modalStalls).map((marketName) => {
-      return {
-        dates: Object.keys(modalStalls[marketName]).map((date) => ({
-          market_name: marketName,
-          date: date,
-          stalls: modalStalls[marketName][date].map((stall) => ({
-            stall_id: stall.id,
-            stall_no: stall.stallNo,
-            stall_name: stall.name,
-            price: stall.price,
-          })),
-        })),
-      };
-    });
+  const selectedStallsPayload = selectedStalls.map((market) => ({
+    market_name: market.market_name,
+    date: formatDate(market.date),
+    bookedBy: market.bookedBy,
+    stalls: market.stalls.map((stall) => ({
+      stall_id: stall.id,
+      price: stall.price,
+    }))
+  }));
 
-    const res = await loadScript(
+    const res = loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
     if (!res) {
@@ -61,7 +50,7 @@ const PaymentPage = ({
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-      amount: amount * 100,
+      amount: amount * 100, 
       currency: "INR",
       name: "Wingrow Market",
       description: "Payment for stalls",
@@ -75,9 +64,10 @@ const PaymentPage = ({
 
         try {
           const apiResponse = await axios.post(
-            "/api/bookmultiplestalls",
-            paymentSuccessPayload
+            "http://localhost:4000/api/bookings/book-multiple-stalls",
+            selectedStallsPayload
           );
+
           toast.current.show({
             severity: "success",
             summary: "Success",
@@ -85,11 +75,11 @@ const PaymentPage = ({
           });
           console.log("API Response:", apiResponse.data);
         } catch (error) {
-          console.error("Error booking stalls:", error);
+          console.error("Error booking stalls after payment:", error);
           toast.current.show({
             severity: "error",
             summary: "Error",
-            detail: "Error booking stalls",
+            detail: "Payment succeeded, but stall booking failed.",
           });
         }
       },
@@ -105,69 +95,11 @@ const PaymentPage = ({
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
-  };
+
   return (
     <>
       <Toast ref={toast} />
-      <Dialog
-        header="Selected Stalls Details"
-        visible={showDetails}
-        style={{ width: "50vw", maxHeight: "80vh", overflowY: "auto" }}
-        className="w-full md:w-6"
-        onHide={() => setShowDetails(false)}
-        footer={
-          <>
-            <Button
-              label="Cancel"
-              icon="pi pi-times"
-              onClick={() => setShowDetails(false)}
-              className="border-2 te border-round-md md:w-10rem mr-2"
-            />
-
-            <Button
-              type="button"
-              label="Pay"
-              className="border-2 te border-round-md md:w-10rem"
-              onClick={displayRazorpay}
-            />
-          </>
-        }
-      >
-        <div className="selected-stalls-details">
-          {Object.keys(modalStalls).map((marketName) => (
-            <div key={marketName}>
-              {Object.keys(modalStalls[marketName]).map((date) => (
-                <div key={date}>
-                  <h3>Market Name: {marketName}</h3>
-                  <h4>Date: {date}</h4>
-                  {modalStalls[marketName][date] && (
-                    <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
-                      <h5>Stalls:</h5>
-                      {modalStalls[marketName][date].map((stall) => (
-                        <div>
-                          <div>
-                            <li key={stall.id}>
-                              <div>
-                                <strong>Stall No:</strong> {stall.stallNo}
-                              </div>
-                              <div>
-                                <strong>Stall Name:</strong> {stall.name}
-                              </div>
-                              <div>
-                                <strong>Stall Price:</strong> {stall.price}
-                              </div>
-                            </li>
-                          </div>
-                        </div>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </Dialog>
+      
     </>
   );
 };

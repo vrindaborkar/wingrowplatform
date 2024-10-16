@@ -36,7 +36,7 @@ export const API_PATH = {
     REGISTER: "/register",
   },
   MARKET: {
-    FETCH_LIST: "/market",
+    FETCH_LIST: "/markets/markets",
     FETCH_DETAIL: "/market/:id",
   },
   STALL: {

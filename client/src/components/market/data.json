@@ -1,8 +1,7 @@
 {
   "schedule": [
     {
-      "marketId": "1",
-      "day": "tuesday",
+      "marketDay": "tuesday",
       "name": "karveNagar",
       "roadPosition": "right",
       "location": "https://goo.gl/maps/5sETcJGzXWoXC5SG9",
@@ -13,8 +12,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "2",
-      "day": "tuesday",
+      "marketDay": "tuesday",
       "name": "godrejPrana",
       "roadPosition": "right",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -25,8 +23,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "3",
-      "day": "tuesday",
+      "marketDay": "tuesday",
       "name": "wadgaonSheri",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "wadgaonSheriLocation",
@@ -36,8 +33,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "4",
-      "day": "wednesday",
+      "marketDay": "wednesday",
       "name": "hadapsar",
       "location": "https://maps.app.goo.gl/bh7wNdiyVWcvy15p9?g_st=iw",
       "address": "hadapsarLocation",
@@ -47,8 +43,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "5",
-      "day": "wednesday",
+      "marketDay": "wednesday",
       "name": "undri",
       "roadPosition": "right",
       "location": "https://goo.gl/maps/GWympTKEp5Jqj8EB7",
@@ -59,8 +54,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "6",
-      "day": "thursday",
+      "marketDay": "thursday",
       "name": "kharadi",
       "roadPosition": "left",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -71,8 +65,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "7",
-      "day": "thursday",
+      "marketDay": "thursday",
       "name": "nottingHill",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "nottingHillLocation",
@@ -82,8 +75,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "8",
-      "day": "friday",
+      "marketDay": "friday",
       "name": "wagholi",
       "roadPosition": "right",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -94,8 +86,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "9",
-      "day": "friday",
+      "marketDay": "friday",
       "name": "wadgaonSheri",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "vadgoanSheriLocation",
@@ -105,8 +96,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "10",
-      "day": "saturday",
+      "marketDay": "saturday",
       "name": "adityaNandanvan",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "adityaNandanvanLocation",
@@ -115,9 +105,8 @@
       "state": "Maharashtra",
       "city": "Pune"
     },
-    { 
-      "marketId": "11",
-      "day": "saturday",
+    {
+      "marketDay": "saturday",
       "name": "wadachiWadi",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "wadachiWadiLocation",
@@ -127,8 +116,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "12",
-      "day": "saturday",
+      "marketDay": "saturday",
       "name": "wagholi",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "dabhadeChowkwagholiLocation",
@@ -138,9 +126,8 @@
       "city": "Pune"
     },
     {
-      "marketId": "13",
-      "day": "sunday",
-      "name": "Magarpatta",
+      "marketDay": "sunday",
+      "name": "magarpatta",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "magarpattaLocation",
       "time": "7AM - 1PM",
@@ -149,8 +136,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "14",
-      "day": "sunday",
+      "marketDay": "sunday",
       "name": "sadeSatraNali",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "sadeSatraNaliLocation",
@@ -159,8 +145,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "15",
-      "day": "sunday",
+      "marketDay": "sunday",
       "name": "ivyEstateWagholi",
       "roadPosition": "left",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
@@ -170,8 +155,7 @@
       "city": "Pune"
     },
     {
-      "marketId": "16",
-      "day": "sunday",
+      "marketDay": "sunday",
       "name": "nottingHill",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "nottingHillLocation",
