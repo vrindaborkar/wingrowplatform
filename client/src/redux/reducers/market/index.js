@@ -5,11 +5,9 @@ import {
 
 const INITIAL_STATE = {
   marketList: [],
-  schedule: [],
-  cities: {},
-  states: [],
   market: null,
   error: null,
+  cityId: null,
   isLoading: false,
   isPageLevelError: false,
   isLoadingPage: false,
@@ -17,8 +15,8 @@ const INITIAL_STATE = {
 
 export const marketReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case INITIAL_STATE:
-      return { ...state, isLoadingPage: true };
+    // case INITIAL_STATE:
+    //   return { ...state, isLoadingPage: true };
 
     case FETCH_MARKET_LIST.START:
       return { ...state, isLoading: true };
@@ -27,13 +25,11 @@ export const marketReducer = (state = INITIAL_STATE, action) => {
       if (action.payload == null) {
         return { ...state };
       }
-      const { data, schedule , cities , states } = action.payload;
+      const { data, cityId } = action.payload;
       return {
         ...state,
-        marketList: data,
-        cities: cities || {},
-        states: states || [],
-        schedule: schedule || [],
+        marketList: { ...state.marketList, [cityId]: data || [] },
+        cityId,
         error: null,
         isLoading: false,
         isPageLevelError: false,

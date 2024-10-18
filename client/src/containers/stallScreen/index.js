@@ -3,7 +3,7 @@ import StallComponent from "../../components/stall";
 import { connect } from "react-redux";
 import { ProgressBar } from "primereact/progressbar";
 import { fetchStallList, initStall } from "../../redux/action/stall";
-
+import { fetchMarketList } from "../../redux/action/market";
 import { useParams } from "react-router-dom";
 import { MzToast} from "../../common/MzToast";
 
@@ -11,15 +11,17 @@ const StallScreen = (props) => {
   const {
     fetchStallList,
     initStall,
+    fetchMarketList,
     isLoading,
     isPageLevelError,
     userRole,
     stallList,
+    marketList,
   } = props;
   const { id } = useParams();
   useEffect(() => {
-    initStall();
     fetchStallList(id);
+    fetchMarketList();    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,6 +53,7 @@ const StallScreen = (props) => {
     handleOnDeleteRecord,
     handleOnEditRecord,
     handleOnCreatedRecord,
+    marketList,
   };
 
   const renderProgressBar = () => (
@@ -85,11 +88,6 @@ const StallScreen = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  initStall: () => dispatch(initStall()),
-  fetchStallList: (payload) => dispatch(fetchStallList(payload)),
-});
-
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   isPageLevelError: state.stallReducer.isPageLevelError,
@@ -97,6 +95,13 @@ const mapStateToProps = (state, ownProps) => ({
   error: state.stallReducer.error,
   stallList: state.stallReducer.stallList,
   userRole: state.loginReducer.userRole,
+  marketList: state.marketReducer.marketList,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  initStall: () => dispatch(initStall()),
+  fetchStallList: (payload) => dispatch(fetchStallList(payload)),
+  fetchMarketList: () => dispatch(fetchMarketList()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StallScreen);

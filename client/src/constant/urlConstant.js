@@ -17,7 +17,7 @@ export const ROUTE_PATH = {
     OUTWARD:"/outward",
   },
   BOOKING:{
-    STALL:"/stall/:id"
+    STALL:"/stallStatus/stalls/:id"
   },
   ADMIN:{
     HOME:"/admin"
@@ -35,13 +35,19 @@ export const API_PATH = {
     LOGIN: "/login",
     REGISTER: "/register",
   },
+  STATE: {
+    FETCH: "/api/bookings/states",
+  },
+  CITY: {
+    FETCH: "/api/cities",
+  },
   MARKET: {
-    FETCH_LIST: "/markets/markets",
-    FETCH_DETAIL: "/market/:id",
+    FETCH_LIST: "/api/markets/markets",
+    FETCH_DETAIL: "api/markets/:id",
   },
   STALL: {
-    FETCH: "/stallStatus/stalls",
-    BOOK:"/stall",
+    FETCH: "/api/stallStatus/stalls",
+    BOOK:"/api/bookings/book-multiple-stalls",
     BOOK_BY_USER:"/bookedstalls",
     ADD: "/stall",
     EDIT: "/stall",

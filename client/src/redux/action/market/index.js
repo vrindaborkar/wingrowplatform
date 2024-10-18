@@ -2,7 +2,8 @@ import {
   FETCH_MARKET_LIST,
   INIT_MARKET,
 } from "../../../constant/actionTypes/market";
-import scheduleData from "../../../components/market/data.json";
+import { marketService } from "../../../services";
+// import scheduleData from "../../../components/market/data.json";
 
 export const initialMarketScreen = (payload) => {
   return {
@@ -31,18 +32,19 @@ export const fetchMarketListError = (error) => {
   };
 };
 
-export const fetchMarketList = () => {
+export const fetchMarketList = (cityId) => {
   return (dispatch) => {
     dispatch(fetchMarketListStart());
 
-    const marketData = {
-      data: [],
-      schedule: scheduleData.schedule || [],
-      cities: scheduleData.cities || {},
-      states: scheduleData.states || [],
-    };
-
-    dispatch(fetchMarketListSuccess(marketData));
+    marketService.fetchMarketList(cityId).then((marketData) => {
+      if (!marketData.isError) {
+        dispatch(fetchMarketListSuccess({data: marketData.markets, cityId}));
+      } else {
+        dispatch(fetchMarketListError(marketData));
+      }
+    }).catch((error) => {
+      dispatch(fetchMarketListError(error));
+    });
   };
 
   // return (dispatch) => {

@@ -4,33 +4,21 @@ import AccessDeniedPage from "../../common/Access";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
-import {  ROUTE_PATH } from "../../constant/urlConstant";
+import { baseUrl } from "../../services/PostAPI";
+import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { Dropdown } from "primereact/dropdown";
 import axios from "axios";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const MarketComponent = (props) => {
-  const {
-    isPageLevelError,
-    isLoading,
-    marketList,
-    fetchMarketList,
-  } = props;
+  const { isPageLevelError, marketList, setCityId } = props;
 
-  useEffect(() => {
-    fetchMarketList();
-  }, [fetchMarketList]);
-
-  useEffect(() => {
-    if (marketList) {
-      console.log("Fetched marketList:------------------", marketList);
-    }
-  }, [marketList]);
-  
-  console.log("marketList: ----------------------------", fetchMarketList);
+  console.log("marketList: ----------------------------", marketList);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [filteredMarkets, setFilteredMarkets] = useState([]);
@@ -40,9 +28,7 @@ const MarketComponent = (props) => {
   useEffect(() => {
     const fetchStates = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/bookings/states"
-        );
+        const response = await axios.get(`${baseUrl}${API_PATH.STATE.FETCH}`);
         console.log("States response:", response.data);
         const formattedStates = response.data.states
           .filter((state) => state.stateName)
@@ -61,7 +47,7 @@ const MarketComponent = (props) => {
   const fetchCities = async (stateId) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/cities?stateId=${stateId}`
+        `${baseUrl}${API_PATH.CITY.FETCH}?stateId=${stateId}`
       );
       const formattedCities = response.data.map((city) => ({
         label: city.name,
@@ -76,35 +62,34 @@ const MarketComponent = (props) => {
     }
   };
 
-  const fetchMarkets = async (cityId) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/api/markets/markets?cityId=${cityId}`
-      );
-      if (response.data.markets) {
-        setFilteredMarkets(response.data.markets);
-      } else {
-        setFilteredMarkets([]);
-      }
-    } catch (error) {
-      console.error("Error fetching markets:", error);
-    }
-  };
-
   const handleStateChange = (e) => {
     const stateId = e.value;
     setSelectedState(stateId);
     setSelectedCity(null);
     setFilteredMarkets([]);
     fetchCities(stateId);
-};
+  };
 
-const handleCityChange = (e) => {
-    const city = e.value;
-    setSelectedCity(city);
-    setFilteredMarkets([]); 
-    fetchMarkets(city);
-};
+  const handleCityChange = (e) => {
+    const cityId = e.value;
+    setSelectedCity(cityId);
+    setLoading(true);
+    
+    const marketsInCity = marketList[cityId] || [];
+    setFilteredMarkets(marketsInCity);
+    setCityId(cityId);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (selectedCity) {
+      setLoading(true);
+      const marketsInCity = marketList[selectedCity] || [];
+      console.log("marketsInCity: ", marketsInCity);
+      setFilteredMarkets(marketsInCity);
+      setLoading(false);
+    }
+  }, [selectedCity, marketList]);
 
   const handleLocation = (payload) => {
     window.open(payload, "_blank");
@@ -119,16 +104,22 @@ const handleCityChange = (e) => {
     const newroadPosition = market.roadPosition || "right";
     localStorage.setItem("selectedMarket", selectedMarket);
     localStorage.setItem("roadPosition", newroadPosition);
-    
-    const marketPath = `${ROUTE_PATH.BOOKING.STALL.replace(":id", selectedMarket)}`;
+
+    const marketPath = `${ROUTE_PATH.BOOKING.STALL.replace(
+      ":id",
+      selectedMarket
+    )}`;
     console.log("Navigating to:", marketPath);
-    
+
     navigate(marketPath);
   };
-  
 
   return (
     <div>
+      {loading ? (
+        <ProgressSpinner />
+      ) : (
+        <>
       {shouldRenderFullPageError() && <ErrorPage />}
       {shouldRenderNotFoundView() && <AccessDeniedPage />}
       {shouldRenderMarketList() && (
@@ -213,6 +204,8 @@ const handleCityChange = (e) => {
             )}
           </div>
         </div>
+      )}
+      </>
       )}
     </div>
   );

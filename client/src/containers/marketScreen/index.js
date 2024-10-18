@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   fetchMarketList,
@@ -6,35 +6,30 @@ import {
 } from "../../redux/action/market";
 import data from "./data.json";
 import MarketComponent from "../../components/market";
-import { init } from "aos";
 
 const MarketScreen = (props) => {
-  const {
-    initMarketScreen,
-    fetchMarketList,
-    marketList,
-    schedule,
-    cities,
-    states,
-    isLoading,
-    isPageLevelError,
-  } = props;
+  const { initMarketScreen, fetchMarketList, marketList, isPageLevelError } =
+    props;
+
+  const [cityId, setCityId] = useState(null);
 
   useEffect(() => {
     initMarketScreen();
-    fetchMarketList();
-  }, [initMarketScreen, fetchMarketList]);
+  }, [initMarketScreen]);
+
+  useEffect(() => {
+    if (cityId) {
+      fetchMarketList(cityId);
+    }
+  }, [cityId, fetchMarketList]);
 
   return (
     <div>
       <MarketComponent
         marketList={marketList}
+        setCityId={setCityId}
         isPageLevelError={isPageLevelError}
-        isLoading={isLoading}
         screenPermission={data.screenPermission}
-        schedule={schedule}
-        cities={cities}
-        states={states}
       />
     </div>
   );
@@ -43,7 +38,7 @@ const MarketScreen = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     initMarketScreen: () => dispatch(initialMarketScreen()),
-    fetchMarketList: () => dispatch(fetchMarketList()),
+    fetchMarketList: (cityId) => dispatch(fetchMarketList(cityId)),
   };
 };
 
@@ -53,9 +48,6 @@ const mapStateToProps = (state, ownProps) => {
     marketList: state.marketReducer.marketList,
     isPageLevelError: state.marketReducer.isPageLevelError,
     isLoading: state.marketReducer.isLoading,
-    schedule: state.marketReducer.schedule,
-    cities: state.marketReducer.cities,
-    states: state.marketReducer.states,
   };
 };
 
