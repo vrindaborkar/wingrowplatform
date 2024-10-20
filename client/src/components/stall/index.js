@@ -37,6 +37,7 @@ import PaymentScreen from "../../containers/paymentScreen";
 import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
 import { useDispatch, useSelector } from "react-redux";
+import { set } from "date-fns";
 
 // const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
 //   disabledDays: market.disabledDays || [0, 2, 3, 4, 5, 6],
@@ -792,7 +793,7 @@ const StallComponent = (props) => {
         <Tooltip target=".stall" mouse className="text-green-400" />
 
         {showPaymentScreen && (
-          <PaymentScreen amount={totalAmount} bookStalls={bookStalls} />
+          <PaymentScreen amount={totalAmount} bookStalls={bookStalls} onPaymentSuccess={setShowPaymentScreen}/>
         )}
         <Dialog
           header="Selected Stalls Details"

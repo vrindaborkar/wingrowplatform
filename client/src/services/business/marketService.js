@@ -10,14 +10,14 @@ export const fetchMarketList = async (cityId) => {
       return result.data;
     } else {
       return {
-        isError: true,
+        // isError: true,
         message: "Failed to fetch markets",
       };
     }
   } catch (error) {
     console.error("Error fetching market list:", error);
     return {
-      isError: true,
+      // isError: true,
       message: error.message || "Network error",
     };
   }

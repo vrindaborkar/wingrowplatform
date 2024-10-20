@@ -1,29 +1,45 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
 
 const PaymentPage = (props) => {
-  const{
-    selectedStalls,
-    amount,
-
-  }=props
-  
-
+  const { selectedStalls, amount, onPaymentSuccess } = props;
   const toast = useRef(null);
-  const loadScript = (src) => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
+
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadScript = (src) => {
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+      });
+    };
+
+    // useEffect(() => {
+    const checkScriptLoaded = async () => {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
+      if (res) {
+        setScriptLoaded(true);
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Razorpay SDK failed to load. Are you online?",
+        });
+      }
+    };
+    checkScriptLoaded();
+  }, []);
 
   const formatDate = (dateString) => {
-    const [day, month, year] = dateString.split('/');
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    const [day, month, year] = dateString.split("/");
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   };
 
   const selectedStallsPayload = selectedStalls.map((market) => ({
@@ -33,13 +49,11 @@ const PaymentPage = (props) => {
     stalls: market.stalls.map((stall) => ({
       stall_id: stall.id,
       price: stall.price,
-    }))
+    })),
   }));
 
-    const res = loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
-    if (!res) {
+  const handlePayment = async () => {
+    if (!scriptLoaded) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -50,7 +64,7 @@ const PaymentPage = (props) => {
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-      amount: amount * 100, 
+      amount: amount * 100,
       currency: "INR",
       name: "Wingrow Market",
       description: "Payment for stalls",
@@ -74,6 +88,7 @@ const PaymentPage = (props) => {
             detail: "Stalls booked successfully",
           });
           console.log("API Response:", apiResponse.data);
+          onPaymentSuccess();
         } catch (error) {
           console.error("Error booking stalls after payment:", error);
           toast.current.show({
@@ -84,8 +99,8 @@ const PaymentPage = (props) => {
         }
       },
       prefill: {
-        name: "Kapil",
-        email: "kapil.email@example.com",
+        name: "Wingrow Market",
+        email: "wingrowmarket.com",
         contact: "1234567890",
       },
       theme: {
@@ -95,11 +110,17 @@ const PaymentPage = (props) => {
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
+  };
+
+  useEffect(() => {
+    if (scriptLoaded) {
+      handlePayment();
+    }
+  }, [scriptLoaded]);
 
   return (
     <>
       <Toast ref={toast} />
-      
     </>
   );
 };
