@@ -2,8 +2,9 @@ import { INIT_LOGIN, LOGIN, LOGOUT } from "../../../constant/actionTypes/auth";
 import { authService } from "../../../services";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
+import { tr } from "date-fns/locale";
 
-let isLoggedOut = true;
+let isLoggedIn = false;
 
 export const init_login = () => {
   return {
@@ -17,7 +18,7 @@ export const loginStart = (payload) => {
   };
 };
 export const loginSuccess = (payload) => {
-  isLoggedOut = false;
+  isLoggedIn = true;
   return {
     type: LOGIN.SUCCESS,
     payload,
@@ -37,7 +38,7 @@ export const login = (payload) => {
       .login(payload)
       .then((logindata) => {
         if (!logindata.isError) {
-          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("isLoggedIn", true);
           localStorage.setItem("token", logindata.accessToken);
           localStorage.setItem("user", JSON.stringify(logindata));
 
@@ -88,6 +89,7 @@ export const logout = () => {
         if (!response.isError) {
           localStorage.clear();
           sessionStorage.clear();
+          sessionStorage.setItem("isLoggedIn", false);
           dispatch(logoutSuccess());
           toast.error(
             "Session expired due to inactivity. Please log in again."
