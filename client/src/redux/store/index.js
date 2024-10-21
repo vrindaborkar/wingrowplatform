@@ -3,7 +3,7 @@ import rootReducer from "../reducers/rootReducers";
 import { logout } from "./../action/auth/login";
 import "react-toastify/dist/ReactToastify.css";
 
-const inactivityTimeout = 5 * 1 * 1000;
+const inactivityTimeout = 15 * 60 * 1000;
 let inactivityTimer;
 
 const isUserLoggedIn = () => {
