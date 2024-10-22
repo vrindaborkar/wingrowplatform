@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "../reducers/rootReducers";
 import { logout } from "./../action/auth/login";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const inactivityTimeout = 15 * 60 * 1000;
@@ -17,6 +18,7 @@ const resetInactivityTimer = (store) => {
   inactivityTimer = setTimeout(() => {
     if (isUserLoggedIn()) {
       store.dispatch(logout());
+      toast.error("Session expired due to inactivity. Please log in again.");
     }
   }, inactivityTimeout);
 };

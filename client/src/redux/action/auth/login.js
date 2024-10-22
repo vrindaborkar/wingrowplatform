@@ -1,8 +1,6 @@
 import { INIT_LOGIN, LOGIN, LOGOUT } from "../../../constant/actionTypes/auth";
 import { authService } from "../../../services";
-import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
-import { tr } from "date-fns/locale";
 
 let isLoggedIn = false;
 
@@ -67,6 +65,8 @@ export const logoutStart = () => {
 };
 
 export const logoutSuccess = () => {
+  isLoggedIn = false;
+  // toast.error('Session expired due to inactivity. Please log in again.')
   return {
     type: LOGOUT.SUCCESS,
   };
@@ -91,10 +91,7 @@ export const logout = () => {
           sessionStorage.clear();
           sessionStorage.setItem("isLoggedIn", false);
           dispatch(logoutSuccess());
-          toast.error(
-            "Session expired due to inactivity. Please log in again."
-          );
-          Navigate("/login");
+            Navigate("/login");
         } else {
           dispatch(logoutError(response));
         }
