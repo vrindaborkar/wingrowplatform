@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 // Define the Market schema
-const marketSchema = new Schema({
+const marketSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -23,13 +22,13 @@ const marketSchema = new Schema({
         type: String,
         required: true,
     },
-    stallsAvailable: {
-        type: Number,
-        required: true,
-    },
     marketDay: {
         type: String,
         required: true,  // Example: "Saturday"
+    },
+    totalStalls: {
+        type: Number,
+        required: true,  // Example: 15 stalls available
     },
     createdAt: {
         type: Date,

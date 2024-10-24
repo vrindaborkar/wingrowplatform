@@ -16,20 +16,6 @@ const marketRoutes = require('./routes/marketRoutes.routes');
 const https = require('https');
 const fs = require('fs');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // // certificates
 // const privateKey = fs.readFileSync('/etc/letsencrypt/live/wingrowmarket.com/privkey.pem','utf8');
 // const certificate = fs.readFileSync('/etc/letsencrypt/live/wingrowmarket.com/cert.pem','utf8');
@@ -66,6 +52,8 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/stallStatus', stallStatusRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/markets', marketRoutes);
+app.use('/api/bookings', marketRoutes);
+
 
 app.use(express.static('client/build'))
 app.use(express.static(path.join(__dirname, 'public')));
