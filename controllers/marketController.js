@@ -33,7 +33,10 @@ exports.createMarket = async (req, res) => {
     try {
         const { name, city, state, location, address, marketDay, totalStalls } = req.body;
 
-        // Create a new market
+        if (!name || !city || !state || !location || !address || !marketDay || !totalStalls) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
         const newMarket = new Market({
             name,
             city,
@@ -44,7 +47,6 @@ exports.createMarket = async (req, res) => {
             totalStalls
         });
 
-        // Save the new market to the database
         await newMarket.save();
 
         res.status(201).json({
@@ -62,7 +64,10 @@ exports.getMarketStalls = async (req, res) => {
     try {
         const { marketId } = req.params;
 
-        // Find all stalls related to the market's location
+        if (!marketId) {
+            return res.status(400).json({ message: 'Market ID is required' });
+        }
+
         const stalls = await Stalls.find({ location: marketId });
 
         if (!stalls.length) {
@@ -84,7 +89,10 @@ exports.getMarketDetails = async (req, res) => {
     try {
         const { marketId } = req.params;
 
-        // Find the market by ID
+        if (!marketId) {
+            return res.status(400).json({ message: 'Market ID is required' });
+        }
+
         const market = await Market.findById(marketId);
         if (!market) {
             return res.status(404).json({ message: 'Market not found' });
@@ -100,7 +108,7 @@ exports.getMarketDetails = async (req, res) => {
             message: 'Market retrieved successfully',
             market: {
                 ...market.toObject(),
-                stallsAvailable,  // Dynamically calculated stallsAvailable
+                stallsAvailable  // Dynamically calculated stallsAvailable
             }
         });
     } catch (error) {

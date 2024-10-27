@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Market = require('../models/Market');
 const Stalls = require('../models/Stalls');
+const BookedStalls = require('../models/BookedStalls'); 
 
 // GET: Fetch markets by city, state, or name
 router.get('/markets', async (req, res) => {
@@ -116,5 +117,81 @@ router.get('/markets/:marketId/stalls', async (req, res) => {
         res.status(500).json({ message: 'Server error fetching stalls', error: error.message });
     }
 });
+
+// Inside marketRoutes.js
+router.get('/stalls/availability', async (req, res) => {
+    try {
+        const { marketId, date } = req.query;
+
+        if (!marketId || !date) {
+            return res.status(400).json({ message: 'Market ID and Date are required' });
+        }
+        const stalls = await Stalls.find({ location: marketId });
+        const bookedStalls = await BookedStalls.find({ marketId, date });
+        const bookedStallIds = bookedStalls.map(stall => stall.stallNo);
+
+     
+
+        const stallsWithAvailability = stalls.map(stalls => ({
+            stallNo: stalls.stallNo,
+            stallName: stalls.stallName,
+            stallPrice: stalls.stallPrice,
+            address: stalls.address,
+            available: !bookedStallIds.includes(stalls.stallNo)
+        }));
+
+        res.status(200).json({
+            message: 'Stalls availability retrieved successfully',
+            stalls: stallsWithAvailability
+        });
+    } catch (error) {
+        console.error('Error fetching available stalls:', error);
+        res.status(500).json({ message: 'Server error fetching available stalls', error: error.message });
+    }
+});
+
+
+
+
+
+
+
+// Fetch available stalls for a specific market on a specific date
+exports.getAvailableStalls = async (req, res) => {
+    try {
+        const { marketId, date } = req.query;
+
+        if (!marketId || !date) {
+            return res.status(400).json({ message: 'Market ID and date are required' });
+        }
+
+        // Fetch the stalls in the specified market
+        const stalls = await Stalls.find({ location: marketId });
+
+        // Fetch booked stalls on the specified date
+        const bookedStalls = await BookedStalls.find({ marketId, date });
+
+        // Get the IDs of booked stalls for the specified date
+        const bookedStallIds = bookedStalls.map(stall => stall.stallNo);
+
+        // Mark each stall as booked or available
+        const stallsWithAvailability = stalls.map(stall => ({
+            stallNo: stall.stallNo,
+            stallName: stall.stallName,
+            stallPrice: stall.stallPrice,
+            address: stall.address,
+            available: !bookedStallIds.includes(stall.stallNo)
+        }));
+
+        res.status(200).json({
+            message: 'Stalls availability retrieved successfully',
+            stalls: stallsWithAvailability
+        });
+    } catch (error) {
+        console.error('Error fetching available stalls:', error);
+        res.status(500).json({ message: 'Server error fetching available stalls', error: error.message });
+    }
+};
+
 
 module.exports = router;
