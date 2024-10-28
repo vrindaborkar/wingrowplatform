@@ -102,7 +102,7 @@ router.get('/markets/:marketId/stalls', async (req, res) => {
         const { marketId } = req.params;
 
         // Find stalls by market location
-        const stalls = await Stalls.find({ location: marketId });
+        const stalls = await Stalls.find({ location});
 
         if (!stalls.length) {
             return res.status(404).json({ message: 'No stalls found for this market' });
@@ -121,13 +121,13 @@ router.get('/markets/:marketId/stalls', async (req, res) => {
 // Inside marketRoutes.js
 router.get('/stalls/availability', async (req, res) => {
     try {
-        const { marketId, date } = req.query;
+        const { location, date } = req.query;
 
-        if (!marketId || !date) {
-            return res.status(400).json({ message: 'Market ID and Date are required' });
+        if (!location || !date) {
+            return res.status(400).json({ message: 'Location and Date are required' });
         }
-        const stalls = await Stalls.find({ location: marketId });
-        const bookedStalls = await BookedStalls.find({ marketId, date });
+        const stalls = await Stalls.find({ location});
+        const bookedStalls = await BookedStalls.find({ location, date });
         const bookedStallIds = bookedStalls.map(stall => stall.stallNo);
 
      
@@ -159,17 +159,17 @@ router.get('/stalls/availability', async (req, res) => {
 // Fetch available stalls for a specific market on a specific date
 exports.getAvailableStalls = async (req, res) => {
     try {
-        const { marketId, date } = req.query;
+        const { location, date } = req.query;
 
-        if (!marketId || !date) {
+        if (!location || !date) {
             return res.status(400).json({ message: 'Market ID and date are required' });
         }
 
         // Fetch the stalls in the specified market
-        const stalls = await Stalls.find({ location: marketId });
+        const stalls = await Stalls.find({ location});
 
         // Fetch booked stalls on the specified date
-        const bookedStalls = await BookedStalls.find({ marketId, date });
+        const bookedStalls = await BookedStalls.find({ location, date });
 
         // Get the IDs of booked stalls for the specified date
         const bookedStallIds = bookedStalls.map(stall => stall.stallNo);
