@@ -99,7 +99,7 @@ router.post('/markets/search', async (req, res) => {
 // GET: Fetch stalls for a specific market based on location
 router.get('/markets/:marketId/stalls', async (req, res) => {
     try {
-        const { marketId } = req.params;
+        const { location } = req.params;
 
         // Find stalls by market location
         const stalls = await Stalls.find({ location});
