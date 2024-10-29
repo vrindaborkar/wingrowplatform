@@ -4,6 +4,8 @@ const Market = require('../models/Market');
 const Stalls = require('../models/Stalls');
 const BookedStalls = require('../models/BookedStalls'); 
 
+
+
 // GET: Fetch markets by city, state, or name
 router.get('/markets', async (req, res) => {
     try {
@@ -97,7 +99,7 @@ router.post('/markets/search', async (req, res) => {
 });
 
 // GET: Fetch stalls for a specific market based on location
-router.get('/markets/:marketId/stalls', async (req, res) => {
+router.get('/markets/:location/stalls', async (req, res) => {
     try {
         const { location } = req.params;
 
@@ -149,13 +151,6 @@ router.get('/stalls/availability', async (req, res) => {
         res.status(500).json({ message: 'Server error fetching available stalls', error: error.message });
     }
 });
-
-
-
-
-
-
-
 // Fetch available stalls for a specific market on a specific date
 exports.getAvailableStalls = async (req, res) => {
     try {
@@ -193,5 +188,61 @@ exports.getAvailableStalls = async (req, res) => {
     }
 };
 
+// POST: Book multiple stalls across different markets and dates
+router.post('/bookings/multiple-stalls', async (req, res) => {
+    try {
+        const bookingRequests = req.body; // Array of booking requests as per payload
+
+        const bookingResults = [];
+
+        for (const request of bookingRequests) {
+            const { location, date, stalls } = request;
+
+            // Check if the market with the specified location exists
+            const market = await Market.findOne({ location });
+            if (!market) {
+                bookingResults.push({ location, date, status: 'Market not found' });
+                continue;
+            }
+
+            // Process each stall in the request
+            for (const stallRequest of stalls) {
+                const { stallNo, stallName, stallPrice } = stallRequest;
+
+                // Check if the stall is already booked for the specified date and location
+                const isBooked = await BookedStalls.findOne({
+                    location,
+                    date,
+                    stallNo
+                });
+
+                if (isBooked) {
+                    bookingResults.push({ location, date, stallNo, status: 'Already booked' });
+                    continue;
+                }
+
+                // Book the stall by creating a new record in BookedStalls
+                const newBooking = new BookedStalls({
+                    location,
+                    date,
+                    stallNo,
+                    stallName,
+                    stallPrice
+                });
+
+                await newBooking.save();
+                bookingResults.push({ location, date, stallNo, status: 'Booked successfully' });
+            }
+        }
+
+        res.status(200).json({
+            message: 'Multiple stalls booking process completed',
+            bookingResults
+        });
+    } catch (error) {
+        console.error('Error booking multiple stalls:', error);
+        res.status(500).json({ message: 'Server error booking multiple stalls', error: error.message });
+    }
+});
 
 module.exports = router;

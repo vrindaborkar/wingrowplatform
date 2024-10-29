@@ -5,52 +5,40 @@ const BookedStalls = require('../models/BookedStalls');
 const Stalls = require('../models/Stalls');
 const State = require('../models/State'); // Importing the State model
 const Market = require('../models/Market'); // Import the Market model
+// const MultipleStallsBooking = require('../models/MultipleStallsBooking'); // Import the new schema
 
 // POST: Book multiple stalls in different markets and dates
-router.post('/book-multiple-stalls', async (req, res) => {
-    try {
-        const bookings = req.body; // array of bookings containing multiple markets
-        const bookedStalls = [];
 
-        // Loop through each booking request
-        for (const booking of bookings) {
-            const { market_name, date, stalls } = booking;
 
-            // Loop through each stall in the market
-            for (const stall of stalls) {
-                const stallData = await Stalls.findById(stall.stall_id);
+// router.post('/bookings/multiple-stalls', async (req, res) => {
+//     try {
+//         const bookings = req.body; // Array of booking requests
 
-                if (!stallData) {
-                    return res.status(404).json({ message: `Stall with ID ${stall.stall_id} not found` });
-                }
+//         // Validate and save each booking
+//         const savedBookings = await Promise.all(
+//             bookings.map(async (booking) => {
+//                 const newBooking = new MultipleStallsBooking({
+//                     location: booking.market_name,
+//                     date: booking.date,
+//                     stalls: booking.stalls.map(stalls => ({
+//                         stallNo: stalls.stall_id,
+//                         stallName: stalls.stallName,
+//                         price: stalls.price
+//                     }))
+//                 });
+//                 return await newBooking.save();
+//             })
+//         );
 
-                const newBookedStall = new BookedStalls({
-                    stallId: stall.stall_id,
-                    marketName: market_name,
-                    date: date,
-                    stallPrice: stall.price,
-                    isBooked: true,
-                    bookedBy: req.user ? req.user.id : "unknown", // Handle missing user ID
-                    bookedAt: new Date().toISOString(),
-                    stallNo: stallData.stallNo
-                });
-
-                await newBookedStall.save();
-                bookedStalls.push(newBookedStall);
-            }
-        }
-
-        res.status(201).json({
-            message: 'Stalls successfully booked across multiple markets',
-            bookedStalls
-        });
-
-    } catch (error) {
-        console.error("Error during stall booking:", error);
-        res.status(500).json({ message: 'Server error during stall booking', error });
-    }
-});
-
+//         res.status(201).json({
+//             message: 'Multiple stalls booked successfully',
+//             bookings: savedBookings
+//         });
+//     } catch (error) {
+//         console.error('Error booking multiple stalls:', error);
+//         res.status(500).json({ message: 'Server error while booking multiple stalls', error: error.message });
+//     }
+// });
 
 
 

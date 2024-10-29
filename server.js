@@ -13,6 +13,8 @@ const marketRoutes = require('./routes/marketRoutes.routes');
 
 
 
+
+
 const https = require('https');
 const fs = require('fs');
 
@@ -53,6 +55,7 @@ app.use('/api/stallStatus', stallStatusRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/markets', marketRoutes);
 app.use('/api/bookings', marketRoutes);
+app.use('/api', marketRoutes);
 
 
 app.use(express.static('client/build'))

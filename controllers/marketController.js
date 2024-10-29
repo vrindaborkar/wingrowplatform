@@ -116,3 +116,60 @@ exports.getMarketDetails = async (req, res) => {
         res.status(500).json({ message: 'Server error fetching market details', error: error.message });
     }
 };
+
+exports.bookMultipleStalls = async (req, res) => {
+    try {
+        const bookingRequests = req.body; // Array of booking requests as per payload
+
+        const bookingResults = [];
+
+        for (const request of bookingRequests) {
+            const { market_name, date, stalls } = request;
+
+            // Find the market by name
+            const market = await Market.findOne({ name: market_name });
+            if (!market) {
+                bookingResults.push({ market_name, date, status: 'Market not found' });
+                continue;
+            }
+
+            // Process each stall in the request
+            for (const stallRequest of stalls) {
+                const { stall_id, stall_name, price } = stallRequest;
+
+                // Check if the stall is already booked for the specified date
+                const isBooked = await BookedStalls.findOne({
+                    marketId: market._id,
+                    date,
+                    stallNo: stall_id
+                });
+
+                if (isBooked) {
+                    bookingResults.push({ market_name, date, stall_id, status: 'Already booked' });
+                    continue;
+                }
+
+                // Book the stall by creating a new record in BookedStalls
+                const newBooking = new BookedStalls({
+                    marketId: market._id,
+                    date,
+                    stallNo: stall_id,
+                    stallName: stall_name,
+                    stallPrice: price
+                });
+
+                await newBooking.save();
+                bookingResults.push({ market_name, date, stall_id, status: 'Booked successfully' });
+            }
+        }
+
+        res.status(200).json({
+            message: 'Multiple stalls booking process completed',
+            bookingResults
+        });
+    } catch (error) {
+        console.error('Error booking multiple stalls:', error);
+        res.status(500).json({ message: 'Server error booking multiple stalls', error: error.message });
+    }
+};
+
