@@ -46,7 +46,7 @@ export const API_PATH = {
     FETCH_DETAIL: "api/markets/:id",
   },
   STALL: {
-    FETCH: "/api/stallStatus/stalls",
+    FETCH: "/api/stalls/availability",
     BOOK:"/api/bookings/book-multiple-stalls",
     BOOK_BY_USER:"/bookedstalls",
     ADD: "/stall",

@@ -55,7 +55,7 @@
     },
     {
       "marketDay": "thursday",
-      "name": "kharadi",
+      "name": "Kharadi IT Park",
       "roadPosition": "left",
       "location": "https://maps.app.goo.gl/hWAwbDk3smxX7wfn9?g_st=iw",
       "address": "kharadiLocation",
@@ -184,6 +184,27 @@
       { "label": "Warangal", "value": "Warangal" }
     ]
   },
+
+  "roadPositions": {
+    "Default": "right",
+    "Bramhasun City": "right",
+    "Bhavadi Road": "right",
+    "hadapsar": "right",
+    "godrejPrana": "right",
+    "adityaNandanvan": "right",
+    "ivyEstateWagholi": "left",
+    "Ivy Estate": "left",
+    "karveNagar": "right",
+    "Kharadi IT Park": "left",
+    "magarpatta": "right",
+    "sadeSatraNali": "right",
+    "nottingHill": "right",
+    "wadachiWadi": "right",
+    "More Corner": "right",
+    "Wagholi": "right",
+    "wadgaonSheri": "right",
+    "undri": "right"
+  },
   "marketStallPositions": {
     "Default": [
       [
@@ -284,6 +305,581 @@
         { "direction": "north", "value": true },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false }
+      ]
+    ],
+    "Amanora": [
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ]
+    ],
+    "Bramhasun City": [
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ]
+    ],
+    "Bhavadi Road": [
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "south", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ]
+    ],
+    "hadapsar": [
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
+      ],
+      [
+        { "direction": "north", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false }
       ]
     ],
     "godrejPrana": [
@@ -396,31 +992,183 @@
         { "direction": "south", "value": false }
       ]
     ],
-    "kharadi": [
+    "Karvenagar": [
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "south", "value": true },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ]
+    ],
+    "Kharadi IT Park": [
       [
         { "direction": "south", "value": true },
         { "direction": "east", "value": false },
         { "direction": "south", "value": true },
-        { "direction": "west", "value": false },
+        { "direction": "south", "value": false },
         { "direction": "south", "value": true },
-        { "direction": "east", "value": false },
         { "direction": "south", "value": true },
         { "direction": "west", "value": false }
       ],
       [
         { "direction": "north", "value": true },
         { "direction": "east", "value": false },
-        { "direction": "south", "value": false },
+        { "direction": "north", "value": false },
         { "direction": "north", "value": true },
         { "direction": "north", "value": true },
-        { "direction": "east", "value": false },
         { "direction": "south", "value": false },
         { "direction": "east", "value": true }
       ],
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
         { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
@@ -430,7 +1178,6 @@
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
         { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
@@ -440,7 +1187,6 @@
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
         { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
@@ -450,7 +1196,6 @@
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
         { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
@@ -459,7 +1204,6 @@
       ],
       [
         { "direction": "north", "value": false },
-        { "direction": "east", "value": false },
         { "direction": "east", "value": false },
         { "direction": "east", "value": true },
         { "direction": "north", "value": false },
@@ -470,7 +1214,6 @@
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
         { "direction": "west", "value": false },
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
@@ -480,7 +1223,6 @@
       [
         { "direction": "north", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "south", "value": false },
         { "direction": "north", "value": false },
         { "direction": "north", "value": true },
         { "direction": "east", "value": false },
@@ -488,7 +1230,113 @@
         { "direction": "east", "value": true }
       ]
     ],
-    "ivyEstateWagholi": [
+    "Ivy Estate": [
+      [
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": false }
+      ]
+    ],
+    "Godrej Horizon": [
       [
         { "direction": "east", "value": false },
         { "direction": "west", "value": false },
@@ -702,6 +1550,158 @@
         { "direction": "north", "value": true },
         { "direction": "north", "value": true },
         { "direction": "south", "value": false }
+      ]
+    ],
+    "magarpatta": [
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false }
       ]
     ]
   }

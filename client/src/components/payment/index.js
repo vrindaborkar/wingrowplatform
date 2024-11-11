@@ -38,19 +38,21 @@ const PaymentPage = (props) => {
   }, []);
 
   const formatDate = (dateString) => {
-    const [day, month, year] = dateString.split("/");
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    const [month, day, year] = dateString.split("/");
+    return `${year}/${month.padStart(2, "0")}/${day.padStart(2, "0")}`;
   };
-
-  const selectedStallsPayload = selectedStalls.map((market) => ({
-    market_name: market.market_name,
-    date: formatDate(market.date),
-    bookedBy: market.bookedBy,
+  console.log("selectedStallsselectedStalls",selectedStalls);
+   console.log("selectedStallsselectedStalls",selectedStalls.date);
+   const selectedStallsPayload = selectedStalls.map((market) => ({
+    location: market.market_name,
+    date: formatDate(market.date), 
     stalls: market.stalls.map((stall) => ({
-      stall_id: stall.id,
-      price: stall.price,
+      stallNo: stall.stallNo,
+      stallName: stall.name,
+      stallPrice: stall.price,
     })),
-  }));
+}));
+    console.log("selectedStallsPayloadselectedStallsPayload",selectedStallsPayload)
 
   const handlePayment = async () => {
     if (!scriptLoaded) {
@@ -78,9 +80,11 @@ const PaymentPage = (props) => {
 
         try {
           const apiResponse = await axios.post(
-            "http://localhost:4000/api/bookings/book-multiple-stalls",
+            "http://localhost:4000/api/bookings/multiple-stalls",
             selectedStallsPayload
           );
+
+          console.log("selectedStallsPayload", selectedStallsPayload);
 
           toast.current.show({
             severity: "success",
