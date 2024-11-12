@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const Market = require('../models/Market');
 const Stalls = require('../models/Stalls');
-const BookedStalls = require('../models/BookedStalls'); 
-
-
+const BookedStalls = require('../models/BookedStalls');
 
 // GET: Fetch markets by city, state, or name
 router.get('/markets', async (req, res) => {
     try {
         const { city, state, name } = req.query;
-
         let query = {};
         if (city) query.city = city;
         if (state) query.state = state;
@@ -27,22 +25,20 @@ router.get('/markets', async (req, res) => {
             markets
         });
     } catch (error) {
-        console.error('Error fetching markets:', error); // Log detailed error
+        console.error('Error fetching markets:', error);
         res.status(500).json({ message: 'Server error fetching markets', error: error.message });
     }
 });
 
-// POST: Create a new market (without stalls)
+// POST: Create a new market
 router.post('/markets', async (req, res) => {
     try {
         const { name, city, state, location, address, marketDay, totalStalls } = req.body;
 
-        // Ensure that all required fields are provided
         if (!name || !city || !state || !location || !address || !marketDay || !totalStalls) {
-            return res.status(400).json({ message: 'All fields including stallsAvailable must be provided' });
+            return res.status(400).json({ message: 'All fields must be provided' });
         }
 
-        // Create a new market
         const newMarket = new Market({
             name,
             city,
@@ -53,7 +49,6 @@ router.post('/markets', async (req, res) => {
             totalStalls
         });
 
-        // Save the new market to the database
         await newMarket.save();
 
         res.status(201).json({
@@ -61,18 +56,16 @@ router.post('/markets', async (req, res) => {
             newMarket
         });
     } catch (error) {
-        console.error(error);
+        console.error('Error creating market:', error);
         res.status(500).json({ message: 'Server error creating market', error: error.message });
     }
 });
-
 
 // POST: Search markets based on name, city, or state
 router.post('/markets/search', async (req, res) => {
     try {
         const { name, city, state } = req.body;
 
-        // Validate if at least one search parameter is provided
         if (!name && !city && !state) {
             return res.status(400).json({ message: 'Please provide at least one search parameter (name, city, or state)' });
         }
@@ -93,7 +86,7 @@ router.post('/markets/search', async (req, res) => {
             markets
         });
     } catch (error) {
-        console.error('Error searching markets:', error); // Log detailed error
+        console.error('Error searching markets:', error);
         res.status(500).json({ message: 'Server error searching markets', error: error.message });
     }
 });
@@ -103,8 +96,7 @@ router.get('/markets/:location/stalls', async (req, res) => {
     try {
         const { location } = req.params;
 
-        // Find stalls by market location
-        const stalls = await Stalls.find({ location});
+        const stalls = await Stalls.find({ location });
 
         if (!stalls.length) {
             return res.status(404).json({ message: 'No stalls found for this market' });
@@ -120,7 +112,14 @@ router.get('/markets/:location/stalls', async (req, res) => {
     }
 });
 
-// Inside marketRoutes.js
+
+
+
+
+// GET: Check availability of stalls
+
+
+// GET: Check availability of stalls based on location and date
 router.get('/stalls/availability', async (req, res) => {
     try {
         const { location, date } = req.query;
@@ -128,18 +127,30 @@ router.get('/stalls/availability', async (req, res) => {
         if (!location || !date) {
             return res.status(400).json({ message: 'Location and Date are required' });
         }
-        const stalls = await Stalls.find({ location});
-        const bookedStalls = await BookedStalls.find({ location, date });
-        const bookedStallIds = bookedStalls.map(stall => stall.stallNo);
 
-     
+        // Step 1: Format the provided date to "YYYY/MM/DD"
+        const formattedDate = moment(date, ["YYYY/MM/DD", "YYYY-MM-DD"]).format("YYYY/MM/DD");
 
-        const stallsWithAvailability = stalls.map(stalls => ({
-            stallNo: stalls.stallNo,
-            stallName: stalls.stallName,
-            stallPrice: stalls.stallPrice,
-            address: stalls.address,
-            available: !bookedStallIds.includes(stalls.stallNo)
+        // Step 2: Retrieve all stalls for the specified location from the Stalls collection
+        const allStalls = await Stalls.find({ location });
+
+        if (!allStalls.length) {
+            return res.status(404).json({ message: 'No stalls found for this location' });
+        }
+
+        // Step 3: Retrieve booked stalls for the specified location and formatted date from the BookedStalls collection
+        const bookedStalls = await BookedStalls.find({ location, date: formattedDate });
+
+        // Step 4: Map out the stall numbers that are already booked
+        const bookedStallNumbers = new Set(bookedStalls.map(stall => stall.stallNo));
+
+        // Step 5: Create a response array that marks each stall as available or booked
+        const stallsWithAvailability = allStalls.map(stall => ({
+            stallNo: stall.stallNo,
+            stallName: stall.stallName,
+            stallPrice: stall.stallPrice,
+            address: stall.address,
+            available: !bookedStallNumbers.has(stall.stallNo) // Check if stall is not in bookedStallNumbers set
         }));
 
         res.status(200).json({
@@ -151,87 +162,52 @@ router.get('/stalls/availability', async (req, res) => {
         res.status(500).json({ message: 'Server error fetching available stalls', error: error.message });
     }
 });
-// Fetch available stalls for a specific market on a specific date
-exports.getAvailableStalls = async (req, res) => {
-    try {
-        const { location, date } = req.query;
 
-        if (!location || !date) {
-            return res.status(400).json({ message: 'Market ID and date are required' });
-        }
 
-        // Fetch the stalls in the specified market
-        const stalls = await Stalls.find({ location});
 
-        // Fetch booked stalls on the specified date
-        const bookedStalls = await BookedStalls.find({ location, date });
-
-        // Get the IDs of booked stalls for the specified date
-        const bookedStallIds = bookedStalls.map(stall => stall.stallNo);
-
-        // Mark each stall as booked or available
-        const stallsWithAvailability = stalls.map(stall => ({
-            stallNo: stall.stallNo,
-            stallName: stall.stallName,
-            stallPrice: stall.stallPrice,
-            address: stall.address,
-            available: !bookedStallIds.includes(stall.stallNo)
-        }));
-
-        res.status(200).json({
-            message: 'Stalls availability retrieved successfully',
-            stalls: stallsWithAvailability
-        });
-    } catch (error) {
-        console.error('Error fetching available stalls:', error);
-        res.status(500).json({ message: 'Server error fetching available stalls', error: error.message });
-    }
-};
 
 // POST: Book multiple stalls across different markets and dates
 router.post('/bookings/multiple-stalls', async (req, res) => {
     try {
-        const bookingRequests = req.body; // Array of booking requests as per payload
+        const bookingRequests = req.body;
 
         const bookingResults = [];
 
         for (const request of bookingRequests) {
             const { location, date, stalls } = request;
+            const parsedDate = new Date(date).toISOString().split('T')[0];
 
-            // Check if the market with the specified location exists
             const market = await Market.findOne({ location });
             if (!market) {
-                bookingResults.push({ location, date, status: 'Market not found' });
+                bookingResults.push({ location, date: parsedDate, status: 'Market not found' });
                 continue;
             }
 
-            // Process each stall in the request
             for (const stallRequest of stalls) {
                 const { stallNo, stallName, stallPrice } = stallRequest;
 
-                // Check if the stall is already booked for the specified date and location
                 const isBooked = await BookedStalls.findOne({
                     location,
-                    date,
+                    date: parsedDate,
                     stallNo
                 });
 
                 if (isBooked) {
-                    bookingResults.push({ location, date, stallNo, status: 'Already booked' });
+                    bookingResults.push({ location, date: parsedDate, stallNo, status: 'Already booked' });
                     continue;
                 }
 
-                // Book the stall by creating a new record in BookedStalls
                 const newBooking = new BookedStalls({
                     location,
-                    date,
+                    date: parsedDate,
                     stallNo,
                     stallName,
-                    stallPrice
+                    stallPrice,
+                    isBooked: true
                 });
 
                 await newBooking.save();
-                bookingResults.push({ location, date, stallNo, status: 'Booked successfully' });
+                bookingResults.push({ location, date: parsedDate, stallNo, status: 'Booked successfully' });
             }
         }
 
@@ -248,7 +224,6 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
 // GET: Fetch all booked stalls from all markets
 router.get('/booked-stalls', async (req, res) => {
     try {
-        // Fetch all booked stalls from the BookedStalls collection
         const bookedStalls = await BookedStalls.find();
 
         if (!bookedStalls.length) {
@@ -264,6 +239,5 @@ router.get('/booked-stalls', async (req, res) => {
         res.status(500).json({ message: 'Server error fetching booked stalls', error: error.message });
     }
 });
-
 
 module.exports = router;
