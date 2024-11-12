@@ -6,7 +6,7 @@ import { Button } from "primereact/button";
 import { baseUrl } from "../../services/PostAPI";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { useNavigate } from "react-router-dom";
-import moment from 'moment';
+import moment from "moment";
 import "./stall.css";
 
 import axios from "axios";
@@ -38,13 +38,6 @@ import PaymentScreen from "../../containers/paymentScreen";
 import { Toast } from "primereact/toast";
 import { Dialog } from "primereact/dialog";
 import { useDispatch, useSelector } from "react-redux";
-import { set } from "date-fns";
-
-
-// const scheduleOptions = (scheduleData.schedule || []).map((market) => ({
-//   disabledDays: market.disabledDays || [0, 2, 3, 4, 5, 6],
-//   roadPosition: market.roadPosition || "right",
-// }));
 
 const StallComponent = (props) => {
   const { fetchStallList, formFieldValueMap, marketList } = props.stallProps;
@@ -76,7 +69,7 @@ const StallComponent = (props) => {
   const [stallDataMap, setStallDataMap] = useState(new Map());
   const [totalPrice, setTotalPrice] = useState(0);
   const [dates, setDates] = useState({});
-  
+
   const [stallPositions, setStallPositions] = useState(
     scheduleData.marketStallPositions.Default
   );
@@ -145,10 +138,11 @@ const StallComponent = (props) => {
       const dates = dateValue.map((stall) => stall.date);
 
       const firstDateString = dates[0];
-      const [year , month, day] = firstDateString.split("/");
-      const formattedDateString = `${year}/${month}/${day}`;
+      const formattedDateString = moment(firstDateString, "YYYY/MM/DD").format(
+        "YYYY/MM/DD"
+      );
 
-      const firstDate = new Date(formattedDateString);
+      const firstDate = moment(formattedDateString, "YYYY/MM/DD").toDate();
 
       if (!isNaN(firstDate.getTime())) {
         sessionSelectedMarketDate.push(firstDate);
@@ -200,34 +194,48 @@ const StallComponent = (props) => {
       });
       return;
     }
-
+  
     const stallId = `${row}-${col}`;
     const stall = stallDataMap.get(stallId);
-    if (!stall) return;
-
+  
+    if (!stall) {
+      console.log("Stall not found!");
+      return;
+    }
+  
+    if (!stall.available) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "This stall is not available.",
+        life: 3000,
+      });
+      return;
+    }
+  
     const currentDate = dates[selectedMarket].toLocaleDateString();
     const newSelectedStalls = { ...selectedStallsMap };
-
+  
     if (!newSelectedStalls[selectedMarket]) {
       newSelectedStalls[selectedMarket] = {};
     }
-
+  
     if (!newSelectedStalls[selectedMarket][currentDate]) {
       newSelectedStalls[selectedMarket][currentDate] = [];
     }
-
+  
     let dateStalls = newSelectedStalls[selectedMarket][currentDate];
     const isStallSelected = dateStalls.includes(stallId);
-
+  
     if (isStallSelected) {
       dateStalls = dateStalls.filter((s) => s !== stallId);
       setTotalPrice((prevPrice) => prevPrice - stall.stallPrice);
-
+  
       newSelectedStalls[selectedMarket][currentDate] = dateStalls;
-
+  
       if (dateStalls.length === 0) {
         delete newSelectedStalls[selectedMarket][currentDate];
-
+  
         if (Object.keys(newSelectedStalls[selectedMarket]).length === 0) {
           delete newSelectedStalls[selectedMarket];
         }
@@ -241,7 +249,6 @@ const StallComponent = (props) => {
             prevPrice - (removedStall ? removedStall.stallPrice : 0)
         );
       }
-
       dateStalls.push(stallId);
       setTotalPrice((prevPrice) => prevPrice + stall.stallPrice);
     }
@@ -263,7 +270,7 @@ const StallComponent = (props) => {
                 date: date || "Not selected",
               };
             });
-
+  
             return dateStalls.length > 0
               ? {
                   market_name: marketName,
@@ -276,17 +283,18 @@ const StallComponent = (props) => {
           .filter(Boolean);
       }
     );
-
+  
     if (JSON.stringify(groupedStall) !== JSON.stringify(bookStalls)) {
       setbookStalls(groupedStall);
       dispatch(selectedStall(groupedStall));
     }
-
+  
     setSelectedStallsData((prevData) => ({
       ...prevData,
       [stallId]: stall,
     }));
   };
+  
 
   function calculateTotalPrices(data) {
     let totalPrices = {};
@@ -431,6 +439,9 @@ const StallComponent = (props) => {
     if (marketDayIndex === -1) {
       console.error("Invalid marketDay:", marketDay);
       return allDays;
+    } else if (marketDayIndex === 5) {
+      // for testing
+      return [0, 1, 2, 3, 5, 6];
     }
 
     const disabled = allDays.filter((day) => day !== marketDayIndex);
@@ -440,27 +451,6 @@ const StallComponent = (props) => {
     const marketName = e.value;
     setSelectedMarket(marketName);
     setLoading(true);
-
-    const formatDate = (date) => {
-      return date ? moment(date).format('YYYY/MM/DD') : '';
-  };
-
-  const formattedDate = formatDate(dates[marketName]);
-    try {
-      const response = await axios.get(
-        `${baseUrl}${API_PATH.STALL.FETCH}?location=${marketName}&date=${formattedDate[marketName]}`
-      );
-      if (response.data && response.data.stalls) {
-        setStallList(response.data.stalls);
-      } else {
-        setStallList([]);
-      }
-    } catch (error) {
-      console.error("Error fetching stall list:", error);
-      setStallList([]);
-    } finally {
-      setLoading(false);
-    }
 
     const selectedMarketObj = marketOptions.find((m) => m.value === marketName);
 
@@ -472,8 +462,7 @@ const StallComponent = (props) => {
         marketStallPositions[marketName] || marketStallPositions.Default;
       setStallPositions(positions);
 
-      const roadPosition =
-        roadPositions[marketName] || roadPositions.Default;
+      const roadPosition = roadPositions[marketName] || roadPositions.Default;
 
       setDates((prevDates) => ({
         ...prevDates,
@@ -492,6 +481,36 @@ const StallComponent = (props) => {
       navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
     }
   };
+
+  useEffect(() => {
+    const fetchStalls = async () => {
+      // if (!selectedMarket || !dates[selectedMarket]) return;
+
+      setLoading(true);
+
+      try {
+        const formattedDate = moment(dates[selectedMarket]).format(
+          "YYYY/MM/DD"
+        );
+        const response = await axios.get(
+          `${baseUrl}${API_PATH.STALL.FETCH}?location=${selectedMarket}&date=${formattedDate}`
+        );
+
+        if (response.data && response.data.stalls) {
+          setStallList(response.data.stalls);
+        } else {
+          setStallList([]);
+        }
+      } catch (error) {
+        console.error("Error fetching stall list:", error);
+        setStallList([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStalls();
+  }, [selectedMarket, dates[selectedMarket]]);
 
   useEffect(() => {
     if (selectedMarket) {
@@ -553,6 +572,13 @@ const StallComponent = (props) => {
     setModalStalls(groupedStalls);
     setShowDetails(true);
   };
+  const handleDateChange = ({ value }, field) => {
+    setDates((prevDates) => ({
+      ...prevDates,
+      [selectedMarket]: value,
+    }));
+    field?.onChange(moment(value).format("YYYY-MM-DD"));
+  };
 
   console.log(selectedStallsRedux);
 
@@ -590,13 +616,7 @@ const StallComponent = (props) => {
                         {...field}
                         id="date"
                         value={dates[selectedMarket]}
-                        onChange={(e) => {
-                          setDates((prevDates) => ({
-                            ...prevDates,
-                            [selectedMarket]: e.value,
-                          }));
-                          field.onChange(e.value);
-                        }}
+                        onChange={(e) => handleDateChange(e, field)}
                         placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
                         disabledDays={getDisabledDays(marketDay)}
                         minDate={dat}
@@ -632,7 +652,8 @@ const StallComponent = (props) => {
                 }`}
               >
                 <div className={`${roadPosition}-road`}>
-                  {roadPosition === "left" && selectedMarket === "Kharadi IT Park" ? (
+                  {roadPosition === "left" &&
+                  selectedMarket === "Kharadi IT Park" ? (
                     <svg
                       width="34"
                       height="185"
@@ -674,7 +695,8 @@ const StallComponent = (props) => {
                       />
                     </svg>
                   ) : (roadPosition === "right" &&
-                      selectedMarket === "godrejPrana") || selectedMarket === "Bramhasun City" ||
+                      selectedMarket === "godrejPrana") ||
+                    selectedMarket === "Bramhasun City" ||
                     selectedMarket === "undri" ? (
                     <svg
                       width="31"
@@ -769,10 +791,14 @@ const StallComponent = (props) => {
                       const stall = stallList[stallIndex] || null;
                       stallIndex++;
 
+                      const isDisabled = stall && !stall.available;
+
                       return (
                         <div
                           key={stallId}
                           className={`stall ${
+                            isDisabled ? "disabled-stall" : ""
+                          } ${
                             isStall.value
                               ? getStallClass(rowIndex, colIndex)
                               : ""
@@ -782,7 +808,11 @@ const StallComponent = (props) => {
                             handleStallClick(rowIndex, colIndex)
                           }
                           data-pr-tooltip={stall ? stall.stallName : ""}
-                          style={{ fontSize: "1rem", cursor: "pointer" }}
+                          style={{
+                            fontSize: "1rem",
+                            cursor: isDisabled ? "not-allowed" : "pointer",
+                            opacity: isDisabled ? 0.5 : 1,
+                          }}
                         >
                           <div className="justify-content-between align-items-center">
                             {isStall.value && stall && (
