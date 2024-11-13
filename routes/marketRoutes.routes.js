@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const dayjs = require('dayjs');
 const Market = require('../models/Market');
 const Stalls = require('../models/Stalls');
 const BookedStalls = require('../models/BookedStalls');
@@ -166,6 +167,7 @@ router.get('/stalls/availability', async (req, res) => {
 
 
 
+
 // POST: Book multiple stalls across different markets and dates
 router.post('/bookings/multiple-stalls', async (req, res) => {
     try {
@@ -175,17 +177,22 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
 
         for (const request of bookingRequests) {
             const { location, date, stalls } = request;
-            const parsedDate = new Date(date).toISOString().split('T')[0];
+            
+            // Parse date using dayjs and format it to avoid timezone issues
+            const parsedDate = dayjs(date, "YYYY/MM/DD").format("YYYY-MM-DD");
 
+            // Check if the market with the specified location exists
             const market = await Market.findOne({ location });
             if (!market) {
                 bookingResults.push({ location, date: parsedDate, status: 'Market not found' });
                 continue;
             }
 
+            // Process each stall in the request
             for (const stallRequest of stalls) {
                 const { stallNo, stallName, stallPrice } = stallRequest;
 
+                // Check if the stall is already booked for the specified date and location
                 const isBooked = await BookedStalls.findOne({
                     location,
                     date: parsedDate,
@@ -197,6 +204,7 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
                     continue;
                 }
 
+                // Book the stall by creating a new record in BookedStalls
                 const newBooking = new BookedStalls({
                     location,
                     date: parsedDate,
@@ -220,6 +228,9 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
         res.status(500).json({ message: 'Server error booking multiple stalls', error: error.message });
     }
 });
+
+
+
 
 // GET: Fetch all booked stalls from all markets
 router.get('/booked-stalls', async (req, res) => {
