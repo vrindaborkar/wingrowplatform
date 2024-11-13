@@ -41,27 +41,32 @@ const Market = require('../models/Market'); // Import the Market model
 // });
 
 
-
-// GET: Retrieve booked stalls by farmer ID
-router.get('/booked-stalls/:id', async (req, res) => {
+// GET: Retrieve booked stalls by farmer ID (bookedBy field)
+router.get('/booked-stalls/:bookedBy', async (req, res) => {
     try {
-        console.log("Received request for booked stall with ID:", req.params.id);
+        console.log("API hit: GET booked-stalls/:bookedBy with ID:", req.params.bookedBy);
+        const { bookedBy } = req.params;
 
-        // Use BookedStalls instead of Booking
-        const bookedStall = await BookedStalls.findById(req.params.id);
+        // Find all booked stalls for the specified bookedBy ID
+        const bookedStalls = await BookedStalls.find({ bookedBy: bookedBy.trim() });
 
-        if (!bookedStall) {
-            console.log("No stall found for this farmer ID:", req.params.id);
+        if (!bookedStalls || bookedStalls.length === 0) {
             return res.status(404).json({ message: 'No booked stalls found for this farmer' });
         }
 
-        // Return the booked stall data
-        res.status(200).json(bookedStall);
+        res.status(200).json({
+            message: 'Booked stalls retrieved successfully',
+            bookedStalls
+        });
     } catch (error) {
-        console.error("Error occurred:", error.message);
+        console.error('Error retrieving booked stalls:', error);
         res.status(500).json({ message: 'Server error', error });
     }
 });
+
+
+
+
 
 // Existing routes...
 
