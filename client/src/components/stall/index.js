@@ -194,15 +194,15 @@ const StallComponent = (props) => {
       });
       return;
     }
-  
+
     const stallId = `${row}-${col}`;
     const stall = stallDataMap.get(stallId);
-  
+
     if (!stall) {
       console.log("Stall not found!");
       return;
     }
-  
+
     if (!stall.available) {
       toast.current.show({
         severity: "error",
@@ -212,30 +212,30 @@ const StallComponent = (props) => {
       });
       return;
     }
-  
+
     const currentDate = dates[selectedMarket].toLocaleDateString();
     const newSelectedStalls = { ...selectedStallsMap };
-  
+
     if (!newSelectedStalls[selectedMarket]) {
       newSelectedStalls[selectedMarket] = {};
     }
-  
+
     if (!newSelectedStalls[selectedMarket][currentDate]) {
       newSelectedStalls[selectedMarket][currentDate] = [];
     }
-  
+
     let dateStalls = newSelectedStalls[selectedMarket][currentDate];
     const isStallSelected = dateStalls.includes(stallId);
-  
+
     if (isStallSelected) {
       dateStalls = dateStalls.filter((s) => s !== stallId);
       setTotalPrice((prevPrice) => prevPrice - stall.stallPrice);
-  
+
       newSelectedStalls[selectedMarket][currentDate] = dateStalls;
-  
+
       if (dateStalls.length === 0) {
         delete newSelectedStalls[selectedMarket][currentDate];
-  
+
         if (Object.keys(newSelectedStalls[selectedMarket]).length === 0) {
           delete newSelectedStalls[selectedMarket];
         }
@@ -270,31 +270,30 @@ const StallComponent = (props) => {
                 date: date || "Not selected",
               };
             });
-  
+
             return dateStalls.length > 0
               ? {
                   market_name: marketName,
                   date: date || "Not selected",
                   stalls: dateStalls,
-                  bookedBy: user.id,
+                  bookedBy: user ? user.id : null,
                 }
               : null;
           })
           .filter(Boolean);
       }
     );
-  
+
     if (JSON.stringify(groupedStall) !== JSON.stringify(bookStalls)) {
       setbookStalls(groupedStall);
       dispatch(selectedStall(groupedStall));
     }
-  
+
     setSelectedStallsData((prevData) => ({
       ...prevData,
       [stallId]: stall,
     }));
   };
-  
 
   function calculateTotalPrices(data) {
     let totalPrices = {};
@@ -439,11 +438,7 @@ const StallComponent = (props) => {
     if (marketDayIndex === -1) {
       console.error("Invalid marketDay:", marketDay);
       return allDays;
-    } else if (marketDayIndex === 5) {
-      // for testing
-      return [0, 1, 2, 3, 5, 6];
     }
-
     const disabled = allDays.filter((day) => day !== marketDayIndex);
     return disabled;
   };
@@ -522,6 +517,7 @@ const StallComponent = (props) => {
     if (isLoggedIn) {
       setShowPaymentScreen(true);
     } else {
+      localStorage.setItem("redirectAfterLogin", ROUTE_PATH.BOOKING.STALL);
       navigate(ROUTE_PATH.BASE.LOGIN);
     }
   };
@@ -551,7 +547,7 @@ const StallComponent = (props) => {
                   market_name: marketName,
                   date: date || "Not selected",
                   stalls: dateStalls,
-                  bookedBy: user.id,
+                  bookedBy: user ? user.id : null,
                 }
               : null;
           })
@@ -863,6 +859,7 @@ const StallComponent = (props) => {
           <PaymentScreen
             amount={totalAmount}
             bookStalls={bookStalls}
+            setShowDetails={setShowDetails}
             onPaymentSuccess={setShowPaymentScreen}
           />
         )}

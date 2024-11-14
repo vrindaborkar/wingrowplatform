@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import { initStall } from "../../redux/action/stall";
 
 const PaymentScreen = (props) => {
-  const { amount, bookStalls, initStallScreen, onPaymentSuccess } = props;
+  const { amount, bookStalls, initStallScreen, onPaymentSuccess, setShowDetails } = props;
 
   const handlePaymentSuccess = () => {
+    setShowDetails(false);
     initStallScreen();
     onPaymentSuccess();
   };

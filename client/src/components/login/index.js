@@ -59,7 +59,11 @@ const LoginComponent = (props) => {
       verifyCode(payload);
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("isVerifyLogin", true);
-      Navigate("/home");
+
+      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/home";
+
+      localStorage.removeItem("redirectAfterLogin");
+      Navigate(redirectPath);
     }
   };
 

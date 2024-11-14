@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Toast } from "primereact/toast";
+import moment from "moment";
+import { baseUrl } from "../../services/PostAPI";
+import { API_PATH } from "../../constant/urlConstant";
 
 const PaymentPage = (props) => {
   const { selectedStalls, amount, onPaymentSuccess } = props;
@@ -37,22 +40,29 @@ const PaymentPage = (props) => {
     checkScriptLoaded();
   }, []);
 
+  console.log("selectedStalls123", selectedStalls);
+  
+
   const formatDate = (dateString) => {
-    const [month, day, year] = dateString.split("/");
-    return `${year}/${month.padStart(2, "0")}/${day.padStart(2, "0")}`;
+    return moment(dateString, 'MM/DD/YYYY').format('YYYY/MM/DD');
   };
-  console.log("selectedStallsselectedStalls",selectedStalls);
-   console.log("selectedStallsselectedStalls",selectedStalls.date);
-   const selectedStallsPayload = selectedStalls.map((market) => ({
+  const selectedStallsPayload = selectedStalls.map((market) => ({
     location: market.market_name,
-    date: formatDate(market.date), 
+    date: formatDate(market.date),
+    bookedBy: market.bookedBy,
+    bookedAt: formatDate(market.date),
+    isBooked: true,
     stalls: market.stalls.map((stall) => ({
       stallNo: stall.stallNo,
       stallName: stall.name,
       stallPrice: stall.price,
+      address: stall.address,
     })),
-}));
-    console.log("selectedStallsPayloadselectedStallsPayload",selectedStallsPayload)
+  }));
+  console.log(
+    "selectedStallsPayloadselectedStallsPayload",
+    selectedStallsPayload
+  );
 
   const handlePayment = async () => {
     if (!scriptLoaded) {
@@ -80,7 +90,7 @@ const PaymentPage = (props) => {
 
         try {
           const apiResponse = await axios.post(
-            "http://localhost:4000/api/bookings/multiple-stalls",
+            `${baseUrl}${API_PATH.STALL.BOOK}`,
             selectedStallsPayload
           );
 

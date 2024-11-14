@@ -32,13 +32,13 @@ export const fetchMarketListError = (error) => {
   };
 };
 
-export const fetchMarketList = (cityId) => {
+export const fetchMarketList = (city) => {
   return (dispatch) => {
     dispatch(fetchMarketListStart());
 
-    marketService.fetchMarketList(cityId).then((marketData) => {
+    marketService.fetchMarketList(city).then((marketData) => {
       if (!marketData.isError) {
-        dispatch(fetchMarketListSuccess({data: marketData.markets, cityId}));
+        dispatch(fetchMarketListSuccess({data: marketData.markets, city}));
       } else {
         dispatch(fetchMarketListError(marketData));
       }

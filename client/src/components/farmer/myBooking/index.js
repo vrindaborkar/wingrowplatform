@@ -37,15 +37,31 @@ const MyBookingComponent = (props) => {
     return bookingDate < today;
   };
 
+  // useEffect(() => {
+  //   // user = getCurrentUser();
+
+  //   if (Array.isArray(stallBookList) && user?.id) {
+  //     const userId = user.id;
+  //     const filteredData = stallBookList.filter((e) => e.bookedBy === userId);
+  //     const sortedData = filteredData.sort(
+  //       (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
+  //     );
+  //     setMyStalls(sortedData);
+  //   }
+  // }, [user, stallBookList]);
+
   useEffect(() => {
     // user = getCurrentUser();
-
-    if (Array.isArray(stallBookList) && user?.id) {
+    if (user?.id && Array.isArray(stallBookList?.bookedStalls)) {
       const userId = user.id;
-      const filteredData = stallBookList.filter((e) => e.bookedBy === userId);
+      const filteredData = stallBookList.bookedStalls.filter(
+        (e) => e.bookedBy === userId
+      );
+
       const sortedData = filteredData.sort(
         (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
       );
+
       setMyStalls(sortedData);
     }
   }, [user, stallBookList]);

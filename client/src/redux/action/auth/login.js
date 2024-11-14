@@ -2,7 +2,6 @@ import { INIT_LOGIN, LOGIN, LOGOUT } from "../../../constant/actionTypes/auth";
 import { authService } from "../../../services";
 import { Navigate } from "react-router-dom";
 
-let isLoggedIn = false;
 
 export const init_login = () => {
   return {
@@ -16,7 +15,6 @@ export const loginStart = (payload) => {
   };
 };
 export const loginSuccess = (payload) => {
-  isLoggedIn = true;
   return {
     type: LOGIN.SUCCESS,
     payload,
@@ -65,7 +63,6 @@ export const logoutStart = () => {
 };
 
 export const logoutSuccess = () => {
-  isLoggedIn = false;
   // toast.error('Session expired due to inactivity. Please log in again.')
   return {
     type: LOGOUT.SUCCESS,
@@ -89,6 +86,7 @@ export const logout = () => {
         if (!response.isError) {
           localStorage.clear();
           sessionStorage.clear();
+          localStorage.setItem("isLoggedIn", false);
           sessionStorage.setItem("isLoggedIn", false);
           dispatch(logoutSuccess());
             Navigate("/login");

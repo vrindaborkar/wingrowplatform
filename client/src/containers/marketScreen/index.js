@@ -11,23 +11,23 @@ const MarketScreen = (props) => {
   const { initMarketScreen, fetchMarketList, marketList, isPageLevelError } =
     props;
 
-  const [cityId, setCityId] = useState(null);
+  const [city, setCity] = useState(null);
 
   useEffect(() => {
     initMarketScreen();
   }, [initMarketScreen]);
 
   useEffect(() => {
-    if (cityId) {
-      fetchMarketList(cityId);
+    if (city) {
+      fetchMarketList(city);
     }
-  }, [cityId, fetchMarketList]);
+  }, [city, fetchMarketList]);
 
   return (
     <div>
       <MarketComponent
         marketList={marketList}
-        setCityId={setCityId}
+        setCity={setCity}
         isPageLevelError={isPageLevelError}
         screenPermission={data.screenPermission}
       />
@@ -38,7 +38,7 @@ const MarketScreen = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     initMarketScreen: () => dispatch(initialMarketScreen()),
-    fetchMarketList: (cityId) => dispatch(fetchMarketList(cityId)),
+    fetchMarketList: (city) => dispatch(fetchMarketList(city)),
   };
 };
 

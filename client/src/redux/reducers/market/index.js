@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   marketList: [],
   market: null,
   error: null,
-  cityId: null,
+  city: null,
   isLoading: false,
   isPageLevelError: false,
   isLoadingPage: false,
@@ -25,11 +25,11 @@ export const marketReducer = (state = INITIAL_STATE, action) => {
       if (action.payload == null) {
         return { ...state };
       }
-      const { data, cityId } = action.payload;
+      const { data, city } = action.payload;
       return {
         ...state,
-        marketList: { ...state.marketList, [cityId]: data || [] },
-        cityId,
+        marketList: { ...state.marketList, [city]: data || [] },
+        city,
         error: null,
         isLoading: false,
         isPageLevelError: false,

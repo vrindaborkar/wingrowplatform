@@ -11,7 +11,7 @@ import axios from "axios";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 const MarketComponent = (props) => {
-  const { isPageLevelError, marketList, setCityId } = props;
+  const { isPageLevelError, marketList, setCity } = props;
 
   console.log("marketList: ----------------------------", marketList);
 
@@ -51,7 +51,7 @@ const MarketComponent = (props) => {
       );
       const formattedCities = response.data.map((city) => ({
         label: city.name,
-        value: city._id,
+        value: city.name,
       }));
       setCities((prevCities) => ({
         ...prevCities,
@@ -71,13 +71,13 @@ const MarketComponent = (props) => {
   };
 
   const handleCityChange = (e) => {
-    const cityId = e.value;
-    setSelectedCity(cityId);
+    const city = e.value;
+    setSelectedCity(city);
     setLoading(true);
     
-    const marketsInCity = marketList[cityId] || [];
+    const marketsInCity = marketList[city] || [];
     setFilteredMarkets(marketsInCity);
-    setCityId(cityId);
+    setCity(city);
     setLoading(false);
   };
 
