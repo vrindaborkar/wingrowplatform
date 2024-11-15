@@ -7,39 +7,6 @@ const State = require('../models/State'); // Importing the State model
 const Market = require('../models/Market'); // Import the Market model
 // const MultipleStallsBooking = require('../models/MultipleStallsBooking'); // Import the new schema
 
-// POST: Book multiple stalls in different markets and dates
-
-
-// router.post('/bookings/multiple-stalls', async (req, res) => {
-//     try {
-//         const bookings = req.body; // Array of booking requests
-
-//         // Validate and save each booking
-//         const savedBookings = await Promise.all(
-//             bookings.map(async (booking) => {
-//                 const newBooking = new MultipleStallsBooking({
-//                     location: booking.market_name,
-//                     date: booking.date,
-//                     stalls: booking.stalls.map(stalls => ({
-//                         stallNo: stalls.stall_id,
-//                         stallName: stalls.stallName,
-//                         price: stalls.price
-//                     }))
-//                 });
-//                 return await newBooking.save();
-//             })
-//         );
-
-//         res.status(201).json({
-//             message: 'Multiple stalls booked successfully',
-//             bookings: savedBookings
-//         });
-//     } catch (error) {
-//         console.error('Error booking multiple stalls:', error);
-//         res.status(500).json({ message: 'Server error while booking multiple stalls', error: error.message });
-//     }
-// });
-
 
 // GET: Retrieve booked stalls by farmer ID (bookedBy field)
 router.get('/booked-stalls/:bookedBy', async (req, res) => {
