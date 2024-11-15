@@ -157,7 +157,7 @@ const StallComponent = (props) => {
   }
 
   useEffect(() => {
-    if (selectedStallsRedux.length === 0) {
+    if (selectedStallsRedux?.length === 0) {
       const savedStalls = JSON.parse(sessionStorage.getItem("selectedStalls"));
       if (savedStalls) {
         dispatch({ type: "SELECT_STALL", payload: savedStalls });
@@ -166,7 +166,7 @@ const StallComponent = (props) => {
   }, [selectedStallsRedux, dispatch]);
 
   const onSubmit = (data) => {
-    if (selectedStallsRedux.length === 0) {
+    if (selectedStallsRedux?.length === 0) {
       toast.current.show({
         severity: "error",
         summary: "Error",
@@ -847,7 +847,7 @@ const StallComponent = (props) => {
                   label="Pay"
                   onClick={handleShowClick}
                   className="border-2 border-round-md md:w-10rem mr-2"
-                  disabled={selectedStallsRedux.length === 0}
+                  disabled={selectedStallsRedux?.length === 0}
                 />
               </div>
             </div>

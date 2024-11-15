@@ -51,20 +51,13 @@ const MyBookingComponent = (props) => {
   // }, [user, stallBookList]);
 
   useEffect(() => {
-    // user = getCurrentUser();
-    if (user?.id && Array.isArray(stallBookList?.bookedStalls)) {
-      const userId = user.id;
-      const filteredData = stallBookList.bookedStalls.filter(
-        (e) => e.bookedBy === userId
-      );
-
-      const sortedData = filteredData.sort(
-        (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
-      );
-
-      setMyStalls(sortedData);
+    if (Array.isArray(stallBookList?.bookedStalls)) {
+        const sortedData = [...stallBookList.bookedStalls].sort(
+            (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
+        );
+        setMyStalls(sortedData);
     }
-  }, [user, stallBookList]);
+}, [stallBookList]);
 
   const shouldRenderFullPageError = () => isPageLevelError;
   const shouldRenderStallBookList = () => myStalls?.length > 0;

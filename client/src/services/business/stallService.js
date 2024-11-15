@@ -58,9 +58,10 @@ export const fetchStallBookList = async (payload) => {
   }
 };
 
-export const fetchStallBookByUserList = async (payload) => {
-  console.log(payload);
-  const url = `${baseUrl}${API_PATH.STALL.BOOK_BY_USER}`;
+export const fetchStallBookByUserList = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id;
+  const url = `${baseUrl}${API_PATH.STALL.BOOK_BY_USER}/${userId}`;
   const token = localStorage.getItem("token");
   try {
     const result = await axios.get(url, {

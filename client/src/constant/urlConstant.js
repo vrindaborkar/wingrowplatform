@@ -50,7 +50,7 @@ export const API_PATH = {
     FETCH: "/api/stalls/availability",
     BOOK:"/api/bookings/multiple-stalls",
     // BOOK_BY_USER:"/bookedstalls",
-    BOOK_BY_USER:"/api/booked-stalls",
+    BOOK_BY_USER:"/api/bookings/booked-stalls",
     ADD: "/stall",
     EDIT: "/stall",
     DELETE: "/bookedstalls",

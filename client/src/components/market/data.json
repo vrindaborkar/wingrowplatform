@@ -1552,7 +1552,7 @@
         { "direction": "south", "value": false }
       ]
     ],
-    "magarpatta": [
+    "Magarpatta": [
       [
         { "direction": "west", "value": true },
         { "direction": "west", "value": false },
