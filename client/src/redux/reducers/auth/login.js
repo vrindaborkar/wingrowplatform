@@ -1,25 +1,32 @@
-import { INIT_LOGIN, LOGIN, LOGOUT } from "../../../constant/actionTypes/auth";
+import {
+  INIT_LOGIN,
+  INIT_REGISTRATION,
+  LOGIN,
+  LOGOUT,
+  REGISTER,
+  RESEND_VERIFICATION_CODE,
+  SEND_VERIFICATION_CODE,
+  VERIFY_CODE,
+} from "../../../constant/actionTypes/auth";
 
-const formFieldValueMap = {
-  phoneNumber: "",
-  otp: "",
-  role: "",
+const formFieldValueMapRegister = {
+  username: "",
+  password: "",
+};
+const formFieldValueMapLogin = {
+  username: "",
+  password: "",
 };
 const getInitialStateFromLocalStorage = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const isVerify = localStorage.getItem("isVerify");
   const userRole = localStorage.getItem("role");
-  const user = localStorage.getItem("user");
-
-  const parsedUser = user ? JSON.parse(user) : null;
-
-  console.log("user---------------------------------------------", parsedUser?.id);
-
   return {
-    isLoggedIn: isLoggedIn === "true",
-    userRole: userRole || "",
-    //user
-    user: parsedUser || null,
-    formFieldValueMap,
+    isLoggedIn: isLoggedIn === "true" ? true : false,
+    isVerify: isVerify === "true" ? true : false,
+    userRole: userRole ? userRole : "",
+    formFieldValueMapRegister,
+    formFieldValueMapLogin,
     error: "",
     isLoading: false,
     isPageLevelError: false,
@@ -27,57 +34,62 @@ const getInitialStateFromLocalStorage = () => {
     isLoginSuccess: false,
     isLoginError: false,
     isLogoutSuccess: false,
-    isLogoutError: false,
+    LogoutError: false,
+    sendVerificationCodeSuccess:false
+
   };
 };
 
 const initialState = getInitialStateFromLocalStorage();
 
-const loginReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case INIT_LOGIN:
+    case INIT_REGISTRATION:
       return {
         ...state,
-        ...initialState,
+        initialState,
       };
+
     case LOGIN.START:
+    case REGISTER.START:
+    case SEND_VERIFICATION_CODE.START:
+    case VERIFY_CODE.START:
     case LOGOUT.START:
+    case RESEND_VERIFICATION_CODE.START:
       return {
-        ...state,
-        isLoading: true,
-        isPageLevelError: false,
-        isLoadingPage: false,
-        isLoginSuccess: false,
-        isLoginError: false,
-        isLogoutSuccess: false,
-        isLogoutError: false,
+        ...state
       };
+
     case LOGIN.SUCCESS:
       return {
         ...state,
-        isLoading: false,
         isLoggedIn: true,
-        user: action.payload.user,
-        userRole: action.payload.userRole,
-      };
-    case LOGIN.ERROR:
-    case LOGOUT.ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        isLoginError: action.type === LOGIN.ERROR,
-        isLogoutError: action.type === LOGOUT.ERROR,
       };
 
-    case LOGOUT.SUCCESS:
+    case SEND_VERIFICATION_CODE.SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        isLoggedIn: false,
-        user: null,
-        userRole: "",
-        isLogoutSuccess: true,
-        isLogoutError: false,
+        isLoggedIn: true,
+        sendVerificationCodeSuccess:true
+      };
+
+    case VERIFY_CODE: {
+      return {
+        ...state,
+        isVerify: true,
+      };
+    }
+    case LOGIN.ERROR:
+    case REGISTER.ERROR:
+    case SEND_VERIFICATION_CODE.ERROR:
+    case VERIFY_CODE.ERROR:
+    case LOGOUT.ERROR:
+    case RESEND_VERIFICATION_CODE.ERROR:
+      return {
+        ...state,
+        error: action?.payload,
+        isLoginError: true,
       };
 
     default:
@@ -85,4 +97,5 @@ const loginReducer = (state = initialState, action) => {
   }
 };
 
-export default loginReducer;
+export default authReducer;
+

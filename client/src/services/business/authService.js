@@ -4,24 +4,9 @@ import { baseUrl, postApiAsyn, postApiAsynWithoutToken } from "../PostAPI";
 import { MSG91_BASE_URL } from "../../constant/msg91";
 
 export const sendVerificationCode = async (payload) => {
-  console.log(payload);
   const url = `${MSG91_BASE_URL}/otp?template_id=${payload.template_id}&mobile=${payload.mobile}&authkey=${payload.authkey}`;
-  // try {
-  //   let result = await postApiAsynWithoutToken(url);
-  //   if (result?.error) {
-  //     throw new APIError(result);
-  //   }
-  //   return result;
-  // } catch (error) {
-  //   console.error(error);
-  //   return handleAPIError(error);
-  // }
   try {
-    const result = await axios.post(url, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const result = await axios.post(url);
     if (result.status !== 200) {
       return handleAPIError(result?.data?.detail ?? "");
     }
@@ -48,44 +33,44 @@ export const reSendVerificationCode = async (payload) => {
 };
 
 export const verifyCode = async (payload) => {
-  const url = `${MSG91_BASE_URL}/otp?verify=${payload.otp}&mobile=${payload.mobile}`;
+  console.log("Verification payload:", payload);
+  const url = `${MSG91_BASE_URL}/otp/verify?otp=${payload.otp}&mobile=${payload.mobile}`;
+
   try {
-    const result = await axios.post(url, {
+    const result = await axios.get(url, {
       headers: {
-        "Content-Type": "application/json",
         authkey: payload.authkey,
       },
     });
-    if (result.status !== 200) {
-      return handleAPIError(result?.data?.detail ?? "");
+   
+    if (result.status === 200 && result.data?.type === 'success') {
+      return { success: true, data: result.data };
+    } else {
+      return { success: false, message: result?.data || "Verification failed." };
     }
-    return result.data;
   } catch (error) {
-    console.error(error);
-    return handleAPIError(error?.response?.data?.detail);
+    console.error("Error in verifyCode:", error);
+    return { success: false, message: error?.response?.data?.detail || "An error occurred." };
   }
 };
 
-export const login = async (payload) => {
-  const url = `${baseUrl}/auth/signin`;
+
+export const login = async payload => {
+  const url = `${baseUrl}/auth/signin`
   try {
-    const result = await axios.post(url, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const result = await axios.post(
+      url,
       payload,
-    });
-    console.log("result--------------------------------", result);
-
+    )
     if (result.status !== 200) {
-      return handleAPIError(result?.data ?? "");
+      return handleAPIError(result?.data ?? '')
     }
-    return result.data;
+    return result.data
   } catch (error) {
-    console.error(error);
-    return handleAPIError(error.response.data.detail);
+    console.error(error)
+    return handleAPIError(error?.response?.data?.message)
   }
-};
+}
 
 export const register = async (payload) => {
   const url = `${baseUrl}/auth/signup`;
@@ -107,7 +92,7 @@ export const register = async (payload) => {
 export const postLogout = async () => {
   try {
     localStorage.removeItem("token");
-    localStorage.removeItem("isVerfiy");
+    localStorage.removeItem("isVerify");
     localStorage.removeItem("role");
     localStorage.removeItem("isLoggedIn");
     let result = "Logout Successfully";
