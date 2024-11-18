@@ -4,8 +4,8 @@ const jwt_decode =  require("jwt-decode");
 const User = require("../models/User");
 const Subscribe = require("../models/Subscibe")
 const LiveMarket =require("../models/LiveMarket")
-const Employee=require("../models/Employee")
-const Leave =  require("../models/Leave")
+// const Employee=require("../models/Employee")
+// const Leave =  require("../models/Leave")
 exports.getInward = async(req,res,next) => {
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
@@ -36,14 +36,7 @@ exports.getUser = async(req, res) => {
     res.status(200).json(filter)
   }
 
-    // exports.getSub = async(req,res) =>{
-    //     let token = req.headers["x-access-token"];
-    //     const { id } = jwt_decode(token)
-    //     console.log(id)
-    //     const data = await Subscribe.find({"userId" : id});
-    //     console.log(data)
-    //     res.status(200).json(data);
-    // }
+
     exports.getSub = async(req,res) =>{
         const id= req.body.userId
         console.log(id);
@@ -95,8 +88,7 @@ exports.getUser = async(req, res) => {
         res.status(200).send(response)
     }
     exports.postSub = async(req,res) =>{
-        // let token = req.headers["x-access-token"];
-        // const { id } = jwt_decode(token)
+
         const data = {
             
             userId:req.body.userId,
@@ -226,32 +218,9 @@ exports.getMarkets = async (req, res) => {
     }
 };
 
-exports.employeeDaily = async(req,res)=>{
-    const data = {
-    userId: req.body.userId,
-    employeeID :req.body.employeeID,
-    firstname:req.body.firstname,
-    lastname:req.body.lastname,
-    role:req.body.role,
+
     
-    tags:req.body.tags,
-    tags1:req.body.tags1,
-    date:req.body.date,
-    rating:req.body.rating
-    }
-    
-    console.log(data)
-    const postdata = await new Employee(data);
-    const resp = await postdata.save();
 
-    if(!resp){
-        res.status(400).json({message:"An unknown error occured"})
-    }
-
-    res.status(200).json({message:"Data added successfully"})
-
-
-}
 exports.addMarket = async(req,res) =>{
     const data = {
             
@@ -274,56 +243,4 @@ exports.addMarket = async(req,res) =>{
 
 }
 
-exports.getEmployee = async(req,res) => {
-    //const {userId,employeeID,firstname,lastname,role,tags,tags1,date,rating} = req.data
-    const data = await Employee.find()
-    res.send(data)
-    
-
-}
-exports.applyLeave = async(req,res) =>{
-    const reason = req.body.reason
-    const date = req.body.date1
-    const approve = req.body.approve
-    const user= req.body.id
-    const data ={
-        user:user,
-        reason: reason,
-        date : date,
-        appoved : approve
-    }
-    const postdata = await new Leave(data);
-    const resp = await postdata.save();
-    if(!resp){
-        res.status(400).json({message:"An unknown error occured"})
-    }
-
-    res.status(200).json({message:"Data added successfully"})
-}
-
-exports.getLeave = async (req,res)=>{
-    const data = await Leave.find();
-    if(!data){
-        res.status(400).json({message:"Unknown Error"})
-        return ;
-    }else{
-        res.status(200).json(data)
-        return ;
-    }
-    
-}
-exports.changeApproval = async (req,res)=>{
-    const id = req.body.id
-        const status = req.body.approve
-        const response = await Leave.findByIdAndUpdate({_id : id} , {appoved:status})
-
-        if(!response){
-          console.log("helloooo")
-          res.status(400).json("something went wrong")
-          
-        }
-  
-        res.status(200).send(response)
-    
-}
 

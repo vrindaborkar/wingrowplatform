@@ -49,7 +49,7 @@ const User = mongoose.model(
       id:String,
       text:String
     }],
-    employeeID :String,
+    
   },{
     bufferCommands: true,
     autoCreate: false 

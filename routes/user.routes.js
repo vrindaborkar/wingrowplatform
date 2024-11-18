@@ -30,9 +30,5 @@ module.exports = function(app) {
   app.get("/getMarket",controller.getMarket)
   app.get("/getMarkets", controller.getMarkets)
   app.post("/addMarket",controller.addMarket)
-  app.post("/employeeDaily",controller.employeeDaily)
-  app.get("/getEmployee",controller.getEmployee)
-  app.post("/applyLeave",controller.applyLeave)
-  app.get("/getLeave",controller.getLeave)
-  app.put("/changeApproval" , controller.changeApproval)
+
 };

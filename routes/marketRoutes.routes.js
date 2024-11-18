@@ -158,11 +158,6 @@ router.get('/stalls/availability', async (req, res) => {
     }
 });
 
-
-
-
-
-// POST: Book multiple stalls across different markets and dates
 // POST: Book multiple stalls across different markets and dates
 router.post('/bookings/multiple-stalls', async (req, res) => {
     try {
@@ -172,7 +167,7 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
 
         for (const request of bookingRequests) {
             const { location, date, stalls, bookedBy } = request; // Added bookedBy field here
-            const parsedDate = dayjs(date, "YYYY/MM/DD").format("YYYY-MM-DD");
+            const parsedDate = dayjs(date, ["YYYY/MM/DD", "YYYY-MM-DD"]).format("YYYY/MM/DD");    
 
             const market = await Market.findOne({ location });
             if (!market) {
@@ -218,9 +213,6 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
         res.status(500).json({ message: 'Server error booking multiple stalls', error: error.message });
     }
 });
-
-
-
 
 // GET: Fetch all booked stalls from all markets
 router.get('/booked-stalls', async (req, res) => {
