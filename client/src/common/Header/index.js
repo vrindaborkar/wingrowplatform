@@ -14,9 +14,6 @@ import { Dropdown } from "primereact/dropdown";
 const Header = ({ isLoggedIn, userRole, isVerify }) => {
   const VerifyLogin = localStorage.getItem("isVerifyLogin");
   const VerifyRole = localStorage.getItem("role");
-  const isLoggedInCheck = localStorage.getItem("isLoggedIn");
-
-  console.log("isLoggedInCheck", isLoggedInCheck);
 
   const { t } = useTranslation();
   const navigate = useNavigate();

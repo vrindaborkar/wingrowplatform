@@ -37,28 +37,14 @@ const MyBookingComponent = (props) => {
     return bookingDate < today;
   };
 
-  // useEffect(() => {
-  //   // user = getCurrentUser();
-
-  //   if (Array.isArray(stallBookList) && user?.id) {
-  //     const userId = user.id;
-  //     const filteredData = stallBookList.filter((e) => e.bookedBy === userId);
-  //     const sortedData = filteredData.sort(
-  //       (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
-  //     );
-  //     setMyStalls(sortedData);
-  //   }
-  // }, [user, stallBookList]);
-
   useEffect(() => {
     if (Array.isArray(stallBookList?.bookedStalls)) {
         const sortedData = [...stallBookList.bookedStalls].sort(
-            (a, b) => new Date(b.bookedAt) - new Date(a.bookedAt)
+            (a, b) => new Date(b.date) - new Date(a.date)
         );
         setMyStalls(sortedData);
     }
 }, [stallBookList]);
-
   const shouldRenderFullPageError = () => isPageLevelError;
   const shouldRenderStallBookList = () => myStalls?.length > 0;
   const shouldRenderNotFoundView = () =>
@@ -91,8 +77,8 @@ const MyBookingComponent = (props) => {
           </div>
           <div className="grid grid-nogutter w-full md:px-5 ">
             {myStalls?.map((stall, index) => {
-              const formattedDate = formatDate(stall.bookedAt);
-              //   const buttonLabel = isBookingExpired(stall.bookedAt) ? 'Expired' : 'Upcoming';
+              const formattedDate = formatDate(stall.date);
+              //   const buttonLabel = isBookingExpired(stall.date) ? 'Expired' : 'Upcoming';
 
               return (
                 <div
@@ -135,11 +121,11 @@ const MyBookingComponent = (props) => {
                       <hr className="mb-3 mx-0 border-top-1 border-bottom-none border-300 mt-auto" />
                       <Button
                         label={
-                          isBookingExpired(stall.bookedAt)
+                          isBookingExpired(stall.date)
                             ? "Expired"
                             : "Cancel"
                         }
-                        disabled={isBookingExpired(stall.bookedAt)}
+                        disabled={isBookingExpired(stall.date)}
                         onClick={() => {
                           handleOnDeleteRecord(stall);
                         }}

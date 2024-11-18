@@ -3,8 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Tooltip } from "primereact/tooltip";
 import { Button } from "primereact/button";
+import { Navigate } from "react-router-dom";
 import { baseUrl } from "../../services/PostAPI";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
+import LoginComponent from "../login";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import "./stall.css";
@@ -40,13 +42,27 @@ import { Dialog } from "primereact/dialog";
 import { useDispatch, useSelector } from "react-redux";
 
 const StallComponent = (props) => {
-  const { fetchStallList, formFieldValueMap, marketList } = props.stallProps;
-
+  const[openLoginDialog, setOpenLoginDialog] = useState(false);
+  const [setRedirectStall]=useState(true);
+  const {
+     fetchStallList, 
+     formFieldValueMap, 
+     isPageLevelError,
+     isLoginSuccess,
+     isLoading,
+     login,
+     sendVerificationCode,
+     verifyCode,
+     isLoggedIn,
+     logout,
+     sendVerificationCodeSuccess,
+     marketList 
+     }=props.stallProps;
+  const navigate = useNavigate();
   const marketOptions = Object.keys(marketList).flatMap((marketKey) => {
     const markets = marketList[marketKey];
     if (markets.length > 0) {
       return markets.map((market) => {
-        console.log("Market object from stall:", market);
         return {
           label: market.name,
           value: market.name,
@@ -100,7 +116,7 @@ const StallComponent = (props) => {
   const dat = new Date();
   const toast = useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  
   const selectedStallItems = sessionStorage.getItem("selectedStalls");
   const sessionSelsctedStalls = selectedStallItems
     ? JSON.parse(selectedStallItems)
@@ -110,7 +126,7 @@ const StallComponent = (props) => {
     return state.stallReducer.selectedStalls;
   });
 
-  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
+  const isLoggedInPayment = useSelector((state) => state.loginReducer.isLoggedIn);
 
   const {
     control,
@@ -165,6 +181,9 @@ const StallComponent = (props) => {
     }
   }, [selectedStallsRedux, dispatch]);
 
+  useEffect(() => {
+    navigate('/market'); 
+}, []); 
   const onSubmit = (data) => {
     if (selectedStallsRedux?.length === 0) {
       toast.current.show({
@@ -199,7 +218,6 @@ const StallComponent = (props) => {
     const stall = stallDataMap.get(stallId);
 
     if (!stall) {
-      console.log("Stall not found!");
       return;
     }
 
@@ -294,7 +312,21 @@ const StallComponent = (props) => {
       [stallId]: stall,
     }));
   };
-
+  const loginProps = {
+    formFieldValueMap,
+    isPageLevelError,
+    isLoginSuccess,
+    setRedirectStall,
+    isLoading,
+    login,
+    sendVerificationCode,
+    verifyCode,
+    setOpenLoginDialog,
+    isLoggedIn,
+    setRedirectStall,
+    logout,
+    sendVerificationCodeSuccess
+  };
   function calculateTotalPrices(data) {
     let totalPrices = {};
     let overallTotal = 0;
@@ -347,7 +379,7 @@ const StallComponent = (props) => {
     const activePositions = [];
     stallPositions.forEach((row, rowIndex) =>
       row.forEach((isStall, colIndex) => {
-        if (isStall) {
+        if (isStall.value) {
           activePositions.push({ row: rowIndex, col: colIndex });
         }
       })
@@ -436,7 +468,6 @@ const StallComponent = (props) => {
     ].indexOf(marketDay);
 
     if (marketDayIndex === -1) {
-      console.error("Invalid marketDay:", marketDay);
       return allDays;
     }
     const disabled = allDays.filter((day) => day !== marketDayIndex);
@@ -477,10 +508,11 @@ const StallComponent = (props) => {
     }
   };
 
+  const openLoginComponent=()=>{
+    setOpenLoginDialog(true);
+  }
   useEffect(() => {
     const fetchStalls = async () => {
-      // if (!selectedMarket || !dates[selectedMarket]) return;
-
       setLoading(true);
 
       try {
@@ -492,12 +524,14 @@ const StallComponent = (props) => {
         );
 
         if (response.data && response.data.stalls) {
-          setStallList(response.data.stalls);
+          const sortedStalls = [...response.data.stalls].sort(
+            (a, b) => a.stallNo - b.stallNo
+          );
+          setStallList(sortedStalls);
         } else {
           setStallList([]);
         }
       } catch (error) {
-        console.error("Error fetching stall list:", error);
         setStallList([]);
       } finally {
         setLoading(false);
@@ -514,15 +548,19 @@ const StallComponent = (props) => {
   }, [selectedMarket]);
 
   const handlePaymentClick = () => {
-    if (isLoggedIn) {
+    if (isLoggedInPayment) {
       setShowPaymentScreen(true);
     } else {
       localStorage.setItem("redirectAfterLogin", ROUTE_PATH.BOOKING.STALL);
-      navigate(ROUTE_PATH.BASE.LOGIN);
+      
+      openLoginComponent()
     }
   };
-
+   const handleCloseLoginDialog=()=>{
+    setOpenLoginDialog(false);
+   }
   const handleShowClick = (e) => {
+  
     e.preventDefault();
 
     const groupedStalls = Object.keys(selectedStallsMap)
@@ -547,7 +585,6 @@ const StallComponent = (props) => {
                   market_name: marketName,
                   date: date || "Not selected",
                   stalls: dateStalls,
-                  bookedBy: user ? user.id : null,
                 }
               : null;
           })
@@ -575,8 +612,6 @@ const StallComponent = (props) => {
     }));
     field?.onChange(moment(value).format("YYYY-MM-DD"));
   };
-
-  console.log(selectedStallsRedux);
 
   return (
     <>
@@ -633,12 +668,13 @@ const StallComponent = (props) => {
               <div className="summary">
                 <span>Total stalls: {stallList.length}</span>
                 <span>
-                  Available stalls:
+                  Available stalls:{" "}
                   {stallPositions.flat().filter((isStall) => isStall.value)
                     .length -
                     (selectedStallsMap[selectedMarket]?.[
                       dates[selectedMarket]?.toLocaleDateString()
-                    ]?.length || 0)}
+                    ]?.length || 0) -
+                    stallList.filter((stall) => !stall.available).length}
                 </span>
               </div>
               <hr />
@@ -896,7 +932,7 @@ const StallComponent = (props) => {
                   <div key={key}>
                     <h3>Market Name: {marketData.market_name}</h3>
                     <h4>Date: {marketData.date}</h4>
-
+                    
                     <ul style={{ maxHeight: "60vh", overflowY: "auto" }}>
                       <h5>Stalls:</h5>
                       {marketData.stalls.map((stall) => (
@@ -923,6 +959,16 @@ const StallComponent = (props) => {
             )}
           </div>
         </Dialog>
+
+        <Dialog
+                style={{height:"30rem"}}
+                visible={openLoginDialog}
+                onHide={handleCloseLoginDialog}
+                modal
+            >
+               <LoginComponent  loginProps={loginProps}/>
+            </Dialog>
+       
       </div>
     </>
   );

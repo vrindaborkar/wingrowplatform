@@ -46,10 +46,12 @@ const PaymentPage = (props) => {
   const formatDate = (dateString) => {
     return moment(dateString, 'MM/DD/YYYY').format('YYYY/MM/DD');
   };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id;
   const selectedStallsPayload = selectedStalls.map((market) => ({
     location: market.market_name,
     date: formatDate(market.date),
-    bookedBy: market.bookedBy,
+    bookedBy: userId,
     bookedAt: formatDate(market.date),
     isBooked: true,
     stalls: market.stalls.map((stall) => ({

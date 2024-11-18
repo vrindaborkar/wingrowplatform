@@ -307,7 +307,7 @@
         { "direction": "east", "value": false }
       ]
     ],
-    "Amanora": [
+    "Amanora City": [
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
@@ -570,78 +570,78 @@
         { "direction": "north", "value": false },
         { "direction": "west", "value": false },
         { "direction": "east", "value": false },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": true }
-      ],
-      [
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "west", "value": false },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": false }
-      ],
-      [
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": true },
-        { "direction": "west", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": false }
-      ],
-      [
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": true },
-        { "direction": "west", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": false }
-      ],
-      [
-        { "direction": "west", "value": false },
-        { "direction": "east", "value": true },
-        { "direction": "west", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": false }
-      ],
-      [
-        { "direction": "west", "value": true },
-        { "direction": "east", "value": true },
-        { "direction": "west", "value": false },
-        { "direction": "west", "value": false },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": false }
-      ],
-      [
-        { "direction": "west", "value": false },
-        { "direction": "north", "value": false },
-        { "direction": "south", "value": true },
-        { "direction": "south", "value": false },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": true }
-      ],
-      [
-        { "direction": "east", "value": false },
-        { "direction": "north", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "south", "value": false },
-        { "direction": "east", "value": false },
-        { "direction": "east", "value": true },
-        { "direction": "east", "value": true }
-      ],
-      [
-        { "direction": "east", "value": false },
-        { "direction": "west", "value": true },
-        { "direction": "west", "value": true },
         { "direction": "north", "value": true },
+        { "direction": "north", "value": true }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "south", "value": true },
+        { "direction": "west", "value": false },
         { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": false }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "south", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "south", "value": true },
+        { "direction": "south", "value": true }
+      ],
+      [
+        { "direction": "east", "value": false },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true },
+        { "direction": "north", "value": true },
         { "direction": "east", "value": false },
         { "direction": "east", "value": false }
       ]
@@ -882,7 +882,7 @@
         { "direction": "south", "value": false }
       ]
     ],
-    "godrejPrana": [
+    "Godrej Prana": [
       [
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
@@ -1200,16 +1200,16 @@
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "south", "value": false },
-        { "direction": "east", "value": true }
+        { "direction": "east", "value": false }
       ],
       [
         { "direction": "north", "value": false },
-        { "direction": "east", "value": false },
+        { "direction": "west", "value": true },
         { "direction": "east", "value": true },
         { "direction": "north", "value": false },
         { "direction": "west", "value": true },
         { "direction": "south", "value": false },
-        { "direction": "west", "value": false }
+        { "direction": "east", "value": true }
       ],
       [
         { "direction": "north", "value": false },
@@ -1222,7 +1222,7 @@
       ],
       [
         { "direction": "north", "value": false },
-        { "direction": "east", "value": false },
+        { "direction": "west", "value": true },
         { "direction": "north", "value": false },
         { "direction": "north", "value": true },
         { "direction": "east", "value": false },
@@ -1231,6 +1231,14 @@
       ]
     ],
     "Ivy Estate": [
+      [
+        { "direction": "east", "value": false },
+        { "direction": "west", "value": false },
+        { "direction": "north", "value": false },
+        { "direction": "east", "value": false },
+        { "direction": "east", "value": true },
+        { "direction": "west", "value": false }
+      ],
       [
         { "direction": "east", "value": false },
         { "direction": "west", "value": false },
