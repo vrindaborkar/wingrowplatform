@@ -34,7 +34,6 @@ export const login = (payload) => {
       .login(payload)
       .then((logindata) => {
         if (!logindata.isError) {
-          localStorage.setItem("isLoggedIn", true);
           localStorage.setItem("token", logindata.accessToken);
           localStorage.setItem("user", JSON.stringify(logindata));
 
@@ -42,6 +41,7 @@ export const login = (payload) => {
           localStorage.setItem("role", userRole);
 
           dispatch(loginSuccess(logindata));
+          localStorage.setItem("isLoggedIn", true);
         } else {
           dispatch(loginError(logindata));
         }
@@ -64,6 +64,7 @@ export const logoutStart = () => {
 
 export const logoutSuccess = () => {
   // toast.error('Session expired due to inactivity. Please log in again.')
+  localStorage.clear();
   return {
     type: LOGOUT.SUCCESS,
   };
@@ -87,7 +88,6 @@ export const logout = () => {
           localStorage.clear();
           sessionStorage.clear();
           localStorage.setItem("isLoggedIn", false);
-          sessionStorage.setItem("isLoggedIn", false);
           dispatch(logoutSuccess());
             Navigate("/login");
         } else {

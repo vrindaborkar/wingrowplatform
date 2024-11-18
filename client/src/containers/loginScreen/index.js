@@ -20,7 +20,8 @@ const {
   verifyCode,
   isLoggedIn,
   logout,
-  sendVerificationCodeSuccess
+  sendVerificationCodeSuccess,
+  isVerify
 } = props;
 
 useEffect(() => {
@@ -38,6 +39,7 @@ const loginProps = {
   verifyCode,
   isLoggedIn,
   logout,
+  isVerify,
   sendVerificationCodeSuccess
 };
 const dispatch =useDispatch();
@@ -53,7 +55,7 @@ const getToastProps = () => {
     };
   }
   if (isLoginError) {
-    const toastTitle = error ? error : "Error while login";
+    const toastTitle = error ? error?.error : "Error while login";
     toastFailed(toastTitle)
     return {
       severity: TOAST_SEVERITY.ERROR,
@@ -96,7 +98,8 @@ const mapStateToProps = (state, ownProps) => {
     isLoginError: state.loginReducer.isLoginError,
     error: state.loginReducer.error,
     isLoggedIn: state.loginReducer?.isLoggedIn,
-    sendVerificationCodeSuccess:state.msg91Reducer?.sendVerificationCodeSuccess
+    sendVerificationCodeSuccess:state.msg91Reducer?.sendVerificationCodeSuccess,
+    isVerify: state.msg91Reducer.isVerify
   };
 };
 

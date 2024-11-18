@@ -29,7 +29,7 @@ const msg91Reducer = (state = initialState, action) => {
         isLoggedIn: true,
         sendVerificationCodeSuccess: true,
       };
-    case VERIFY_CODE: {
+    case VERIFY_CODE.SUCCESS: {
       return {
         ...state,
         isVerify: true,

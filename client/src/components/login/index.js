@@ -9,7 +9,7 @@ import MzPhoneInput from "../../common/MzForm/MzPhoneInput";
 import { useTranslation } from "react-i18next";
 import MzOptInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
-
+import {  toast } from 'react-toastify';
 
 const LoginComponent = (props) => {
   const {
@@ -19,6 +19,8 @@ const LoginComponent = (props) => {
     isLoggedIn,
     sendVerificationCodeSuccess,
     logout,
+    isVerify,
+    isLoginSuccess
   } = props.loginProps;
 
   const {
@@ -49,21 +51,17 @@ const LoginComponent = (props) => {
   }, [isLoggedIn])
 
   const onSubmit = (data) => {
-    console.log(data);
     if (isLoggedIn && sendVerificationCodeSuccess) {
       const payload = {
         otp: data.otp,
         mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
         authkey: MSG91_AUTH_KEY,
       };
-      verifyCode(payload);
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("isVerifyLogin", true);
-
-      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/home";
-
-      localStorage.removeItem("redirectAfterLogin");
-      Navigate(redirectPath);
+      verifyCode(payload)
+      if(isVerify){
+        Navigate('/');
+        toast.success("Login successfully")
+      }
     }
   };
 
@@ -72,28 +70,25 @@ const LoginComponent = (props) => {
     if (isStepValid) {
       const payload = {
         phone: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
-        role: getValues(FORM_FIELDS_NAME.ROLE.name),
+        type: getValues(FORM_FIELDS_NAME.ROLE.name),
       };
       login(payload);
     }
-  };
-
-  useEffect(() => {
-    if (isLoggedIn && step === 0) {
-      const payload = {
-        mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
-        template_id: TEMPLATE_ID_LOGIN,
-        authkey: MSG91_AUTH_KEY,
-      };
-      sendVerificationCode(payload);
+    if(isLoggedIn){
       setStep(1);
-      // setStep((prevStep) => Math.min(prevStep + 1, 1));
-    }
-  }, [isLoggedIn,step, getValues, sendVerificationCode]);
+    const payload = {
+      mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+      template_id: TEMPLATE_ID_LOGIN,
+      authkey: MSG91_AUTH_KEY,
+    };
+    sendVerificationCode(payload);
+  };
+}
+
 
   const handlePrevStep = () => {
     logout();
-    setStep((prevStep) => Math.max(prevStep - 1, 0));
+    setStep(0);
   };
 
   const getFormErrorMessage = (name) => {
@@ -101,7 +96,6 @@ const LoginComponent = (props) => {
       errors[name] && <small className="p-error">{errors[name].message}</small>
     );
   };
-
   return (
     <div className="grid grid-nogutter surface-0  text-800">
       <div className="col-12 md:col-6 overflow-hidden hidden md:block lg:block">
@@ -173,7 +167,10 @@ const LoginComponent = (props) => {
                     />
                     <Button
                       label="fetch"
-                      onClick={handleNextStep}
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        handleNextStep()
+                      }}
                       className="mt-3 border-round-sm"
                     />
                   </div>
