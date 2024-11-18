@@ -34,14 +34,34 @@ export const login = (payload) => {
       .login(payload)
       .then((logindata) => {
         if (!logindata.isError) {
-          localStorage.setItem("token", logindata.accessToken);
-          localStorage.setItem("user", JSON.stringify(logindata));
-
-          const userRole = logindata.role || "farmer";
-          localStorage.setItem("role", userRole);
 
           dispatch(loginSuccess(logindata));
-          localStorage.setItem("isLoggedIn", true);
+
+          try {
+            localStorage.setItem("token", logindata.accessToken);
+            localStorage.setItem("user", JSON.stringify(logindata));
+            const userRole = logindata.role || "farmer";
+            localStorage.setItem("role", userRole);
+            localStorage.setItem("isLoggedIn", true);
+          } catch (error) {
+            console.error(error);
+          }
+          try {
+            localStorage.setItem("token", logindata.accessToken);
+            localStorage.setItem("user", JSON.stringify(logindata));
+
+            const userRole = logindata.role || "farmer";
+            localStorage.setItem("role", userRole);
+
+            localStorage.setItem("isLoggedIn", "true");
+          } catch (error) {
+            console.error("Error saving data to localStorage:", error);
+            dispatch(
+              loginError({
+                message: "Unable to store login details. Please try again.",
+              })
+            );
+          }
         } else {
           dispatch(loginError(logindata));
         }
@@ -49,7 +69,7 @@ export const login = (payload) => {
       .catch((error) => {
         dispatch(
           loginError({
-            message: error.message || "Login failed due to unexpected error",
+            message: error.message || "Login failed due to unexpected error.",
           })
         );
       });

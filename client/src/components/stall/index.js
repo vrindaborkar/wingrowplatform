@@ -54,6 +54,7 @@ const StallComponent = (props) => {
      sendVerificationCode,
      verifyCode,
      isLoggedIn,
+     isVerifyLogin,
      logout,
      sendVerificationCodeSuccess,
      marketList 
@@ -126,7 +127,7 @@ const StallComponent = (props) => {
     return state.stallReducer.selectedStalls;
   });
 
-  const isLoggedInPayment = useSelector((state) => state.loginReducer.isLoggedIn);
+  const isLoggedInPayment = useSelector((state) => state.msg91Reducer.isVerify);
 
   const {
     control,
@@ -323,7 +324,6 @@ const StallComponent = (props) => {
     verifyCode,
     setOpenLoginDialog,
     isLoggedIn,
-    setRedirectStall,
     logout,
     sendVerificationCodeSuccess
   };
@@ -552,7 +552,6 @@ const StallComponent = (props) => {
       setShowPaymentScreen(true);
     } else {
       localStorage.setItem("redirectAfterLogin", ROUTE_PATH.BOOKING.STALL);
-      
       openLoginComponent()
     }
   };
@@ -966,7 +965,7 @@ const StallComponent = (props) => {
                 onHide={handleCloseLoginDialog}
                 modal
             >
-               <LoginComponent  loginProps={loginProps}/>
+               <LoginComponent loginProps={loginProps}/>
             </Dialog>
        
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StallComponent from "../../components/stall";
 import { connect } from "react-redux";
-import { init_login, login, logout } from "../../redux/action/auth";
+import { init_login, login, logout } from "../../redux/action/auth/login";
 import { ProgressBar } from "primereact/progressbar";
 import { sendVerificationCode, verifyCode } from '../../redux/action/auth/smg91';
 import { fetchStallList, initStall } from "../../redux/action/stall";
@@ -22,6 +22,7 @@ const StallScreen = (props) => {
     sendVerificationCode,
     verifyCode,
     isLoggedIn,
+    isVerifyLogin,
     logout,
     sendVerificationCodeSuccess,
     userRole,
@@ -66,6 +67,7 @@ const StallScreen = (props) => {
     sendVerificationCode,
     verifyCode,
     isLoggedIn,
+    isVerifyLogin,
     logout,
     sendVerificationCodeSuccess,
     fetchStallList,
@@ -124,6 +126,7 @@ const mapStateToProps = (state, ownProps) => ({
   isLoginError: state.loginReducer.isLoginError,
   error: state.loginReducer.error,
   isLoggedIn: state.loginReducer?.isLoggedIn,
+  isVerifyLogin: state.msg91Reducer.isVerify,
   sendVerificationCodeSuccess:state.msg91Reducer?.sendVerificationCodeSuccess
 });
 

@@ -12,7 +12,7 @@ import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
 
 const Header = ({ isLoggedIn, isVerify }) => {
-  const VerifyLogin = localStorage.getItem("isVerify");
+  const VerifyLogin = localStorage.getItem("isVerifyLogin");
   const VerifyRole = localStorage.getItem("role");
 
   const { t } = useTranslation();
