@@ -94,11 +94,12 @@ export const verifyCodeError = (payload) => {
 export const verifyCode = (payload) => {
   return (dispatch) => {
     dispatch(verifyCodeStart());
-    authService.verifyCode(payload).then((registerdata) => {
-      if (!registerdata.isError) {
-        dispatch(verifyCodeSuccess(registerdata));
+    authService.verifyCode(payload).then((response) => {
+      if (response.success) {
+        localStorage.setItem("isVerify", true);
+        dispatch(verifyCodeSuccess(response));
       } else {
-        dispatch(verifyCodeError(registerdata));
+        dispatch(verifyCodeError(response));
       }
     });
   };

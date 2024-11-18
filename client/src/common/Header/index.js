@@ -11,12 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
 
-const Header = ({ isLoggedIn, userRole, isVerify }) => {
-  const VerifyLogin = localStorage.getItem("isVerifyLogin");
+const Header = ({ isLoggedIn, isVerify }) => {
+  const VerifyLogin = localStorage.getItem("isVerify");
   const VerifyRole = localStorage.getItem("role");
-  const isLoggedInCheck = localStorage.getItem("isLoggedIn");
-
-  console.log("isLoggedInCheck", isLoggedInCheck);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
