@@ -52,8 +52,7 @@ export const login = (payload) => {
 
             const userRole = logindata.role || "farmer";
             localStorage.setItem("role", userRole);
-
-            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("isLoggedIn", "true"); // Store as string
           } catch (error) {
             console.error("Error saving data to localStorage:", error);
             dispatch(
@@ -63,6 +62,7 @@ export const login = (payload) => {
             );
           }
         } else {
+          // Dispatch error if login fails
           dispatch(loginError(logindata));
         }
       })

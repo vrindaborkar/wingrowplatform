@@ -39,9 +39,12 @@ export const verifyCode = async (payload) => {
   try {
     const result = await axios.get(url, {
       headers: {
-        authkey: payload.authkey,
+        authkey: payload.authkey, 
       },
     });
+
+    console.log(result);
+    
    
     if (result.status === 200 && result.data?.type === 'success') {
       return { success: true, data: result.data };

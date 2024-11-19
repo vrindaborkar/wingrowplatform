@@ -67,6 +67,22 @@
   display: flex;
 }
 
+.top-road {
+  writing-mode: vertical-rl;
+  border-left: 2.5px dashed #ccc;
+  /* border-right: 1px dashed #ccc; */
+  /* transform: rotate(-90deg); */
+  /* background-color: #ccc; */
+  padding-top: 35px;
+  /* padding-left: 25px; */
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  /* height: 100%; */
+  /* min-width: 50px; */
+}
 .left-road {
   writing-mode: vertical-rl;
   border-left: 2.5px dashed #ccc;
@@ -84,7 +100,7 @@
   /* min-width: 50px; */
 }
 
-.right-road {
+.top-road {
   border-top: 2.5px dashed #ccc;
   /* border-bottom: 3px dashed #ccc; */
   writing-mode: horizontal-tb;

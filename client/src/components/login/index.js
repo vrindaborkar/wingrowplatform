@@ -60,15 +60,14 @@ const LoginComponent = (props) => {
       };
       verifyCode(payload);
 
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("isVerifyLogin", true);
-      const redirectPath =
-        localStorage.getItem("redirectAfterLogin") || "/home";
-      localStorage.removeItem("redirectAfterLogin");
-      Navigate(redirectPath);
-
       if (isVerify) {
-        Navigate("/");
+        const redirectPath = localStorage.getItem("redirectAfterLogin");
+        if (redirectPath !== null && redirectPath !== undefined) {
+          Navigate(redirectPath);
+          localStorage.removeItem("redirectAfterLogin");
+        } else {
+          Navigate("/");
+        }
         toast.success("Login successfully");
       }
     }
@@ -200,6 +199,14 @@ const LoginComponent = (props) => {
                               wrapperClass={"p-float-label"}
                             />
                             <div className="flex justify-content-between gap-2 w-full">
+                              <div className="mb-3 w-full">
+                                <Button
+                                  label="Back"
+                                  className="mt-3 border-round-sm"
+                                  onClick={handlePrevStep}
+                                  severity="danger"
+                                />
+                              </div>
                               <div className="mb-3 w-full">
                                 <Button
                                   label="submit"
