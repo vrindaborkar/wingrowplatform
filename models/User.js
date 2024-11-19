@@ -27,13 +27,13 @@ const User = mongoose.model(
    
     
     },
-    password: {
-      type:String,
-      minlength:6,
+    // password: {
+    //   type:String,
+    //   minlength:6,
 
     
   
-    },
+    // },
     farmertype:{
       type:String,
     

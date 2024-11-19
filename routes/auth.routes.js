@@ -25,6 +25,6 @@ module.exports = function(app) {
   // app.post("/signin", controller.signin);
   app.put("/image" , controller.postPic)
  app.post("/address", controller.addAddress);
-  app.post("/auth/newpassword", controller.newpassword);
+  // app.post("/auth/newpassword", controller.newpassword);
   app.post("/check",controller.checkPhone)
 };

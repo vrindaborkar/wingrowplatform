@@ -16,7 +16,7 @@ cloudinary.config({
 // Signup
 exports.signup = async (req, res, next) => {
   try {
-    const { phone, password, firstname, lastname, role, farmertype, address } = req.body;
+    const { phone, firstname, lastname, role, farmertype, address } = req.body;
     console.log(phone);
     const userdata = await User.find({ "phone": phone, "role": role });
 
@@ -32,7 +32,7 @@ exports.signup = async (req, res, next) => {
         firstName: firstname,
         lastName: lastname,
         phone: phone,
-        password: bcrypt.hashSync(password, 8),
+        // password: bcrypt.hashSync(password, 8),
         role: role,
         farmertype: farmertype,
         address: address
@@ -108,7 +108,7 @@ exports.signin = async (req, res) => {
 // Admin Sign Up
 exports.adminSignUp = async (req, res) => {
   try {
-    const { phone, password, firstname, lastname, role } = req.body;
+    const { phone, firstname, lastname, role } = req.body;
     console.log(phone);
     const userdata = await User.find({ "phone": phone, "role": role });
 
@@ -124,7 +124,7 @@ exports.adminSignUp = async (req, res) => {
         firstName: firstname,
         lastName: lastname,
         phone: phone,
-        password: bcrypt.hashSync(password, 8),
+        // password: bcrypt.hashSync(password, 8),
         role: role
       });
 
@@ -240,16 +240,16 @@ exports.feedback = async (req, res) => {
 };
 
 // New Password
-exports.newpassword = async (req, res) => {
-  const { phone, password } = req.body;
-  const user = await User.findOne({
-    phone: phone
-  });
+// exports.newpassword = async (req, res) => {
+//   const { phone, password } = req.body;
+//   const user = await User.findOne({
+//     phone: phone
+//   });
 
-  user.password = bcrypt.hashSync(password, 8);
-  await user.save();
-  res.status(200).send(user);
-};
+//   user.password = bcrypt.hashSync(password, 8);
+//   await user.save();
+//   res.status(200).send(user);
+// };
 
 // Subscription
 exports.subscription = async (req, res) => {
