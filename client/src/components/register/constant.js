@@ -44,7 +44,7 @@ export const FORM_FIELDS_NAME = {
 
   TYPE: {
     name: "type",
-    label: "Type",
+    label: "Role",
     type: "text",
     placeholder: "Enter your Type",
     rules: {

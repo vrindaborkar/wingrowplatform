@@ -62,11 +62,11 @@ export const reSendVerificationCodeError = (payload) => {
 export const reSendVerificationCode = (payload) => {
   return (dispatch) => {
     dispatch(reSendVerificationCodeStart());
-    authService.reSendVerificationCode(payload).then((registerdata) => {
-      if (!registerdata.isError) {
-        dispatch(reSendVerificationCodeSuccess(registerdata));
+    authService.reSendVerificationCode(payload).then((response) => {
+      if (response?.type==="success") {
+        dispatch(reSendVerificationCodeSuccess(response));
       } else {
-        dispatch(reSendVerificationCodeError());
+        dispatch(reSendVerificationCodeError(response));
       }
     });
   };

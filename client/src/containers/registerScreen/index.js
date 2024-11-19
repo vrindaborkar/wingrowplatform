@@ -3,10 +3,12 @@ import RegisterComponent from "../../components/register";
 import { connect, useDispatch } from "react-redux";
 import { ProgressBar } from "primereact/progressbar";
 import { MzToast, TOAST_SEVERITY } from "../../common/MzToast";
+import { toastFailed, toastSuccess } from '../../redux/action/toast';
 import { init_register, register } from "../../redux/action/auth/register";
 import {
   verifyCode,
   sendVerificationCode,
+  reSendVerificationCode
 } from "../../redux/action/auth/smg91";
 
 const RegisterScreen = (props) => {
@@ -24,6 +26,8 @@ const RegisterScreen = (props) => {
     isRegistered,
     logout,
     sendVerificationCodeSuccess,
+    isRegister,
+    reSendVerificationCode
   } = props;
 
   const dispatch = useDispatch();
@@ -36,14 +40,25 @@ const RegisterScreen = (props) => {
   const getToastProps = () => {
     if (isRegisterSuccess) {
       const toastTitle = "Registration Successful";
-      console.log(toastTitle);
+      toastSuccess(toastTitle);
       return {
         severity: TOAST_SEVERITY.SUCCESS,
         toastTitle,
         shouldShowToast: true,
       };
     }
-    return {};
+    if (isRegisterError) {
+      const toastTitle = error ? error?.error?.message : "Error occured while register user";
+      toastFailed(toastTitle)
+      return {
+        severity: TOAST_SEVERITY.ERROR,
+        toastTitle,
+        shouldShowToast: true,
+      };
+    }
+    return {
+      shouldShowToast: false,
+    };
   };
 
   const renderProgressBar = () => {
@@ -60,6 +75,8 @@ const RegisterScreen = (props) => {
     isRegistered,
     logout,
     sendVerificationCodeSuccess,
+    isRegister,
+    reSendVerificationCode
   };
 
   return (
@@ -77,6 +94,7 @@ const mapDispatchToProps = (dispatch) => {
     register: (data) => dispatch(register(data)),
     sendVerificationCode: (data) => dispatch(sendVerificationCode(data)),
     verifyCode: (data) => dispatch(verifyCode(data)),
+    reSendVerificationCode: (data) => dispatch(reSendVerificationCode(data)),
     logout: () => console.log("Logout triggered"),
   };
 };
@@ -91,6 +109,7 @@ const mapStateToProps = (state) => {
     error: state.registerReducer.error,
     sendVerificationCodeSuccess:
       state.registerReducer.sendVerificationCodeSuccess,
+      isRegister: state.registerReducer.isRegister
   };
 };
 

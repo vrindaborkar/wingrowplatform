@@ -21,7 +21,7 @@ const LoginComponent = (props) => {
     logout,
     isVerify,
     setRedirectStall,
-    isLoginSuccess,
+    reSendVerificationCode,
   } = props.loginProps;
 
   const {
@@ -44,6 +44,9 @@ const LoginComponent = (props) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const Navigate = useNavigate();
+  const [OTPSent, setOTPSent] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [countdown, setCountdown] = useState(0);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -73,25 +76,66 @@ const LoginComponent = (props) => {
     }
   };
 
+  const handleResendOtp = () => {
+    if (isLoggedIn) {
+      const payload = {
+        mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+        authkey: MSG91_AUTH_KEY,
+        retrytype: "text",
+      };
+
+      // Send the OTP
+      reSendVerificationCode(payload);
+
+      // Set OTP sent state and start countdown
+      setOtpSent(true);
+      setCountdown(30); // Initialize countdown at 30 seconds
+
+      // Start a countdown using setInterval
+      const countdownInterval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev === 1) {
+            // When countdown reaches 1, stop the interval
+            clearInterval(countdownInterval);
+            setOtpSent(false); // Reset OTP sent state
+          }
+          return prev - 1; // Decrease the countdown by 1
+        });
+      }, 1000); // Update every second (1000ms)
+    }
+  };
+
   const handleNextStep = async () => {
     const isStepValid = await trigger();
     if (isStepValid) {
       const payload = {
         phone: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
-        type: getValues(FORM_FIELDS_NAME.ROLE.name),
+        role: getValues(FORM_FIELDS_NAME.ROLE.name),
       };
-      login(payload);
+      try {
+        // Attempt to login the user
+        await login(payload);
+    }catch (error) {
+      console.error("Login failed:", error);
+      // setIsLoggedInState(false); // In case login fails, ensure the state reflects that
     }
+  }
+  };
+
+  useEffect(() => {
     if (isLoggedIn) {
-      setStep(1);
-      const payload = {
+      const otpPayload = {
         mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
         template_id: TEMPLATE_ID_LOGIN,
         authkey: MSG91_AUTH_KEY,
       };
-      sendVerificationCode(payload);
+
+      // Send OTP after successful login
+      sendVerificationCode(otpPayload);
+      setOTPSent(true);
+      setStep(1); // Transition to OTP verification screen
     }
-  };
+  }, [ isLoggedIn, step,sendVerificationCode, setOTPSent]);
 
   const handlePrevStep = () => {
     logout();
@@ -327,6 +371,12 @@ const LoginComponent = (props) => {
                               rules={FORM_FIELDS_NAME.OTP.rules}
                               integerOnly={true}
                               wrapperClass={"p-float-label"}
+                            />
+                            <Button
+                               label={otpSent ? `Resend OTP in ${countdown}s` : "Resend OTP"}
+                              className="border-none text-black bg-transparent outline-none hover:underline"
+                              onClick={handleResendOtp}
+                              disabled={otpSent}
                             />
                             <div className="flex justify-content-between gap-2 w-full">
                               <div className="mb-3 w-full">

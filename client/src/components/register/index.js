@@ -3,7 +3,7 @@ import { WINGROW_SLIDE_THREE, WINGROW_LOGO } from "../../assets/images";
 import { useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Button } from "primereact/button";
-import { MSG91_AUTH_KEY, TEMPLATE_ID_VERIFICATION } from "../../constant/msg91";
+import { MSG91_AUTH_KEY, TEMPLATE_ID_LOGIN } from "../../constant/msg91";
 import MzInput from "../../common/MzForm/MzInput";
 import MzPhoneInput from "../../common/MzForm/MzPhoneInput";
 import MzDropDown from "../../common/MzForm/MzDropDown/WithFloatLabel";
@@ -11,14 +11,6 @@ import { useTranslation } from "react-i18next";
 import data from "./data.json";
 import MzOtpInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
-
-// const DUMMY_OTP = "1234";
-
-console.log("Auth Key:---------------------------", MSG91_AUTH_KEY);
-console.log(
-  "Template ID: -----------------------------",
-  TEMPLATE_ID_VERIFICATION
-);
 
 const RegisterComponent = (props) => {
   const {
@@ -29,6 +21,8 @@ const RegisterComponent = (props) => {
     register,
     sendVerificationCode,
     verifyCode,
+    isRegister,
+    reSendVerificationCode,
     logout,
     sendVerificationCodeSuccess,
   } = props.registerProps;
@@ -58,7 +52,8 @@ const RegisterComponent = (props) => {
 
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
-  const [otpSent, setOtpSent] = useState(false);
+  const [otpSent, setOtpSent] = useState(false); // Whether OTP has been sent
+  const [countdown, setCountdown] = useState(0);
   const [selectedType, setSelectedType] = useState(null);
   const Navigate = useNavigate();
 
@@ -73,11 +68,15 @@ const RegisterComponent = (props) => {
       address: getValues(FORM_FIELDS_NAME.ADDRESS.name),
     };
 
-    if (data.otp) {
-      setOtpSent(true);
-      register(userData);
+    const payload = {
+      otp: data.otp,
+      mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+      authkey: MSG91_AUTH_KEY,
+    };
+    verifyCode(payload);
+    register(userData);
+    if (data.otp && isRegister) {
       localStorage.setItem("userData", JSON.stringify(userData));
-
       setStep((prevStep) => Math.min(prevStep + 1, 1));
       Navigate("/login");
     } else {
@@ -88,18 +87,52 @@ const RegisterComponent = (props) => {
     }
   };
 
+  const handleResendOtp = () => {
+    if (isRegister) {
+      const payload = {
+        mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+        authkey: MSG91_AUTH_KEY,
+        retrytype: "text",
+      };
+
+      // Send the OTP
+      reSendVerificationCode(payload);
+
+      // Set OTP sent state and start countdown
+      setOtpSent(true);
+      setCountdown(30); // Initialize countdown at 30 seconds
+
+      // Start a countdown using setInterval
+      const countdownInterval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev === 1) {
+            // When countdown reaches 1, stop the interval
+            clearInterval(countdownInterval);
+            setOtpSent(false); // Reset OTP sent state
+          }
+          return prev - 1; // Decrease the countdown by 1
+        });
+      }, 1000); // Update every second (1000ms)
+    }
+  };
+
   const handleNextStepOrSendOTP = async () => {
+    // Validate the current step
     const isStepValid = await trigger();
+
     if (isStepValid) {
-      if (!otpSent) {
+      // If OTP has not been sent
         const selectedType = getValues(FORM_FIELDS_NAME.TYPE.name);
+        const phone = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
+        const firstName = getValues(FORM_FIELDS_NAME.FIRST_NAME.name);
+        const lastName = getValues(FORM_FIELDS_NAME.LAST_NAME.name);
+
         if (!selectedType) {
           console.error("Type is not selected or is undefined.");
           return;
         }
-        const phone = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
-        const firstName = getValues(FORM_FIELDS_NAME.FIRST_NAME.name);
-        const lastName = getValues(FORM_FIELDS_NAME.LAST_NAME.name);
+
+        // Construct payload for registration
         const payload = {
           phone: phone,
           role: selectedType,
@@ -108,14 +141,12 @@ const RegisterComponent = (props) => {
         };
 
         console.log("Register Payload:", payload);
-        await register(payload);
-        await handleFetchOtp();
-        
-        setOtpSent(true);
-        setStep((prevStep) => Math.min(prevStep + 1, 1));
-      } else {
-        setStep((prevStep) => Math.min(prevStep + 1, 1));
-      }
+
+        try {
+          await register(payload);
+        } catch (error) {
+          console.error("Error during registration:", error);
+        }
     }
   };
 
@@ -125,7 +156,7 @@ const RegisterComponent = (props) => {
       const phoneNumber = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
       const payload = {
         mobile: phoneNumber,
-        template_id: TEMPLATE_ID_VERIFICATION,
+        template_id: TEMPLATE_ID_LOGIN,
         authkey: MSG91_AUTH_KEY,
       };
       console.log("OTP Payload:", payload);
@@ -139,20 +170,19 @@ const RegisterComponent = (props) => {
   };
 
   useEffect(() => {
-    if (isRegisterSuccess && sendVerificationCodeSuccess) {
-      const mobileNumber = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
-      if (TEMPLATE_ID_VERIFICATION && MSG91_AUTH_KEY && mobileNumber) {
-        const payload = {
-          mobile: mobileNumber,
-          template_id: TEMPLATE_ID_VERIFICATION,
-          authkey: MSG91_AUTH_KEY,
-        };
-        setStep((prevStep) => Math.min(prevStep + 1, 1));
-      } else {
-        console.error("Missing template_id, authkey, or mobile number");
-      }
+    if (isRegister) {
+      const fetchOtp = async () => {
+        try {
+          await handleFetchOtp(); // Fetch OTP for the user
+          setStep((prevStep) => Math.min(prevStep + 1, 1)); // Move to next step
+        } catch (error) {
+          console.error("Error during OTP fetch:", error);
+        }
+      };
+
+      fetchOtp();
     }
-  }, [isRegisterSuccess, sendVerificationCodeSuccess]);
+  }, [isRegister]);
 
   const handlePrevStep = () => {
     logout();
@@ -337,6 +367,14 @@ const RegisterComponent = (props) => {
                         rules={FORM_FIELDS_NAME.OTP.rules}
                         integerOnly={true}
                         wrapperClass={"p-float-label"}
+                      />
+                      <Button
+                        label={
+                          otpSent ? `Resend OTP in ${countdown}s` : "Resend OTP"
+                        }
+                        className="border-none text-black bg-transparent outline-none hover:underline"
+                        onClick={handleResendOtp}
+                        disabled={otpSent}
                       />
                       <div className="flex justify-content-between gap-2 w-full">
                         <div className="mb-3 w-full">

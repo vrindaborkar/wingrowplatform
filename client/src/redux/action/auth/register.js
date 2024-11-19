@@ -32,6 +32,7 @@ export const register = (payload) => {
   return (dispatch) => {
     dispatch(registerStart());
     authService.register(payload).then((registerdata) => {
+      console.log("here is data", registerdata)
       if (!registerdata.isError) {
         dispatch(registerSuccess(registerdata));
       } else {
