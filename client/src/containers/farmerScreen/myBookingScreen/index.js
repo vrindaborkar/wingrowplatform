@@ -32,10 +32,9 @@ const MyBookingScreen = (props) => {
   useEffect(() => {
     initStall();
     fetchStallBookByUserList();
-    if (user && user.id) {
-      console.log("User ID in effect:-------------------", user.id);
-      fetchStallBookByUserList();
-    }
+    // if (user && user.id) {
+    //   fetchStallBookByUserList();
+    // }
   }, [initStall, fetchStallBookByUserList, isDeleteStallSuccess, user]);
 
   const history = useNavigate();
@@ -44,16 +43,11 @@ const MyBookingScreen = (props) => {
   const [isReadDailogVisible, setIsReadDialogVisible] = useState(false);
   const [selectedStall, setSelectedStall] = useState(null);
 
-  const handleOnReadRecord = (data) => {
-    console.log(data);
-  };
-
   const handleOnDeleteRecord = (data) => {
     setSelectedStall(data);
     setIsDeleteDialogVisible(true);
   };
   const handleOnEditRecord = (data) => {
-    // console.log(data);
     history(`${ROUTE_PATH.COMPANY.EDIT.replace(":id", data?.id)}`);
   };
 
@@ -74,7 +68,6 @@ const MyBookingScreen = (props) => {
     user,
     userRole,
     navigatetoFarmer,
-    handleOnReadRecord,
     handleOnDeleteRecord,
     handleOnEditRecord,
     handleOnCreatedRecord,

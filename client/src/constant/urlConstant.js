@@ -17,7 +17,7 @@ export const ROUTE_PATH = {
     OUTWARD:"/outward",
   },
   BOOKING:{
-    STALL:"/stallStatus/stalls/:id"
+    STALL:"/market/:id"
   },
   ADMIN:{
     HOME:"/admin"

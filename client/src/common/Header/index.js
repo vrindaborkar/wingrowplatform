@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
 
-const Header = ({ isLoggedIn, isVerify }) => {
-  const VerifyLogin = localStorage.getItem("isVerify");
+const Header = ({ isLoggedIn }) => {
+  const isVerify = localStorage.getItem("isVerify");
   const VerifyRole = localStorage.getItem("role");
 
   const { t } = useTranslation();
@@ -51,13 +51,13 @@ const Header = ({ isLoggedIn, isVerify }) => {
       icon: "pi pi-fw pi-info-circle",
       route: ROUTE_PATH.BASE.HOME,
     },
-    !VerifyLogin && {
+    !isVerify && {
       label: t("login"),
       icon: "pi pi-fw pi-user",
       route: ROUTE_PATH.BASE.LOGIN,
       visible: !isVerify,
     },
-    !VerifyLogin && {
+    !isVerify && {
       label: t("register"),
       icon: "pi pi-fw pi-user-plus",
       route: ROUTE_PATH.BASE.REGISTER,
@@ -69,13 +69,13 @@ const Header = ({ isLoggedIn, isVerify }) => {
       route: ROUTE_PATH.CUSTOMER.HOME,
       visible: !isVerify,
     },
-    VerifyLogin &&
+    isVerify &&
       VerifyRole === "farmer" && {
         label: t("farmer"),
         icon: "pi pi-fw pi-users",
         route: ROUTE_PATH.FARMER.HOME,
       },
-    VerifyLogin &&
+    isVerify &&
       VerifyRole === "admin" && {
         label: t("admin"),
         icon: "pi pi-user-plus",
@@ -87,7 +87,7 @@ const Header = ({ isLoggedIn, isVerify }) => {
       icon: "pi pi-fw pi-cog",
       route: ROUTE_PATH.BASE.HOME,
     },
-    VerifyLogin && {
+    isVerify && {
       label: t("logout"),
       icon: "pi pi-fw pi-power-off p-error",
       command: handleLogout,
@@ -121,7 +121,7 @@ const Header = ({ isLoggedIn, isVerify }) => {
         className="text-white no-outline font-bold rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
-      {!VerifyLogin && (
+      {!isVerify && (
         <Button
           label={t("login")}
           icon="pi pi-user"
@@ -130,7 +130,7 @@ const Header = ({ isLoggedIn, isVerify }) => {
           onClick={() => navigate(ROUTE_PATH.BASE.LOGIN)}
         />
       )}
-      {!VerifyLogin && (
+      {!isVerify && (
         <Button
           label={t("register")}
           icon="pi pi-user-plus"
@@ -147,7 +147,7 @@ const Header = ({ isLoggedIn, isVerify }) => {
         onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
       />
 
-      {VerifyLogin && VerifyRole === "farmer" && (
+      {isVerify && VerifyRole === "farmer" && (
         <>
           <Button
             label={t("farmer")}
@@ -158,7 +158,7 @@ const Header = ({ isLoggedIn, isVerify }) => {
           />
         </>
       )}
-      {VerifyLogin && VerifyRole === "admin" && (
+      {isVerify && VerifyRole === "admin" && (
         <>
           <Button
             label={t("admin")}
@@ -169,7 +169,7 @@ const Header = ({ isLoggedIn, isVerify }) => {
           />
         </>
       )}
-      {VerifyLogin && (
+      {isVerify && (
         <>
           <Button
             label={t("logout")}
