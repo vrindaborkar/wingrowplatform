@@ -18,17 +18,27 @@ export const sendVerificationCode = async (payload) => {
 };
 
 export const reSendVerificationCode = async (payload) => {
-  console.log(payload);
-  const url = `${MSG91_BASE_URL}/otp?template_id=${payload.template_id}&mobile=${payload.mobile}&authkey=${payload.authkey}`;
+  const url = `${MSG91_BASE_URL}/otp/retry`;
+  const options = {
+    method: 'GET',
+    url,
+    params: {
+      authkey: payload.authkey,
+      retrytype: payload.retrytype,
+      mobile: payload.mobile,
+    },
+  };
   try {
-    let result = await postApiAsynWithoutToken(url);
-    if (result?.error) {
-      throw new APIError(result);
+    const result = await axios.request(options);
+    if (result.status == 200 && result?.data?.type==="success") {
+      return result?.data;
     }
-    return result;
+    else{
+      return handleAPIError(result?.data);
+    }
   } catch (error) {
     console.error(error);
-    return handleAPIError(error);
+    return handleAPIError(error?.response?.data?.detail);
   }
 };
 
@@ -85,10 +95,10 @@ export const register = async (payload) => {
     if (result.status !== 200) {
       return handleAPIError(result?.data?.detail ?? "");
     }
-    return result.data;
+    return result?.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail);
+    return handleAPIError(error?.response?.data);
   }
 };
 

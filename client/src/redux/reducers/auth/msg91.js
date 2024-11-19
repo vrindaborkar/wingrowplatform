@@ -21,12 +21,12 @@ const msg91Reducer = (state = initialState, action) => {
     case RESEND_VERIFICATION_CODE.START:
       return {
         ...state,
-        isLoggedIn: true,
+        // isLoggedIn: true,
       };
     case SEND_VERIFICATION_CODE.SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
+        // isLoggedIn: true,
         sendVerificationCodeSuccess: true,
       };
     case VERIFY_CODE.SUCCESS: {
@@ -40,7 +40,7 @@ const msg91Reducer = (state = initialState, action) => {
     case RESEND_VERIFICATION_CODE.ERROR:
       return {
         ...state,
-        isLoginError: true,
+        // isLoginError: true,
       };
 
     default:

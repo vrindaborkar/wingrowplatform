@@ -1,12 +1,12 @@
 import {
-  INIT_LOGIN,
   INIT_REGISTRATION,
-  LOGIN,
-  LOGOUT,
   REGISTER,
-  RESEND_VERIFICATION_CODE,
+  INIT_LOGIN,
+  LOGIN,
   SEND_VERIFICATION_CODE,
   VERIFY_CODE,
+  RESEND_VERIFICATION_CODE,
+  LOGOUT,
 } from "../../../constant/actionTypes/auth";
 
 const formFieldValueMapRegister = {
@@ -35,8 +35,13 @@ const getInitialStateFromLocalStorage = () => {
     isLoginError: false,
     isLogoutSuccess: false,
     LogoutError: false,
-    sendVerificationCodeSuccess:false
-
+    sendVerificationCodeSuccess: false,
+    reSendVerificationCodeSuccess: false,
+    isReSendVerificationCodeError:false,
+    isLogoutError:false,
+    isSendVerificationCodeError: false,
+    isRegisterError:false,
+    isVerifiyCodeError: false
   };
 };
 
@@ -50,7 +55,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         initialState,
       };
-
     case LOGIN.START:
     case REGISTER.START:
     case SEND_VERIFICATION_CODE.START:
@@ -58,20 +62,26 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT.START:
     case RESEND_VERIFICATION_CODE.START:
       return {
-        ...state
+        ...state,
+        initialState
       };
 
     case LOGIN.SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
+        isLoggedIn: true
       };
 
     case SEND_VERIFICATION_CODE.SUCCESS:
       return {
         ...state,
-        isLoggedIn: true,
-        sendVerificationCodeSuccess:true
+        sendVerificationCodeSuccess: true,
+      };
+
+    case RESEND_VERIFICATION_CODE.SUCCESS:
+      return {
+        ...state,
+        reSendVerificationCodeSuccess: true,
       };
 
     case VERIFY_CODE: {
@@ -80,22 +90,58 @@ const authReducer = (state = initialState, action) => {
         isVerify: true,
       };
     }
-    case LOGIN.ERROR:
-    case REGISTER.ERROR:
-    case SEND_VERIFICATION_CODE.ERROR:
-    case VERIFY_CODE.ERROR:
-    case LOGOUT.ERROR:
-    case RESEND_VERIFICATION_CODE.ERROR:
+    case LOGOUT.SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: false,
+        isVerify:false
+      };
+    case LOGIN.ERROR: {
       return {
         ...state,
         error: action?.payload,
         isLoginError: true,
       };
-
+    }
+    case REGISTER.ERROR: {
+      return {
+        ...state,
+        error: action?.payload,
+        isRegisterError: true,
+      };
+    }
+    case SEND_VERIFICATION_CODE.ERROR: {
+      return {
+        ...state,
+        error: action?.payload,
+        isSendVerificationCodeError: true,
+      };
+    }
+    case VERIFY_CODE.ERROR: {
+      return {
+        ...state,
+        error: action?.payload,
+        isVerifiyCodeError: true,
+      };
+    }
+    case RESEND_VERIFICATION_CODE.ERROR: {
+      console.log("here is action", action)
+      return {
+        ...state,
+        error: action?.payload,
+        isReSendVerificationCodeError: true,
+      };
+    }
+    case LOGOUT.ERROR: {
+      return {
+        ...state,
+        error: action?.payload,
+        isLogoutError: true,
+      };
+    }
     default:
       return state;
   }
 };
 
 export default authReducer;
-
