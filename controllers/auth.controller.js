@@ -24,8 +24,8 @@ exports.signup = async (req, res, next) => {
     if (userdata[0]) {
       res.status(400).json({
         success: false,
-        message: "Phone Number is already in use!",
-        message2: "please enter a different role that is not already in use"
+        message: "please enter a different role that is not already in use",
+        // message2: "please enter a different role that is not already in use"
       });
     } else {
       const user_creat = await User.create({
