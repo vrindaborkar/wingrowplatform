@@ -24,7 +24,7 @@ exports.signup = async (req, res, next) => {
     if (userdata[0]) {
       res.status(400).json({
         success: false,
-        message: "please enter a different role that is not already in use",
+        message: "Please enter a different role that is not already in use",
         // message2: "please enter a different role that is not already in use"
       });
     } else {
