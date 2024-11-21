@@ -30,6 +30,7 @@ const StallScreen = (props) => {
     reSendVerificationCodeSuccess,
     reSendVerificationCodeError,
     marketList,
+    isLoggedIn
   } = props;
   const { id } = useParams();
   useEffect(() => {
@@ -80,7 +81,7 @@ const StallScreen = (props) => {
     reSendVerificationCode,
     reSendVerificationCodeSuccess,
     reSendVerificationCodeError,
-    
+    isLoggedIn
   };
   
   const renderProgressBar = () => (
@@ -124,7 +125,8 @@ const mapStateToProps = (state, ownProps) => ({
   marketList: state.marketReducer.marketList,
   sendVerificationCodeSuccess: state.msg91Reducer?.sendVerificationCodeSuccess,
   isDeleteStallSuccess: state.stallReducer.isDeleteStallSuccess,
-  isDeleteStallError: state.stallReducer.isDeleteStallError
+  isDeleteStallError: state.stallReducer.isDeleteStallError,
+  isLoggedIn:state.msg91Reducer.isLoggedIn,
 });
 
 const mapDispatchToProps = (dispatch) => ({
