@@ -171,6 +171,11 @@ const stallReducer = (state = initialState, action) => {
         error: action.payload.error,
         isDeleteStallError: true,
       };
+      case "UPDATE_SELECTED_STALLS":
+        return {
+          ...state,
+          selectedStalls: action.payload,
+        };
     default:
       return state;
   }

@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from "react";
 import StallComponent from "../../components/stall";
 import { connect } from "react-redux";
-import { init_login, login, logout } from "../../redux/action/auth/login";
 import { ProgressBar } from "primereact/progressbar";
-import { sendVerificationCode, verifyCode } from '../../redux/action/auth/smg91';
 import { fetchStallList, initStall } from "../../redux/action/stall";
+import { deleteStall } from "../../redux/action/stall";
 import { fetchMarketList } from "../../redux/action/market";
 import { useParams } from "react-router-dom";
 import { MzToast } from "../../common/MzToast";
-
+import {
+  sendVerificationCode,
+  verifyCode,
+  reSendVerificationCode,
+} from "../../redux/action/auth/smg91";
 const StallScreen = (props) => {
   const {
     fetchStallList,
-    initStall,
-    fetchMarketList,
+    stallList,
     formFieldValueMap,
-    isPageLevelError,
     isLoginSuccess,
     isLoading,
-    login,
-    sendVerificationCode,
     verifyCode,
-    isLoggedIn,
-    isVerifyLogin,
-    logout,
-    sendVerificationCodeSuccess,
+    deleteStall,
+    initLoginScreen,
     userRole,
-    stallList,
+    isPageLevelError,
+    error,
+    sendVerificationCode,
+    reSendVerificationCode,
+    reSendVerificationCodeSuccess,
+    reSendVerificationCodeError,
     marketList,
   } = props;
   const { id } = useParams();
@@ -63,24 +65,24 @@ const StallScreen = (props) => {
     isPageLevelError,
     isLoginSuccess,
     isLoading,
-    login,
     sendVerificationCode,
     verifyCode,
-    isLoggedIn,
-    isVerifyLogin,
-    logout,
-    sendVerificationCodeSuccess,
+    deleteStall,
     fetchStallList,
-    isPageLevelError,
-    isLoading,
     userRole,
     handleOnReadRecord,
     handleOnDeleteRecord,
     handleOnEditRecord,
     handleOnCreatedRecord,
     marketList,
+    initLoginScreen,
+    error,
+    reSendVerificationCode,
+    reSendVerificationCodeSuccess,
+    reSendVerificationCodeError,
+    
   };
-  console.log("insideTheStallScreen", marketList);
+  
   const renderProgressBar = () => (
     <ProgressBar mode="indeterminate" style={{ height: "6px" }} />
   );
@@ -120,24 +122,20 @@ const mapStateToProps = (state, ownProps) => ({
   stallList: state.stallReducer.stallList,
   userRole: state.loginReducer.userRole,
   marketList: state.marketReducer.marketList,
-  isPageLevelError: state.loginReducer.isPageLevelError,
-  isLoading: state.loginReducer.isLoading,
-  isLoginSuccess: state.loginReducer.isLoginSuccess,
-  isLoginError: state.loginReducer.isLoginError,
-  error: state.loginReducer.error,
-  isLoggedIn: state.loginReducer?.isLoggedIn,
-  isVerifyLogin: state.msg91Reducer.isVerify,
-  sendVerificationCodeSuccess:state.msg91Reducer?.sendVerificationCodeSuccess
+  sendVerificationCodeSuccess: state.msg91Reducer?.sendVerificationCodeSuccess,
+  isDeleteStallSuccess: state.stallReducer.isDeleteStallSuccess,
+  isDeleteStallError: state.stallReducer.isDeleteStallError
 });
 
 const mapDispatchToProps = (dispatch) => ({
   initStall: () => dispatch(initStall()),
   fetchStallList: (payload) => dispatch(fetchStallList(payload)),
   fetchMarketList: () => dispatch(fetchMarketList()),
-  initLoginScreen: () => dispatch(init_login()),
-  login: (loginData) => dispatch(login(loginData)),
   sendVerificationCode: (payload) => dispatch(sendVerificationCode(payload)),
   verifyCode: (payload) => dispatch(verifyCode(payload)),
+  deleteStall: (payload) => dispatch(deleteStall(payload)),
+  reSendVerificationCode: (payload) =>
+    dispatch(reSendVerificationCode(payload)),
   // logout: () => dispatch(logout()),
 });
 
