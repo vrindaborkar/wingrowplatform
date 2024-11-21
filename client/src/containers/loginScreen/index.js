@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { ProgressBar } from "primereact/progressbar";
 import LoginComponent from "../../components/login";
 import { init_login, login, logout } from "../../redux/action/auth/login";
-import { MzToast, TOAST_SEVERITY } from "../../common/MzToast";
-import { toastFailed, toastSuccess } from "../../redux/action/toast";
+import { init_verification } from "../../redux/action/auth/smg91";
+
 import {
   sendVerificationCode,
   verifyCode,
   reSendVerificationCode,
 } from "../../redux/action/auth/smg91";
+import { toast } from "react-toastify";
 const LoginScreen = (props) => {
   const {
     initLoginScreen,
@@ -19,17 +20,21 @@ const LoginScreen = (props) => {
     isLoginSuccess,
     isLoginError,
     error,
+    error1,
     login,
-    sendVerificationCode,
-    verifyCode,
     isLoggedIn,
     logout,
-    sendVerificationCodeSuccess,
+    verifyCode,
+    sendVerificationCode,
     reSendVerificationCode,
-    reSendVerificationCodeSuccess,
-    reSendVerificationCodeError,
     isVerify,
-    isVerifiyCodeError,
+    isVerifyCodeError,
+    isSendVerificationCodeError,
+    isResendVerificationCodeSuccess,
+    isResendVerificationCodeError,
+    init_login,
+    init_verification,
+    sendVerificationCodeSuccess
   } = props;
 
   useEffect(() => {
@@ -48,62 +53,35 @@ const LoginScreen = (props) => {
     isLoggedIn,
     logout,
     isVerify,
-    sendVerificationCodeSuccess,
     reSendVerificationCode,
-    reSendVerificationCodeSuccess,
+    sendVerificationCodeSuccess,
+    isResendVerificationCodeSuccess
   };
-  const dispatch = useDispatch();
-  const getToastProps = () => {
-    if (isLoginSuccess) {
-      const toastTitle = "Login Successfully";
-      dispatch(toastSuccess(toastTitle));
-      return {
-        severity: TOAST_SEVERITY.SUCCESS,
-        toastTitle,
-        shouldShowToast: true,
-      };
-    }
-    if (isLoginError) {
-      const toastTitle = error ? error?.error : "Error while login";
-      toastFailed(toastTitle);
-      return {
-        severity: TOAST_SEVERITY.ERROR,
-        toastTitle,
-        shouldShowToast: true,
-      };
-    }
-
-    if (reSendVerificationCodeSuccess) {
-      const toastTitle = "OTP Resend Successfully";
-      dispatch(toastSuccess(toastTitle));
-      return {
-        severity: TOAST_SEVERITY.SUCCESS,
-        toastTitle,
-        shouldShowToast: true,
-      };
-    }
-    if (reSendVerificationCodeError) {
-      const toastTitle = error ? error?.error : "Resend OTP Error";
-      toastFailed(toastTitle);
-      return {
-        severity: TOAST_SEVERITY.ERROR,
-        toastTitle,
-        shouldShowToast: true,
-      };
-    }
-    if (isVerifiyCodeError) {
-      const toastTitle = error ? error?.message?.message : "OTP Validating Error";
-      toastFailed(toastTitle);
-      return {
-        severity: TOAST_SEVERITY.ERROR,
-        toastTitle,
-        shouldShowToast: true,
-      };
-    }
-    return {
-      shouldShowToast: false,
-    };
-  };
+ 
+  if (isLoginError) {
+    const toastTitle = error ? error?.error : "Error while login";
+    toast.error(toastTitle);
+    init_login();
+  }
+  if(isSendVerificationCodeError){
+    const toastTitle = error ? error?.error : "Send OTP Error";
+    toast.error(toastTitle);
+    init_verification()
+  }
+  if (isResendVerificationCodeSuccess) {
+    toast.success("OTP Resend Successfully");
+    init_verification()
+  }
+  if (isResendVerificationCodeError) {
+    const toastTitle = error1 ? error?.error : "Resend OTP Error";
+    toast.error(toastTitle);
+    init_verification()
+  }
+  if (isVerifyCodeError) {
+    const toastTitle = error1 ? error1?.message?.message : "OTP Validating Error";
+    toast.error(toastTitle);
+    init_verification()
+  }
 
   const renderProgressBar = () => {
     return <ProgressBar mode="indeterminate" style={{ height: "6px" }} />;
@@ -112,7 +90,6 @@ const LoginScreen = (props) => {
   return (
     <div>
       {isLoading && renderProgressBar()}
-      <MzToast {...getToastProps()} />
       <LoginComponent loginProps={loginProps} />
     </div>
   );
@@ -127,6 +104,8 @@ const mapDispatchToProps = (dispatch) => {
     logout: () => dispatch(logout()),
     reSendVerificationCode: (payload) =>
       dispatch(reSendVerificationCode(payload)),
+    init_login: () => dispatch(init_login()),
+    init_verification: () => dispatch(init_verification()),
   };
 };
 
@@ -142,12 +121,15 @@ const mapStateToProps = (state, ownProps) => {
     isLoggedIn: state.loginReducer?.isLoggedIn,
     sendVerificationCodeSuccess:
       state.msg91Reducer?.sendVerificationCodeSuccess,
+    isResendVerificationCodeSuccess:
+      state.msg91Reducer?.isResendVerificationCodeSuccess,
+    isSendVerificationCodeError:
+      state.msg91Reducer?.isSendVerificationCodeError,
     isVerify: state.msg91Reducer.isVerify,
-    reSendVerificationCodeSuccess:
-      state.loginReducer?.reSendVerificationCodeSuccess,
-    reSendVerificationCodeError:
-      state.loginReducer?.reSendVerificationCodeError,
-    isVerifiyCodeError: state.loginReducer?.isVerifiyCodeError,
+    isResendVerificationCodeError:
+      state.msg91Reducer?.isResendVerificationCodeError,
+      isVerifyCodeError: state.msg91Reducer?.isVerifyCodeError,
+      error1: state.msg91Reducer?.error,
   };
 };
 

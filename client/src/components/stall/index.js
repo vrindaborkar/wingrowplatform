@@ -3,11 +3,9 @@ import { Controller, useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Tooltip } from "primereact/tooltip";
 import { Button } from "primereact/button";
-import { Navigate } from "react-router-dom";
 import { baseUrl } from "../../services/PostAPI";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
-import LoginComponent from "../login";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import moment from "moment";
 import "./stall.css";
 
@@ -42,8 +40,9 @@ import { Dialog } from "primereact/dialog";
 import { useDispatch, useSelector } from "react-redux";
 
 const StallComponent = (props) => {
-  const [openLoginDialog, setOpenLoginDialog] = useState(false);
   const [setRedirectStall] = useState(true);
+  const location = useLocation();
+  const currentPath = location.pathname;
   const {
     fetchStallList,
     formFieldValueMap,
@@ -54,7 +53,6 @@ const StallComponent = (props) => {
     sendVerificationCode,
     verifyCode,
     isLoggedIn,
-    isVerifyLogin,
     logout,
     sendVerificationCodeSuccess,
     marketList,
@@ -322,7 +320,6 @@ const StallComponent = (props) => {
     login,
     sendVerificationCode,
     verifyCode,
-    setOpenLoginDialog,
     isLoggedIn,
     logout,
     sendVerificationCodeSuccess,
@@ -507,10 +504,6 @@ const StallComponent = (props) => {
       navigate(`${ROUTE_PATH.BOOKING.STALL.replace(":id", marketName)}`);
     }
   };
-
-  const openLoginComponent = () => {
-    setOpenLoginDialog(true);
-  };
   useEffect(() => {
     const fetchStalls = async () => {
       setLoading(true);
@@ -548,15 +541,12 @@ const StallComponent = (props) => {
   }, [selectedMarket]);
 
   const handlePaymentClick = () => {
-    if (isLoggedInPayment) {
+    if (isLoggedInPayment && isLoggedIn) {
       setShowPaymentScreen(true);
     } else {
-      localStorage.setItem("redirectAfterLogin", ROUTE_PATH.BOOKING.STALL);
-      openLoginComponent();
+      navigate("/login")
+      localStorage.setItem("redirectAfterLogin", currentPath);
     }
-  };
-  const handleCloseLoginDialog = () => {
-    setOpenLoginDialog(false);
   };
   const handleShowClick = (e) => {
     e.preventDefault();
@@ -995,14 +985,6 @@ const StallComponent = (props) => {
           </div>
         </Dialog>
 
-        <Dialog
-          style={{ height: "30rem" }}
-          visible={openLoginDialog}
-          onHide={handleCloseLoginDialog}
-          modal
-        >
-          <LoginComponent loginProps={loginProps} />
-        </Dialog>
       </div>
     </>
   );
