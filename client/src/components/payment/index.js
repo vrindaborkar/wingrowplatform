@@ -41,10 +41,9 @@ const PaymentPage = (props) => {
   }, []);
 
   console.log("selectedStalls123", selectedStalls);
-  
 
   const formatDate = (dateString) => {
-    return moment(dateString, 'MM/DD/YYYY').format('YYYY/MM/DD');
+    return moment(dateString, "MM/DD/YYYY").format("YYYY/MM/DD");
   };
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?.id;
@@ -61,11 +60,6 @@ const PaymentPage = (props) => {
       address: stall.address,
     })),
   }));
-  console.log(
-    "selectedStallsPayloadselectedStallsPayload",
-    selectedStallsPayload
-  );
-
   const handlePayment = async () => {
     if (!scriptLoaded) {
       toast.current.show({

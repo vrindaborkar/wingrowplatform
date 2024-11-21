@@ -69,11 +69,10 @@
 
 .top-road {
   writing-mode: vertical-rl;
-  border-left: 2.5px dashed #ccc;
-  /* border-right: 1px dashed #ccc; */
+  border: 2.5px dashed #ccc;
+  border-bottom: none;
   /* transform: rotate(-90deg); */
-  /* background-color: #ccc; */
-  padding-top: 35px;
+  padding-top: 15px;
   /* padding-left: 25px; */
   font-size: 1.2rem;
   display: flex;
@@ -85,34 +84,27 @@
 }
 .left-road {
   writing-mode: vertical-rl;
-  border-left: 2.5px dashed #ccc;
-  /* border-right: 1px dashed #ccc; */
-  /* transform: rotate(-90deg); */
-  /* background-color: #ccc; */
+  border: 2.5px dashed #ccc;
+  border-right: none;
   padding-top: 35px;
-  /* padding-left: 25px; */
   font-size: 1.2rem;
   display: flex;
   justify-content: start;
   align-items: center;
   text-align: center;
-  /* height: 100%; */
-  /* min-width: 50px; */
 }
 
-.top-road {
-  border-top: 2.5px dashed #ccc;
-  /* border-bottom: 3px dashed #ccc; */
-  writing-mode: horizontal-tb;
-  padding: 5px;
+/* .right-road {
+  writing-mode: vertical-rl;
+  border: 2.5px dashed #ccc;
+  border-left: none;
+  padding-top: 5px;
   font-size: 1.2rem;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   text-align: center;
-  width: 100%;
-  margin-bottom: 10px;
-}
+} */
 
 @media (min-width: 1280px) {
   .left-road {
