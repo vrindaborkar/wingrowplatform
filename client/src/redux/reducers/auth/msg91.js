@@ -6,14 +6,15 @@ import {
 } from "../../../constant/actionTypes/auth";
 
 const getInitialStateFromLocalStorage = () => {
+  const isVerify = localStorage.getItem("isVerify");
   return {
-    isVerify: false,
+    isVerify: isVerify === "true" ? true : false,
     isVerifyCodeError: false,
     sendVerificationCodeSuccess: false,
     isSendVerificationCodeError: false,
     isResendVerificationCodeSuccess: false,
     isResendVerificationCodeError: false,
-    error:""
+    error: "",
   };
 };
 const initialState = getInitialStateFromLocalStorage();
@@ -22,7 +23,7 @@ const msg91Reducer = (state = initialState, action) => {
     case INIT_VERIFICATION:
       return {
         ...state,
-        isVerify:false,
+        isVerify: false,
         isVerifyCodeError: false,
         sendVerificationCodeSuccess: false,
         isSendVerificationCodeError: false,
@@ -55,21 +56,21 @@ const msg91Reducer = (state = initialState, action) => {
       return {
         ...state,
         isVerifyCodeError: true,
-        error: action?.payload
+        error: action?.payload,
       };
     }
     case SEND_VERIFICATION_CODE.ERROR: {
       return {
         ...state,
         isSendVerificationCodeError: true,
-        error: action?.payload
+        error: action?.payload,
       };
     }
     case RESEND_VERIFICATION_CODE.ERROR:
       return {
         ...state,
         isResendVerificationCodeError: true,
-        error: action?.payload
+        error: action?.payload,
       };
 
     default:

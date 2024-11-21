@@ -30,35 +30,37 @@ const Routing = () => {
   const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
   const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
   const userRole = useSelector((state) => state.loginReducer.userRole);
+  console.log(userRole);
+  
 
-  if (!isLoggedIn || !isVerify) {
-    return (
-      <React.Fragment>
-        <header>
-          <Header userRole={userRole} />
-        </header>
-        <main>
-          <Routes>
-            <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
-            <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
-            <Route
-              path={ROUTE_PATH.CUSTOMER.HOME}
-              element={<CustomerScreen />}
-            />
-            <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
-            <Route
-              path={ROUTE_PATH.BASE.REGISTER}
-              element={<RegisterScreen />}
-            />
-            <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
-            <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
-            <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
-          </Routes>
-        </main>
-        <Footer />
-      </React.Fragment>
-    );
-  }
+  // if (!isLoggedIn || !isVerify) {
+  //   return (
+  //     <React.Fragment>
+  //       <header>
+  //         <Header userRole={userRole} />
+  //       </header>
+  //       <main>
+  //         <Routes>
+  //           <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
+  //           <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
+  //           <Route
+  //             path={ROUTE_PATH.CUSTOMER.HOME}
+  //             element={<CustomerScreen />}
+  //           />
+  //           <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
+  //           <Route
+  //             path={ROUTE_PATH.BASE.REGISTER}
+  //             element={<RegisterScreen />}
+  //           />
+  //           <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
+  //           <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
+  //           <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
+  //         </Routes>
+  //       </main>
+  //       <Footer />
+  //     </React.Fragment>
+  //   );
+  // }
 
   // Farmer Routes
   if (userRole === USER_ROLE.FARMER) {
@@ -174,6 +176,8 @@ const Routing = () => {
           <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
           <Route path={ROUTE_PATH.BASE.REGISTER} element={<RegisterScreen />} />
           <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
+          <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
+          <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
           <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
         </Routes>
       </main>

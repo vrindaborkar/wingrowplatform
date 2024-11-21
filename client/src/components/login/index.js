@@ -52,26 +52,46 @@ const LoginComponent = (props) => {
     }
   }, [isLoggedIn]);
 
-  const onSubmit = (data) => {
-    if (isLoggedIn) {
-      const payload = {
-        otp: data.otp,
-        mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
-        authkey: MSG91_AUTH_KEY,
-      };
-      verifyCode(payload);
-      if (isVerify) {
-        const redirectPath = localStorage.getItem("redirectAfterLogin");
-        if (redirectPath !== null && redirectPath !== undefined) {
-          Navigate(redirectPath);
-          localStorage.removeItem("redirectAfterLogin");
-        } else {
-          Navigate("/");
-        }
-        toast.success("Login Successfully");
+  useEffect(() => {
+    if (isVerify) {
+      const redirectPath = localStorage.getItem("redirectAfterLogin");
+
+      if (redirectPath) {
+        Navigate(redirectPath); // Redirect to the stored path
+        localStorage.removeItem("redirectAfterLogin"); // Remove redirect path after use
+      } else {
+        Navigate("/"); // If no redirect path, navigate to the home page
       }
+
+      toast.success("Login Successfully");
+    } else {
+      // toast.error("Verification failed. Please try again.");
     }
-  };
+  }, [isVerify, Navigate]);
+
+
+ const onSubmit = async (data) => {
+  if (isLoggedIn) {
+    const payload = {
+      otp: data.otp,
+      mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+      authkey: MSG91_AUTH_KEY,
+    };
+
+    try {
+      // Await the API call to verify OTP
+      await verifyCode(payload);
+
+      // Assuming verifyCode updates the isVerify state
+      // dispatch(setVerifyStatus(true)); // Update isVerify via redux or local state
+      setOtpSent(true); // Optional: Update OTP sent state
+
+    } catch (error) {
+      console.error("Verification failed:", error);
+    }
+  }
+};
+
 
   const handleResendOtp = () => {
     if (isLoggedIn) {

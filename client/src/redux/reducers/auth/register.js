@@ -25,7 +25,6 @@ const registerReducer = (state = initialState, action) => {
     case INIT_REGISTRATION:
       return {
         ...state,
-        initialState,
         isRegisterError:false
       };
     case REGISTER.START:
