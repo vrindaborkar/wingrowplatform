@@ -67,12 +67,6 @@ const Header = ({ isLoggedIn }) => {
       route: ROUTE_PATH.BASE.REGISTER,
       visible: !isVerify,
     },
-    {
-      label: t("customers"),
-      icon: "pi pi-fw pi-users",
-      route: ROUTE_PATH.CUSTOMER.HOME,
-      visible: !isVerify,
-    },
     isVerify &&
       VerifyRole === "farmer" && {
         label: t("farmer"),
@@ -84,6 +78,12 @@ const Header = ({ isLoggedIn }) => {
         label: t("admin"),
         icon: "pi pi-user-plus",
         route: ROUTE_PATH.ADMIN.HOME,
+      },
+      {
+        label: t("customers"),
+        icon: "pi pi-fw pi-users",
+        route: ROUTE_PATH.CUSTOMER.HOME,
+        visible: isVerify,
       },
     // { separator: true },
     {
@@ -125,6 +125,28 @@ const Header = ({ isLoggedIn }) => {
         className="text-white no-outline font-bold rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
+      {isVerify && VerifyRole === "admin" && (
+        <>
+          <Button
+            label={t("admin")}
+            icon="pi pi-user-plus"
+            text
+            className="text-white no-outline font-bold  rounded"
+            onClick={() => navigate(ROUTE_PATH.ADMIN.HOME)}
+          />
+        </>
+      )}
+      {isVerify && VerifyRole === "farmer" && (
+        <>
+          <Button
+            label={t("farmer")}
+            icon="pi pi-users"
+            text
+            className="text-white no-outline font-bold rounded"
+            onClick={() => navigate(ROUTE_PATH.FARMER.HOME)}
+          />
+        </>
+      )}
       {!isVerify && (
         <Button
           label={t("login")}
@@ -150,29 +172,6 @@ const Header = ({ isLoggedIn }) => {
         className="text-white no-outline font-bold  rounded"
         onClick={() => navigate(ROUTE_PATH.CUSTOMER.HOME)}
       />
-
-      {isVerify && VerifyRole === "farmer" && (
-        <>
-          <Button
-            label={t("farmer")}
-            icon="pi pi-users"
-            text
-            className="text-white no-outline font-bold rounded"
-            onClick={() => navigate(ROUTE_PATH.FARMER.HOME)}
-          />
-        </>
-      )}
-      {isVerify && VerifyRole === "admin" && (
-        <>
-          <Button
-            label={t("admin")}
-            icon="pi pi-user-plus"
-            text
-            className="text-white no-outline font-bold  rounded"
-            onClick={() => navigate(ROUTE_PATH.ADMIN.HOME)}
-          />
-        </>
-      )}
       {isVerify && (
         <>
           <Button
@@ -190,7 +189,7 @@ const Header = ({ isLoggedIn }) => {
         onChange={handleChangeLanguage}
         placeholder={t("language")}
         autoFocus={false}
-        className="rounded  bg-transparent "
+        className="rounded bg-transparent"
       />
     </div>
   );

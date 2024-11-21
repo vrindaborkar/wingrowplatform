@@ -40,6 +40,11 @@ const Routing = () => {
         <main>
           <Routes>
             <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
+            <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
+            <Route
+              path={ROUTE_PATH.CUSTOMER.HOME}
+              element={<CustomerScreen />}
+            />
             <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
             <Route
               path={ROUTE_PATH.BASE.REGISTER}
@@ -65,10 +70,15 @@ const Routing = () => {
         <main>
           <Routes>
             <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
+            <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
             <Route path={ROUTE_PATH.FARMER.HOME} element={<FarmerScreen />} />
+            <Route
+              path={ROUTE_PATH.CUSTOMER.HOME}
+              element={<CustomerScreen />}
+            />
             <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
             <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
-       
+
             <Route
               path={ROUTE_PATH.FARMER.MY_BOOKING}
               element={<MyBookingScreen />}
@@ -105,6 +115,7 @@ const Routing = () => {
         <main>
           <Routes>
             <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
+            <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
             <Route
               path={ROUTE_PATH.CUSTOMER.HOME}
               element={<CustomerScreen />}
@@ -131,7 +142,9 @@ const Routing = () => {
         <main>
           <Routes>
             <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
+            <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
             <Route path={ROUTE_PATH.ADMIN.HOME} element={<AdminScreen />} />
+            <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
             <Route
               path={ROUTE_PATH.FARMERS_LIST.HOME}
               element={<FarmersListComponent />}
@@ -157,8 +170,10 @@ const Routing = () => {
       <main>
         <Routes>
           <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
+          <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
           <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
           <Route path={ROUTE_PATH.BASE.REGISTER} element={<RegisterScreen />} />
+          <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
           <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
         </Routes>
       </main>

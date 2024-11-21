@@ -13,8 +13,6 @@ import { ProgressSpinner } from "primereact/progressspinner";
 const MarketComponent = (props) => {
   const { isPageLevelError, marketList, setCity } = props;
 
-  console.log("marketList: ----------------------------", marketList);
-
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -29,7 +27,6 @@ const MarketComponent = (props) => {
     const fetchStates = async () => {
       try {
         const response = await axios.get(`${baseUrl}${API_PATH.STATE.FETCH}`);
-        console.log("States response:", response.data);
         const formattedStates = response.data.states
           .filter((state) => state.stateName)
           .map((state) => ({
@@ -85,7 +82,6 @@ const MarketComponent = (props) => {
     if (selectedCity) {
       setLoading(true);
       const marketsInCity = marketList[selectedCity] || [];
-      console.log("marketsInCity: ", marketsInCity);
       setFilteredMarkets(marketsInCity);
       setLoading(false);
     }
@@ -109,8 +105,6 @@ const MarketComponent = (props) => {
       ":id",
       selectedMarket
     )}`;
-    console.log("Navigating to:", marketPath);
-
     navigate(marketPath);
   };
 
