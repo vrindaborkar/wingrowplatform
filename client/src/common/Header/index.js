@@ -68,7 +68,7 @@ const Header = ({ isLoggedIn }) => {
       visible: !isVerify,
     },
     isVerify &&
-      VerifyRole === "farmer" && {
+      VerifyRole === "producer" && {
         label: t("farmer"),
         icon: "pi pi-fw pi-users",
         route: ROUTE_PATH.FARMER.HOME,
@@ -136,7 +136,7 @@ const Header = ({ isLoggedIn }) => {
           />
         </>
       )}
-      {isVerify && VerifyRole === "farmer" && (
+      {isVerify && VerifyRole === "producer" && (
         <>
           <Button
             label={t("farmer")}
