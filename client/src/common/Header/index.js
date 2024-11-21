@@ -12,6 +12,7 @@ import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
 import {  logout } from "../../redux/action/auth/login";
 import { init_verification } from "../../redux/action/auth/smg91";
+import { toast } from "react-toastify";
 
 const Header = ({ isLoggedIn }) => {
   const isVerify = localStorage.getItem("isVerify");
@@ -32,6 +33,7 @@ const Header = ({ isLoggedIn }) => {
     dispatch(init_verification())
     dispatch(logout())
     navigate(ROUTE_PATH.BASE.HOME);
+    toast.success("Logout Successfully")
   };
 
   const currentLanguage = useSelector(
@@ -68,7 +70,7 @@ const Header = ({ isLoggedIn }) => {
       visible: !isVerify,
     },
     isVerify &&
-      VerifyRole === "farmer" && {
+      VerifyRole === "producer" && {
         label: t("farmer"),
         icon: "pi pi-fw pi-users",
         route: ROUTE_PATH.FARMER.HOME,
@@ -136,7 +138,7 @@ const Header = ({ isLoggedIn }) => {
           />
         </>
       )}
-      {isVerify && VerifyRole === "farmer" && (
+      {isVerify && VerifyRole === "producer" && (
         <>
           <Button
             label={t("farmer")}

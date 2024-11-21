@@ -19,6 +19,7 @@ const LoginComponent = (props) => {
     logout,
     isVerify,
     reSendVerificationCode,
+    isLoading
   } = props.loginProps;
 
   const {
@@ -205,6 +206,7 @@ const LoginComponent = (props) => {
                       />
                       <Button
                         label="fetch"
+                        disabled={isLoading}
                         onClick={(e) => {
                           e.preventDefault();
                           handleNextStep();
@@ -249,6 +251,7 @@ const LoginComponent = (props) => {
                         </div>
                         <div className="mb-3 w-full">
                           <Button
+                            disabled={isLoading}
                             label="submit"
                             type="submit"
                             className="mt-3 border-round-sm"

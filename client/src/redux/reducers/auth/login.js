@@ -37,30 +37,35 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoginSuccess:false,
-        isLoginError: false
+        isLoginError: false,
+        isLoading:false
       };
     case LOGIN.START:
     case LOGOUT.START:
       return{
-        ...state
+        ...state,
+        isLoading:true
       }
     case LOGIN.SUCCESS:
       return {
         ...state,
-        isLoggedIn: true
+        isLoggedIn: true,
+        isLoading:false
       };
 
     case LOGOUT.SUCCESS:
       return {
         ...state,
         isLoggedIn: false,
-        isVerify:false
+        isVerify:false,
+        isLoading:false
       };
     case LOGIN.ERROR: {
       return {
         ...state,
         error: action?.payload,
         isLoginError: true,
+        isLoading:false
       };
     }
     case LOGOUT.ERROR: {
@@ -68,6 +73,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         error: action?.payload,
         isLogoutError: true,
+        isLoading:false
       };
     }
     default:
