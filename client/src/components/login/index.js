@@ -62,7 +62,7 @@ const LoginComponent = (props) => {
       if (isVerify) {
         const redirectPath = localStorage.getItem("redirectAfterLogin");
         if (redirectPath !== null && redirectPath !== undefined) {
-          Navigate("/market/More%20Corner");
+          Navigate(redirectPath);
           localStorage.removeItem("redirectAfterLogin");
         } else {
           Navigate("/");

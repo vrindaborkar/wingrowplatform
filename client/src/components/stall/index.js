@@ -45,9 +45,9 @@ const StallComponent = (props) => {
   const {
     fetchStallList,
     formFieldValueMap,
-    isLoggedIn,
     marketList,
   } = props.stallProps;
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
   const navigate = useNavigate();
   const marketOptions = Object.keys(marketList).flatMap((marketKey) => {
     const markets = marketList[marketKey];
@@ -121,8 +121,6 @@ const StallComponent = (props) => {
   });
 
   console.log("selectedStallsRedux123", selectedStallsRedux);
-
-  const isLoggedInPayment = useSelector((state) => state.msg91Reducer.isVerify);
 
   const {
     control,
@@ -634,7 +632,7 @@ const StallComponent = (props) => {
   }, [selectedMarket]);
 
   const handlePaymentClick = () => {
-    if (isLoggedInPayment && isLoggedIn) {
+    if (isLoggedIn) {
       setShowPaymentScreen(true);
     } else {
       navigate("/login")
