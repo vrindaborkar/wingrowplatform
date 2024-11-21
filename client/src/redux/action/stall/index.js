@@ -214,7 +214,7 @@ export const deleteStall = (stallId) => {
     dispatch(deleteStallStart());
     stallService.deleteStall(stallId).then((stallData) => {
       if (!stallData.isError) {
-        dispatch(deleteStallSuccess(stallId));  // Pass stallId instead of stallData
+        dispatch(deleteStallSuccess(stallId)); 
       } else {
         dispatch(deleteStallError(stallData));
       }

@@ -11,9 +11,9 @@ const PaymentScreen = (props) => {
     setShowDetails(false);
     initStallScreen();
     onPaymentSuccess();
-    navigate("/market");
+    navigate("/farmer");
   };
-
+  
   return (
     <>
       <PaymentPage
