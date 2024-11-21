@@ -10,6 +10,8 @@ import { LOGO, WINGROW_LOGO } from "../../assets/images/index";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
+import {  logout } from "../../redux/action/auth/login";
+import { init_verification } from "../../redux/action/auth/smg91";
 
 const Header = ({ isLoggedIn }) => {
   const isVerify = localStorage.getItem("isVerify");
@@ -27,6 +29,8 @@ const Header = ({ isLoggedIn }) => {
 
   const handleLogout = () => {
     localStorage.clear();
+    dispatch(init_verification())
+    dispatch(logout())
     navigate(ROUTE_PATH.BASE.HOME);
   };
 

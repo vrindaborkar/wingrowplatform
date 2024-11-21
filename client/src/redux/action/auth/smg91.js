@@ -2,8 +2,15 @@ import {
   SEND_VERIFICATION_CODE,
   VERIFY_CODE,
  RESEND_VERIFICATION_CODE,
+ INIT_VERIFICATION
 } from "../../../constant/actionTypes/auth";
 import { authService } from "../../../services";
+
+export const init_verification = () => {
+  return {
+    type: INIT_VERIFICATION,
+  };
+};
 
 export const sendVerificationCodeStart = (payload) => {
   return {

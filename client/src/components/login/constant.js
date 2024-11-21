@@ -18,7 +18,7 @@ export const FORM_FIELDS_NAME = {
       required: "Role is required",
     },
     options: [
-      { name: "Farmer", value: "Farmer" },
+      { name: "Farmer", value: "producer" },
       { name: "Customer", value: "customer" },
     ],
     placeholder: "Select an role",

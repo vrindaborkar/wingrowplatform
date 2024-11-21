@@ -10,17 +10,14 @@ import { useTranslation } from "react-i18next";
 import MzOptInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
 const LoginComponent = (props) => {
   const {
     login,
     sendVerificationCode,
     verifyCode,
     isLoggedIn,
-    sendVerificationCodeSuccess,
     logout,
     isVerify,
-    setRedirectStall,
     reSendVerificationCode,
   } = props.loginProps;
 
@@ -44,7 +41,7 @@ const LoginComponent = (props) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const Navigate = useNavigate();
-  const [OTPSent, setOTPSent] = useState(false);
+  const [, setOTPSent] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
@@ -55,23 +52,22 @@ const LoginComponent = (props) => {
   }, [isLoggedIn]);
 
   const onSubmit = (data) => {
-    if (isLoggedIn && sendVerificationCodeSuccess) {
+    if (isLoggedIn) {
       const payload = {
         otp: data.otp,
         mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
         authkey: MSG91_AUTH_KEY,
       };
       verifyCode(payload);
-
       if (isVerify) {
         const redirectPath = localStorage.getItem("redirectAfterLogin");
         if (redirectPath !== null && redirectPath !== undefined) {
-          Navigate(redirectPath);
+          Navigate("/market/More%20Corner");
           localStorage.removeItem("redirectAfterLogin");
         } else {
           Navigate("/");
         }
-        toast.success("Login successfully");
+        toast.success("Login Successfully");
       }
     }
   };
@@ -83,25 +79,18 @@ const LoginComponent = (props) => {
         authkey: MSG91_AUTH_KEY,
         retrytype: "text",
       };
-
-      // Send the OTP
       reSendVerificationCode(payload);
-
-      // Set OTP sent state and start countdown
       setOtpSent(true);
-      setCountdown(30); // Initialize countdown at 30 seconds
-
-      // Start a countdown using setInterval
+      setCountdown(30);
       const countdownInterval = setInterval(() => {
         setCountdown((prev) => {
           if (prev === 1) {
-            // When countdown reaches 1, stop the interval
             clearInterval(countdownInterval);
-            setOtpSent(false); // Reset OTP sent state
+            setOtpSent(false);
           }
-          return prev - 1; // Decrease the countdown by 1
+          return prev - 1;
         });
-      }, 1000); // Update every second (1000ms)
+      }, 1000);
     }
   };
 
@@ -113,13 +102,11 @@ const LoginComponent = (props) => {
         role: getValues(FORM_FIELDS_NAME.ROLE.name),
       };
       try {
-        // Attempt to login the user
         await login(payload);
-    }catch (error) {
-      console.error("Login failed:", error);
-      // setIsLoggedInState(false); // In case login fails, ensure the state reflects that
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
     }
-  }
   };
 
   useEffect(() => {
@@ -129,13 +116,11 @@ const LoginComponent = (props) => {
         template_id: TEMPLATE_ID_LOGIN,
         authkey: MSG91_AUTH_KEY,
       };
-
-      // Send OTP after successful login
       sendVerificationCode(otpPayload);
       setOTPSent(true);
-      setStep(1); // Transition to OTP verification screen
+      setStep(1);
     }
-  }, [ isLoggedIn, step,sendVerificationCode, setOTPSent]);
+  }, [isLoggedIn, step, sendVerificationCode, setOTPSent]);
 
   const handlePrevStep = () => {
     logout();
@@ -148,265 +133,137 @@ const LoginComponent = (props) => {
     );
   };
   return (
-    <>
-      {setRedirectStall ? (
-        <>
-          <div className="grid grid-nogutter surface-0 text-800 p-2">
-            <div className="col-12 md:p-6 text-center flex align-items-center justify-content-center md:w-30rem">
-              <section>
-                <div className="flex flex-column align-items-center justify-content-center p-2">
-                  <div
-                    style={{
-                      borderRadius: "56px",
-                      padding: "1rem",
-                      background:
-                        "linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)",
-                    }}
-                  >
-                    <div
-                      className="w-full text-center surface-card py-8 px-5 sm:px-8 flex flex-column align-items-center"
-                      style={{ borderRadius: "53px" }}
-                    >
-                      <img
-                        src={WINGROW_LOGO}
-                        alt="Wingrow logo"
-                        className="mb-2 w-6rem flex-shrink-0"
+    <div className="grid grid-nogutter surface-0  text-800">
+      <div className="col-12 md:col-6 overflow-hidden hidden md:block lg:block">
+        <img
+          src={WINGROW_SLIDE_THREE}
+          alt="WINGROW_SLIDE_THREE"
+          className="md:ml-auto block h-full w-full"
+          style={{
+            clipPath: "polygon(0 0%, 100% 0%, 90% 100%, 0% 100%)",
+          }}
+        />
+      </div>
+      <div className="col-12 md:col-6 md:p-6 text-center flex align-items-center justify-content-center">
+        <section>
+          <div className="flex flex-column align-items-center justify-content-center p-2">
+            <div
+              style={{
+                borderRadius: "56px",
+                padding: "1rem",
+                background:
+                  "linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)",
+              }}
+            >
+              <div
+                className="w-full text-center surface-card py-8 px-5 sm:px-8 flex flex-column align-items-center"
+                style={{ borderRadius: "53px" }}
+              >
+                <img
+                  src={WINGROW_LOGO}
+                  alt="Wingrow logo"
+                  className="mb-2 w-6rem flex-shrink-0"
+                />
+                <h1 className="text-900 font-bold text-xl md:text-1xl mb-2">
+                  {t("welcome_message")}
+                </h1>
+                <div className="text-600 mb-2">Login here</div>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mt-5 p-fluid w-full"
+                >
+                  {step === 0 && (
+                    <div>
+                      <div>
+                        <MzAutoComplete
+                          control={control}
+                          name={FORM_FIELDS_NAME.ROLE.name}
+                          label={FORM_FIELDS_NAME.ROLE.label}
+                          optionLabel={FORM_FIELDS_NAME.ROLE.optionLabel}
+                          optionValue={FORM_FIELDS_NAME.ROLE.optionValue}
+                          placeholder={FORM_FIELDS_NAME.ROLE.placeholder}
+                          rules={FORM_FIELDS_NAME.ROLE.rules}
+                          isError={!!errors[FORM_FIELDS_NAME.ROLE.name]}
+                          errorMsg={getFormErrorMessage(
+                            FORM_FIELDS_NAME.ROLE.name
+                          )}
+                          suggestions={FORM_FIELDS_NAME.ROLE.options}
+                          dropdown
+                        />
+                      </div>
+                      <MzPhoneInput
+                        control={control}
+                        name={FORM_FIELDS_NAME.PHONE_NUMBER.name}
+                        label={FORM_FIELDS_NAME.PHONE_NUMBER.label}
+                        placeholder={FORM_FIELDS_NAME.PHONE_NUMBER.placeholder}
+                        rules={FORM_FIELDS_NAME.PHONE_NUMBER.rules}
+                        isError={errors[FORM_FIELDS_NAME.PHONE_NUMBER.name]}
+                        errorMsg={getFormErrorMessage(
+                          FORM_FIELDS_NAME.PHONE_NUMBER.name
+                        )}
+                        country="in"
                       />
-                      <h1 className="text-900 font-bold text-xl md:text-1xl mb-2">
-                        {t("welcome_message")}
-                      </h1>
-                      <div className="text-600 mb-2">Login here</div>
-                      <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="mt-5 p-fluid w-full"
-                      >
-                        {step === 0 && (
-                          <div>
-                            <div>
-                              <MzAutoComplete
-                                control={control}
-                                name={FORM_FIELDS_NAME.ROLE.name}
-                                label={FORM_FIELDS_NAME.ROLE.label}
-                                optionLabel={FORM_FIELDS_NAME.ROLE.optionLabel}
-                                optionValue={FORM_FIELDS_NAME.ROLE.optionValue}
-                                placeholder={FORM_FIELDS_NAME.ROLE.placeholder}
-                                rules={FORM_FIELDS_NAME.ROLE.rules}
-                                isError={!!errors[FORM_FIELDS_NAME.ROLE.name]}
-                                errorMsg={getFormErrorMessage(
-                                  FORM_FIELDS_NAME.ROLE.name
-                                )}
-                                suggestions={FORM_FIELDS_NAME.ROLE.options}
-                                dropdown
-                              />
-                            </div>
-                            <MzPhoneInput
-                              control={control}
-                              name={FORM_FIELDS_NAME.PHONE_NUMBER.name}
-                              label={FORM_FIELDS_NAME.PHONE_NUMBER.label}
-                              placeholder={
-                                FORM_FIELDS_NAME.PHONE_NUMBER.placeholder
-                              }
-                              rules={FORM_FIELDS_NAME.PHONE_NUMBER.rules}
-                              isError={
-                                errors[FORM_FIELDS_NAME.PHONE_NUMBER.name]
-                              }
-                              errorMsg={getFormErrorMessage(
-                                FORM_FIELDS_NAME.PHONE_NUMBER.name
-                              )}
-                              country="in"
-                            />
-                            <Button
-                              label="fetch"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleNextStep();
-                              }}
-                              className="mt-3 border-round-sm"
-                            />
-                          </div>
-                        )}
-                        {step === 1 && (
-                          <>
-                            <MzOptInput
-                              control={control}
-                              name={FORM_FIELDS_NAME.OTP.name}
-                              label={FORM_FIELDS_NAME.OTP.label}
-                              placeholder={FORM_FIELDS_NAME.OTP.placeholder}
-                              type={FORM_FIELDS_NAME.OTP.type}
-                              isError={errors[FORM_FIELDS_NAME.OTP.name]}
-                              errorMsg={getFormErrorMessage(
-                                FORM_FIELDS_NAME.OTP.name
-                              )}
-                              length={4}
-                              rules={FORM_FIELDS_NAME.OTP.rules}
-                              integerOnly={true}
-                              wrapperClass={"p-float-label"}
-                            />
-                            <div className="flex justify-content-between gap-2 w-full">
-                              <div className="mb-3 w-full">
-                                <Button
-                                  label="Back"
-                                  className="mt-3 border-round-sm"
-                                  onClick={handlePrevStep}
-                                  severity="danger"
-                                />
-                              </div>
-                              <div className="mb-3 w-full">
-                                <Button
-                                  label="submit"
-                                  type="submit"
-                                  className="mt-3 border-round-sm"
-                                />
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </form>
+                      <Button
+                        label="fetch"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNextStep();
+                        }}
+                        className="mt-3 border-round-sm"
+                      />
                     </div>
-                  </div>
-                </div>
-              </section>
+                  )}
+                  {step === 1 && (
+                    <>
+                      <MzOptInput
+                        control={control}
+                        name={FORM_FIELDS_NAME.OTP.name}
+                        label={FORM_FIELDS_NAME.OTP.label}
+                        placeholder={FORM_FIELDS_NAME.OTP.placeholder}
+                        type={FORM_FIELDS_NAME.OTP.type}
+                        isError={errors[FORM_FIELDS_NAME.OTP.name]}
+                        errorMsg={getFormErrorMessage(
+                          FORM_FIELDS_NAME.OTP.name
+                        )}
+                        length={4}
+                        rules={FORM_FIELDS_NAME.OTP.rules}
+                        integerOnly={true}
+                        wrapperClass={"p-float-label"}
+                      />
+                      <Button
+                        label={
+                          otpSent ? `Resend OTP in ${countdown}s` : "Resend OTP"
+                        }
+                        className="border-none text-black bg-transparent outline-none hover:underline"
+                        onClick={handleResendOtp}
+                        disabled={otpSent}
+                      />
+                      <div className="flex justify-content-between gap-2 w-full">
+                        <div className="mb-3 w-full">
+                          <Button
+                            label="Back"
+                            className="mt-3 border-round-sm"
+                            onClick={handlePrevStep}
+                            severity="danger"
+                          />
+                        </div>
+                        <div className="mb-3 w-full">
+                          <Button
+                            label="submit"
+                            type="submit"
+                            className="mt-3 border-round-sm"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </form>
+              </div>
             </div>
           </div>
-        </>
-      ) : (
-        <>
-          <div className="grid grid-nogutter surface-0  text-800">
-            <div className="col-12 md:col-6 overflow-hidden hidden md:block lg:block">
-              <img
-                src={WINGROW_SLIDE_THREE}
-                alt="WINGROW_SLIDE_THREE"
-                className="md:ml-auto block h-full w-full"
-                style={{
-                  clipPath: "polygon(0 0%, 100% 0%, 90% 100%, 0% 100%)",
-                }}
-              />
-            </div>
-            <div className="col-12 md:col-6 md:p-6 text-center flex align-items-center justify-content-center">
-              <section>
-                <div className="flex flex-column align-items-center justify-content-center p-2">
-                  <div
-                    style={{
-                      borderRadius: "56px",
-                      padding: "1rem",
-                      background:
-                        "linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)",
-                    }}
-                  >
-                    <div
-                      className="w-full text-center surface-card py-8 px-5 sm:px-8 flex flex-column align-items-center"
-                      style={{ borderRadius: "53px" }}
-                    >
-                      <img
-                        src={WINGROW_LOGO}
-                        alt="Wingrow logo"
-                        className="mb-2 w-6rem flex-shrink-0"
-                      />
-                      <h1 className="text-900 font-bold text-xl md:text-1xl mb-2">
-                        {t("welcome_message")}
-                      </h1>
-                      <div className="text-600 mb-2">Login here</div>
-                      <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="mt-5 p-fluid w-full"
-                      >
-                        {step === 0 && (
-                          <div>
-                            <div>
-                              <MzAutoComplete
-                                control={control}
-                                name={FORM_FIELDS_NAME.ROLE.name}
-                                label={FORM_FIELDS_NAME.ROLE.label}
-                                optionLabel={FORM_FIELDS_NAME.ROLE.optionLabel}
-                                optionValue={FORM_FIELDS_NAME.ROLE.optionValue}
-                                placeholder={FORM_FIELDS_NAME.ROLE.placeholder}
-                                rules={FORM_FIELDS_NAME.ROLE.rules}
-                                isError={!!errors[FORM_FIELDS_NAME.ROLE.name]}
-                                errorMsg={getFormErrorMessage(
-                                  FORM_FIELDS_NAME.ROLE.name
-                                )}
-                                suggestions={FORM_FIELDS_NAME.ROLE.options}
-                                dropdown
-                              />
-                            </div>
-                            <MzPhoneInput
-                              control={control}
-                              name={FORM_FIELDS_NAME.PHONE_NUMBER.name}
-                              label={FORM_FIELDS_NAME.PHONE_NUMBER.label}
-                              placeholder={
-                                FORM_FIELDS_NAME.PHONE_NUMBER.placeholder
-                              }
-                              rules={FORM_FIELDS_NAME.PHONE_NUMBER.rules}
-                              isError={
-                                errors[FORM_FIELDS_NAME.PHONE_NUMBER.name]
-                              }
-                              errorMsg={getFormErrorMessage(
-                                FORM_FIELDS_NAME.PHONE_NUMBER.name
-                              )}
-                              country="in"
-                            />
-                            <Button
-                              label="fetch"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleNextStep();
-                              }}
-                              className="mt-3 border-round-sm"
-                            />
-                          </div>
-                        )}
-                        {step === 1 && (
-                          <>
-                            <MzOptInput
-                              control={control}
-                              name={FORM_FIELDS_NAME.OTP.name}
-                              label={FORM_FIELDS_NAME.OTP.label}
-                              placeholder={FORM_FIELDS_NAME.OTP.placeholder}
-                              type={FORM_FIELDS_NAME.OTP.type}
-                              isError={errors[FORM_FIELDS_NAME.OTP.name]}
-                              errorMsg={getFormErrorMessage(
-                                FORM_FIELDS_NAME.OTP.name
-                              )}
-                              length={4}
-                              rules={FORM_FIELDS_NAME.OTP.rules}
-                              integerOnly={true}
-                              wrapperClass={"p-float-label"}
-                            />
-                            <Button
-                               label={otpSent ? `Resend OTP in ${countdown}s` : "Resend OTP"}
-                              className="border-none text-black bg-transparent outline-none hover:underline"
-                              onClick={handleResendOtp}
-                              disabled={otpSent}
-                            />
-                            <div className="flex justify-content-between gap-2 w-full">
-                              <div className="mb-3 w-full">
-                                <Button
-                                  label="Back"
-                                  className="mt-3 border-round-sm"
-                                  onClick={handlePrevStep}
-                                  severity="danger"
-                                />
-                              </div>
-                              <div className="mb-3 w-full">
-                                <Button
-                                  label="submit"
-                                  type="submit"
-                                  className="mt-3 border-round-sm"
-                                />
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
-        </>
-      )}
-    </>
+        </section>
+      </div>
+    </div>
   );
 };
 
