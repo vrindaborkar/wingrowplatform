@@ -1,8 +1,8 @@
 import {
   SEND_VERIFICATION_CODE,
   VERIFY_CODE,
- RESEND_VERIFICATION_CODE,
- INIT_VERIFICATION
+  RESEND_VERIFICATION_CODE,
+  INIT_VERIFICATION,
 } from "../../../constant/actionTypes/auth";
 import { authService } from "../../../services";
 
@@ -47,21 +47,21 @@ export const sendVerificationCode = (payload) => {
 
 export const reSendVerificationCodeStart = (payload) => {
   return {
-    type:RESEND_VERIFICATION_CODE.START,
+    type: RESEND_VERIFICATION_CODE.START,
     payload,
   };
 };
 
 export const reSendVerificationCodeSuccess = (payload) => {
   return {
-    type:RESEND_VERIFICATION_CODE.SUCCESS,
+    type: RESEND_VERIFICATION_CODE.SUCCESS,
     payload,
   };
 };
 
 export const reSendVerificationCodeError = (payload) => {
   return {
-    type:RESEND_VERIFICATION_CODE.ERROR,
+    type: RESEND_VERIFICATION_CODE.ERROR,
     payload,
   };
 };
@@ -70,7 +70,7 @@ export const reSendVerificationCode = (payload) => {
   return (dispatch) => {
     dispatch(reSendVerificationCodeStart());
     authService.reSendVerificationCode(payload).then((response) => {
-      if (response?.type==="success") {
+      if (response?.type === "success") {
         dispatch(reSendVerificationCodeSuccess(response));
       } else {
         dispatch(reSendVerificationCodeError(response));
@@ -102,7 +102,9 @@ export const verifyCode = (payload) => {
   return (dispatch) => {
     dispatch(verifyCodeStart());
     authService.verifyCode(payload).then((response) => {
-      if (response.success) {
+      console.log(response);
+
+      if (response?.success) {
         localStorage.setItem("isVerify", true);
         dispatch(verifyCodeSuccess(response));
       } else {

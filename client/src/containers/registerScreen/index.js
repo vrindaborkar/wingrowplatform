@@ -44,6 +44,7 @@ const RegisterScreen = (props) => {
     if (isRegisterError) {
       const toastTitle = error ? error?.error?.message : "Error occured while register user";
       toast.error(toastTitle)
+      init_register()
     }
     if(isSendVerificationCodeError){
       const toastTitle = error ? error?.error : "Send OTP Error";

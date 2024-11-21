@@ -47,7 +47,8 @@ const StallComponent = (props) => {
     formFieldValueMap,
     marketList,
   } = props.stallProps;
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  // const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
   const navigate = useNavigate();
   const marketOptions = Object.keys(marketList).flatMap((marketKey) => {
     const markets = marketList[marketKey];
@@ -632,7 +633,7 @@ const StallComponent = (props) => {
   }, [selectedMarket]);
 
   const handlePaymentClick = () => {
-    if (isLoggedIn) {
+    if (isVerify) {
       setShowPaymentScreen(true);
     } else {
       navigate("/login")
@@ -1049,14 +1050,14 @@ const StallComponent = (props) => {
                       {marketData.stalls.map((stall) => (
                         <li key={stall.id}>
                           <div>
-                            <i
+                            {/* <i
                               className="pi pi-times"
                               style={{
                                 cursor: "pointer", color: "red", position: "relative",
                                 left: '84%'
                               }}
                               onClick={() => handleRemoveStall(stall.id)}
-                            />
+                            /> */}
                             <strong>Stall No:</strong>{" "}
                             {stall.stallNo || "No Stall No"}
                           </div>

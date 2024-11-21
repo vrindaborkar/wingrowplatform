@@ -2,7 +2,6 @@ import { INIT_LOGIN, LOGIN, LOGOUT } from "../../../constant/actionTypes/auth";
 import { authService } from "../../../services";
 import { Navigate } from "react-router-dom";
 
-
 export const init_login = () => {
   return {
     type: INIT_LOGIN,
@@ -34,25 +33,15 @@ export const login = (payload) => {
       .login(payload)
       .then((logindata) => {
         if (!logindata.isError) {
-
-          dispatch(loginSuccess(logindata));
+          console.log(logindata);
 
           try {
-            localStorage.setItem("token", logindata.accessToken);
+            localStorage.setItem("token", logindata?.accessToken ?? '');
             localStorage.setItem("user", JSON.stringify(logindata));
-            const userRole = logindata.role || "farmer";
+            const userRole = logindata?.role ?? '';
             localStorage.setItem("role", userRole);
             localStorage.setItem("isLoggedIn", true);
-          } catch (error) {
-            console.error(error);
-          }
-          try {
-            localStorage.setItem("token", logindata.accessToken);
-            localStorage.setItem("user", JSON.stringify(logindata));
-
-            const userRole = logindata.role || "farmer";
-            localStorage.setItem("role", userRole);
-            localStorage.setItem("isLoggedIn", "true"); // Store as string
+            dispatch(loginSuccess(logindata)); 
           } catch (error) {
             console.error("Error saving data to localStorage:", error);
             dispatch(
@@ -109,7 +98,7 @@ export const logout = () => {
           sessionStorage.clear();
           localStorage.setItem("isLoggedIn", false);
           dispatch(logoutSuccess());
-            Navigate("/login");
+          Navigate("/login");
         } else {
           dispatch(logoutError(response));
         }

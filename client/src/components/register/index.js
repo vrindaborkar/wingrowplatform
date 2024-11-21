@@ -15,8 +15,6 @@ import { toast } from "react-toastify";
 
 const RegisterComponent = (props) => {
   const {
-    formFieldValueMap,
-    isPageLevelError,
     isLoading,
     register,
     sendVerificationCode,
@@ -33,7 +31,6 @@ const RegisterComponent = (props) => {
     trigger,
     getValues,
     setError,
-    watch,
   } = useForm({
     defaultValues: useMemo(
       () => ({
@@ -51,7 +48,7 @@ const RegisterComponent = (props) => {
 
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
-  const [otpSent, setOtpSent] = useState(false); // Whether OTP has been sent
+  const [otpSent, setOtpSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [selectedType, setSelectedType] = useState(null);
   const Navigate = useNavigate();
@@ -100,13 +97,12 @@ const RegisterComponent = (props) => {
       const countdownInterval = setInterval(() => {
         setCountdown((prev) => {
           if (prev === 1) {
-            // When countdown reaches 1, stop the interval
             clearInterval(countdownInterval);
-            setOtpSent(false); // Reset OTP sent state
+            setOtpSent(false);
           }
-          return prev - 1; // Decrease the countdown by 1
+          return prev - 1;
         });
-      }, 1000); // Update every second (1000ms)
+      }, 1000);
     }
   };
 
@@ -161,8 +157,8 @@ const RegisterComponent = (props) => {
     if (isRegistered) {
       const fetchOtp = async () => {
         try {
-          await handleFetchOtp(); // Fetch OTP for the user
-          setStep((prevStep) => Math.min(prevStep + 1, 1)); // Move to next step
+          await handleFetchOtp();
+          setStep(1);
         } catch (error) {
           console.error("Error during OTP fetch:", error);
         }
@@ -296,7 +292,7 @@ const RegisterComponent = (props) => {
                           onChange={(e) => setSelectedType(e.value)}
                         />
                       </div>
-                      {selectedType === "Farmer" && (
+                      {selectedType === "producer" && (
                         <div className="col-12">
                           <MzDropDown
                             name={FORM_FIELDS_NAME.PRODUCER.name}

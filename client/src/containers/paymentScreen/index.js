@@ -5,15 +5,21 @@ import { initStall } from "../../redux/action/stall";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 const PaymentScreen = (props) => {
-  const { amount, bookStalls, initStallScreen, onPaymentSuccess, setShowDetails } = props;
-  const navigate=useNavigate();
+  const {
+    amount,
+    bookStalls,
+    initStallScreen,
+    onPaymentSuccess,
+    setShowDetails,
+  } = props;
+  const navigate = useNavigate();
   const handlePaymentSuccess = () => {
     setShowDetails(false);
     initStallScreen();
     onPaymentSuccess();
     navigate("/farmer");
   };
-  
+
   return (
     <>
       <PaymentPage

@@ -10,13 +10,19 @@ import { LOGO, WINGROW_LOGO } from "../../assets/images/index";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../redux/action/translator";
 import { Dropdown } from "primereact/dropdown";
-import {  logout } from "../../redux/action/auth/login";
+import { logout } from "../../redux/action/auth/login";
 import { init_verification } from "../../redux/action/auth/smg91";
 import { toast } from "react-toastify";
 
-const Header = ({ isLoggedIn }) => {
-  const isVerify = localStorage.getItem("isVerify");
-  const VerifyRole = localStorage.getItem("role");
+const Header = () => {
+  // const isVerify = localStorage.getItem("isVerify");
+  // const VerifyRole = localStorage.getItem("role");
+
+  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
+  const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
+  const userRole = useSelector((state) => state.loginReducer.userRole);
+
+  console.log(isVerify, userRole);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -30,10 +36,10 @@ const Header = ({ isLoggedIn }) => {
 
   const handleLogout = () => {
     localStorage.clear();
-    dispatch(init_verification())
-    dispatch(logout())
+    dispatch(init_verification());
+    dispatch(logout());
     navigate(ROUTE_PATH.BASE.HOME);
-    toast.success("Logout Successfully")
+    toast.success("Logout Successfully");
   };
 
   const currentLanguage = useSelector(
@@ -70,23 +76,23 @@ const Header = ({ isLoggedIn }) => {
       visible: !isVerify,
     },
     isVerify &&
-      VerifyRole === "producer" && {
+      userRole === "producer" && {
         label: t("farmer"),
         icon: "pi pi-fw pi-users",
         route: ROUTE_PATH.FARMER.HOME,
       },
     isVerify &&
-      VerifyRole === "admin" && {
+      userRole === "admin" && {
         label: t("admin"),
         icon: "pi pi-user-plus",
         route: ROUTE_PATH.ADMIN.HOME,
       },
-      {
-        label: t("customers"),
-        icon: "pi pi-fw pi-users",
-        route: ROUTE_PATH.CUSTOMER.HOME,
-        visible: isVerify,
-      },
+    {
+      label: t("customers"),
+      icon: "pi pi-fw pi-users",
+      route: ROUTE_PATH.CUSTOMER.HOME,
+      visible: isVerify,
+    },
     // { separator: true },
     {
       label: t("Settings"),
@@ -97,7 +103,6 @@ const Header = ({ isLoggedIn }) => {
       label: t("logout"),
       icon: "pi pi-fw pi-power-off p-error",
       command: handleLogout,
-      visible: !isLoggedIn,
     },
   ].filter(Boolean);
 
@@ -127,7 +132,7 @@ const Header = ({ isLoggedIn }) => {
         className="text-white no-outline font-bold rounded"
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
-      {isVerify && VerifyRole === "admin" && (
+      {isVerify && userRole === "admin" && (
         <>
           <Button
             label={t("admin")}
@@ -138,7 +143,7 @@ const Header = ({ isLoggedIn }) => {
           />
         </>
       )}
-      {isVerify && VerifyRole === "producer" && (
+      {isVerify && userRole === "producer" && (
         <>
           <Button
             label={t("farmer")}
