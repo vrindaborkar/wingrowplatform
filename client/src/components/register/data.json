@@ -2,11 +2,13 @@
     "type": [
         {
             "id":1,
-            "name": "Farmer"
+            "name": "Farmer",
+            "value":"producer"
         },
         {
             "id":2,
-            "name": "Customer"
+            "name": "Customer",
+            "value":"customer"
         }
     ],
     "producer": [

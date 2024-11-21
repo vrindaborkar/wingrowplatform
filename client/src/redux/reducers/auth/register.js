@@ -9,7 +9,7 @@ const formFieldValueMap = {
 };
 
 const initialState = {
-  isRegister: false,
+  isRegistered: false,
   isRegistrationVerify: false,
   formFieldValueMap,
   error: "",
@@ -26,6 +26,7 @@ const registerReducer = (state = initialState, action) => {
       return {
         ...state,
         initialState,
+        isRegisterError:false
       };
     case REGISTER.START:
       return {
@@ -34,7 +35,7 @@ const registerReducer = (state = initialState, action) => {
     case REGISTER.SUCCESS:
       return {
         ...state,
-        isRegister: true,
+        isRegistered: true,
       };
     case REGISTER.ERROR:
       return {

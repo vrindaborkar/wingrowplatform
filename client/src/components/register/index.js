@@ -11,20 +11,19 @@ import { useTranslation } from "react-i18next";
 import data from "./data.json";
 import MzOtpInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RegisterComponent = (props) => {
   const {
     formFieldValueMap,
     isPageLevelError,
-    isRegisterSuccess,
     isLoading,
     register,
     sendVerificationCode,
     verifyCode,
-    isRegister,
+    isRegistered,
     reSendVerificationCode,
     logout,
-    sendVerificationCodeSuccess,
   } = props.registerProps;
 
   const {
@@ -75,9 +74,10 @@ const RegisterComponent = (props) => {
     };
     verifyCode(payload);
     register(userData);
-    if (data.otp && isRegister) {
+    if (data.otp && isRegistered) {
       localStorage.setItem("userData", JSON.stringify(userData));
       setStep((prevStep) => Math.min(prevStep + 1, 1));
+      toast.success("User Created Successfully")
       Navigate("/login");
     } else {
       setError(FORM_FIELDS_NAME.OTP.name, {
@@ -88,21 +88,15 @@ const RegisterComponent = (props) => {
   };
 
   const handleResendOtp = () => {
-    if (isRegister) {
+    if (isRegistered) {
       const payload = {
         mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
         authkey: MSG91_AUTH_KEY,
         retrytype: "text",
       };
-
-      // Send the OTP
       reSendVerificationCode(payload);
-
-      // Set OTP sent state and start countdown
       setOtpSent(true);
-      setCountdown(30); // Initialize countdown at 30 seconds
-
-      // Start a countdown using setInterval
+      setCountdown(30); 
       const countdownInterval = setInterval(() => {
         setCountdown((prev) => {
           if (prev === 1) {
@@ -117,11 +111,9 @@ const RegisterComponent = (props) => {
   };
 
   const handleNextStepOrSendOTP = async () => {
-    // Validate the current step
     const isStepValid = await trigger();
 
     if (isStepValid) {
-      // If OTP has not been sent
         const selectedType = getValues(FORM_FIELDS_NAME.TYPE.name);
         const phone = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
         const firstName = getValues(FORM_FIELDS_NAME.FIRST_NAME.name);
@@ -132,16 +124,12 @@ const RegisterComponent = (props) => {
           return;
         }
 
-        // Construct payload for registration
         const payload = {
           phone: phone,
           role: selectedType,
           firstName: firstName,
           lastName: lastName,
         };
-
-        console.log("Register Payload:", payload);
-
         try {
           await register(payload);
         } catch (error) {
@@ -170,7 +158,7 @@ const RegisterComponent = (props) => {
   };
 
   useEffect(() => {
-    if (isRegister) {
+    if (isRegistered) {
       const fetchOtp = async () => {
         try {
           await handleFetchOtp(); // Fetch OTP for the user
@@ -182,7 +170,7 @@ const RegisterComponent = (props) => {
 
       fetchOtp();
     }
-  }, [isRegister]);
+  }, [isRegistered]);
 
   const handlePrevStep = () => {
     logout();
@@ -295,7 +283,7 @@ const RegisterComponent = (props) => {
                           name={FORM_FIELDS_NAME.TYPE.name}
                           control={control}
                           optionLabel={"name"}
-                          optionValue={"name"}
+                          optionValue={"value"}
                           options={data.type}
                           label={FORM_FIELDS_NAME.TYPE.label}
                           rules={FORM_FIELDS_NAME.TYPE.rules}
