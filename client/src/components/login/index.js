@@ -62,6 +62,7 @@ const LoginComponent = (props) => {
         Navigate("/");
       }
       toast.success("Login Successfully");
+      window.location.reload()
     }
   }, [isVerify, Navigate, isLoggedIn]);
 
