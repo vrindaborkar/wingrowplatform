@@ -46,28 +46,20 @@ const StallComponent = props => {
   // const isLoggedIn = localStorage.getItem('isLoggedIn');
   const isVerify = useSelector(state => state.msg91Reducer.isVerify)
   const navigate = useNavigate()
-  const [marketOptions, setMarketOptions] = useState([]);
 
-  useEffect(() => {
-    const savedMarketOptions = localStorage.getItem("marketOptions");
-    if (savedMarketOptions) {
-      setMarketOptions(JSON.parse(savedMarketOptions));
-    } else {
-      const options = Object.keys(marketList).flatMap((marketKey) => {
-        const markets = marketList[marketKey];
-        return markets.length > 0
-          ? markets.map((market) => ({
-              label: market.name,
-              value: market.name,
-              marketDay: market.marketDay,
-            }))
-          : [];
-      });
-
-      localStorage.setItem("marketOptions", JSON.stringify(options));
-      setMarketOptions(options);
+  const marketOptions = Object.keys(marketList).flatMap(marketKey => {
+    const markets = marketList[marketKey]
+    if (markets.length > 0) {
+      return markets.map(market => {
+        return {
+          label: market.name,
+          value: market.name,
+          marketDay: market.marketDay,
+        }
+      })
     }
-  }, [marketList]);
+    return []
+  })
 
   let stallIndex = 0
 
@@ -81,13 +73,16 @@ const StallComponent = props => {
     }
   }, [savedMarket])
 
+  useEffect(() => {
+    navigate('/market')
+    // eslint-disable-next-line
+  }, [])
+
   const [selectedStallsMap, setSelectedStallsMap] = useState({})
   const [stallDataMap, setStallDataMap] = useState(new Map())
-  // console.log(stallDataMap)
 
   const [totalPrice, setTotalPrice] = useState(0)
   const [dates, setDates] = useState({})
-  // console.log(dates);
 
   const [stallPositions, setStallPositions] = useState(
     scheduleData.marketStallPositions.Default,
@@ -98,14 +93,12 @@ const StallComponent = props => {
 
   const [selectedMarket, setSelectedMarket] = useState(savedMarket)
   const [stallList, setStallList] = useState([])
-  // console.log(stallList)
 
   const [marketDay, setMarketDay] = useState(
     marketOptions.marketDay || 'Saturday',
   )
 
   const [selectedStallsData, setSelectedStallsData] = useState({})
-  console.log('-----=-selectedStallsData', selectedStallsData)
 
   const [showPaymentScreen, setShowPaymentScreen] = useState(false)
   const [bookStalls, setbookStalls] = useState([])
@@ -132,7 +125,6 @@ const StallComponent = props => {
   const selectedStallsRedux = useSelector(state => {
     return state.stallReducer.selectedStalls
   })
-  console.log(selectedStallsRedux)
 
   const {
     control,
@@ -585,6 +577,7 @@ const StallComponent = props => {
     if (selectedMarket) {
       handleMarket({ value: selectedMarket })
     }
+    // eslint-disable-next-line
   }, [selectedMarket])
 
   const handlePaymentClick = () => {
@@ -647,11 +640,9 @@ const StallComponent = props => {
     }))
     field?.onChange(moment(value).format('YYYY-MM-DD'))
   }
+  // eslint-disable-next-line
   const handleStallRemove = (marketName, date, stall) => {
     const { stallId, id } = stall
-    console.log('Market Name:', marketName)
-    console.log('Date:', date)
-    console.log('Selected Stalls Redux:', selectedStallsRedux)
 
     const newSelectedStalls = selectedStallsRedux.map(market => ({
       ...market,
@@ -668,21 +659,14 @@ const StallComponent = props => {
     }
 
     const marketData = newSelectedStalls[marketIndex]
-    console.log('Found Market Data:', marketData)
-
     const dateStalls = marketData.stalls
-
-    // Remove the selected stall from the stalls array
     const updatedStalls = dateStalls.filter(stall => stall.id !== id)
-
-    // If no stalls are left, remove the market entry from newSelectedStalls
     if (updatedStalls.length === 0) {
       newSelectedStalls.splice(marketIndex, 1)
     } else {
       // Update the stalls in the copied array
       newSelectedStalls[marketIndex].stalls = updatedStalls
     }
-
     // Calculate the total price by subtracting the removed stall's price
     const removedStall = dateStalls.find(stall => stall.id === id)
     if (removedStall) {
