@@ -1,73 +1,39 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { ROUTE_PATH } from "../constant/urlConstant";
-import Header from "../common/Header";
-import Footer from "../common/Footer";
-import LoginScreen from "../containers/loginScreen";
-import RegisterScreen from "../containers/registerScreen";
-import HomeScreen from "../containers/homeScreen";
-import { useSelector } from "react-redux";
-import { USER_ROLE } from "../constant/role/index";
-import CustomerScreen from "../containers/customerScreen";
-import AboutUsScreen from "../containers/aboutScreen";
-import MarketScreen from "../containers/marketScreen";
-import StallBookingScreen from "../containers/stallBookingScreen";
-import StallScreen from "../containers/stallScreen";
-import AdminScreen from "../containers/adminScreen";
-import FarmersListComponent from "../components/admin/farmerList";
-import CustomersListComponent from "../components/admin/customerList";
-import { element } from "prop-types";
-import FarmerScreen from "../containers/farmerScreen";
-import MyBookingScreen from "../containers/farmerScreen/myBookingScreen";
-import InwardScreen from "../containers/farmerScreen/inwardScreen";
-import OutwardScreen from "../containers/farmerScreen/outwardScreen";
-import InOutDataScreen from "../containers/farmerScreen/inOutDataScreen";
+import React from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { ROUTE_PATH } from '../constant/urlConstant'
+import Header from '../common/Header'
+import Footer from '../common/Footer'
+import LoginScreen from '../containers/loginScreen'
+import RegisterScreen from '../containers/registerScreen'
+import HomeScreen from '../containers/homeScreen'
+import { useSelector } from 'react-redux'
+import { USER_ROLE } from '../constant/role/index'
+import CustomerScreen from '../containers/customerScreen'
+import AboutUsScreen from '../containers/aboutScreen'
+import MarketScreen from '../containers/marketScreen'
 
-// import ErrorPage from "../common/Error";
-// import AccessDeniedPage from "../common/Access";
+import StallScreen from '../containers/stallScreen'
+import AdminScreen from '../containers/adminScreen'
+import FarmersListComponent from '../components/admin/farmerList'
+import CustomersListComponent from '../components/admin/customerList'
+
+import FarmerScreen from '../containers/farmerScreen'
+import MyBookingScreen from '../containers/farmerScreen/myBookingScreen'
+import InwardScreen from '../containers/farmerScreen/inwardScreen'
+import OutwardScreen from '../containers/farmerScreen/outwardScreen'
+import InOutDataScreen from '../containers/farmerScreen/inOutDataScreen'
+
+import { isVerify, userRole } from '../redux/selectors/auth/index'
 
 const Routing = () => {
-  const isLoggedIn = useSelector((state) => state.loginReducer.isLoggedIn);
-  const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
-  const userRole = useSelector((state) => state.loginReducer.userRole);
-  console.log(userRole);
-  
+  const verified = useSelector(isVerify)
+  const role = useSelector(userRole)
 
-  // if (!isLoggedIn || !isVerify) {
-  //   return (
-  //     <React.Fragment>
-  //       <header>
-  //         <Header userRole={userRole} />
-  //       </header>
-  //       <main>
-  //         <Routes>
-  //           <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
-  //           <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
-  //           <Route
-  //             path={ROUTE_PATH.CUSTOMER.HOME}
-  //             element={<CustomerScreen />}
-  //           />
-  //           <Route path={ROUTE_PATH.BASE.LOGIN} element={<LoginScreen />} />
-  //           <Route
-  //             path={ROUTE_PATH.BASE.REGISTER}
-  //             element={<RegisterScreen />}
-  //           />
-  //           <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
-  //           <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
-  //           <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
-  //         </Routes>
-  //       </main>
-  //       <Footer />
-  //     </React.Fragment>
-  //   );
-  // }
-
-  // Farmer Routes
-  if (userRole === USER_ROLE.FARMER) {
+  if (role === USER_ROLE.FARMER && verified) {
     return (
       <React.Fragment>
         <header>
-          <Header userRole={userRole} />
+          <Header role={role} verified={verified} />
         </header>
         <main>
           <Routes>
@@ -96,7 +62,7 @@ const Routing = () => {
               element={<InOutDataScreen />}
             />
             <Route
-              path="*"
+              path='*'
               element={<Navigate to={ROUTE_PATH.FARMER.HOME} />}
             />
           </Routes>
@@ -104,15 +70,15 @@ const Routing = () => {
 
         <Footer />
       </React.Fragment>
-    );
+    )
   }
 
   // Customer Routes
-  if (userRole === USER_ROLE.CUSTOMER) {
+  if (role === USER_ROLE.CUSTOMER && verified) {
     return (
       <React.Fragment>
         <header>
-          <Header userRole={userRole} />
+          <Header role={role} verified={verified} />
         </header>
         <main>
           <Routes>
@@ -123,7 +89,7 @@ const Routing = () => {
               element={<CustomerScreen />}
             />
             <Route
-              path="*"
+              path='*'
               element={<Navigate to={ROUTE_PATH.CUSTOMER.HOME} />}
             />
           </Routes>
@@ -131,22 +97,25 @@ const Routing = () => {
 
         <Footer />
       </React.Fragment>
-    );
+    )
   }
 
   // Admin Routes
-  if (userRole === USER_ROLE.ADMIN) {
+  if (role === USER_ROLE.ADMIN && verified) {
     return (
       <React.Fragment>
         <header>
-          <Header userRole={userRole} />
+          <Header role={role} verified={verified} />
         </header>
         <main>
           <Routes>
             <Route path={ROUTE_PATH.BASE.HOME} element={<HomeScreen />} />
             <Route path={ROUTE_PATH.BASE.HOME} element={<AboutUsScreen />} />
             <Route path={ROUTE_PATH.ADMIN.HOME} element={<AdminScreen />} />
-            <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
+            <Route
+              path={ROUTE_PATH.CUSTOMER.HOME}
+              element={<CustomerScreen />}
+            />
             <Route
               path={ROUTE_PATH.FARMERS_LIST.HOME}
               element={<FarmersListComponent />}
@@ -155,19 +124,19 @@ const Routing = () => {
               path={ROUTE_PATH.CUSTOMER_LIST.HOME}
               element={<CustomersListComponent />}
             />
-            <Route path="*" element={<Navigate to={ROUTE_PATH.ADMIN.HOME} />} />
+            <Route path='*' element={<Navigate to={ROUTE_PATH.ADMIN.HOME} />} />
           </Routes>
         </main>
         <Footer />
       </React.Fragment>
-    );
+    )
   }
 
   // Fallback: If no role matches, show Login/Register
   return (
     <React.Fragment>
       <header>
-        <Header userRole={userRole} />
+        <Header role={role} verified={verified} />
       </header>
       <main>
         <Routes>
@@ -178,12 +147,12 @@ const Routing = () => {
           <Route path={ROUTE_PATH.CUSTOMER.HOME} element={<CustomerScreen />} />
           <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
           <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
-          <Route path="*" element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
+          <Route path='*' element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
         </Routes>
       </main>
       <Footer />
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default Routing;
+export default Routing
