@@ -46,19 +46,28 @@ const StallComponent = props => {
   // const isLoggedIn = localStorage.getItem('isLoggedIn');
   const isVerify = useSelector(state => state.msg91Reducer.isVerify)
   const navigate = useNavigate()
-  const marketOptions = Object.keys(marketList).flatMap(marketKey => {
-    const markets = marketList[marketKey]
-    if (markets.length > 0) {
-      return markets.map(market => {
-        return {
-          label: market.name,
-          value: market.name,
-          marketDay: market.marketDay,
-        }
-      })
+  const [marketOptions, setMarketOptions] = useState([]);
+
+  useEffect(() => {
+    const savedMarketOptions = localStorage.getItem("marketOptions");
+    if (savedMarketOptions) {
+      setMarketOptions(JSON.parse(savedMarketOptions));
+    } else {
+      const options = Object.keys(marketList).flatMap((marketKey) => {
+        const markets = marketList[marketKey];
+        return markets.length > 0
+          ? markets.map((market) => ({
+              label: market.name,
+              value: market.name,
+              marketDay: market.marketDay,
+            }))
+          : [];
+      });
+
+      localStorage.setItem("marketOptions", JSON.stringify(options));
+      setMarketOptions(options);
     }
-    return []
-  })
+  }, [marketList]);
 
   let stallIndex = 0
 
@@ -175,9 +184,6 @@ const StallComponent = props => {
     }
   }, [selectedStallsRedux, dispatch])
 
-  useEffect(() => {
-    navigate('/market')
-  }, [])
   const onSubmit = data => {
     if (selectedStallsRedux?.length === 0) {
       toast.current.show({
@@ -639,7 +645,7 @@ const StallComponent = props => {
       ...prevDates,
       [selectedMarket]: value,
     }))
-    field?.onChange(moment(value).format('YYYY/MM/DD'))
+    field?.onChange(moment(value).format('YYYY-MM-DD'))
   }
   const handleStallRemove = (marketName, date, stall) => {
     const { stallId, id } = stall
@@ -990,7 +996,7 @@ const StallComponent = props => {
                   label='Pay'
                   onClick={handleShowClick}
                   className='border-2 border-round-md md:w-10rem mr-2'
-                  disabled={selectedStallsRedux?.length === 0}
+                  // disabled={selectedStallsRedux?.length === 0}
                 />
               </div>
             </div>
@@ -1043,7 +1049,7 @@ const StallComponent = props => {
                       {marketData.stalls.map(stall => (
                         <li key={stall.id}>
                           <div>
-                            <i
+                            {/* <i
                               className='pi pi-times'
                               style={{
                                 cursor: 'pointer',
@@ -1058,8 +1064,8 @@ const StallComponent = props => {
                                   stall,
                                 )
                               }
-                            />
-                            <span>{stall.stallId}</span>
+                            /> */}
+                            {/* <span>{stall.stallId}</span> */}
                             <strong>Stall No:</strong>{' '}
                             {stall.stallNo || 'No Stall No'}
                           </div>
