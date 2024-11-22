@@ -19,7 +19,8 @@ const Header = ({ role, verified }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [visible, setVisible] = useState(false)
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userName = user?.firstname +" "+ user?.lastname??""
   const handleNavigation = route => {
     navigate(route)
     setVisible(false)
@@ -257,7 +258,7 @@ const Header = ({ role, verified }) => {
                   style={{ backgroundColor: '#28a745', color: '#ffffff' }}
                   shape='circle'
                 />
-                <span className='font-bold'>Jon</span>
+                <span className='font-bold'>{userName}</span>
               </NavLink>
             </div>
           </div>
