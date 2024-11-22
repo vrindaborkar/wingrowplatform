@@ -33,15 +33,13 @@ export const login = (payload) => {
       .login(payload)
       .then((logindata) => {
         if (!logindata.isError) {
-          console.log(logindata);
-
           try {
             localStorage.setItem("token", logindata?.accessToken ?? '');
             localStorage.setItem("user", JSON.stringify(logindata));
             const userRole = logindata?.role ?? '';
             localStorage.setItem("role", userRole);
             localStorage.setItem("isLoggedIn", true);
-            dispatch(loginSuccess(logindata)); 
+            dispatch(loginSuccess(logindata));
           } catch (error) {
             console.error("Error saving data to localStorage:", error);
             dispatch(
@@ -51,7 +49,6 @@ export const login = (payload) => {
             );
           }
         } else {
-          // Dispatch error if login fails
           dispatch(loginError(logindata));
         }
       })
@@ -72,8 +69,6 @@ export const logoutStart = () => {
 };
 
 export const logoutSuccess = () => {
-  // toast.error('Session expired due to inactivity. Please log in again.')
-  localStorage.clear();
   return {
     type: LOGOUT.SUCCESS,
   };
@@ -93,10 +88,8 @@ export const logout = () => {
     authService
       .postLogout()
       .then((response) => {
-        if (!response.isError) {
+        if (response) {
           localStorage.clear();
-          sessionStorage.clear();
-          localStorage.setItem("isLoggedIn", false);
           dispatch(logoutSuccess());
           Navigate("/login");
         } else {

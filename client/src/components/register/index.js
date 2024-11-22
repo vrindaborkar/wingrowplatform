@@ -12,6 +12,8 @@ import data from "./data.json";
 import MzOtpInput from "../../common/MzForm/MzOptInput";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { init_verification } from "../../redux/action/auth/smg91";
+import { useDispatch } from 'react-redux';
 
 const RegisterComponent = (props) => {
   const {
@@ -21,7 +23,7 @@ const RegisterComponent = (props) => {
     verifyCode,
     isRegistered,
     reSendVerificationCode,
-    logout,
+    isVerify,
   } = props.registerProps;
 
   const {
@@ -52,35 +54,29 @@ const RegisterComponent = (props) => {
   const [countdown, setCountdown] = useState(0);
   const [selectedType, setSelectedType] = useState(null);
   const Navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    const userData = {
-      firstName: getValues(FORM_FIELDS_NAME.FIRST_NAME.name),
-      lastName: getValues(FORM_FIELDS_NAME.LAST_NAME.name),
-      phone: getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name),
-      role: getValues(FORM_FIELDS_NAME.TYPE.name),
-      farmertype: getValues(FORM_FIELDS_NAME.PRODUCER.name),
-      address: getValues(FORM_FIELDS_NAME.ADDRESS.name),
-    };
-
-    const payload = {
-      otp: data.otp,
-      mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
-      authkey: MSG91_AUTH_KEY,
-    };
-    verifyCode(payload);
-    register(userData);
-    if (data.otp && isRegistered) {
-      localStorage.setItem("userData", JSON.stringify(userData));
-      setStep((prevStep) => Math.min(prevStep + 1, 1));
-      toast.success("User Created Successfully")
+  useEffect(() => {
+    if (isVerify && isRegistered) {
+      console.log("here is in useEffect")
+      toast.success("User Created Successfully");
       Navigate("/login");
-    } else {
-      setError(FORM_FIELDS_NAME.OTP.name, {
-        type: "manual",
-        message: "Invalid OTP",
-      });
+      dispatch(init_verification());
+    }
+  }, [isVerify, Navigate, isRegistered]);
+
+  const onSubmit = async (data) => {
+    if (isRegistered) {
+      const payload = {
+        otp: data.otp,
+        mobile: `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`,
+        authkey: MSG91_AUTH_KEY,
+      };
+      try {
+        await verifyCode(payload);
+      } catch (error) {
+        console.error("Verification failed:", error);
+      }
     }
   };
 
@@ -93,7 +89,7 @@ const RegisterComponent = (props) => {
       };
       reSendVerificationCode(payload);
       setOtpSent(true);
-      setCountdown(30); 
+      setCountdown(30);
       const countdownInterval = setInterval(() => {
         setCountdown((prev) => {
           if (prev === 1) {
@@ -110,27 +106,31 @@ const RegisterComponent = (props) => {
     const isStepValid = await trigger();
 
     if (isStepValid) {
-        const selectedType = getValues(FORM_FIELDS_NAME.TYPE.name);
-        const phone = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
-        const firstName = getValues(FORM_FIELDS_NAME.FIRST_NAME.name);
-        const lastName = getValues(FORM_FIELDS_NAME.LAST_NAME.name);
+      const selectedType = getValues(FORM_FIELDS_NAME.TYPE.name);
+      const phone = `+${getValues(FORM_FIELDS_NAME.PHONE_NUMBER.name)}`;
+      const firstName = getValues(FORM_FIELDS_NAME.FIRST_NAME.name);
+      const lastName = getValues(FORM_FIELDS_NAME.LAST_NAME.name);
+      const farmertype = getValues(FORM_FIELDS_NAME.PRODUCER.name);
+      const address = getValues(FORM_FIELDS_NAME.ADDRESS.name);
 
-        if (!selectedType) {
-          console.error("Type is not selected or is undefined.");
-          return;
-        }
+      if (!selectedType) {
+        console.error("Type is not selected or is undefined.");
+        return;
+      }
 
-        const payload = {
-          phone: phone,
-          role: selectedType,
-          firstName: firstName,
-          lastName: lastName,
-        };
-        try {
-          await register(payload);
-        } catch (error) {
-          console.error("Error during registration:", error);
-        }
+      const payload = {
+        phone: phone,
+        role: selectedType,
+        firstname: firstName,
+        lastname: lastName,
+        farmertype: farmertype,
+        address: address,
+      };
+      try {
+        await register(payload);
+      } catch (error) {
+        console.error("Error during registration:", error);
+      }
     }
   };
 
@@ -143,7 +143,6 @@ const RegisterComponent = (props) => {
         template_id: TEMPLATE_ID_LOGIN,
         authkey: MSG91_AUTH_KEY,
       };
-      console.log("OTP Payload:", payload);
       try {
         await sendVerificationCode(payload);
         console.log("OTP sent successfully");
@@ -169,7 +168,6 @@ const RegisterComponent = (props) => {
   }, [isRegistered]);
 
   const handlePrevStep = () => {
-    logout();
     setStep((prevStep) => Math.max(prevStep - 1, 0));
   };
 

@@ -31,10 +31,7 @@ const inactivityMiddleware = (store) => (next) => (action) => {
 };
 
 const logger = (store) => (next) => (action) => {
-  console.log("action", action);
-  let result = next(action);
-  console.log("new state", store.getState());
-  return result;
+  return next(action);
 };
 
 const store = configureStore({
