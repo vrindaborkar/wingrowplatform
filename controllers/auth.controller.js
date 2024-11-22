@@ -29,8 +29,8 @@ exports.signup = async (req, res, next) => {
       });
     } else {
       const user_creat = await User.create({
-        firstName: firstname,
-        lastName: lastname,
+        firstname: firstname,
+        lastname: lastname,
         phone: phone,
         // password: bcrypt.hashSync(password, 8),
         role: role,
@@ -121,8 +121,8 @@ exports.adminSignUp = async (req, res) => {
       });
     } else {
       const user_creat = await User.create({
-        firstName: firstname,
-        lastName: lastname,
+        firstname: firstname,
+        lastname: lastname,
         phone: phone,
         // password: bcrypt.hashSync(password, 8),
         role: role

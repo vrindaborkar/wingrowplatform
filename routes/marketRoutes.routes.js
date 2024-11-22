@@ -141,6 +141,7 @@ router.get('/stalls/availability', async (req, res) => {
 
         // Step 5: Create a response array that marks each stall as available or booked
         const stallsWithAvailability = allStalls.map(stall => ({
+            id: stall._id,
             stallNo: stall.stallNo,
             stallName: stall.stallName,
             stallPrice: stall.stallPrice,
