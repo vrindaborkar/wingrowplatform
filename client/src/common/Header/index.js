@@ -81,7 +81,7 @@ const Header = ({ role, verified }) => {
       label: t('customers'),
       icon: 'pi pi-fw pi-users',
       route: ROUTE_PATH.CUSTOMER.HOME,
-      visible: verified,
+      // visible: !verified,
     },
     // { separator: true },
     {
