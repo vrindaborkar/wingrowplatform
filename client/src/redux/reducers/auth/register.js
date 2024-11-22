@@ -25,22 +25,31 @@ const registerReducer = (state = initialState, action) => {
     case INIT_REGISTRATION:
       return {
         ...state,
-        isRegisterError:false
+        isRegisterError:false,
+        isPageLevelError: false,
+        isLoadingPage: false,
+        isRegisterSuccess: false,
+        isRegisterError: false,
+        isRegistered: false,
+        isRegistrationVerify: false,
       };
     case REGISTER.START:
       return {
-        ...state
+        ...state,
+        isLoading:true
       };
     case REGISTER.SUCCESS:
       return {
         ...state,
         isRegistered: true,
+        isLoading:false
       };
     case REGISTER.ERROR:
       return {
         ...state,
         isRegisterError: true,
-        error: action?.payload
+        error: action?.payload,
+        isLoading:false
       };
 
     default:

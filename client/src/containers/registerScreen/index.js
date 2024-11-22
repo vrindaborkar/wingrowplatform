@@ -29,12 +29,12 @@ const RegisterScreen = (props) => {
     isSendVerificationCodeError,
     reSendVerificationCode,
     init_verification,
+    init_register,
     isResendVerificationCodeError,
     error1,
-    isVerifyCodeError
+    isVerifyCodeError,
+    isVerify
   } = props;
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     initRegisterScreen();
@@ -42,9 +42,9 @@ const RegisterScreen = (props) => {
   }, []);
 
     if (isRegisterError) {
+      init_register()
       const toastTitle = error ? error?.error?.message : "Error occured while register user";
       toast.error(toastTitle)
-      init_register()
     }
     if(isSendVerificationCodeError){
       const toastTitle = error ? error?.error : "Send OTP Error";
@@ -80,6 +80,7 @@ const RegisterScreen = (props) => {
     verifyCode,
     isRegistered,
     logout,
+    isVerify,
     sendVerificationCodeSuccess,
     reSendVerificationCode
   };

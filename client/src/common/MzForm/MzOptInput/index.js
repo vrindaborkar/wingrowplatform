@@ -40,7 +40,7 @@ const MzOtpInput = ({
             <InputOtp
               id={name}
               name={name}
-              value={field.value || ''}
+              value={field.value ?? ''}
               length={length}
               onChange={(e) => field.onChange(e.value)}
               onBlur={field.onBlur}

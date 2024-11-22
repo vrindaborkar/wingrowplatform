@@ -26,9 +26,9 @@ const Header = ({ role, verified }) => {
   }
 
   const handleLogout = () => {
-    localStorage.clear()
-    dispatch(init_verification())
+    // localStorage.clear()
     dispatch(logout())
+    dispatch(init_verification())
     navigate(ROUTE_PATH.BASE.HOME)
     toast.success('Logout Successfully')
   }
