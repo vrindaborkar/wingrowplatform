@@ -45,26 +45,14 @@ import { useDispatch, useSelector } from "react-redux";
 const StallComponent = (props) => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { fetchStallList, formFieldValueMap, marketList } = props.stallProps;
+  const { fetchStallList, formFieldValueMap } = props.stallProps;
   // const isLoggedIn = localStorage.getItem('isLoggedIn');
   const isVerify = useSelector((state) => state.msg91Reducer.isVerify);
   const navigate = useNavigate();
 
   const { t } = useTranslation();
 
-  const marketOptions = Object.keys(marketList).flatMap((marketKey) => {
-    const markets = marketList[marketKey];
-    if (markets.length > 0) {
-      return markets.map((market) => {
-        return {
-          label: market.name,
-          value: market.name,
-          marketDay: market.marketDay,
-        };
-      });
-    }
-    return [];
-  });
+  const marketOptions = JSON.parse(localStorage.getItem("marketOptions")) || [];
 
   let stallIndex = 0;
 
@@ -77,11 +65,6 @@ const StallComponent = (props) => {
       setSelectedMarket(savedMarket);
     }
   }, [savedMarket]);
-
-  useEffect(() => {
-    navigate("/market");
-    // eslint-disable-next-line
-  }, []);
 
   const [isChecked, setIsChecked] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
@@ -217,7 +200,7 @@ const StallComponent = (props) => {
     }
 
     const stallId = `${row}-${col}`;
-    const stall = stallDataMap.get(stallId); // Get the stall data from stallDataMap
+    const stall = stallDataMap.get(stallId);
 
     if (!stall) {
       return;
@@ -249,11 +232,9 @@ const StallComponent = (props) => {
     const isStallSelected = dateStalls.includes(stallId);
 
     if (isStallSelected) {
-      // Remove the stall and update total price
       dateStalls = dateStalls.filter((s) => s !== stallId);
       setTotalPrice((prevPrice) => prevPrice - stall.stallPrice);
     } else {
-      // Limit to 3 stalls, remove one if necessary
       if (dateStalls.length >= 3) {
         const removedStallId = dateStalls.shift();
         const removedStall = stallDataMap.get(removedStallId);
@@ -290,7 +271,7 @@ const StallComponent = (props) => {
                 id: stall ? stall.id : "",
                 stallNo: stall ? stall.stallNo : "No Stall No",
                 name: stall ? stall.stallName : "No Stall",
-                price: stall ? stall.stallPrice : 0, // Ensure the price is correctly taken from stallDataMap
+                price: stall ? stall.stallPrice : 0,
                 date: date || "Not selected",
               };
             });
@@ -680,10 +661,8 @@ const StallComponent = (props) => {
     if (updatedStalls.length === 0) {
       newSelectedStalls.splice(marketIndex, 1);
     } else {
-      // Update the stalls in the copied array
       newSelectedStalls[marketIndex].stalls = updatedStalls;
     }
-    // Calculate the total price by subtracting the removed stall's price
     const removedStall = dateStalls.find((stall) => stall.id === id);
     if (removedStall) {
       setTotalPrice((prevPrice) => prevPrice - removedStall.price);
@@ -1222,7 +1201,7 @@ const StallComponent = (props) => {
             {!isChecked && (
               <div
                 className="p-text-danger p-mb-3 p-text-danger"
-                style={{ color: 'red', fontSize: "0.9rem" }}
+                style={{ color: "red", fontSize: "0.9rem" }}
               >
                 Please accept the terms and conditions to proceed.
               </div>
