@@ -3,7 +3,6 @@ import { API_PATH } from "../../constant/urlConstant";
 import { handleAPIError } from "../common/errorHandler";
 import { baseUrl } from "../PostAPI";
 
-
 export const fetchOutwardList = async () => {
   const url = `${baseUrl}${API_PATH.OUTWARD.FETCH}`;
   const token = localStorage.getItem("token");
@@ -11,7 +10,7 @@ export const fetchOutwardList = async () => {
     const result = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "x-access-token": `${token}`,
       },
     });
     if (result.data.error || result.status !== 200) {
@@ -48,9 +47,9 @@ export const createOutwardRecord = async (payload) => {
   const url = `${baseUrl}${API_PATH.OUTWARD.ADD}`;
   const token = localStorage.getItem("token");
   try {
-    const result = await axios.post(url,payload, {
+    const result = await axios.post(url, payload, {
       headers: {
-        'x-access-token': `${token}`,
+        "x-access-token": `${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -60,11 +59,11 @@ export const createOutwardRecord = async (payload) => {
     return result.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail)
+    return handleAPIError(error.response.data.detail);
   }
 };
 
-export const updateOutwardRecord = async (payload,id) => {
+export const updateOutwardRecord = async (payload, id) => {
   const url = `${baseUrl}${API_PATH.OUTWARD.EDIT}/${id}`;
   const token = localStorage.getItem("token");
   try {
@@ -80,7 +79,7 @@ export const updateOutwardRecord = async (payload,id) => {
     return result.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail)
+    return handleAPIError(error.response.data.detail);
   }
 };
 
@@ -100,11 +99,9 @@ export const deleteOutward = async (outwardId) => {
     return result.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail)
+    return handleAPIError(error.response.data.detail);
   }
 };
-
-
 
 export const fetchInwardList = async () => {
   const url = `${baseUrl}${API_PATH.INWARD.FETCH}`;
@@ -113,7 +110,7 @@ export const fetchInwardList = async () => {
     const result = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "x-access-token": `${token}`,
       },
     });
     if (result.data.error || result.status !== 200) {
@@ -147,13 +144,12 @@ export const fetchInwardRecord = async (payload) => {
 };
 
 export const createInwardRecord = async (payload) => {
-
   const url = `${baseUrl}${API_PATH.INWARD.ADD}`;
   const token = localStorage.getItem("token");
   try {
-    const result = await axios.post(url,payload, {
+    const result = await axios.post(url, payload, {
       headers: {
-        'x-access-token': `${token}`,
+        "x-access-token": `${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -163,11 +159,11 @@ export const createInwardRecord = async (payload) => {
     return result.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail)
+    return handleAPIError(error.response.data.detail);
   }
 };
 
-export const updateInwardRecord = async (payload,id) => {
+export const updateInwardRecord = async (payload, id) => {
   const url = `${baseUrl}${API_PATH.INWARD.EDIT}/${id}`;
   const token = localStorage.getItem("token");
   try {
@@ -183,7 +179,7 @@ export const updateInwardRecord = async (payload,id) => {
     return result.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail)
+    return handleAPIError(error.response.data.detail);
   }
 };
 
@@ -203,6 +199,6 @@ export const deleteInward = async (inwardId) => {
     return result.data;
   } catch (error) {
     console.error(error);
-    return handleAPIError(error.response.data.detail)
+    return handleAPIError(error.response.data.detail);
   }
 };

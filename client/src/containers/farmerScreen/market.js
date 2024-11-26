@@ -1,7 +1,7 @@
 export const marketData = [
     {
         day: "tuesday",
-        name: "karveNagar",
+        name: "karve Nagar",
         location: "https://goo.gl/maps/5sETcJGzXWoXC5SG9",
         address: "karveNagarLocation",
         time: "3PM - 9PM"

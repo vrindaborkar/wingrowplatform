@@ -33,11 +33,10 @@ import {
     payload: { error },
   });
   
-  export const fetchInwardList = (payload) => {
-    console.log(payload);
+  export const fetchInwardList = () => {
     return (dispatch) => {
-      dispatch(fetchInwardListStart(payload));
-      inOutwardService.fetchInwardList(payload).then((inwardData) => {
+      dispatch(fetchInwardListStart());
+      inOutwardService.fetchInwardList().then((inwardData) => {
         if (!inwardData.isError) {
           dispatch(fetchInwardListSuccess(inwardData));
         } else {
@@ -178,11 +177,10 @@ import {
     payload: { error },
   });
   
-  export const fetchOutwardList = (payload) => {
-    console.log(payload);
+  export const fetchOutwardList = () => {
     return (dispatch) => {
-      dispatch(fetchOutwardListStart(payload));
-      inOutwardService.fetchOutwardList(payload).then((outwardData) => {
+      dispatch(fetchOutwardListStart());
+      inOutwardService.fetchOutwardList().then((outwardData) => {
         if (!outwardData.isError) {
           dispatch(fetchOutwardListSuccess(outwardData));
         } else {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import MzInput from "../../../common/MzForm/MzInput";
@@ -31,6 +31,7 @@ const AddOutwardComponent = (props) => {
     formState: { errors, isDirty },
     watch,
     setValue,
+    getValues,
     handleSubmit,
     reset,
   } = useForm({
@@ -43,16 +44,34 @@ const AddOutwardComponent = (props) => {
   });
   const history = useNavigate();
   const { id } = useParams();
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);  
+  const handleClick = () => {
+    setIsFormSubmitted(true);
+  };
   useEffect(() => {
     if (isCreateOutwardSuccess || isEditOutwardSuccess) {
-      reset();
       setTimeout(() => {
+        const currentValues = getValues();
+        const marketValue = currentValues.market;
+        reset({
+          market: marketValue,
+        });
         initOutward();
-        history(ROUTE_PATH.FARMER.HOME);
-      }, 2000);
+      }, 1000);
     }
     // eslint-disable-next-line
-  }, [isCreateOutwardSuccess]);
+  }, [isCreateOutwardSuccess, isEditOutwardSuccess]);
+  useEffect(() => {
+    if (isFormSubmitted && (isCreateOutwardSuccess || isEditOutwardSuccess)) {
+      setTimeout(() => {
+        reset()
+        initOutward();
+        // Optionally redirect
+        history(ROUTE_PATH.FARMER.HOME);
+      }, 1000);
+    }
+    // eslint-disable-next-line
+  }, [isCreateOutwardSuccess, isEditOutwardSuccess]);
 
   useEffect(() => {
     if (isOutwardDetailSuccess) {
@@ -83,7 +102,13 @@ const AddOutwardComponent = (props) => {
 
   const onSubmit = (data) => {
     console.log(data);
-    createOutwardRecord(data);
+    const payload = {
+      market: data?.market,
+      commodity: data?.commodity,
+      sales_rate: data?.saleRate,
+      remaining_sale: data?.remainingSale,
+    };
+    createOutwardRecord(payload);
   };
 
   return (
@@ -191,11 +216,24 @@ const AddOutwardComponent = (props) => {
                   />
                 </div>
 
-                <Button
-                  label="submit"
-                  type="submit"
-                  className="mt-3 border-round-sm"
-                />
+                <div className="flex justify-content-between gap-2 w-full">
+                  <div className="mb-3 w-full">
+                    <Button
+                      label="Add"
+                      className="mt-3 border-round-sm"
+                      // severity="danger"
+                    />
+                  </div>
+                  <div className="mb-3 w-full">
+                    <Button
+                      onClick={handleClick}
+                      disabled={isLoading}
+                      label="submit"
+                      type="submit"
+                      className="mt-3 border-round-sm"
+                    />
+                  </div>
+                </div>
               </form>
             </div>
           </div>
