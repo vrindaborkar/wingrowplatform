@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import MzInput from "../../../common/MzForm/MzInput";
@@ -34,6 +34,7 @@ const AddInwardComponent = (props) => {
     setValue,
     handleSubmit,
     reset,
+    getValues,
   } = useForm({
     defaultValues: useMemo(() => {
       // console.log("check value come or not", formFieldValueMap);
@@ -45,17 +46,32 @@ const AddInwardComponent = (props) => {
   const history = useNavigate();
 
   const { t } = useTranslation();
-
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const { id } = useParams();
+  const handleClick = () => {
+    setIsFormSubmitted(true);
+  };
   useEffect(() => {
     if (isCreateInwardSuccess || isEditInwardSuccess) {
-      reset();
-   setTimeout(()=>{
-    initInward()
-    history(ROUTE_PATH.FARMER.HOME)
-   },2000)
+      setTimeout(() => {
+        const currentValues = getValues();
+        const marketValue = currentValues.market;
+        reset({
+          market: marketValue,
+        });
+        initInward();
+      }, 2000);
     }
-  }, [isCreateInwardSuccess]);
+  }, [isCreateInwardSuccess, isEditInwardSuccess]);
+  useEffect(() => {
+    if (isFormSubmitted && (isCreateInwardSuccess || isEditInwardSuccess)) {
+      setTimeout(() => {
+        reset();
+        initInward();
+        history(ROUTE_PATH.FARMER.HOME);
+      }, 2000);
+    }
+  }, [isCreateInwardSuccess, isEditInwardSuccess]);
 
   useEffect(() => {
     if (isInwardDetailSuccess) {
@@ -84,9 +100,12 @@ const AddInwardComponent = (props) => {
   };
 
   const onSubmit = (data) => {
-    const payload={
-
-    }
+    const payload = {
+      market: data?.market,
+      commodity: data?.commodity,
+      purchase_quantity: data?.purchaseQuantity,
+      purchase_rate: data?.purchaseRate,
+    };
     createInwardRecord(payload);
   };
 
@@ -195,11 +214,24 @@ const AddInwardComponent = (props) => {
                   />
                 </div>
 
-                <Button
-                  label="submit"
-                  type="submit"
-                  className="mt-3 border-round-sm"
-                />
+                <div className="flex justify-content-between gap-2 w-full">
+                  <div className="mb-3 w-full">
+                    <Button
+                      label="Add"
+                      className="mt-3 border-round-sm"
+                      // severity="danger"
+                    />
+                  </div>
+                  <div className="mb-3 w-full">
+                    <Button
+                      onClick={handleClick}
+                      disabled={isLoading}
+                      label="submit"
+                      type="submit"
+                      className="mt-3 border-round-sm"
+                    />
+                  </div>
+                </div>
               </form>
             </div>
           </div>
