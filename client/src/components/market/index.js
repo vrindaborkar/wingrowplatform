@@ -95,11 +95,26 @@ const MarketComponent = (props) => {
   const shouldRenderNotFoundView = () =>
     !shouldRenderFullPageError && !shouldRenderMarketList;
 
+  const marketOption = Object.keys(marketList).flatMap((marketKey) => {
+    const markets = marketList[marketKey];
+    if (markets.length > 0) {
+      return markets.map((market) => {
+        return {
+          label: market.name,
+          value: market.name,
+          marketDay: market.marketDay,
+        };
+      });
+    }
+    return [];
+  });
+
   const handleMarket = (market) => {
     const selectedMarket = market.name;
     const newroadPosition = market.roadPosition || "right";
     localStorage.setItem("selectedMarket", selectedMarket);
     localStorage.setItem("roadPosition", newroadPosition);
+    localStorage.setItem("marketOptions", JSON.stringify(marketOption));
 
     const marketPath = `${ROUTE_PATH.BOOKING.STALL.replace(
       ":id",
@@ -120,16 +135,16 @@ const MarketComponent = (props) => {
             <div className="text-center mt-3 px-5">
               <div className="">
                 <div className="text-left">
-                <div className="d-inline-block"> 
-                  <Link to="/farmer" className="text-d-none">
-                    <Button
-                      className="p-button-rounded flex justify-content-start"
-                      icon="pi pi-angle-left mr-2"
-                    >
-                      {t("back")}
-                    </Button>
-                  </Link>
-                </div>
+                  <div className="d-inline-block">
+                    <Link to="/farmer" className="text-d-none">
+                      <Button
+                        className="p-button-rounded flex justify-content-start"
+                        icon="pi pi-angle-left mr-2"
+                      >
+                        {t("back")}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
                 <Dropdown
                   value={selectedState}
@@ -152,9 +167,10 @@ const MarketComponent = (props) => {
                   <>
                     <h2 className="mt-3">
                       {t(
-                        `select_market_in_${cities[selectedState].find(
-                          (city) => city.value === selectedCity
-                        )?.label
+                        `select_market_in_${
+                          cities[selectedState].find(
+                            (city) => city.value === selectedCity
+                          )?.label
                         }`
                       )}
                     </h2>
@@ -179,12 +195,16 @@ const MarketComponent = (props) => {
                                 <div
                                   className="flex align-items-center justify-content-center bg-green-100 border-round"
                                   style={{ width: "2.5rem", height: "2.5rem" }}
-                                  onClick={() => handleLocation(market.location)}
+                                  onClick={() =>
+                                    handleLocation(market.location)
+                                  }
                                 >
                                   <i className="pi pi-map-marker text-green-500 text-xl"></i>
                                 </div>
                               </div>
-                              <div className="text-red-500 ">{t(market.name)}</div>
+                              <div className="text-red-500 ">
+                                {t(market.name)}
+                              </div>
                               <span className="font-medium">
                                 {t(market.address)}
                               </span>
