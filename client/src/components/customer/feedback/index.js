@@ -1,12 +1,17 @@
 import React from "react";
 import { Rating } from "primereact/rating";
+import { useRef } from "react";
 import { Button } from "primereact/button";
 import MzInput from "../../../common/MzForm/MzInput";
 import MzTextarea from "../../../common/MzForm/MzTextArea";
 import { useForm } from "react-hook-form";
+
 import { FORM_FIELDS_NAME } from "./constant";
 import { WINGROW_SLIDE_THREE } from "../../../assets/images";
 
+import { baseUrl } from "../../../services/PostAPI";
+import axios from 'axios';
+import { Toast } from "primereact/toast"; 
 export default function FeedbackComponent() {
   const {
     control,
@@ -14,16 +19,45 @@ export default function FeedbackComponent() {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
     watch,
   } = useForm({
     defaultValues: {
-      [FORM_FIELDS_NAME.RATING.name]: 0, // Default rating value
+      [FORM_FIELDS_NAME.RATING.name]: 0, 
     },
   });
-
-  const onSubmit = (data) => {
+  const toast = useRef(null);
+  const onSubmit = async (data) => {
     console.log(data);
+    const payload={
+      name:data.customer,
+      message: data.message,  
+      stars: data.rating, 
+    }
+    try {
+      const response = await axios.post(`${baseUrl}/auth/feedback`, payload);
+      toast.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Feedback submitted successfully!",
+        life: 3000, 
+      });
+      reset({
+        [FORM_FIELDS_NAME.CUSTOMER.name]: "",
+        [FORM_FIELDS_NAME.MESSAGE.name]: "",
+        [FORM_FIELDS_NAME.RATING.name]: 0, 
+      });
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to submit feedback. Please try again.",
+        life: 3000,
+      });
+      console.error("Error submitting feedback:", error);
+    }
   };
+
 
   const getFormErrorMessage = (name) => {
     return (
@@ -38,6 +72,7 @@ export default function FeedbackComponent() {
 
   return (
     <>
+      <Toast ref={toast} />
       <div className="md:p-4 px-2 mb-2">
         <div className="flex align-items-center">
           <h2 className="mr-2 text-xl md:text-3xl">Feedback</h2>
