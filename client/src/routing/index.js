@@ -13,7 +13,6 @@ import AboutUsScreen from '../containers/aboutScreen'
 import MarketScreen from '../containers/marketScreen'
 
 import StallScreen from '../containers/stallScreen'
-import SubStallScreen from '../containers/farmerScreen/subscriptionScreen/SubStallScreen'
 import AdminScreen from '../containers/adminScreen'
 import FarmersListComponent from '../components/admin/farmerList'
 import CustomersListComponent from '../components/admin/customerList'
