@@ -3,6 +3,8 @@ import SliderComponent from "../../components/home/slider";
 import { useTranslation } from "react-i18next";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../services/PostAPI";
+import axios from 'axios';
 import { ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/home/market";
 import {
@@ -31,6 +33,63 @@ import KeyFeatureCompnent from "../../components/home/keyFeature";
 import { Image } from "primereact/image";
 
 const HomeScreen = () => {
+  const [feedbacks, setFeedbacks] = useState([]);
+  const mockFeedback = [
+    {
+      id: 1,
+      name: "John Doe",
+      message: "Great product! Loved it.",
+      rating: 1,
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      message: "Good quality, but delivery was late.",
+      rating: 2,
+    },
+    {
+      id: 3,
+      name: "Bob Johnson",
+      message: "Excellent customer service, highly recommended.ood quality, but deliv",
+      rating: 5,
+    },
+    {
+      id: 1,
+      name: "vikas kamankar",
+      message: "Great product! Loved it.",
+      rating: 4,
+    },
+    {
+      id: 2,
+      name: "ritesh gangathade",
+      message: "Good quality, but delivery was late.",
+      rating: 3,
+    },
+    {
+      id: 3,
+      name: "bobby",
+      message: "Excellent customer service, highly recommended.",
+      rating: 5,
+    },
+  ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const feedbacksPerPage = 3;
+  const handleNext = () => {
+    if (currentIndex + feedbacksPerPage < mockFeedback.length) {
+      setCurrentIndex(currentIndex + feedbacksPerPage);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - feedbacksPerPage);
+    }
+  };
+  // setFeedbacks(mockFeedback);
+  useEffect(() => {
+    setFeedbacks(mockFeedback);
+  }, []);
+  console.log("feedbacksfeedbacks", feedbacks);
   // eslint-disable-next-line
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -184,6 +243,18 @@ const HomeScreen = () => {
       data: t("covid_response8_value"),
     },
   ];
+  // useEffect(() => {
+  //   const fetchFeedback = async () => {
+  //     try {
+  //       const response = await axios.get(`${baseUrl}/auth/feedback`);
+  //       setFeedbacks(response.data);  
+  //     } catch (error) {
+  //       console.error("Error fetching feedback:", error);
+  //     } 
+  //   };
+  //   fetchFeedback();
+  // }, []);
+
   return (
     <>
       <div className=" w-full mt-2 border-0 text-center">
@@ -230,9 +301,8 @@ const HomeScreen = () => {
                   <Image
                     src={item.src}
                     alt={item.alt}
-                    className={`max-w-full h-auto ${
-                      index % 2 !== 0 ? "arrow" : ""
-                    }`}
+                    className={`max-w-full h-auto ${index % 2 !== 0 ? "arrow" : ""
+                      }`}
                     width={item.width}
                   />
                 </div>
@@ -285,6 +355,61 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
+
+
+      <div className="p-3 ">
+        <h3 className="text-center">Customer Feedback</h3>
+        <div>
+          {mockFeedback.length === 0 ? (
+            <h5>No feedback available</h5>
+          ) : (
+            <>
+              <div className="grid grid-nogutter gap-5 flex justify-content-center">
+                {mockFeedback
+                  .slice(currentIndex, currentIndex + feedbacksPerPage)
+                  .map((feedback) => (
+                    <div key={feedback.id} className="col-12 md:col-3">
+                      <div className="p-3 border-round shadow-2">
+                        <div className="font-bold text-center">{feedback.name}</div>
+                        <div>{feedback.message}</div>
+                        <div className="mt-2 text-center">
+                          {/* <span>Rating: {feedback.rating}</span> */}
+
+                          {Array.from({ length: 5 }, (_, index) => (
+                            <span key={index} style={{ color: index < feedback.rating ? "gold" : "#ccc" }}>
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              <div className="flex align-items-center justify-content-center text-xs gap-2 mt-3">
+                <Button
+                  label="Previous"
+                  className="border-round-3xl"
+                  icon="pi pi-arrow-left"
+                  onClick={handlePrevious}
+                  disabled={currentIndex === 0}
+                />
+                <Button
+                  label="Next"
+                  className="border-round-3xl"
+                  icon="pi pi-arrow-right"
+                  onClick={handleNext}
+                  disabled={
+                    currentIndex + feedbacksPerPage >= mockFeedback.length
+                  }
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+
     </>
   );
 };
