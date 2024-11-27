@@ -4,6 +4,9 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { t } from "i18next";
 import { baseUrl } from "../../../services/PostAPI";
+
+import { ProgressSpinner } from 'primereact/progressspinner';
+        
 import axios from "axios";
 
 export default function Index() {
@@ -95,6 +98,7 @@ export default function Index() {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [markets, setMarkets] = useState([]);
   const [viewMarket, setViewMarket] = useState(false);
+  const [loading,setLoading]=useState(true);
   const [offers, setOffers] = useState([]);
   const getRandomImage = () => {
     const randomIndex = Math.floor(Math.random() * imageList.length);
@@ -147,8 +151,10 @@ export default function Index() {
       try {
         const response = await axios.get(`${baseUrl}/api/markets`);
         setMarkets(response?.data?.markets);
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     };
 
@@ -191,13 +197,17 @@ export default function Index() {
         </div>
 
         <div>
-          {filteredMarkets.length === 0 ? (
+          {loading ? (
+             <div className="flex justify-content-center p-5 ">
+             <ProgressSpinner />
+           </div>
+          ) :  filteredMarkets.length === 0 ? (
             <div className="p-5 text-center">
               <h2>No market today</h2>
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid w-full grid-nogutter gap-2 justify-content-center mb-3">
+              <div className="grid w-full grid-nogutter gap-5 justify-content-center mb-3">
                 {currentItems.map((item, index) => (
                   <div key={index}>
                     <Card className="shadow-3 mb-3 h-full p-5 border-round-3xl flex flex-column justify-content-between">
@@ -245,11 +255,13 @@ export default function Index() {
               </div>
             </div>
           )}
+         
         </div>
       </div>
 
       <Dialog
         header="View Offers"
+        className="text-center"
         visible={viewMarket}
         onHide={() => setViewMarket(false)}
       >

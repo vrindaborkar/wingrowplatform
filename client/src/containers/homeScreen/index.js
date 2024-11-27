@@ -41,13 +41,13 @@ const HomeScreen = () => {
       id: 1,
       name: "John Doe",
       message: "Great product! Loved it.",
-      rating: 1,
+      rating: 3,
     },
     {
       id: 2,
       name: "Jane Smith",
-      message: "Good quality, but delivery was late. recommended.ood quality.",
-      rating: 2,
+      message: "Great product! Loved it.Great product! Loved it",
+      rating: 1,
     },
     {
       id: 3,
@@ -69,7 +69,7 @@ const HomeScreen = () => {
     },
     {
       id: 3,
-      name: "bobby",
+      name: "sanket",
       message: "Excellent customer service, highly recommended.",
       rating: 5,
     },
@@ -373,10 +373,10 @@ const HomeScreen = () => {
               value={feedbacks}
               itemTemplate={(feedback) => (
                 <div
-                  className="p-3 shadow-1 border-round d-flex justify-content-center align-items-center"
-                  style={{ minHeight: '250px', maxHeight: '300px', overflowY: 'auto' }} // Apply scroll if content overflows
+                  className="p-4 shadow-1 border-round d-flex justify-content-center align-items-center"
+                  style={{ height: '200px',  overflowY: 'auto' }} 
                 >
-                  <div className="text-center d-flex flex-column justify-content-between" style={{ height: '100%' }}>
+                  <div className="text-center d-flex flex-column justify-content-between" style={{ height: "100%" }}>
                     <div className="mb-3">
                       <h4>{feedback.name}</h4>
                     </div>
