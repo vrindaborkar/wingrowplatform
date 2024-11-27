@@ -52,6 +52,7 @@ const StallComponent = (props) => {
   const { t } = useTranslation();
 
   const marketOptions = JSON.parse(localStorage.getItem("marketOptions")) || [];
+  const [isDisabled, setIsDisabled] = useState(false);
   
   let stallIndex = 0;
 
@@ -64,6 +65,17 @@ const StallComponent = (props) => {
       setSelectedMarket(savedMarket);
     }
   }, [savedMarket]);
+  useEffect(() => {
+    // Get the previous path from localStorage
+    const prevPath = localStorage.getItem("setprevpath");
+    
+    // If previous path is '/market', disable the dropdown
+    if (prevPath === '/market') {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, []); 
 
   const [isChecked, setIsChecked] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
@@ -106,6 +118,7 @@ const StallComponent = (props) => {
   const dat = new Date();
   const toast = useRef(null);
   const dispatch = useDispatch();
+  localStorage.getItem("setprevpath", currentPath);
 
   const selectedStallItems = sessionStorage.getItem("selectedStalls");
   const sessionSelsctedStalls = selectedStallItems
@@ -576,7 +589,8 @@ const StallComponent = (props) => {
     }
   };
 
-  const handlePreview = () => {
+  const handlePreview = (event) => {
+    event.preventDefault()
     setPreview(true);
   };
   const handlePayClick = () => {
@@ -694,6 +708,7 @@ const StallComponent = (props) => {
                   value={selectedMarket}
                   options={marketOptions}
                   onChange={handleMarket}
+                  disabled={isDisabled}
                   placeholder="Choose a market"
                   className="w-full"
                 />

@@ -92,6 +92,7 @@ export const logout = () => {
           localStorage.clear();
           dispatch(logoutSuccess());
           Navigate("/login");
+          window.location.reload();
         } else {
           dispatch(logoutError(response));
         }

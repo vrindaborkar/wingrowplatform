@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ErrorPage from "../../common/Error";
 import AccessDeniedPage from "../../common/Access";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "primereact/button";
 import { baseUrl } from "../../services/PostAPI";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
@@ -17,6 +17,7 @@ const MarketComponent = (props) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [filteredMarkets, setFilteredMarkets] = useState([]);
@@ -109,13 +110,14 @@ const MarketComponent = (props) => {
     return [];
   });
 
+  const currentPath = location.pathname;
+  localStorage.setItem("setprevpath", currentPath);
   const handleMarket = (market) => {
     const selectedMarket = market.name;
     const newroadPosition = market.roadPosition || "right";
     localStorage.setItem("selectedMarket", selectedMarket);
     localStorage.setItem("roadPosition", newroadPosition);
     localStorage.setItem("marketOptions", JSON.stringify(marketOption));
-
     const marketPath = `${ROUTE_PATH.BOOKING.STALL.replace(
       ":id",
       selectedMarket
