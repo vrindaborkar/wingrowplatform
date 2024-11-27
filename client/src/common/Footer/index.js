@@ -64,7 +64,7 @@ const Footer = () => {
 
             <div className="grid grid-nogutter align-items-center">
               {linkList.map((item, index) => (
-                <div key={index} className="col-6 md:col-3 ">
+                <div key={index} className="col-6">
                   <Link
                     to={item.link}
                     className=" text-sm text-white py-2 block hover:text-900 text-d-none"

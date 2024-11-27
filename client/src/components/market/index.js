@@ -197,9 +197,10 @@ const MarketComponent = (props) => {
                                 <div
                                   className="flex align-items-center justify-content-center bg-green-100 border-round"
                                   style={{ width: "2.5rem", height: "2.5rem" }}
-                                  onClick={() =>
-                                    handleLocation(market.location)
-                                  }
+                                  onClick={(event) => {
+                                    event.stopPropagation(); 
+                                    handleLocation(market.location); 
+                                  }}
                                 >
                                   <i className="pi pi-map-marker text-green-500 text-xl"></i>
                                 </div>
