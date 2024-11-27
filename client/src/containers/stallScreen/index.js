@@ -6,7 +6,7 @@ import { fetchMarketList } from '../../redux/action/market'
 import { useParams } from 'react-router-dom'
 
 const StallScreen = props => {
-  const { fetchStallList, stallList, formFieldValueMap, marketList } = props
+  const { fetchStallList, stallList, formFieldValueMap, marketList } = props 
   const { id } = useParams()
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const StallScreen = props => {
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
-
+  
   stallList: state.stallReducer.stallList,
   userRole: state.loginReducer.userRole,
   marketList: state.marketReducer.marketList,
