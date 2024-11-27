@@ -9,19 +9,23 @@ import axios from "axios";
 export default function Index() {
   const imageList = [
     {
-      imageUrl: "https://5.imimg.com/data5/ME/GI/MY-65021751/all-type-of-farm-fresh-vegetables-500x500.jpg",
+      imageUrl:
+        "https://5.imimg.com/data5/ME/GI/MY-65021751/all-type-of-farm-fresh-vegetables-500x500.jpg",
     },
     {
-      imageUrl: "https://c1.wallpaperflare.com/preview/401/383/592/farmers-market-fresh-vegetable-ripe.jpg",
+      imageUrl:
+        "https://c1.wallpaperflare.com/preview/401/383/592/farmers-market-fresh-vegetable-ripe.jpg",
     },
     {
       imageUrl: "https://thumbs.dreamstime.com/b/vegetable-market-6333220.jpg",
     },
     {
-      imageUrl: "https://previews.123rf.com/images/ewastudio/ewastudio1702/ewastudio170200662/73044956-farmers-market-vegetable-market-fresh-vegetables.jpg",
+      imageUrl:
+        "https://previews.123rf.com/images/ewastudio/ewastudio1702/ewastudio170200662/73044956-farmers-market-vegetable-market-fresh-vegetables.jpg",
     },
     {
-      imageUrl: "https://previews.123rf.com/images/ewastudio/ewastudio1702/ewastudio170200662/73044956-farmers-market-vegetable-market-fresh-vegetables.jpg",
+      imageUrl:
+        "https://previews.123rf.com/images/ewastudio/ewastudio1702/ewastudio170200662/73044956-farmers-market-vegetable-market-fresh-vegetables.jpg",
     },
   ];
   const mockOffers = [
@@ -98,7 +102,15 @@ export default function Index() {
   };
 
   const getCurrentDay = () => {
-    const days = ["sunday", "monday", "tuesday", "wednesday", "saturday", "friday", "saturday"];
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Saturday",
+      "Friday",
+      "Saturday",
+    ];
     const currentDayIndex = new Date().getDay();
     return days[currentDayIndex];
   };
@@ -117,7 +129,6 @@ export default function Index() {
   const today = new Date();
   const formattedDate = today.toISOString();
   const viewOffers = async (market) => {
-
     setViewMarket(true);
     const params = {
       createdAt: formattedDate,
@@ -128,10 +139,8 @@ export default function Index() {
       setOffers(response.data.offers);
     } catch (error) {
       console.error("Error fetching offers:", error);
-
     }
   };
-
 
   useEffect(() => {
     const fetchMarketData = async () => {
@@ -139,7 +148,7 @@ export default function Index() {
         const response = await axios.get(`${baseUrl}/api/markets`);
         setMarkets(response?.data?.markets);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -147,12 +156,14 @@ export default function Index() {
   }, []);
 
   const filteredMarkets = Array.isArray(markets)
-    ? markets.filter((market) => market.marketDay.toLowerCase() === currentDay.toLowerCase())
+    ? markets.filter((market) => market.marketDay === currentDay)
     : [];
 
-
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = filteredMarkets.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = filteredMarkets.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const updateItemsPerPage = useCallback(() => {
     const width = window.innerWidth;
@@ -167,8 +178,8 @@ export default function Index() {
 
   useEffect(() => {
     updateItemsPerPage();
-    window.addEventListener('resize', updateItemsPerPage);
-    return () => window.removeEventListener('resize', updateItemsPerPage);
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
   }, [updateItemsPerPage]);
 
   return (
@@ -186,7 +197,7 @@ export default function Index() {
             </div>
           ) : (
             <div className="w-full">
-              <div className="grid w-full grid-nogutter gap-2 justify-content-start mb-3">
+              <div className="grid w-full grid-nogutter gap-2 justify-content-center mb-3">
                 {currentItems.map((item, index) => (
                   <div key={index}>
                     <Card className="shadow-3 mb-3 h-full p-5 border-round-3xl flex flex-column justify-content-between">
@@ -200,7 +211,11 @@ export default function Index() {
                         <div className="m-2">{t(item.name)}</div>
                       </div>
                       <div className="flex align-items-center justify-content-center text-xs gap-2">
-                        <Button className="border-round-3xl" label="View Offers" onClick={() => viewOffers(item)} />
+                        <Button
+                          className="border-round-3xl"
+                          label="View Offers"
+                          onClick={() => viewOffers(item)}
+                        />
                         <Button
                           className="border-round-3xl"
                           label="Get Direction"
@@ -222,7 +237,10 @@ export default function Index() {
                   className="border-round-3xl"
                   label="Next"
                   onClick={handleNextPage}
-                  disabled={currentPage === Math.ceil(filteredMarkets.length / itemsPerPage)}
+                  disabled={
+                    currentPage ===
+                    Math.ceil(filteredMarkets.length / itemsPerPage)
+                  }
                 />
               </div>
             </div>
@@ -230,17 +248,24 @@ export default function Index() {
         </div>
       </div>
 
-      <Dialog header="View Offers" visible={viewMarket} onHide={() => setViewMarket(false)}>
-
+      <Dialog
+        header="View Offers"
+        visible={viewMarket}
+        onHide={() => setViewMarket(false)}
+      >
         <div className="p-2 grid grid-nogutter">
           {mockOffers.map((offer) => (
-            <div key={offer.id} className="col-12 sm:col-6 md:col-4 p-2 mb-2 border-bottom">
-              <div><strong>{offer.vegetable}</strong></div>
+            <div
+              key={offer.id}
+              className="col-12 sm:col-6 md:col-4 p-2 mb-2 border-bottom"
+            >
+              <div>
+                <strong>{offer.vegetable}</strong>
+              </div>
               <div>Price: ₹{offer.price}</div>
             </div>
           ))}
         </div>
-
       </Dialog>
     </>
   );
