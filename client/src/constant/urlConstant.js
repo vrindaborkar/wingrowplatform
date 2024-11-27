@@ -16,6 +16,7 @@ export const ROUTE_PATH = {
     DATA:"/market/data",
     INWARD:"/inward",
     OUTWARD:"/outward",
+    SUBCRIPTION: "/subscription",
   },
   BOOKING:{
     STALL:"/market/:id"

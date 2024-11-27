@@ -13,6 +13,7 @@ import AboutUsScreen from '../containers/aboutScreen'
 import MarketScreen from '../containers/marketScreen'
 
 import StallScreen from '../containers/stallScreen'
+import SubStallScreen from '../containers/farmerScreen/subscriptionScreen/SubStallScreen'
 import AdminScreen from '../containers/adminScreen'
 import FarmersListComponent from '../components/admin/farmerList'
 import CustomersListComponent from '../components/admin/customerList'
@@ -24,6 +25,7 @@ import OutwardScreen from '../containers/farmerScreen/outwardScreen'
 import InOutDataScreen from '../containers/farmerScreen/inOutDataScreen'
 
 import { isVerify, userRole } from '../redux/selectors/auth/index'
+import SubMarketScreen from '../containers/farmerScreen/subscriptionScreen/subMarketScreen'
 
 const Routing = () => {
   const verified = useSelector(isVerify)
@@ -44,7 +46,6 @@ const Routing = () => {
               path={ROUTE_PATH.CUSTOMER.HOME}
               element={<CustomerScreen />}
             />
-            <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
             <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
 
             <Route
@@ -56,10 +57,15 @@ const Routing = () => {
               path={ROUTE_PATH.FARMER.OUTWARD}
               element={<OutwardScreen />}
             />
-            <Route path={ROUTE_PATH.FARMER.MARKET} element={<MarketScreen />} />
+            <Route path={ROUTE_PATH.BOOKING.STALL} element={<StallScreen />} />
+      
             <Route
               path={ROUTE_PATH.FARMER.DATA}
               element={<InOutDataScreen />}
+            />
+              <Route
+              path={ROUTE_PATH.FARMER.SUBCRIPTION}
+              element={<SubMarketScreen/>}
             />
             <Route
               path='*'

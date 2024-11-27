@@ -10,11 +10,10 @@ import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import { useNavigate, useLocation } from "react-router-dom";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-
+import { marketImageMap } from "./preview";
 import "./stall.css";
 import axios from "axios";
 import { selectedStall } from "../../redux/action/stall";
-
 import { Calendar } from "primereact/calendar";
 import { ProgressSpinner } from "primereact/progressspinner";
 import "primereact/resources/themes/saga-green/theme.css";
@@ -53,7 +52,7 @@ const StallComponent = (props) => {
   const { t } = useTranslation();
 
   const marketOptions = JSON.parse(localStorage.getItem("marketOptions")) || [];
-
+  
   let stallIndex = 0;
 
   const savedMarket = marketOptions.length
@@ -68,7 +67,7 @@ const StallComponent = (props) => {
 
   const [isChecked, setIsChecked] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
-
+  const [showPreviewPopup, setPreview] = useState(false);
   const [selectedStallsMap, setSelectedStallsMap] = useState({});
   const [stallDataMap, setStallDataMap] = useState(new Map());
 
@@ -577,6 +576,9 @@ const StallComponent = (props) => {
     }
   };
 
+  const handlePreview = () => {
+    setPreview(true);
+  };
   const handlePayClick = () => {
     setShowTermsPopup(true);
   };
@@ -651,7 +653,6 @@ const StallComponent = (props) => {
     );
 
     if (marketIndex === -1) {
-      console.log("No matching market or date found.");
       return;
     }
 
@@ -913,15 +914,22 @@ const StallComponent = (props) => {
                           <div className="justify-content-between align-items-center">
                             {isStall.value && stall && (
                               <>
-                                <img
-                                  src={
-                                    stallImageMap[stall.stallName] ||
-                                    GENERAL_STALL
-                                  }
-                                  alt={stall.stallName || "General stall"}
-                                  className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
-                                />
-                                <div>{/* {stall.stallName} */}</div>
+                                <div className="tooltip-wrapper">
+                                  {/* Image with hover effect */}
+                                  <img
+                                    src={
+                                      stallImageMap[stall.stallName] ||
+                                      GENERAL_STALL
+                                    }
+                                    alt={stall.stallName || "General stall"}
+                                    className={`${isStall.direction} stall-image w-8 md:w-5 lg:w-6`}
+                                  />
+
+                                  {/* Div that shows up when the image is hovered */}
+                                  <div className="stall-name">
+                                    {stall.stallName}
+                                  </div>
+                                </div>
                               </>
                             )}
                           </div>
@@ -944,6 +952,13 @@ const StallComponent = (props) => {
               <hr />
               <div className="flex justify-content-end ">
                 <Button
+                  label="Market Preview"
+                  onClick={handlePreview}
+                  disabled={!selectedMarket}
+                  className="border-2 border-round-md md:w-12rem mr-2"
+                  // disabled={selectedStallsRedux?.length === 0}
+                />
+                <Button
                   label="Book"
                   onClick={handleShowClick}
                   className="border-2 border-round-md md:w-10rem mr-2"
@@ -963,6 +978,28 @@ const StallComponent = (props) => {
             setShowPaymentScreen={setShowPaymentScreen}
           />
         )}
+        <Dialog
+          header={selectedMarket}
+          visible={showPreviewPopup}
+          style={{ width: "30vw", height: "90vh", overflowY: "auto" }}
+          className="w-full md:w-3"
+          onHide={() => setPreview(false)}
+        >
+          <div className="selected-stalls-details">
+            {selectedMarket ? (
+                <div className="market-image-preview">
+                  <img
+                    src={marketImageMap[selectedMarket]}
+                    alt={selectedMarket || "Market Image"}
+                    width="100%"
+                    className="market-image"
+                  />
+                </div>
+            ) : (
+              <p>No market selected.</p>
+            )}
+          </div>
+        </Dialog>
         <Dialog
           header="Selected Stalls Details"
           visible={showDetails}

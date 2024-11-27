@@ -4,6 +4,27 @@
   overflow-y: auto;
 }
 
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.stall-name {
+  display: none;
+  position: absolute;
+  top: 2rem;
+  left: 3.4rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  z-index: 10;
+}
+
+.tooltip-wrapper:hover .stall-name {
+  display: block;
+}
+
 .selected-stalls-details ul {
   list-style-type: none;
   padding: 0;
@@ -53,12 +74,15 @@
 .north {
   transform: rotate(180deg);
 }
+
 .south {
   transform: rotate(0deg);
 }
+
 .east {
   transform: rotate(90deg);
 }
+
 .west {
   transform: rotate(-90deg);
 }
@@ -82,6 +106,7 @@
   /* height: 100%; */
   /* min-width: 50px; */
 }
+
 .left-road {
   writing-mode: vertical-rl;
   border: 2.5px dashed #ccc;
