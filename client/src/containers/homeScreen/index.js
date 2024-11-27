@@ -3,6 +3,8 @@ import SliderComponent from "../../components/home/slider";
 import { useTranslation } from "react-i18next";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
+import { Carousel } from "primereact/carousel";
+import { Rating } from "primereact/rating";
 import { baseUrl } from "../../services/PostAPI";
 import axios from 'axios';
 import { ROUTE_PATH } from "../../constant/urlConstant";
@@ -44,7 +46,7 @@ const HomeScreen = () => {
     {
       id: 2,
       name: "Jane Smith",
-      message: "Good quality, but delivery was late.",
+      message: "Good quality, but delivery was late. recommended.ood quality.",
       rating: 2,
     },
     {
@@ -357,57 +359,53 @@ const HomeScreen = () => {
       </div>
 
 
-      <div className="p-3 ">
+
+
+
+      <div className="p-3">
         <h3 className="text-center">Customer Feedback</h3>
+
         <div>
-          {mockFeedback.length === 0 ? (
+          {feedbacks.length === 0 ? (
             <h5>No feedback available</h5>
           ) : (
-            <>
-              <div className="grid grid-nogutter gap-5 flex justify-content-center">
-                {mockFeedback
-                  .slice(currentIndex, currentIndex + feedbacksPerPage)
-                  .map((feedback) => (
-                    <div key={feedback.id} className="col-12 md:col-3">
-                      <div className="p-3 border-round shadow-2">
-                        <div className="font-bold text-center">{feedback.name}</div>
-                        <div>{feedback.message}</div>
-                        <div className="mt-2 text-center">
-                          {/* <span>Rating: {feedback.rating}</span> */}
-
-                          {Array.from({ length: 5 }, (_, index) => (
-                            <span key={index} style={{ color: index < feedback.rating ? "gold" : "#ccc" }}>
-                              ★
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+            <Carousel
+              value={feedbacks}
+              itemTemplate={(feedback) => (
+                <div
+                  className="p-3 shadow-1 border-round d-flex justify-content-center align-items-center"
+                  style={{ minHeight: '250px', maxHeight: '300px', overflowY: 'auto' }} // Apply scroll if content overflows
+                >
+                  <div className="text-center d-flex flex-column justify-content-between" style={{ height: '100%' }}>
+                    <div className="mb-3">
+                      <h4>{feedback.name}</h4>
                     </div>
-                  ))}
-              </div>
-
-              <div className="flex align-items-center justify-content-center text-xs gap-2 mt-3">
-                <Button
-                  label="Previous"
-                  className="border-round-3xl"
-                  icon="pi pi-arrow-left"
-                  onClick={handlePrevious}
-                  disabled={currentIndex === 0}
-                />
-                <Button
-                  label="Next"
-                  className="border-round-3xl"
-                  icon="pi pi-arrow-right"
-                  onClick={handleNext}
-                  disabled={
-                    currentIndex + feedbacksPerPage >= mockFeedback.length
-                  }
-                />
-              </div>
-            </>
+                    <div className="mb-3">
+                      <p>{feedback.message}</p>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      <Rating value={feedback.rating} readonly stars={5} cancel={false} />
+                    </div>
+                  </div>
+                </div>
+              )}
+              numVisible={1}
+              numScroll={1}
+              responsive={{
+                "960": {
+                  items: 1,
+                },
+                "640": {
+                  items: 1,
+                },
+              }}
+            />
           )}
         </div>
       </div>
+
+
+
 
 
     </>
