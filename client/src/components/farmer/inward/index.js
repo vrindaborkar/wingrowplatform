@@ -9,6 +9,8 @@ import MzAutoComplete from "../../../common/MzForm/MzAutoComplete";
 import { WINGROW_LOGO } from "../../../assets/images";
 import { useTranslation } from "react-i18next";
 import { ROUTE_PATH } from "../../../constant/urlConstant";
+import axios from "axios";
+import { baseUrl } from "../../../services/PostAPI";
 
 const AddInwardComponent = (props) => {
   const {
@@ -22,11 +24,9 @@ const AddInwardComponent = (props) => {
     isEdit,
     handleFetchInwardRecord,
     commodity,
-    marketData,
     initInward,
   } = props.addInwardProps;
 
-  console.log(isInwardDetailSuccess);
   const {
     control,
     formState: { errors, isDirty },
@@ -47,10 +47,24 @@ const AddInwardComponent = (props) => {
 
   const { t } = useTranslation();
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [marketData, setMarkets] = useState([]);
   const { id } = useParams();
   const handleClick = () => {
     setIsFormSubmitted(true);
   };
+  
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/api/markets`);
+        setMarkets(response?.data?.markets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMarketData();
+  }, []);
   useEffect(() => {
     if (isCreateInwardSuccess || isEditInwardSuccess) {
       setTimeout(() => {

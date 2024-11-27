@@ -1,49 +1,103 @@
-import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { Controller, useForm, watch } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import { Button } from "primereact/button";
 import MzAutoComplete from "../../../common/MzForm/MzAutoComplete";
 import "./style.css";
-import { Chart } from 'primereact/chart';
+import { Chart } from "primereact/chart";
 import { Link } from "react-router-dom";
 import { Calendar } from "primereact/calendar";
 import "primereact/resources/themes/saga-green/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import axios from "axios";
+import { baseUrl } from "../../../services/PostAPI";
 
 const InOutData = (props) => {
-  const {
-    outwardList,
-    inwardList,
-    handleFetchInwardRecord,
-    marketData,
-    isloading,
-  } = props.InOutwardProps;
+  const { outwardList, inwardList, handleFetchInwardRecord, isloading } =
+    props.InOutwardProps;
 
   const {
     control,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
   });
   const [filteredOutwardList, setFilteredOutwardList] = useState([]);
   const [filteredInwardList, setFilteredInwardList] = useState([]);
+  const [marketData, setMarkets] = useState([]);
   const data = {
-    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], // Days of the week
+    labels: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ], // Days of the week
     datasets: [
-        {
-            label: 'Market Sales',
-            data: [500, 700, 800, 600, 900, 1200, 950], // Market sales for each day
-           backgroundColor: '#66BB6A',
-            borderColor: '#66BB6A', // Border color
-            borderWidth: 1,
-        }
-    ]
-};
+      {
+        label: "Market Sales",
+        data: [500, 700, 800, 600, 900, 1200, 950], // Market sales for each day
+        backgroundColor: "#66BB6A",
+        borderColor: "#66BB6A", // Border color
+        borderWidth: 1,
+      },
+    ],
+  };
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/api/markets`);
+        setMarkets(response?.data?.markets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMarketData();
+  }, []);
+  const getDisabledDays = (marketDay) => {
+    const allDays = [0, 1, 2, 3, 4, 5, 6];
+    const marketDayIndex = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ].indexOf(marketDay);
+
+    if (marketDayIndex === -1) {
+      return allDays;
+    }
+    const disabled = allDays.filter((day) => day !== marketDayIndex);
+    return disabled;
+  };
+
+  const [marketDay, setMarketDay] = useState("");
+
+  useEffect(() => {
+    const selectedMarketName = watch(FORM_FIELDS_NAME.MARKET.name);
+    const getMarketDay = marketData.find(
+      (item) => item.location === selectedMarketName ?? ""
+    )?.marketDay;
+    // const disabled = getDisabledDays(getMarketDay);
+    setMarketDay(getMarketDay);
+  }, [watch(FORM_FIELDS_NAME.MARKET.name)]);
+
   const onSubmit = (data) => {
     const selectedMarket = data.market;
+    const getMarketDay = marketData.find(
+      (item) => item.location === selectedMarket
+    )?.marketDay;
+    const disabled = getDisabledDays(getMarketDay);
+    setMarketDay(disabled);
 
     const filtered = outwardList?.filter(
       (item) => item.market === selectedMarket
@@ -110,7 +164,7 @@ const InOutData = (props) => {
                       // value={dates[selectedMarket]}
                       // onChange={e => handleDateChange(e, field)}
                       placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
-                      // disabledDays={getDisabledDays(marketDay)}
+                      disabledDays={getDisabledDays(marketDay)}
                       // minDate={dat}
                       showIcon={true}
                       showButtonBar={false}
@@ -212,7 +266,6 @@ const InOutData = (props) => {
                 </div>
                 <div className="text-white">Wednesday: Hadapsar, Undri</div>
                 <div className="text-red-900">Thursday: Kharadi IT Park</div>
-              
               </div>
             </div>
           </div>
@@ -221,7 +274,6 @@ const InOutData = (props) => {
               <div className="img-cover"></div>
               <div className="overlay"></div>
               <div className="content font-bold shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-8">
-              
                 <div className="text-white">
                   Friday: Bramhasum City, Wagholi
                 </div>
@@ -241,10 +293,10 @@ const InOutData = (props) => {
               <div className="img-cover"></div>
               <div className="overlay"></div>
               <div className="content font-bold shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-8">
-                <div className="text-white text-center">Total Purchase Quantity:</div>
-                <div className="text-red-900 text-center text-4xl">
-                 0
-                </div>  
+                <div className="text-white text-center">
+                  Total Purchase Quantity:
+                </div>
+                <div className="text-red-900 text-center text-4xl">0</div>
               </div>
             </div>
           </div>
@@ -253,10 +305,10 @@ const InOutData = (props) => {
               <div className="img-cover"></div>
               <div className="overlay"></div>
               <div className="content font-bold shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-8">
-                <div className="text-white text-center">Total Remaining Sales:</div>
-                <div className="text-red-900 text-center text-4xl">
-                 0
-                </div>  
+                <div className="text-white text-center">
+                  Total Remaining Sales:
+                </div>
+                <div className="text-red-900 text-center text-4xl">0</div>
               </div>
             </div>
           </div>
@@ -266,9 +318,7 @@ const InOutData = (props) => {
               <div className="overlay"></div>
               <div className="content font-bold shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-8">
                 <div className="text-white text-center">Total Sales:</div>
-                <div className="text-red-900 text-center text-4xl">
-                 0
-                </div>  
+                <div className="text-red-900 text-center text-4xl">0</div>
               </div>
             </div>
           </div>
@@ -276,7 +326,7 @@ const InOutData = (props) => {
         <h5>Day Wise Market</h5>
         <hr />
         <div className="mb-4">
-        <Chart type="bar" data={data}/>
+          <Chart type="bar" data={data} />
         </div>
       </div>
     </div>

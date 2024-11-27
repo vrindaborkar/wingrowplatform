@@ -8,6 +8,8 @@ import MzAutoComplete from "../../../common/MzForm/MzAutoComplete";
 import { t } from "i18next";
 import { WINGROW_LOGO } from "../../../assets/images";
 import { ROUTE_PATH } from "../../../constant/urlConstant";
+import axios from "axios";
+import { baseUrl } from "../../../services/PostAPI";
 
 const AddOutwardComponent = (props) => {
   const {
@@ -21,7 +23,6 @@ const AddOutwardComponent = (props) => {
     isEdit,
     handleFetchOutwardRecord,
     commodity,
-    marketData,
     initOutward,
   } = props.addOutwardProps;
 
@@ -48,6 +49,19 @@ const AddOutwardComponent = (props) => {
   const handleClick = () => {
     setIsFormSubmitted(true);
   };
+  const [marketData, setMarkets] = useState([]);
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/api/markets`);
+        setMarkets(response?.data?.markets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMarketData();
+  }, []);
   useEffect(() => {
     if (isCreateOutwardSuccess || isEditOutwardSuccess) {
       setTimeout(() => {
