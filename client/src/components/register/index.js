@@ -58,10 +58,10 @@ const RegisterComponent = (props) => {
 
   useEffect(() => {
     if (isVerify && isRegistered) {
-      console.log("here is in useEffect")
+      dispatch(init_verification());
+      localStorage.removeItem("isVerify");
       toast.success("User Created Successfully");
       Navigate("/login");
-      dispatch(init_verification());
     }
   }, [isVerify, Navigate, isRegistered]);
 
