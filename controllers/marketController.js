@@ -1,7 +1,58 @@
 const Market = require('../models/Market');
 const Stalls = require('../models/Stalls');
 const BookedStall = require('../models/BookedStall');
+const Offer = require('../models/Offer');
 
+// Controller function to add a new offer
+exports.addOffer = async (req, res) => {
+  try {
+    const { marketId, commodityName, quantity, offerRate, date, createdBy } = req.body;
+
+    const newOffer = new Offer({
+      marketId,
+      commodityName,
+      quantity,
+      offerRate,
+      date,
+      createdBy
+    });
+
+    const savedOffer = await newOffer.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Offer added successfully',
+      data: savedOffer
+    });
+
+  } catch (error) {
+    console.error('Error adding offer:', error);
+    res.status(500).json({ success: false, message: 'Server error while adding offer' });
+  }
+};
+
+exports.getOffersByMarket = async (req, res) => {
+    try {
+      const { marketId } = req.params;
+  
+      const offers = await Offer.find({ marketId });
+  
+      if (!offers.length) {
+        return res.status(404).json({ message: 'No offers found for this market' });
+      }
+  
+      res.status(200).json({
+        success: true,
+        offers
+      });
+  
+    } catch (error) {
+      console.error('Error fetching offers:', error);
+      res.status(500).json({ success: false, message: 'Server error while fetching offers' });
+    }
+  };
+
+  
 // Fetch all markets by city, state, or name
 exports.getMarkets = async (req, res) => {
     try {

@@ -10,6 +10,7 @@ const bookingRoutes = require('./routes/bookingRoutes.routes');
 const stallStatusRoutes = require('./routes/stallStatusRoutes.routes');
 const cityRoutes = require('./routes/cityRoutes.routes');
 const marketRoutes = require('./routes/marketRoutes.routes');
+const offersRoutes = require('./routes/offersRoutes.routes'); // Adjust path as needed
 
 
 
@@ -56,6 +57,7 @@ app.use('/api/cities', cityRoutes);
 app.use('/api/markets', marketRoutes);
 app.use('/api/bookings', marketRoutes);
 app.use('/api', marketRoutes);
+app.use('/api', offersRoutes);
 
 
 app.use(express.static('client/build'))
@@ -90,11 +92,6 @@ app.get('/*', function(req, res) {
 })
 
 app.use(express.json());
-
-
-
-
-
 
 // set port, listen for requests
 const PORT = process.env.PORT || 4000;
