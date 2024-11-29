@@ -14,7 +14,7 @@ router.get('/stalls', async (req, res) => {
         if (marketId) {
             market = await Market.findById(marketId);
         } else if (marketName) {
-            market = await Market.findOne({ name: marketName });
+            market = await Market.findOne({ marketName: marketName });
         } else {
             return res.status(400).json({ message: 'Please provide either marketId or marketName' });
         }
@@ -24,7 +24,7 @@ router.get('/stalls', async (req, res) => {
         }
 
         // Find all stalls in this market
-        const stalls = await Stalls.find({ location: market.name });
+        const stalls = await Stalls.find({ location: market.marketName });
 
         if (!stalls.length) {
             return res.status(404).json({ message: 'No stalls found in this market' });
@@ -45,7 +45,7 @@ router.get('/stalls', async (req, res) => {
         }));
 
         res.status(200).json({
-            message: `Stalls retrieved for market ${market.name} on ${date}`,
+            message: `Stalls retrieved for market ${market.marketName} on ${date}`,
             stalls: stallsWithStatus
         });
 

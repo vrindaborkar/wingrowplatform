@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const OfferSchema = new mongoose.Schema({
-  marketId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Market', // Assuming you have a Market collection
+  marketName: {
+    type: String,
+    // ref: 'Market', // Assuming you have a Market collection
     required: true
   },
   commodityName: {

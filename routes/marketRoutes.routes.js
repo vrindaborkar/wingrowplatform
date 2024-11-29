@@ -9,11 +9,11 @@ const BookedStalls = require('../models/BookedStalls');
 // GET: Fetch markets by city, state, or name
 router.get('/markets', async (req, res) => {
     try {
-        const { city, state, name } = req.query;
+        const { city, state, marketName } = req.query;
         let query = {};
         if (city) query.city = city;
         if (state) query.state = state;
-        if (name) query.name = name;
+        if (marketName) query.marketName = marketName;
 
         const markets = await Market.find(query);
 
@@ -34,14 +34,14 @@ router.get('/markets', async (req, res) => {
 // POST: Create a new market
 router.post('/markets', async (req, res) => {
     try {
-        const { name, city, state, location, address, marketDay, totalStalls } = req.body;
+        const { marketName, city, state, location, address, marketDay, totalStalls } = req.body;
 
-        if (!name || !city || !state || !location || !address || !marketDay || !totalStalls) {
+        if (!marketName || !city || !state || !location || !address || !marketDay || !totalStalls) {
             return res.status(400).json({ message: 'All fields must be provided' });
         }
 
         const newMarket = new Market({
-            name,
+            marketName,
             city,
             state,
             location,
@@ -65,14 +65,14 @@ router.post('/markets', async (req, res) => {
 // POST: Search markets based on name, city, or state
 router.post('/markets/search', async (req, res) => {
     try {
-        const { name, city, state } = req.body;
+        const { marketName, city, state } = req.body;
 
-        if (!name && !city && !state) {
+        if (!marketName && !city && !state) {
             return res.status(400).json({ message: 'Please provide at least one search parameter (name, city, or state)' });
         }
 
         let query = {};
-        if (name) query.name = name;
+        if (marketName) query.marketName = marketName;
         if (city) query.city = city;
         if (state) query.state = state;
 
