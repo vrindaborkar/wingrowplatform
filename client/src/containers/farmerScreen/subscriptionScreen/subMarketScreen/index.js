@@ -5,7 +5,7 @@ import {
   initialMarketScreen,
 } from "../../../../redux/action/market";
 import data from "./data.json";
-import MarketComponent from "../../../../components/market";
+import MarketComponent from "../../../../components/farmer/subcriptionMarket/market";
 
 const SubMarketScreen = (props) => {
   const { initMarketScreen, fetchMarketList, marketList, isPageLevelError } =

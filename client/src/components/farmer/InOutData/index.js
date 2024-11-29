@@ -12,6 +12,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import axios from "axios";
 import { baseUrl } from "../../../services/PostAPI";
+import moment from "moment";
 
 const InOutData = (props) => {
   const { outwardList, inwardList, handleFetchInwardRecord, isloading } =
@@ -92,22 +93,45 @@ const InOutData = (props) => {
   }, [watch(FORM_FIELDS_NAME.MARKET.name)]);
 
   const onSubmit = (data) => {
+    handleFetchInwardRecord();
     const selectedMarket = data.market;
     const getMarketDay = marketData.find(
       (item) => item.location === selectedMarket
     )?.marketDay;
+
+    // Set the marketDay state directly
     const disabled = getDisabledDays(getMarketDay);
     setMarketDay(disabled);
 
-    const filtered = outwardList?.filter(
-      (item) => item.market === selectedMarket
-    );
-    const filteredInward = inwardList.filter(
-      (item) => item.market === selectedMarket
-    );
-    setFilteredOutwardList(filtered);
-    setFilteredInwardList(filteredInward);
+    const dateValue = moment(data.date).format("DD/MM/YYYY");
+
+    // Store the selected market and date values to filter data later
+    setFilteredOutwardList({ selectedMarket, dateValue });
+    setFilteredInwardList({ selectedMarket, dateValue });
   };
+
+  // Effect that runs when filteredOutwardList or filteredInwardList are set
+  useEffect(() => {
+    if (filteredOutwardList?.selectedMarket && filteredOutwardList?.dateValue) {
+      const filtered = outwardList?.filter(
+        (item) =>
+          item.market === filteredOutwardList.selectedMarket &&
+          item.time === filteredOutwardList.dateValue
+      );
+      setFilteredOutwardList(filtered);
+    }
+  }, [filteredOutwardList]);
+
+  useEffect(() => {
+    if (filteredInwardList?.selectedMarket && filteredInwardList?.dateValue) {
+      const filteredInward = inwardList.filter(
+        (item) =>
+          item.market === filteredInwardList.selectedMarket &&
+          item.time === filteredInwardList.dateValue
+      );
+      setFilteredInwardList(filteredInward);
+    }
+  }, [filteredInwardList]);
   const getFormErrorMessage = (name) => {
     return (
       errors[name] && <small className="p-error">{errors[name].message}</small>
@@ -154,6 +178,7 @@ const InOutData = (props) => {
                   Select Date<span className="required">*</span>
                 </label>
                 <Controller
+                  disabled={!watch(FORM_FIELDS_NAME.MARKET.name)}
                   name={FORM_FIELDS_NAME.B_DATE.name}
                   control={control}
                   rules={FORM_FIELDS_NAME.B_DATE.rules}
@@ -161,18 +186,21 @@ const InOutData = (props) => {
                     <Calendar
                       {...field}
                       id="date"
+                      name={FORM_FIELDS_NAME.B_DATE.name}
                       // value={dates[selectedMarket]}
                       // onChange={e => handleDateChange(e, field)}
                       placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
                       disabledDays={getDisabledDays(marketDay)}
-                      // minDate={dat}
+                      // minDate={new Date()}
+                      maxDate={new Date()}
                       showIcon={true}
                       showButtonBar={false}
                       className="w-full"
-                      isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
-                      // errorMsg={getFormErrorMessage(
-                      //   FORM_FIELDS_NAME.B_DATE.name,
-                      // )}
+                      dateFormat="dd/mm/yy"
+                      isError={!!errors[FORM_FIELDS_NAME.B_DATE.name]}
+                      errorMsg={getFormErrorMessage(
+                        FORM_FIELDS_NAME.B_DATE.name
+                      )}
                     />
                   )}
                 />
@@ -180,8 +208,9 @@ const InOutData = (props) => {
             </div>
             <div className="flex justify-content-end ">
               <Button
+                type="submit"
                 label="Search"
-                onClick={handleFetchInwardRecord}
+                // onClick={handleFetchInwardRecord}
                 className="border-2 border-round-md md:w-6rem mr-2"
                 disabled={isloading}
               />
@@ -252,7 +281,7 @@ const InOutData = (props) => {
           )}
         </div>
 
-        <h5>Market Details</h5>
+        {/* <h5>Market Details</h5>
         <hr />
         <div className="grid mt-3 mb-3">
           <div className="col-12 md:col-6 lg:col-3">
@@ -284,7 +313,7 @@ const InOutData = (props) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <h5>Cummulative Sales Data</h5>
         <hr />
         <div className="grid mt-3 mb-3">
