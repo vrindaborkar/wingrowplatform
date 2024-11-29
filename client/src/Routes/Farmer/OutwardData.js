@@ -222,6 +222,7 @@ export default function OutwardData({t}) {
       Data.sales_rate &&
       
       Data.market &&
+      Data.date &&
       time
     ) {
       FarmerService.postOutward(
@@ -231,7 +232,8 @@ export default function OutwardData({t}) {
         Data.sales_rate,
         
         Data.market,
-        time
+        time,
+        Data.date
       ).then(
         () => {
           toast.success(t("outward_data_added_successfully"), {
@@ -296,6 +298,7 @@ export default function OutwardData({t}) {
       Data.sales_rate &&
       
       Data.market &&
+      Data.date &&
       time
     ) {
       FarmerService.postOutward(
@@ -305,6 +308,7 @@ export default function OutwardData({t}) {
         Data.sales_rate,
         
         Data.market,
+        Data.date,
         time
       )
         .then(() => {
@@ -324,6 +328,7 @@ export default function OutwardData({t}) {
             sales_rate: "",
             total_sales: "",
             market: Data.market, // Preserve the selected market value
+            date:Data.date
           });
           setcommodity("");
         })

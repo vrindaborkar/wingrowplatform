@@ -9,7 +9,8 @@ const Inward = mongoose.model(
     purchase_rate:Number,
     total_purchase:Number,
     userId:String,
-    time:String
+    time:String,
+    date:Date,
   },{
     bufferCommands: true,
     autoCreate: false 

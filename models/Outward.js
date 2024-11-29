@@ -9,7 +9,8 @@ const Outward = mongoose.model(
     sales_rate:Number,
     total_sales:Number,
     userId:String,
-    time:String
+    time:String,
+    date:Date,
   },{
     bufferCommands: true,
     autoCreate: false 

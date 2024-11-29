@@ -5,25 +5,27 @@ import authHeader from './auth.headers';
 // const API_URL = "https://wingrowmarket.onrender.com/";
 const { REACT_APP_API_URL } = process.env;
 
- const postInward = (commodity , purchase_quantity , purchase_rate , market , time) => {
+ const postInward = (commodity , purchase_quantity , purchase_rate , market , time,date) => {
     return axios.post(REACT_APP_API_URL + "inward", {
         commodity,
         purchase_quantity,
         purchase_rate,
         market,
-        time
+        time,
+        date
       } , { headers: authHeader() });
   }
 
-const postOutward = (commodity, total_sales, sales_rate, market , time) => {
+const postOutward = (commodity, total_sales, sales_rate, market , time,date) => {
     return axios.post(REACT_APP_API_URL + "outward", {
         commodity,
         // sales_quantity,
         
         total_sales,
-      sales_rate,
+        sales_rate,
         market,
-        time
+        time,
+        date
       },{ headers: authHeader() });
   }
 

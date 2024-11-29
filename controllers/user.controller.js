@@ -162,7 +162,8 @@ exports.postOutward = async(req,res,next) => {
         sales_rate:req.body.sales_rate,
         total_sales:req.body.total_sales,
         userId:id,
-        time:req.body.time
+        time:req.body.time,
+        date:req.body.date
     }
 console.log(data.total_sales)
     const postdata = await new Outward(data);
@@ -186,7 +187,8 @@ exports.postInward = async(req,res,next) => {
         purchase_rate:req.body.purchase_rate,
         total_purchase:req.body.total_purchase,
         userId:id,
-        time:req.body.time
+        time:req.body.time,
+        date:req.body.date
     }
 console.log(data)
     const postdata = await new Inward(data);
