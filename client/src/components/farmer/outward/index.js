@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FORM_FIELDS_NAME } from "./constant";
 import MzInput from "../../../common/MzForm/MzInput";
 import { Button } from "primereact/button";
@@ -10,6 +10,8 @@ import { WINGROW_LOGO } from "../../../assets/images";
 import { ROUTE_PATH } from "../../../constant/urlConstant";
 import axios from "axios";
 import { baseUrl } from "../../../services/PostAPI";
+import { Calendar } from "primereact/calendar";
+import moment from "moment";
 
 const AddOutwardComponent = (props) => {
   const {
@@ -45,7 +47,37 @@ const AddOutwardComponent = (props) => {
   });
   const history = useNavigate();
   const { id } = useParams();
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);  
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  const getDisabledDays = (marketDay) => {
+    const allDays = [0, 1, 2, 3, 4, 5, 6];
+    const marketDayIndex = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ].indexOf(marketDay);
+
+    if (marketDayIndex === -1) {
+      return allDays;
+    }
+    const disabled = allDays.filter((day) => day !== marketDayIndex);
+    return disabled;
+  };
+
+  const [marketDay, setMarketDay] = useState("");
+
+  useEffect(() => {
+    const selectedMarketName = watch(FORM_FIELDS_NAME.MARKET.name);
+    const getMarketDay = marketData.find(
+      (item) => item.location === selectedMarketName ?? ""
+    )?.marketDay;
+    // const disabled = getDisabledDays(getMarketDay);
+    setMarketDay(getMarketDay);
+  }, [watch(FORM_FIELDS_NAME.MARKET.name)]);
   const handleClick = () => {
     setIsFormSubmitted(true);
   };
@@ -62,6 +94,7 @@ const AddOutwardComponent = (props) => {
 
     fetchMarketData();
   }, []);
+  
   useEffect(() => {
     if (isCreateOutwardSuccess || isEditOutwardSuccess) {
       setTimeout(() => {
@@ -78,7 +111,7 @@ const AddOutwardComponent = (props) => {
   useEffect(() => {
     if (isFormSubmitted && (isCreateOutwardSuccess || isEditOutwardSuccess)) {
       setTimeout(() => {
-        reset()
+        reset();
         initOutward();
         // Optionally redirect
         history(ROUTE_PATH.FARMER.HOME);
@@ -117,6 +150,7 @@ const AddOutwardComponent = (props) => {
   const onSubmit = (data) => {
     console.log(data);
     const payload = {
+      date: data?.date ? moment(data.date).format("DD/MM/YYYY") : null,
       market: data?.market,
       commodity: data?.commodity,
       sales_rate: data?.saleRate,
@@ -180,6 +214,36 @@ const AddOutwardComponent = (props) => {
                     errorMsg={getFormErrorMessage(FORM_FIELDS_NAME.MARKET.name)}
                     suggestions={marketData ?? []}
                     dropdown
+                  />
+                </div>
+                <div className="mb-2">
+                  <div htmlFor="date" style={{ textAlign: "start" }}>
+                    Select Date<span className="required">*</span>
+                  </div>
+                  <Controller
+                    disabled={!watch(FORM_FIELDS_NAME.MARKET.name)}
+                    name={FORM_FIELDS_NAME.B_DATE.name}
+                    control={control}
+                    rules={FORM_FIELDS_NAME.B_DATE.rules}
+                    render={({ field }) => (
+                      <Calendar
+                        {...field}
+                        id="date"
+                        // value={dates[selectedMarket]}
+                        // onChange={e => handleDateChange(e, field)}
+                        placeholder={FORM_FIELDS_NAME.B_DATE.placeholder}
+                        disabledDays={getDisabledDays(marketDay)}
+                        // minDate={new Date()}
+                        maxDate={new Date()}
+                        showIcon={true}
+                        showButtonBar={false}
+                        className="w-full"
+                        isError={errors[FORM_FIELDS_NAME.B_DATE.name]}
+                        // errorMsg={getFormErrorMessage(
+                        //   FORM_FIELDS_NAME.B_DATE.name,
+                        // )}
+                      />
+                    )}
                   />
                 </div>
                 <div className="">

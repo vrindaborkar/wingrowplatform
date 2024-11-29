@@ -5,7 +5,10 @@ export const FORM_FIELDS_NAME={
         type: "date",
         placeholder: "Enter your Date",
         rules: {
-          required: "Date is required",
+          required: {
+            value: true,
+            message: "Date is required",
+          }
         },
       },
       MARKET: {
