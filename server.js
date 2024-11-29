@@ -12,12 +12,16 @@ const cityRoutes = require('./routes/cityRoutes.routes');
 const marketRoutes = require('./routes/marketRoutes.routes');
 const offersRoutes = require('./routes/offersRoutes.routes'); // Adjust path as needed
 
+const feedbackRoutes = require('./routes/feedback.routes');
 
 
 
 
-const https = require('https');
-const fs = require('fs');
+
+
+
+// const https = require('https');
+// const fs = require('fs');
 
 // // certificates
 // const privateKey = fs.readFileSync('/etc/letsencrypt/live/wingrowmarket.com/privkey.pem','utf8');
@@ -58,6 +62,7 @@ app.use('/api/markets', marketRoutes);
 app.use('/api/bookings', marketRoutes);
 app.use('/api', marketRoutes);
 app.use('/api', offersRoutes);
+app.use('/api', feedbackRoutes);
 
 
 app.use(express.static('client/build'))

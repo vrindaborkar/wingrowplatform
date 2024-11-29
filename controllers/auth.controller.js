@@ -228,28 +228,69 @@ exports.addAddress = async (req, res) => {
   }
 };
 
+
 // Feedback
 exports.feedback = async (req, res) => {
-  const { message, stars } = req.body;
-  const feedback = new Feedback({
-    message,
-    stars
-  });
-  const data = await feedback.save();
-  res.status(200).send(feedback);
+  try {
+    // Extract message, stars, and userId from the request body
+    const { message, stars, userId } = req.body;
+
+    // Create a new feedback instance
+    const feedback = new Feedback({
+      message,
+      stars,
+      user: userId // Store the reference to the user
+    });
+
+    // Save the feedback to the database
+    const data = await feedback.save();
+
+    // Send the saved feedback data as a response
+    res.status(200).send(data);
+  } catch (error) {
+    console.error('Error saving feedback:', error);
+    res.status(500).send({ message: 'Server error while saving feedback' });
+  }
 };
 
-// New Password
-// exports.newpassword = async (req, res) => {
-//   const { phone, password } = req.body;
-//   const user = await User.findOne({
-//     phone: phone
-//   });
 
-//   user.password = bcrypt.hashSync(password, 8);
-//   await user.save();
-//   res.status(200).send(user);
+// POST: Add new feedback
+// exports.addFeedback = async (req, res) => {
+//   try {
+//     const { message, stars, userId } = req.body;
+
+//     // Check if the user exists
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+
+//     // Create new feedback
+//     const feedback = new Feedback({
+//       user: userId,
+//       message,
+//       stars
+//     });
+
+//     const savedFeedback = await feedback.save();
+//     res.status(201).json({ message: 'Feedback added successfully', data: savedFeedback });
+//   } catch (error) {
+//     console.error('Error adding feedback:', error);
+//     res.status(500).json({ message: 'Server error while adding feedback' });
+//   }
 // };
+
+// // GET: Retrieve all feedback
+// exports.getAllFeedback = async (req, res) => {
+//   try {
+//     const feedbackList = await Feedback.find().populate('user', 'firstname lastname phone'); // Populate user details if needed
+//     res.status(200).json({ feedback: feedbackList });
+//   } catch (error) {
+//     console.error('Error retrieving feedback:', error);
+//     res.status(500).json({ message: 'Server error while retrieving feedback' });
+//   }
+// };
+
 
 // Subscription
 exports.subscription = async (req, res) => {

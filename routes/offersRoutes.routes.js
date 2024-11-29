@@ -21,7 +21,7 @@ router.post('/admin/offers', [verifyToken, isAdmin], async (req, res) => {
         }
 
         // Create or update offers for the given market
-        await Offer.updateOne(
+        await offers.updateOne(
             { marketId },
             { $set: { offers } },
             { upsert: true } // Use upsert to insert if the offer does not exist
