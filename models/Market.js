@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // Define the Market schema
 const marketSchema = new mongoose.Schema({
-    marketName: {
+    name: {
         type: String,
         required: true,
     },

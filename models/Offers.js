@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const OfferSchema = new mongoose.Schema({
-  marketName: {
+  name: {
     type: String,
     // ref: 'Market', // Assuming you have a Market collection
     required: true

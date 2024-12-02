@@ -6,10 +6,10 @@ const Offer = require('../models/Offer');
 // Controller function to add a new offer
 exports.addOffer = async (req, res) => {
   try {
-    const { marketId, commodityName, quantity, offerRate, date, createdBy } = req.body;
+    const { name, commodityName, quantity, offerRate, date, createdBy } = req.body;
 
     const newOffer = new Offer({
-      marketId,
+      name,
       commodityName,
       quantity,
       offerRate,
@@ -33,9 +33,9 @@ exports.addOffer = async (req, res) => {
 
 exports.getOffersByMarket = async (req, res) => {
     try {
-      const { marketId } = req.params;
+      const { name } = req.params;
   
-      const offers = await Offer.find({ marketId });
+      const offers = await Offer.find({ name });
   
       if (!offers.length) {
         return res.status(404).json({ message: 'No offers found for this market' });
