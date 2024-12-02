@@ -176,7 +176,7 @@ const LoginComponent = (props) => {
                 <h1 className="text-900 font-bold text-xl md:text-1xl mb-2">
                   {t("welcome_message")}
                 </h1>
-                <div className="text-600 mb-2">Login here</div>
+                <div className="text-600 mb-2">{t("login_here")}</div>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className="mt-5 p-fluid w-full"
