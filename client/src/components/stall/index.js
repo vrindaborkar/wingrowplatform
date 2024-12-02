@@ -7,7 +7,7 @@ import { Checkbox } from "primereact/checkbox";
 import "primeflex/primeflex.css";
 import { baseUrl } from "../../services/PostAPI";
 import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { marketImageMap } from "./preview";
@@ -53,7 +53,7 @@ const StallComponent = (props) => {
 
   const marketOptions = JSON.parse(localStorage.getItem("marketOptions")) || [];
   const [isDisabled, setIsDisabled] = useState(false);
-  
+
   let stallIndex = 0;
 
   const savedMarket = marketOptions.length
@@ -65,17 +65,16 @@ const StallComponent = (props) => {
       setSelectedMarket(savedMarket);
     }
   }, [savedMarket]);
+  const prevPath = localStorage.getItem("setprevpath");
   useEffect(() => {
-    // Get the previous path from localStorage
     const prevPath = localStorage.getItem("setprevpath");
-    
-    // If previous path is '/market', disable the dropdown
-    if (prevPath === '/market') {
+
+    if (prevPath === "/market") {
       setIsDisabled(true);
     } else {
       setIsDisabled(false);
     }
-  }, []); 
+  }, []);
 
   const [isChecked, setIsChecked] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
@@ -200,7 +199,6 @@ const StallComponent = (props) => {
   };
 
   const handleStallClick = (row, col, data) => {
-    // Ensure a date is selected
     if (!dates[selectedMarket]) {
       toast.current.show({
         severity: "error",
@@ -590,7 +588,7 @@ const StallComponent = (props) => {
   };
 
   const handlePreview = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     setPreview(true);
   };
   const handlePayClick = () => {
@@ -700,6 +698,18 @@ const StallComponent = (props) => {
           <ProgressSpinner />
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="stall-form">
+            <div className="mb-3">
+              <div className="d-inline-block">
+                <Link to={prevPath} className="text-d-none">
+                  <Button
+                    className="p-button-rounded flex justify-content-start"
+                    icon="pi pi-angle-left mr-2"
+                  >
+                    {t("back")}
+                  </Button>
+                </Link>
+              </div>
+            </div>
             <div className="flex row justify-content-between align-items-center">
               <div className="market-dropdown-section col-6">
                 <label htmlFor="market">Select Market</label>
@@ -942,7 +952,10 @@ const StallComponent = (props) => {
 
                                   {/* Div that shows up when the image is hovered */}
                                   <div className="stall-name">
-                                    {stall.stallName}
+                                    <p>{stall.stallName || "General Stall"}</p>
+                                    <p className="pi pi-indian-rupee">
+                                      {`${stall.stallPrice}` || "₹0"}
+                                    </p>
                                   </div>
                                 </div>
                               </>
@@ -1002,14 +1015,14 @@ const StallComponent = (props) => {
         >
           <div className="selected-stalls-details">
             {selectedMarket ? (
-                <div className="market-image-preview">
-                  <img
-                    src={marketImageMap[selectedMarket]}
-                    alt={selectedMarket || "Market Image"}
-                    width="100%"
-                    className="market-image"
-                  />
-                </div>
+              <div className="market-image-preview">
+                <img
+                  src={marketImageMap[selectedMarket]}
+                  alt={selectedMarket || "Market Image"}
+                  width="100%"
+                  className="market-image"
+                />
+              </div>
             ) : (
               <p>No market selected.</p>
             )}

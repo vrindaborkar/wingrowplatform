@@ -39,12 +39,12 @@ const MyBookingComponent = (props) => {
 
   useEffect(() => {
     if (Array.isArray(stallBookList?.bookedStalls)) {
-        const sortedData = [...stallBookList.bookedStalls].sort(
-            (a, b) => new Date(b.date) - new Date(a.date)
-        );
-        setMyStalls(sortedData);
+      const sortedData = [...stallBookList.bookedStalls].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+      setMyStalls(sortedData);
     }
-}, [stallBookList]);
+  }, [stallBookList]);
   const shouldRenderFullPageError = () => isPageLevelError;
   const shouldRenderStallBookList = () => myStalls?.length > 0;
   const shouldRenderNotFoundView = () =>
@@ -65,14 +65,18 @@ const MyBookingComponent = (props) => {
       {shouldRenderStallBookList() && (
         <div className="text-center w-full mt-3 md:px-5">
           <div className="px-3">
-            <Link to="/farmer" className="text-d-none">
-              <Button
-                className="p-button-rounded flex justify-content-start"
-                icon="pi pi-angle-left mr-2"
-              >
-                {t("back")}
-              </Button>
-            </Link>
+            <div className="text-left">
+              <div className="d-inline-block">
+                <Link to="/farmer" className="text-d-none">
+                  <Button
+                    className="p-button-rounded flex justify-content-start"
+                    icon="pi pi-angle-left mr-2"
+                  >
+                    {t("back")}
+                  </Button>
+                </Link>
+              </div>
+            </div>
             <h2 className="mt-3">My Booking</h2>
           </div>
           <div className="grid grid-nogutter w-full md:px-5 ">
@@ -121,9 +125,7 @@ const MyBookingComponent = (props) => {
                       <hr className="mb-3 mx-0 border-top-1 border-bottom-none border-300 mt-auto" />
                       <Button
                         label={
-                          isBookingExpired(stall.date)
-                            ? "Expired"
-                            : "Cancel"
+                          isBookingExpired(stall.date) ? "Expired" : "Cancel"
                         }
                         disabled={isBookingExpired(stall.date)}
                         onClick={() => {
