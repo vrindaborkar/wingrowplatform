@@ -12,7 +12,7 @@ const Outward = mongoose.model(
     // time:String,
     date: {
       type: Date,
-      default: Date.now, // Store as a Date object
+      // default: Date.now, // Store as a Date object
       required: true,
     },
   },{
