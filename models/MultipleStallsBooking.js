@@ -8,7 +8,7 @@ const StallSchema = new Schema({
 });
 
 const MultipleStallsBookingSchema = new Schema({
-    location: { type: String, required: true },
+    name: { type: String, required: true },
     date: { type: String, required: true },
     stalls: [StallSchema],
     createdAt: { type: Date, default: Date.now }

@@ -6,7 +6,7 @@ const bookingSchema = new Schema({
     farmerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Farmer' },
     stallName: String,
     stallPrice: Number,
-    location: String,
+    name: String,
     // other fields...
 });
 

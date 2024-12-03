@@ -119,7 +119,7 @@ exports.getMarketStalls = async (req, res) => {
             return res.status(400).json({ message: 'Market ID is required' });
         }
 
-        const stalls = await Stalls.find({ location: marketId });
+        const stalls = await Stalls.find({ name: marketId });
 
         if (!stalls.length) {
             return res.status(404).json({ message: 'No stalls found for this market' });
