@@ -93,11 +93,11 @@ router.post('/markets/search', async (req, res) => {
 });
 
 // GET: Fetch stalls for a specific market based on location
-router.get('/markets/:location/stalls', async (req, res) => {
+router.get('/markets/:name/stalls', async (req, res) => {
     try {
-        const { location } = req.params;
+        const { name } = req.params;
 
-        const stalls = await Stalls.find({ location });
+        const stalls = await Stalls.find({ name });
 
         if (!stalls.length) {
             return res.status(404).json({ message: 'No stalls found for this market' });
@@ -117,7 +117,7 @@ router.get('/markets/:location/stalls', async (req, res) => {
 // GET: Check availability of stalls based on location and date
 router.get('/stalls/availability', async (req, res) => {
     try {
-        const { location, date } = req.query;
+        const { name, date } = req.query;
 
         if (!location || !date) {
             return res.status(400).json({ message: 'Location and Date are required' });
@@ -134,7 +134,7 @@ router.get('/stalls/availability', async (req, res) => {
         }
 
         // Step 3: Retrieve booked stalls for the specified location and formatted date from the BookedStalls collection
-        const bookedStalls = await BookedStalls.find({ location, date: formattedDate });
+        const bookedStalls = await BookedStalls.find({ name, date: formattedDate });
 
         // Step 4: Map out the stall numbers that are already booked
         const bookedStallNumbers = new Set(bookedStalls.map(stall => stall.stallNo));
@@ -167,12 +167,12 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
         const bookingResults = [];
 
         for (const request of bookingRequests) {
-            const { location, date, stalls, bookedBy } = request; // Added bookedBy field here
+            const { name, date, stalls, bookedBy } = request; // Added bookedBy field here
             const parsedDate = dayjs(date, ["YYYY/MM/DD", "YYYY-MM-DD"]).format("YYYY/MM/DD");    
 
-            const market = await Market.findOne({ location });
+            const market = await Market.findOne({ name});
             if (!market) {
-                bookingResults.push({ location, date: parsedDate, status: 'Market not found' });
+                bookingResults.push({ name, date: parsedDate, status: 'Market not found' });
                 continue;
             }
 
@@ -180,18 +180,18 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
                 const { stallNo, stallName, stallPrice } = stallRequest;
 
                 const isBooked = await BookedStalls.findOne({
-                    location,
+                    name,
                     date: parsedDate,
                     stallNo
                 });
 
                 if (isBooked) {
-                    bookingResults.push({ location, date: parsedDate, stallNo, status: 'Already booked' });
+                    bookingResults.push({ name, date: parsedDate, stallNo, status: 'Already booked' });
                     continue;
                 }
 
                 const newBooking = new BookedStalls({
-                    location,
+                    name,
                     date: parsedDate,
                     stallNo,
                     stallName,
@@ -201,7 +201,7 @@ router.post('/bookings/multiple-stalls', async (req, res) => {
                 });
 
                 await newBooking.save();
-                bookingResults.push({ location, date: parsedDate, stallNo, status: 'Booked successfully' });
+                bookingResults.push({ name, date: parsedDate, stallNo, status: 'Booked successfully' });
             }
         }
 

@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Inward = require("../models/Inward");
 const Outward = require("../models/Outward");
 const jwt_decode =  require("jwt-decode");
@@ -6,7 +7,15 @@ const Subscribe = require("../models/Subscibe")
 const LiveMarket =require("../models/LiveMarket")
 // const Employee=require("../models/Employee")
 // const Leave =  require("../models/Leave")
+
+
+
+
+
+
+
 exports.getInward = async(req,res,next) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
 
@@ -132,16 +141,22 @@ exports.getUser = async(req, res) => {
         
 
     }
+    
+
+
 exports.getInwardData = async(req,res,next) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     const inwarddata = await Inward.find();
     res.send(inwarddata)
 }
 exports.getOutwardData = async(req,res,next) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     const outwarddata = await Outward.find();
     res.send(outwarddata)
 }
 
 exports.getOutward = async(req,res,next) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
 
@@ -153,6 +168,7 @@ exports.getOutward = async(req,res,next) => {
 
 
 exports.postOutward = async(req,res,next) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
     const data = {
@@ -177,6 +193,7 @@ console.log(data.total_sales)
 }
 
 exports.postInward = async(req,res,next) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
     

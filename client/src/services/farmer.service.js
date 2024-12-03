@@ -1,11 +1,14 @@
 import axios from 'axios';
 import authHeader from './auth.headers';
+const moment = require('moment');
+
 
 // const REACT_APP_API_URL = 'https://wingrowagritech.herokuapp.com/';
 // const API_URL = "https://wingrowmarket.onrender.com/";
 const { REACT_APP_API_URL } = process.env;
 
  const postInward = (commodity , purchase_quantity , purchase_rate , market , time,date) => {
+    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     return axios.post(REACT_APP_API_URL + "inward", {
         commodity,
         purchase_quantity,
@@ -17,6 +20,7 @@ const { REACT_APP_API_URL } = process.env;
   }
 
 const postOutward = (commodity, total_sales, sales_rate, market , time,date) => {
+  const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     return axios.post(REACT_APP_API_URL + "outward", {
         commodity,
         // sales_quantity,
