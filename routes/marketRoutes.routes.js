@@ -127,7 +127,7 @@ router.get('/stalls/availability', async (req, res) => {
         const formattedDate = moment(date, ["YYYY/MM/DD", "YYYY-MM-DD"]).format("YYYY/MM/DD");
 
         // Step 2: Retrieve all stalls for the specified location from the Stalls collection
-        const allStalls = await Stalls.find({ name });
+        const allStalls = await Stalls.find({ marketName });
 
         if (!allStalls.length) {
             return res.status(404).json({ message: 'No stalls found for this location' });

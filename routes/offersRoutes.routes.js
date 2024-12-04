@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Market = require('../models/Market');  // Ensure the path is correct
+const Offer = require('../models/Offers');
 const { verifyToken } = require('../middlewares/auth.jwt');  // Admin authorization middleware
 const isAdmin = require('../middlewares/auth.isAdmin'); // Import isAdmin middleware
 
