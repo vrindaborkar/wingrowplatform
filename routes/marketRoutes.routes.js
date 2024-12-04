@@ -119,7 +119,7 @@ router.get('/stalls/availability', async (req, res) => {
     try {
         const { name, date } = req.query;
 
-        if (!location || !date) {
+        if (!name || !date) {
             return res.status(400).json({ message: 'Location and Date are required' });
         }
 
