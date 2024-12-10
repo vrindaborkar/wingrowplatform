@@ -150,7 +150,7 @@ const MyBookingScreen = (props) => {
           <div className="text-primary text-xl mb-2">
             {selectedStall?.stallNo}
           </div>
-          <div className="text-600">{selectedStall?.location}</div>
+          <div className="text-600">{selectedStall?.name}</div>
         </div>
       </Dialog>
     </>
