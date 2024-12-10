@@ -37,12 +37,12 @@ const Footer = () => {
   ];
 
   const linkList = [
-    { id: 0, label: "Home", link: "/home" },
+    { id: 0, label: "Home", link: "/" },
 
     { id: 2, label: "Farmers", link: "/farmers/*" },
     { id: 3, label: "Register", link: "/register" },
-    { id: 1, label: "Customers", link: "/customers/*" },
-    { id: 4, label: "Stall Bookings", link: "/farmers/stallplaces" },
+    { id: 1, label: "Customers", link: "/customer" },
+    { id: 4, label: "Stall Bookings", link: "/subscription" },
     { id: 5, label: "Terms and Conditions", link: "/terms" },
   ];
 

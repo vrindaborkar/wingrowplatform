@@ -26,14 +26,17 @@ export default function FeedbackComponent() {
       [FORM_FIELDS_NAME.RATING.name]: 0, 
     },
   });
+  const user = JSON.parse(localStorage.getItem('user'))
+  const userId = user?.id
   const toast = useRef(null);
   const onSubmit = async (data) => {
     console.log(data);
     const payload={
-      name:data.customer,
+      userId:userId,
       message: data.message,  
       stars: data.rating, 
     }
+    console.log(payload)
     try {
       const response = await axios.post(`${baseUrl}/auth/feedback`, payload);
       toast.current.show({
@@ -90,17 +93,6 @@ export default function FeedbackComponent() {
               onSubmit={handleSubmit(onSubmit)}
               className="mt-2 md:mt-5 p-fluid w-full"
             >
-              <div className="field">
-                <MzInput
-                  control={control}
-                  label={FORM_FIELDS_NAME.CUSTOMER.label}
-                  name={FORM_FIELDS_NAME.CUSTOMER.name}
-                  placeholder={FORM_FIELDS_NAME.CUSTOMER.placeholder}
-                  rules={FORM_FIELDS_NAME.CUSTOMER.rules}
-                  isError={errors[FORM_FIELDS_NAME.CUSTOMER.name]}
-                  errorMsg={getFormErrorMessage(FORM_FIELDS_NAME.CUSTOMER.name)}
-                />
-              </div>
               <div className="field">
                 <MzTextarea
                   control={control}

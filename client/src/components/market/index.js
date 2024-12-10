@@ -138,7 +138,7 @@ const MarketComponent = (props) => {
               <div className="">
                 <div className="text-left">
                   <div className="d-inline-block">
-                    <Link to="/farmer" className="text-d-none">
+                    <Link to="/" className="text-d-none">
                       <Button
                         className="p-button-rounded flex justify-content-start"
                         icon="pi pi-angle-left mr-2"
@@ -199,7 +199,7 @@ const MarketComponent = (props) => {
                                   style={{ width: "2.5rem", height: "2.5rem" }}
                                   onClick={(event) => {
                                     event.stopPropagation(); 
-                                    handleLocation(market.location); 
+                                    handleLocation(market.name); 
                                   }}
                                 >
                                   <i className="pi pi-map-marker text-green-500 text-xl"></i>

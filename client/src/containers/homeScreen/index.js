@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from "primereact/carousel";
 import { Rating } from "primereact/rating";
 import { baseUrl } from "../../services/PostAPI";
-import axios from 'axios';
+import axios from "axios";
 import { ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/home/market";
 import {
@@ -33,65 +33,38 @@ import {
 } from "../../assets/images";
 import KeyFeatureCompnent from "../../components/home/keyFeature";
 import { Image } from "primereact/image";
+import FeedbackComponent from "../../components/customer/feedback";
 
 const HomeScreen = () => {
   const [feedbacks, setFeedbacks] = useState([]);
-  const mockFeedback = [
-    {
-      id: 1,
-      name: "John Doe",
-      message: "Great product! Loved it.",
-      rating: 3,
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      message: "Great product! Loved it.Great product! Loved it",
-      rating: 1,
-    },
-    {
-      id: 3,
-      name: "Bob Johnson",
-      message: "Excellent customer service, highly recommended.ood quality, but deliv",
-      rating: 5,
-    },
-    {
-      id: 1,
-      name: "vikas kamankar",
-      message: "Great product! Loved it.",
-      rating: 4,
-    },
-    {
-      id: 2,
-      name: "ritesh gangathade",
-      message: "Good quality, but delivery was late.",
-      rating: 3,
-    },
-    {
-      id: 3,
-      name: "sanket",
-      message: "Excellent customer service, highly recommended.",
-      rating: 5,
-    },
-  ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const feedbacksPerPage = 3;
   const handleNext = () => {
-    if (currentIndex + feedbacksPerPage < mockFeedback.length) {
+    if (currentIndex + feedbacksPerPage < feedbacks?.length) {
       setCurrentIndex(currentIndex + feedbacksPerPage);
     }
   };
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const isVerify = localStorage.getItem("isVerify");
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - feedbacksPerPage);
     }
   };
-  // setFeedbacks(mockFeedback);
   useEffect(() => {
-    setFeedbacks(mockFeedback);
+    const fetchFeedback = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/api/feedback`);
+        setFeedbacks(response?.data?.feedback);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFeedback();
   }, []);
-  console.log("feedbacksfeedbacks", feedbacks);
+  const filteredFeedbacks = feedbacks?.filter(feedback => feedback?.stars > 2);
   // eslint-disable-next-line
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -245,17 +218,6 @@ const HomeScreen = () => {
       data: t("covid_response8_value"),
     },
   ];
-  // useEffect(() => {
-  //   const fetchFeedback = async () => {
-  //     try {
-  //       const response = await axios.get(`${baseUrl}/auth/feedback`);
-  //       setFeedbacks(response.data);  
-  //     } catch (error) {
-  //       console.error("Error fetching feedback:", error);
-  //     } 
-  //   };
-  //   fetchFeedback();
-  // }, []);
 
   return (
     <>
@@ -303,8 +265,9 @@ const HomeScreen = () => {
                   <Image
                     src={item.src}
                     alt={item.alt}
-                    className={`max-w-full h-auto ${index % 2 !== 0 ? "arrow" : ""
-                      }`}
+                    className={`max-w-full h-auto ${
+                      index % 2 !== 0 ? "arrow" : ""
+                    }`}
                     width={item.width}
                   />
                 </div>
@@ -357,57 +320,63 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
-
-
-
-
-
+      {isLoggedIn && isVerify && (
+        <div className="md:px-8 px-2">
+          <FeedbackComponent />
+        </div>
+      )}
       <div className="p-3">
         <h3 className="text-center">Customer Feedback</h3>
 
         <div>
-          {feedbacks.length === 0 ? (
-            <h5>No feedback available</h5>
+          {filteredFeedbacks?.length === 0 ? (
+            <span>
+              No feedback available
+            </span>
           ) : (
             <Carousel
-              value={feedbacks}
+              showIndicators={false}
+              autoplayInterval={6000}
+              value={filteredFeedbacks}
               itemTemplate={(feedback) => (
                 <div
-                  className="p-4 shadow-1 border-round d-flex justify-content-center align-items-center"
-                  style={{ height: '200px',  overflowY: 'auto' }} 
+                  className="p-4 h-full"
+                  style={{ height: "200px", overflowY: "auto" }}
                 >
-                  <div className="text-center d-flex flex-column justify-content-between" style={{ height: "100%" }}>
+                  <div
+                    className="text-center d-flex flex-column justify-content-between surface-0 shadow-1 p-4 border-1 border-50 border-round h-full hover:shadow-5 "
+                    style={{ height: "100%" }}
+                  >
                     <div className="mb-3">
-                      <h4>{feedback.name}</h4>
+                      <h4>{`${feedback?.user?.firstname} ${feedback?.user?.lastname}`}</h4>
                     </div>
                     <div className="mb-3">
-                      <p>{feedback.message}</p>
+                      <p>{feedback?.message}</p>
                     </div>
                     <div className="d-flex justify-content-center">
-                      <Rating value={feedback.rating} readonly stars={5} cancel={false} />
+                      <Rating
+                        value={feedback?.stars}
+                        readonly
+                        stars={5}
+                        cancel={false}
+                      />
                     </div>
                   </div>
                 </div>
               )}
-              numVisible={1}
-              numScroll={1}
-              responsive={{
-                "960": {
-                  items: 1,
+              numScroll={3}
+              numVisible={3}
+              responsiveOptions={[
+                {
+                  breakpoint: '640px',
+                  numVisible: 1,
+                  numScroll:1
                 },
-                "640": {
-                  items: 1,
-                },
-              }}
+              ]}
             />
           )}
         </div>
       </div>
-
-
-
-
-
     </>
   );
 };
