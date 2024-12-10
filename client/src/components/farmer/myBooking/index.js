@@ -77,7 +77,7 @@ const MyBookingComponent = (props) => {
                 </Link>
               </div>
             </div>
-            <h2 className="mt-3">My Booking</h2>
+            <h2 className="mt-3">{t("my_bookings")}</h2>
           </div>
           <div className="grid grid-nogutter w-full md:px-5 ">
             {myStalls?.map((stall, index) => {

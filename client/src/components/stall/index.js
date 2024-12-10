@@ -549,7 +549,7 @@ const StallComponent = (props) => {
         );
         if (formattedDate) {
           const response = await axios.get(
-            `${baseUrl}${API_PATH.STALL.FETCH}?location=${selectedMarket}&date=${formattedDate}`
+            `${baseUrl}${API_PATH.STALL.FETCH}?name=${selectedMarket}&date=${formattedDate}`
           );
           if (response.data && response.data.stalls) {
             const sortedStalls = [...response.data.stalls].sort(
