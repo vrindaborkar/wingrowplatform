@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const BookedStalls = mongoose.model(
   "BookedStalls",
   new mongoose.Schema({
-      location: String,
+      name: String,
       address: String,
       stallName: String,
       link: String,

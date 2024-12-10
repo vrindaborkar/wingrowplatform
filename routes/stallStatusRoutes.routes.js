@@ -7,14 +7,14 @@ const BookedStalls = require('../models/BookedStalls');  // BookedStalls model
 // GET: Fetch stalls by market (ID or name) and date
 router.get('/stalls', async (req, res) => {
     try {
-        const { marketId, marketName, date } = req.query;
+        const { marketId, name, date } = req.query;
 
         // Find the market either by ID or name
         let market;
         if (marketId) {
             market = await Market.findById(marketId);
-        } else if (marketName) {
-            market = await Market.findOne({ marketName: marketName });
+        } else if (name) {
+            market = await Market.findOne({ name: name });
         } else {
             return res.status(400).json({ message: 'Please provide either marketId or marketName' });
         }
@@ -24,7 +24,7 @@ router.get('/stalls', async (req, res) => {
         }
 
         // Find all stalls in this market
-        const stalls = await Stalls.find({ location: market.marketName });
+        const stalls = await Stalls.find({ name: market.name });
 
         if (!stalls.length) {
             return res.status(404).json({ message: 'No stalls found in this market' });
@@ -45,7 +45,7 @@ router.get('/stalls', async (req, res) => {
         }));
 
         res.status(200).json({
-            message: `Stalls retrieved for market ${market.marketName} on ${date}`,
+            message: `Stalls retrieved for market ${market.name} on ${date}`,
             stalls: stallsWithStatus
         });
 
