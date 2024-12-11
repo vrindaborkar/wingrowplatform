@@ -50,7 +50,7 @@ const GlobalState = props => {
     if(stalls)
       {
         for(let item of stalls){
-        set.add(item.location)
+        set.add(item.name)
       }
     }
   

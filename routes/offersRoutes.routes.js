@@ -1,31 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const Market = require('../models/Market');  // Ensure the path is correct
+const Market = require('../models/Market');
 const Offer = require('../models/Offers');
-const { verifyToken } = require('../middlewares/auth.jwt');  // Admin authorization middleware
-const isAdmin = require('../middlewares/auth.isAdmin'); // Import isAdmin middleware
+const { verifyToken } = require('../middlewares/auth.jwt');
+const isAdmin = require('../middlewares/auth.isAdmin');
 
-/// Admin adds or updates offers for a specific market
+// Admin adds or updates offers for a specific market
 router.post('/admin/offers', [verifyToken, isAdmin], async (req, res) => {
+    // router.post('/admin/offers', async (req, res) => {
+
+
     try {
         const { name, offers } = req.body;
 
-        // Validate if market ID and offers are provided
         if (!name || !offers || !Array.isArray(offers)) {
-            return res.status(400).json({ message: 'Market ID and valid offers are required' });
+            return res.status(400).json({ message: 'Market name and valid offers are required' });
         }
 
-        // Find the market by name
-        const market = await Market.findByName(name);
+        const market = await Market.findOne({ name });
         if (!market) {
             return res.status(404).json({ message: 'Market not found' });
         }
 
-        // Create or update offers for the given market
-        await offers.updateOne(
-            { name},
+        await Offer.updateOne(
+            { name },
             { $set: { offers } },
-            { upsert: true } // Use upsert to insert if the offer does not exist
+            { upsert: true }
         );
 
         res.status(200).json({ message: 'Offers updated successfully' });
@@ -40,7 +40,6 @@ router.get('/offers/:name', async (req, res) => {
     try {
         const { name } = req.params;
 
-        // Find the offers for the given market ID
         const offerData = await Offer.findOne({ name });
         if (!offerData) {
             return res.status(404).json({ message: 'No offers found for this market' });

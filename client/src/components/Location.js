@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/Home.css'
 
-function Location({t}) {
-    const locations = [
+function name({t}) {
+    const name = [
    
     {
-        name:t("karvenagar_location"),
+        name:t("karvenagar_name"),
         day:t("tuesday"),
         address:"https://goo.gl/maps/5sETcJGzXWoXC5SG9",
         time:"3PM-9PM"
@@ -118,7 +118,7 @@ function Location({t}) {
 ]
   return <>
       {
-          locations.map((e,i)=>{
+          name.map((e,i)=>{
             return(
                 <div key={i} className="location_container">
                         <div className="location_component_main">
@@ -141,4 +141,4 @@ function Location({t}) {
   </>;
 }
 
-export default Location;
+export default name;
