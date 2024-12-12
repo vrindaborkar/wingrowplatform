@@ -8,21 +8,22 @@ const LiveMarket =require("../models/LiveMarket")
 // const Employee=require("../models/Employee")
 // const Leave =  require("../models/Leave")
 
-
-
-
-
-
-
-exports.getInward = async(req,res,next) => {
-    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
-    let token = req.headers["x-access-token"];
-    const { id } = jwt_decode(token)
-
-
-    const inwarddata = await Inward.find({"userId" : id});
-    res.send(inwarddata)
-}
+exports.getInward = async (req, res) => {
+    try {
+      const { userId, name } = req.query;
+  
+      const inwardData = await Inward.find({ userId, name });
+      if (!inwardData || inwardData.length === 0) {
+        return res.status(404).json({ message: 'No inward data found' });
+      }
+  
+      res.status(200).json({ data: inwardData });
+    } catch (error) {
+      console.error('Error retrieving inward data:', error);
+      res.status(500).json({ message: 'Server error while retrieving inward data' });
+    }
+  };
+  
 
 exports.getUser = async(req, res) => {
     const data = await User.find();
@@ -146,33 +147,41 @@ exports.getUser = async(req, res) => {
 
 exports.getInwardData = async(req,res,next) => {
     const formattedDate = moment(date, "DD/MM/YYYY").toDate();
-    const inwarddata = await Inward.find();
+    const inwarddata = await Inward.find({ date: formattedDate });
     res.send(inwarddata)
 }
 exports.getOutwardData = async(req,res,next) => {
     const formattedDate = moment(date, "DD/MM/YYYY").toDate();
-    const outwarddata = await Outward.find();
+    const outwarddata = await Outward.find({ date: formattedDate });
     res.send(outwarddata)
 }
 
-exports.getOutward = async(req,res,next) => {
-    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
-    let token = req.headers["x-access-token"];
-    const { id } = jwt_decode(token)
-
-    const outwarddata = await Outward.find({"userId" : id});
-    res.send(outwarddata)
-}
+exports.getOutward = async (req, res) => {
+    try {
+      const { userId, name } = req.query;
+  
+      const outwardData = await Outward.find({ userId, name });
+      if (!outwardData || outwardData.length === 0) {
+        return res.status(404).json({ message: 'No outward data found' });
+      }
+  
+      res.status(200).json({ data: outwardData });
+    } catch (error) {
+      console.error('Error retrieving outward data:', error);
+      res.status(500).json({ message: 'Server error while retrieving outward data' });
+    }
+  };
+  
 
 
 
 
 exports.postOutward = async(req,res,next) => {
-    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
+    // const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
     const data = {
-        market:req.body.market,
+        name:req.body.name,
         commodity:req.body.commodity,
         // sales_quantity:req.body.sales_quantity,
         sales_rate:req.body.sales_rate,
@@ -193,12 +202,12 @@ console.log(data.total_sales)
 }
 
 exports.postInward = async(req,res,next) => {
-    const formattedDate = moment(date, "DD/MM/YYYY").toDate();
+    // const formattedDate = moment(date, "DD/MM/YYYY").toDate();
     let token = req.headers["x-access-token"];
     const { id } = jwt_decode(token)
     
     const data = {
-        market:req.body.market,
+        name:req.body.name,
         commodity:req.body.commodity,
         purchase_quantity:req.body.purchase_quantity,
         purchase_rate:req.body.purchase_rate,
@@ -243,7 +252,7 @@ exports.getMarkets = async (req, res) => {
 exports.addMarket = async(req,res) =>{
     const data = {
             
-        marketName:req.body.marketName,
+        name:req.body.name,
         direction:req.body.direction,
         offers:req.body.tags,
         bookedAt:req.body.date

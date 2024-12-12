@@ -3,12 +3,20 @@ const mongoose = require("mongoose");
 const Inward = mongoose.model(
   "Inward",
   new mongoose.Schema({
-    marketName:String,
-    commodity:String,
-    purchase_quantity:Number,
-    purchase_rate:Number,
-    total_purchase:Number,
-    userId:String,
+    name:String,
+    commodities: [
+      {
+        commodity: String,
+        purchase_quantity: Number,
+        purchase_rate: Number,
+        total_purchase: Number,
+      },
+    ],
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // Reference to the User schema
+      required: true,
+    },
     // time:String,
     date: {
       type: Date,

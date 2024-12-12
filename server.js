@@ -13,6 +13,8 @@ const marketRoutes = require('./routes/marketRoutes.routes');
 const offersRoutes = require('./routes/offersRoutes.routes'); // Adjust path as needed
 
 const feedbackRoutes = require('./routes/feedback.routes');
+const inwardRoutes = require('./routes/inwardRoutes.routes');
+const outwardRoutes = require('./routes/outwardRoutes.routes');
 
 
 
@@ -63,6 +65,8 @@ app.use('/api/bookings', marketRoutes);
 app.use('/api', marketRoutes);
 app.use('/api', offersRoutes);
 app.use('/api', feedbackRoutes);
+app.use(inwardRoutes);
+app.use(outwardRoutes);
 
 
 app.use(express.static('client/build'))
@@ -75,10 +79,11 @@ require("./routes/user.routes")(app);
 require("./routes/payment.routes")(app);
 require("./routes/stalls.routes")(app);
 require("./routes/twilio.routes")(app);
-// require("./routes/bookingRoutes.routes")(app);
-// require("./routes/cityRoutes.routes")(app);
-// require("./routes/marketRoutes.routes")(app);
-// require("./routes/stallStatusRoutes.routes")(app);
+
+
+
+
+
 
 mongoose.connect(process.env.DB_CONNECTION, 
   { useNewUrlParser: true,
