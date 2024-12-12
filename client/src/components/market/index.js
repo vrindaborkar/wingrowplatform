@@ -199,7 +199,7 @@ const MarketComponent = (props) => {
                                   style={{ width: "2.5rem", height: "2.5rem" }}
                                   onClick={(event) => {
                                     event.stopPropagation(); 
-                                    handleLocation(market.name); 
+                                    handleLocation(market.location); 
                                   }}
                                 >
                                   <i className="pi pi-map-marker text-green-500 text-xl"></i>

@@ -10,6 +10,7 @@ import { FORM_FIELDS_NAME } from "./constant";
 import { WINGROW_SLIDE_THREE } from "../../../assets/images";
 
 import { baseUrl } from "../../../services/PostAPI";
+import { API_PATH } from "../../../constant/urlConstant";
 import axios from 'axios';
 import { Toast } from "primereact/toast"; 
 export default function FeedbackComponent() {
@@ -38,7 +39,7 @@ export default function FeedbackComponent() {
     }
     console.log(payload)
     try {
-      const response = await axios.post(`${baseUrl}/auth/feedback`, payload);
+      const response = await axios.post(`${baseUrl}${API_PATH.FEEDBACK.POST}`, payload);
       toast.current.show({
         severity: "success",
         summary: "Success",

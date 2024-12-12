@@ -7,7 +7,7 @@ import { Carousel } from "primereact/carousel";
 import { Rating } from "primereact/rating";
 import { baseUrl } from "../../services/PostAPI";
 import axios from "axios";
-import { ROUTE_PATH } from "../../constant/urlConstant";
+import { API_PATH, ROUTE_PATH } from "../../constant/urlConstant";
 import MarketComponent from "../../components/home/market";
 import {
   CONS,
@@ -55,7 +55,8 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchFeedback = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/api/feedback`);
+        // const response = await axios.get(`${baseUrl}/api/feedback`);
+        const response = await axios.get(`${baseUrl}${API_PATH.FEEDBACK.FETCH}`);
         setFeedbacks(response?.data?.feedback);
       } catch (error) {
         console.error(error);

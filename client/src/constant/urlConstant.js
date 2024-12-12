@@ -44,7 +44,7 @@ export const API_PATH = {
     FETCH: "/api/cities",
   },
   MARKET: {
-    FETCH_LIST: "/api/markets/markets",
+    FETCH_LIST: "/api/markets",
     FETCH_DETAIL: "api/markets/:id",
   },
   STALL: {
@@ -71,7 +71,6 @@ export const API_PATH = {
     EDIT: "/outward",
     DELETE: "/outward",
   },
-
   BOOKING_STALL: {
     FETCH_LIST: "/booking-stall",
     FETCH_DETAIL: "/booking-stall/:id",
@@ -88,5 +87,15 @@ export const API_PATH = {
   },
   CANCELLED_STALLS:{
     FETCH_LIST:"/cancelled-stalls"
-  }
+  },
+  OFFERS: {
+    FETCH: "/api/offers",
+    ADD: "/offers",
+    EDIT: "/offers",
+    DELETE: "/offers",
+  },
+  FEEDBACK: {
+    POST: "/auth/feedback",
+    FETCH: "/api/feedback",
+  },
 };

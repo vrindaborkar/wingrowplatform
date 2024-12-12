@@ -4,11 +4,12 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { t } from "i18next";
 import { baseUrl } from "../../../services/PostAPI";
+import { API_PATH } from "../../../constant/urlConstant";
 
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { ProgressSpinner } from "primereact/progressspinner";
 
 import axios from "axios";
 
@@ -34,93 +35,6 @@ export default function Index() {
         "https://previews.123rf.com/images/ewastudio/ewastudio1702/ewastudio170200662/73044956-farmers-market-vegetable-market-fresh-vegetables.jpg",
     },
   ];
-  const mockOffers = [
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 1,
-      vegetable: "Tomato",
-      price: 2.5, // price in USD
-      quantity: 100, // quantity in kg
-    },
-    {
-      id: 2,
-      vegetable: "Potato",
-      price: 1.8,
-      quantity: 200,
-    },
-    {
-      id: 3,
-      vegetable: "Cucumber",
-      price: 1.2,
-      quantity: 150,
-    },
-    {
-      id: 4,
-      vegetable: "Onion",
-      price: 1.5,
-      quantity: 300,
-    },
-    {
-      id: 5,
-      vegetable: "Carrot",
-      price: 2.0,
-      quantity: 250,
-    },
-    {
-      id: 6,
-      vegetable: "Spinach",
-      price: 1.3,
-      quantity: 50,
-    },
-  ];
-
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -161,21 +75,28 @@ export default function Index() {
 
   const viewOffers = async (market) => {
     setViewMarket(true);
-    const params = {
-      marketId: market._id
-    };
     try {
-      const response = await axios.get(`${baseUrl}/api/offers`, { params });
-      setOffers(response.data.offers);
+      const response = await axios.get(
+        `${baseUrl}${API_PATH.OFFERS.FETCH}/${(market.name)}`
+      );
+
+      if (response.data.offers && response.data.offers.length > 0) {
+        setOffers(response.data.offers);
+      } else {
+        setOffers([]);
+      }
     } catch (error) {
       console.error("Error fetching offers:", error);
+      setOffers([]);
     }
   };
 
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/api/markets`);
+        const response = await axios.get(
+          `${baseUrl}${API_PATH.MARKET.FETCH_LIST}`
+        );
         setMarkets(response?.data?.markets);
         setLoading(false);
       } catch (error) {
@@ -281,7 +202,6 @@ export default function Index() {
               </div>
             </div>
           )}
-
         </div>
       </div>
 
@@ -290,15 +210,31 @@ export default function Index() {
         className="text-center"
         visible={viewMarket}
         onHide={() => setViewMarket(false)}
-        
       >
-        <DataTable value={mockOffers} responsiveLayout="scroll" className="p-3" >
-          <Column field="vegetable" header=" Name"  className="text-center"></Column>
-          <Column field="quantity" header="Quantity (kg)" className="text-center"></Column>
-          <Column field="price" header="Price (₹)"  className="text-center"></Column>
-        </DataTable>
+        {offers.length > 0 ? (
+          <DataTable value={offers} responsiveLayout="scroll" className="p-3">
+            <Column
+              field="commodityName"
+              header="Name"
+              className="text-center"
+            ></Column>
+            <Column
+              field="quantity"
+              header="Quantity"
+              className="text-center"
+            ></Column>
+            <Column
+              field="offerRate"
+              header="Price (₹)"
+              className="text-center"
+            ></Column>
+          </DataTable>
+        ) : (
+          <div className="p-3 text-center">
+            <p>No offers found for this market</p>
+          </div>
+        )}
       </Dialog>
-
     </>
   );
 }

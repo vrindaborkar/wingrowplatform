@@ -8,7 +8,7 @@ import MzAutoComplete from "../../../common/MzForm/MzAutoComplete";
 
 import { WINGROW_LOGO } from "../../../assets/images";
 import { useTranslation } from "react-i18next";
-import { ROUTE_PATH } from "../../../constant/urlConstant";
+import { API_PATH, ROUTE_PATH } from "../../../constant/urlConstant";
 import axios from "axios";
 import { Calendar } from "primereact/calendar";
 import { baseUrl } from "../../../services/PostAPI";
@@ -78,7 +78,7 @@ const AddInwardComponent = (props) => {
   useEffect(() => {
     const selectedMarketName = watch(FORM_FIELDS_NAME.MARKET.name);
     const getMarketDay = marketData.find(
-      (item) => item.location === selectedMarketName ?? ""
+      (item) => item.name === selectedMarketName ?? ""
     )?.marketDay;
     // const disabled = getDisabledDays(getMarketDay);
     setMarketDay(getMarketDay);
@@ -87,7 +87,7 @@ const AddInwardComponent = (props) => {
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/api/markets`);
+        const response = await axios.get(`${baseUrl}${API_PATH.MARKET.FETCH_LIST}`);
         setMarkets(response?.data?.markets);
       } catch (error) {
         console.error(error);

@@ -7,9 +7,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import MzAutoComplete from "../../../common/MzForm/MzAutoComplete";
 import { t } from "i18next";
 import { WINGROW_LOGO } from "../../../assets/images";
-import { ROUTE_PATH } from "../../../constant/urlConstant";
 import axios from "axios";
 import { baseUrl } from "../../../services/PostAPI";
+import { API_PATH, ROUTE_PATH } from "../../../constant/urlConstant";
 import { Calendar } from "primereact/calendar";
 import moment from "moment";
 
@@ -73,7 +73,7 @@ const AddOutwardComponent = (props) => {
   useEffect(() => {
     const selectedMarketName = watch(FORM_FIELDS_NAME.MARKET.name);
     const getMarketDay = marketData.find(
-      (item) => item.location === selectedMarketName ?? ""
+      (item) => item.name === selectedMarketName ?? ""
     )?.marketDay;
     // const disabled = getDisabledDays(getMarketDay);
     setMarketDay(getMarketDay);
@@ -85,7 +85,7 @@ const AddOutwardComponent = (props) => {
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/api/markets`);
+        const response = await axios.get(`${baseUrl}${API_PATH.MARKET.FETCH_LIST}`);
         setMarkets(response?.data?.markets);
       } catch (error) {
         console.error(error);
