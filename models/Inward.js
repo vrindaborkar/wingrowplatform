@@ -28,5 +28,4 @@ const Inward = mongoose.model(
     autoCreate: false 
   })
 );
-
 module.exports = Inward;
