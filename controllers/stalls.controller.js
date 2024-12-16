@@ -1,6 +1,7 @@
 const BookedStalls = require("../models/BookedStalls");
 const CancelledStalls = require("../models/CancelledStalls");
 const Inward = require("../models/Inward");
+const Outward = require("../models/Outward");
 const Stalls = require("../models/Stalls");
 
 

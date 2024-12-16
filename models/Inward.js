@@ -4,14 +4,11 @@ const Inward = mongoose.model(
   "Inward",
   new mongoose.Schema({
     name:String,
-    commodities: [
-      {
-        commodity: String,
-        purchase_quantity: Number,
-        purchase_rate: Number,
-        total_purchase: Number,
-      },
-    ],
+    commodity: String,
+    purchase_quantity: Number,
+    purchase_rate: Number,
+    total_purchase: Number,
+    
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User', // Reference to the User schema

@@ -5,8 +5,7 @@ const jwt_decode =  require("jwt-decode");
 const User = require("../models/User");
 const Subscribe = require("../models/Subscibe")
 const LiveMarket =require("../models/LiveMarket")
-// const Employee=require("../models/Employee")
-// const Leave =  require("../models/Leave")
+
 
 exports.getInward = async (req, res) => {
     try {
@@ -155,6 +154,36 @@ exports.getOutwardData = async(req,res,next) => {
     const outwarddata = await Outward.find({ date: formattedDate });
     res.send(outwarddata)
 }
+
+
+// Controller to get farmer's inward and outward data
+exports.getInwardOutwardData = async (req, res) => {
+  try {
+    const { userId, name, date } = req.query; // Get query parameters from URL
+
+    if (!userId || !name || !date) {
+      return res.status(400).json({ message: "Missing userId, market name, or date" });
+    }
+
+    // Fetch inward data for the specified user, market, and date
+    const inwardData = await Inward.find({ userId, name, date });
+    
+    // Fetch outward data for the specified user, market, and date
+    const outwardData = await Outward.find({ userId, name, date });
+
+    // Response: combine inward and outward data
+    res.status(200).json({
+      message: "Data fetched successfully",
+      data: {
+        inward: inwardData,
+        outward: outwardData,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching inward/outward data:", error);
+    res.status(500).json({ message: "Server error while fetching data" });
+  }
+};
 
 exports.getOutward = async (req, res) => {
     try {

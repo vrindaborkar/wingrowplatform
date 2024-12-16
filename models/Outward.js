@@ -4,14 +4,9 @@ const Outward = mongoose.model(
   "Outward",
   new mongoose.Schema({
     name:String,
-    commodities: [
-      {
-        commodity: String,
-        total_sales: Number,
-        sales_rate: Number,
-      
-      },
-    ],
+    commodity: String,
+    total_sales: Number,
+    sales_rate: Number,
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User', // Reference to the User schema

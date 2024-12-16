@@ -14,10 +14,12 @@ module.exports = function(app) {
   app.post("/outward" , [authJwt.verifyToken ] , controller.postOutward);
   // app.post("/inward", controller.postInward);
   // app.post("/outward", controller.postOutward);
+
   app.get("/inward" , [authJwt.verifyToken ] , controller.getInward);
   app.get("/outward" , [authJwt.verifyToken ] , controller.getOutward);
   app.get("/inwardData" , [authJwt.verifyToken ] , controller.getInwardData);
   app.get("/outwardData" , [authJwt.verifyToken ] , controller.getOutwardData);
+  app.get("/inward-outward",[authJwt.verifyToken ], controller.getInwardOutwardData);
   app.get("/farmer" , controller.getUser);
   app.get("/allusers" , controller.getAllUsers);
   app.get("/users" , controller.getUsers);

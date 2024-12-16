@@ -147,7 +147,7 @@ const FarmersHome = ({t}) => {
   const cumulativeData = {};
 
 
-  const marketNames = ['Karve Nagar', 'Kondhwa BK', 'Hadapsar', 'Undri', 'Kharadi IT Park', 'Bramhasun City', 'Wagholi','Bhavadi Road', 'Amanora City', 'Magarpatta','Green City'];
+  const marketNames = ['Karve Nagar', 'Godrej Prana','Ambegaon','F Plaza', 'Hadapsar', 'Godrej Horizon','Handewadi', 'Kharadi IT Park','Tingre Nagar', 'Bramhasun City', 'More Corner','Bhavadi Road','Baif Road','Grandeur Undri','Neo City','Magarpatta', 'Amanora City', 'Ivy Estate'];
 
   // Loop through each market and calculate cumulative data
   for (const market of marketNames) {
@@ -455,10 +455,6 @@ const FarmersHome = ({t}) => {
     }
     else setlocation(e.target.value);
   };
-
-
-
-
 
   useEffect(() => {
     let totalPurchaseRate = 0;
