@@ -186,8 +186,8 @@ exports.getOutward = async (req, res) => {
         name: req.body.name,
         commodities: req.body.commodities, // Allow handling multiple commodities
         userId, // Reference the user
-        time: req.body.time,
-        date: req.body.date,
+        // time: req.body.time,
+        date: req.body.date
       };
   
       console.log("Inward Data to Save:", data);
@@ -258,7 +258,7 @@ exports.getOutward = async (req, res) => {
         sales_rate:req.body.sales_rate,
         total_sales:req.body.total_sales,
         userId:id,
-        time:req.body.time,
+        // time:req.body.time,
         date:req.body.date
     }
 console.log(data.total_sales)
