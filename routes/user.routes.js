@@ -57,7 +57,7 @@ module.exports = function (app) {
   // Routes for Inward and Outward
   app.post("/inward", controller.postInward); // Remove `authJwt.verifyToken` for testing
   app.post("/outward", controller.postOutward); // Remove `authJwt.verifyToken` for testing
-  app.get("/inward", controller.getInward); // Remove `authJwt.verifyToken` for testing
+  app.get("/inward",controller.getInward); // Remove `authJwt.verifyToken` for testing
   app.get("/outward", controller.getOutward);
   app.get("/outward/all", controller.getAllOutward);
   app.get("/inwardData", controller.getInwardData);

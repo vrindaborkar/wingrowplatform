@@ -24,6 +24,44 @@ exports.getInward = async (req, res) => {
   };
 
 
+// const jwt_decode = require("jwt-decode");
+
+// exports.getInward = async (req, res) => {
+//     try {
+//         // Verify token from headers
+//         const token = req.headers["x-access-token"];
+//         if (!token) {
+//             return res.status(403).json({ message: "No token provided" });
+//         }
+
+//         // Decode the token to get userId
+//         const decoded = jwt_decode(token);
+//         const userIdFromToken = decoded.id;
+
+//         // Get query parameters
+//         const { name } = req.query;
+
+//         // Ensure all required fields are present
+//         if (!name) {
+//             return res.status(400).json({ message: "Market name is required" });
+//         }
+
+//         // Query the database with userId from token and name
+//         const inwardData = await Inward.find({ userId: userIdFromToken, name });
+
+//         if (!inwardData || inwardData.length === 0) {
+//             return res.status(404).json({ message: "No inward data found" });
+//         }
+
+//         res.status(200).json({ data: inwardData });
+//     } catch (error) {
+//         console.error("Error retrieving inward data:", error);
+//         res.status(500).json({ message: "Server error while retrieving inward data", error: error.message });
+//     }
+// };
+
+
+
   // const Inward = require('../models/Inward'); // Ensure the model is imported
 
   exports.getInwardFiltered = async (req, res) => {
@@ -97,16 +135,6 @@ exports.getInward = async (req, res) => {
         res.status(500).json({ message: "Server error while retrieving outward data", error: error.message });
     }
 };
-
-
-
-
-
-
-
-
-
-
 exports.getUser = async(req, res) => {
     const data = await User.find();
     const filter = data.filter(e=>e.role === "farmer");

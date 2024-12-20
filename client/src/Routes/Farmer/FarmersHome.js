@@ -596,13 +596,13 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
     const karveNagarData = Object.keys(cumulativeData['Karve Nagar'])
                             .filter(commodity => commodity !== 'totalNetProfit') 
                             .map(commodity => [commodity, cumulativeData['Karve Nagar'][commodity]['netProfit']])
-    const godrejPranaData = Object.keys(cumulativeData['Kondhwa BK'])
+    const godrejPranaData = Object.keys(cumulativeData['Godrej Prana'])
                             .filter(commodity => commodity !== 'totalNetProfit') 
                             .map(commodity => [commodity, cumulativeData['Godrej Prana'][commodity]['netProfit']])
-    const ambegaonData = Object.keys(cumulativeData['Kondhwa BK'])
+    const ambegaonData = Object.keys(cumulativeData['Ambegaon'])
                             .filter(commodity => commodity !== 'totalNetProfit') 
                             .map(commodity => [commodity, cumulativeData['Ambegaon'][commodity]['netProfit']])
-    const fPlazaData = Object.keys(cumulativeData['Kondhwa BK'])
+    const fPlazaData = Object.keys(cumulativeData['F Plaza'])
                             .filter(commodity => commodity !== 'totalNetProfit') 
                             .map(commodity => [commodity, cumulativeData['F Plaza'][commodity]['netProfit']])
     const hadapsarData = Object.keys(cumulativeData['Hadapsar'])
@@ -623,21 +623,36 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
     // const wanawadiData = Object.keys(cumulativeData['Wanawadi'])
     //                         .filter(commodity => commodity !== 'totalNetProfit')
     //                         .map(commodity => [commodity, cumulativeData['Wanawadi'][commodity]['netProfit']])
-    const WagholiData = Object.keys(cumulativeData['Wagholi'])
+    const moreCornerData = Object.keys(cumulativeData['More Corner'])
                             .filter(commodity => commodity !== 'totalNetProfit')
-                            .map(commodity => [commodity, cumulativeData['Wagholi'][commodity]['netProfit']])
-    // const adityaNandanvanData = Object.keys(cumulativeData['Aditya Nandanvan'])
-    //                         .filter(commodity => commodity !== 'totalNetProfit')
-    //                         .map(commodity => [commodity, cumulativeData['Aditya Nandanvan'][commodity]['netProfit']])
-    const undriData = Object.keys(cumulativeData['Undri'])
+                            .map(commodity => [commodity, cumulativeData['More Corner'][commodity]['netProfit']])
+    const grandeurUndriData = Object.keys(cumulativeData['Grandeur Undri'])
                             .filter(commodity => commodity !== 'totalNetProfit')
-                            .map(commodity => [commodity, cumulativeData['Undri'][commodity]['netProfit']])
-    const greenCityData = Object.keys(cumulativeData['Green City'])
+                            .map(commodity => [commodity, cumulativeData['Grandeur Undri'][commodity]['netProfit']])
+    const godrejHorizonData = Object.keys(cumulativeData['Godrej Horizon'])
+                            .filter(commodity => commodity !== 'totalNetProfit')
+                            .map(commodity => [commodity, cumulativeData['Godrej Horizon'][commodity]['netProfit']])
+    const neoCityData = Object.keys(cumulativeData['Neo City'])
                             .filter(commodity => commodity !== 'totalNetProfit') 
-                            .map(commodity => [commodity, cumulativeData['Green City'][commodity]['netProfit']])
+                            .map(commodity => [commodity, cumulativeData['Neo City'][commodity]['netProfit']])
     const bhavadiData = Object.keys(cumulativeData['Bhavadi Road'])
                             .filter(commodity => commodity !== 'totalNetProfit') 
                             .map(commodity => [commodity, cumulativeData['Bhavadi Road'][commodity]['netProfit']])
+    const bopodiData = Object.keys(cumulativeData['Bopodi'])
+                            .filter(commodity => commodity !== 'totalNetProfit') 
+                            .map(commodity => [commodity, cumulativeData['Bopodi'][commodity]['netProfit']])
+
+    const tingreData = Object.keys(cumulativeData['Tingre Nagar'])
+                            .filter(commodity => commodity !== 'totalNetProfit') 
+                            .map(commodity => [commodity, cumulativeData['Tingre Nagar'][commodity]['netProfit']])
+
+    const ivyEstateData = Object.keys(cumulativeData['Ivy Estate'])
+                            .filter(commodity => commodity !== 'totalNetProfit') 
+                            .map(commodity => [commodity, cumulativeData['Ivy Estate'][commodity]['netProfit']])
+
+    const baifRoadData = Object.keys(cumulativeData['Baif Road'])
+                            .filter(commodity => commodity !== 'totalNetProfit') 
+                            .map(commodity => [commodity, cumulativeData['Baif Road'][commodity]['netProfit']])
 
     const drilldownData = [
       {
@@ -663,7 +678,9 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
         dataGroupId: t('tuesday'),
         data: [
           ...karveNagarData,
-          ...kondhwaData
+          ...godrejPranaData,
+          ...ambegaonData,
+          ...fPlazaData
           
         ]
       },
@@ -671,13 +688,16 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
         dataGroupId: t('wednesday'),
         data: [
           ...hadapsarData,
-          ...undriData
+          ...godrejHorizonData,
+          ...handewadiData
         ],
       },
       {
         dataGroupId: t('thursday'),
         data: [
-          ...kharadiData
+          ...kharadiData,
+          ...bopodiData,
+          ...tingreData
         ]
       },
 
@@ -685,13 +705,18 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
         dataGroupId: t('friday'),
         data: [
           ...BramhasuncityData,
-          ...WagholiData
+          ...moreCornerData
+
         ],
       },
       {
         dataGroupId: t('saturday'),
         data: [
-          ...bhavadiData
+          ...bhavadiData,
+          ...grandeurUndriData,
+          ...baifRoadData
+          
+
         ],
       },
       {
@@ -699,8 +724,8 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
         data: [
           ...magarpattaData,
           ...amanoraData,
-          ...greenCityData
-        ]
+          ...neoCityData,
+          ...ivyEstateData        ]
       }
     ];
 
@@ -1037,12 +1062,12 @@ console.log(cumulativeData['Hadapsar']['totalNetProfit'])
                 <div className="farmersdata_container">
                   <div className="farmerdata_items">
                     <p>{t("monday")}    : None</p>
-                    <p>{t("tuesday")}   : {t("karvenagar_location")},{t("Kondhwa BK")}</p>
-                    <p>{t("wednesday")} : {t("hadapsar_location")}, {t("Undri")}</p>
-                    <p>{t("thursday")}  :  {t("kharadi_iT_park_location")}</p>
-                    <p>{t("friday")}    : {t("bramhasun_city_location")}, {t("wagholi_location")} </p>
-                    <p>{t("saturday")}  : {t("Bhavadi Road")}</p>
-                    <p>{t("sunday")}    : {t("magarpatta_location")}, {t("amanora_city_location")}, {t("Green City")}</p>
+                    <p>{t("tuesday")}   : {t("karvenagar_location")},{t("Godrej Prana")},{t("Ambegaon")},{t("F Plaza")}</p>
+                    <p>{t("wednesday")} : {t("hadapsar_location")}, {t("Godrej Horizon")},{t("Handewadi")}</p>
+                    <p>{t("thursday")}  :  {t("kharadi_iT_park_location")}, {t("Tingre Nagar")}, {t("Bopodi")}</p>
+                    <p>{t("friday")}    : {t("bramhasun_city_location")}, {t("More Corner")}</p>
+                    <p>{t("saturday")}  : {t("Bhavadi Road")}, {t("Baif Road")}, {t("Grandeur Undri")}</p>
+                    <p>{t("sunday")}    : {t("magarpatta_location")}, {t("amanora_city_location")}, {t("Neo City")}, {t("Ivy Estate")}</p>
 
                   </div>
                 </div>

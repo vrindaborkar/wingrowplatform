@@ -12,7 +12,7 @@ import Ticket from "./Ticket";
 
 import FarmerNavigation from "./FarmerNavigation";
 import Subscription from "./Subscription";
-import TestTemp from "./TestTemp";
+// import TestTemp from "./TestTemp";
 const Farmer = ({t}) => {
   const [bookingDetails, setbookingDetails] = useState({
     farmer: "",
