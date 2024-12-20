@@ -315,42 +315,7 @@ exports.getOutward = async (req, res) => {
   };
 
 
-  // exports.postInward = async (req, res, next) => {
-  //   try {
-  //     let userId = req.body.userId; // Allow manual testing with userId in the body
-  //     if (req.headers["x-access-token"]) {
-  //       const token = req.headers["x-access-token"];
-  //       const decoded = jwt_decode(token);
-  //       userId = decoded.id;
-  //     }
   
-  //     // Ensure the date is stored without time
-  //     const formattedDate = moment(req.body.date, "DD-MM-YYYY").startOf('day').toDate();
-  
-  //     const data = {
-  //       name: req.body.name,
-  //       commodities: req.body.commodities, // Handle multiple commodities
-  //       userId, // Reference to the user
-  //       date: formattedDate, // Store only the date
-  //     };
-  
-  //     console.log("Inward Data to Save:", data);
-  
-  //     const postdata = new Inward(data);
-  //     const savedData = await postdata.save();
-  
-  //     if (!savedData) {
-  //       return res.status(400).json({ message: "An unknown error occurred" });
-  //     }
-  
-  //     res.status(200).json({ message: "Inward data added successfully", data: savedData });
-  //   } catch (error) {
-  //     console.error("Error in postInward API:", error);
-  //     res.status(500).json({ message: "Internal Server Error", error: error.message });
-  //   }
-  // };
-
-
   exports.postInward = async (req, res, next) => {
     try {
       // For testing: Use userId directly from the request body
@@ -387,32 +352,6 @@ exports.getOutward = async (req, res) => {
       res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
   };
-
-
-//   exports.postOutward = async(req,res,next) => {
-//     // const formattedDate = moment(date, "DD/MM/YYYY").toDate();
-//     let token = req.headers["x-access-token"];
-//     const { id } = jwt_decode(token)
-//     const data = {
-//         name:req.body.name,
-//         commodity:req.body.commodity,
-//         // sales_quantity:req.body.sales_quantity,
-//         sales_rate:req.body.sales_rate,
-//         total_sales:req.body.total_sales,
-//         userId:id,
-//         // time:req.body.time,
-//         date:req.body.date
-//     }
-// console.log(data.total_sales)
-//     const postdata = await new Outward(data);
-//     const resp = await postdata.save();
-
-//     if(!resp){
-//         res.status(400).json({message:"An unknown error occured"})
-//     }
-
-//     res.status(200).json({message:"Data added successfully"})
-// }
 
 
 
@@ -500,6 +439,35 @@ exports.getInward = async (req, res) => {
       res.status(500).json({ message: 'Server error while retrieving inward data', error: error.message });
     }
   };
+
+  exports.getInward = async (req, res) => {
+    try {
+      const { name, date } = req.query; // Added 'date' for additional filtering if needed
+  
+      // Create a query object dynamically to filter only provided fields
+      const query = {};
+      // if (userId) query.userId = userId;
+      if (name) query.name = name;
+      if (date) {
+        // Parse date to match the stored format (ISO Date or YYYY-MM-DD)
+        query.date = new Date(date);
+      }
+  
+      const inwardData = await Inward.find(query);
+  
+      // Handle case when no data is found
+      if (!inwardData || inwardData.length === 0) {
+        return res.status(404).json({ message: 'No inward data found' });
+      }
+  
+      // Respond with the retrieved data
+      res.status(200).json({ data: inwardData });
+    } catch (error) {
+      console.error('Error retrieving inward data:', error);
+      res.status(500).json({ message: 'Server error while retrieving inward data', error: error.message });
+    }
+  };
+
   
 exports.getMarket = async(req,res) =>{
     const date = new Date().toISOString().split('T')[0];
@@ -542,5 +510,53 @@ exports.addMarket = async(req,res) =>{
     res.status(200).json({message:"Data added successfully"})
 
 }
+
+exports.getInwardOutwardData = async (req, res) => {
+  try {
+      const { userId, name, date } = req.query;
+
+      // Validate required fields
+      if (!userId || !name || !date) {
+          return res.status(400).json({ message: 'User ID, market name, and date are required' });
+      }
+
+      // Format the date to filter data
+      const startOfDay = new Date(date);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+
+      const endOfDay = new Date(date);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+
+      // Retrieve Inward data for the user at the specific market and date
+      const inwardData = await Inward.find({
+          userId,
+          name,
+          date: { $gte: startOfDay, $lte: endOfDay },
+      });
+
+      // Retrieve Outward data for the user at the specific market and date
+      const outwardData = await Outward.find({
+          userId,
+          name,
+          date: { $gte: startOfDay, $lte: endOfDay },
+      });
+
+      // Check if no data is found
+      if ((!inwardData || inwardData.length === 0) && (!outwardData || outwardData.length === 0)) {
+          return res.status(404).json({ message: 'No inward or outward data found for the specified market and date' });
+      }
+
+      // Return the combined data
+      res.status(200).json({
+          market: name,
+          date: date,
+          inward: inwardData,
+          outward: outwardData,
+      });
+  } catch (error) {
+      console.error('Error retrieving inward and outward data:', error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
 
 
