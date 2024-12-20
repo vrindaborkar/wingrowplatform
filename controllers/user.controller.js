@@ -22,7 +22,90 @@ exports.getInward = async (req, res) => {
       res.status(500).json({ message: 'Server error while retrieving inward data' });
     }
   };
-  
+
+
+  // const Inward = require('../models/Inward'); // Ensure the model is imported
+
+  exports.getInwardFiltered = async (req, res) => {
+    try {
+        const { name, date, userId } = req.query;
+
+        // Validate inputs
+        if (!name || !date || !userId) {
+            return res.status(400).json({ message: "Market name, date, and userId are required" });
+        }
+
+        // Convert the input date to ISO format without time
+        const startOfDay = new Date(date);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(date);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+
+        // Query the database
+        const inwardData = await Inward.find({
+            name,
+            userId,
+            date: { $gte: startOfDay, $lt: endOfDay },
+        });
+
+        if (!inwardData || inwardData.length === 0) {
+            return res.status(404).json({ message: "No inward data found for the specified market, date, and userId" });
+        }
+
+        res.status(200).json({ data: inwardData });
+    } catch (error) {
+        console.error("Error retrieving filtered inward data:", error);
+        res.status(500).json({ message: "Server error while retrieving inward data", error: error.message });
+    }
+};
+
+
+
+  exports.getOutwardFiltered = async (req, res) => {
+    try {
+        const { name, date, userId } = req.query;
+
+        // Ensure all filters are provided
+        if (!name || !date || !userId) {
+            return res.status(400).json({ message: "Market name, date, and userId are required" });
+        }
+
+        // Convert the input date to ISO format without time
+        const startOfDay = new Date(date);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(date);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+
+        // Fetch data from the database
+        const outwardData = await Outward.find({
+            name,
+            userId,
+            date: { $gte: startOfDay, $lte: endOfDay },
+        });
+
+        // Check if data exists
+        if (!outwardData || outwardData.length === 0) {
+            return res.status(404).json({ message: "No outward data found for the specified market, date, and userId" });
+        }
+
+        // Respond with the filtered data
+        res.status(200).json({ data: outwardData });
+    } catch (error) {
+        console.error("Error retrieving outward data:", error);
+        res.status(500).json({ message: "Server error while retrieving outward data", error: error.message });
+    }
+};
+
+
+
+
+
+
+
+
+
 
 exports.getUser = async(req, res) => {
     const data = await User.find();
@@ -185,6 +268,8 @@ exports.getInwardOutwardData = async (req, res) => {
   }
 };
 
+
+
 exports.getOutward = async (req, res) => {
     try {
       const { userId, name } = req.query;
@@ -201,22 +286,61 @@ exports.getOutward = async (req, res) => {
     }
   };
 
+
+  // exports.postInward = async (req, res, next) => {
+  //   try {
+  //     let userId = req.body.userId; // Allow manual testing with userId in the body
+  //     if (req.headers["x-access-token"]) {
+  //       const token = req.headers["x-access-token"];
+  //       const decoded = jwt_decode(token);
+  //       userId = decoded.id;
+  //     }
+  
+  //     // Ensure the date is stored without time
+  //     const formattedDate = moment(req.body.date, "DD-MM-YYYY").startOf('day').toDate();
+  
+  //     const data = {
+  //       name: req.body.name,
+  //       commodities: req.body.commodities, // Handle multiple commodities
+  //       userId, // Reference to the user
+  //       date: formattedDate, // Store only the date
+  //     };
+  
+  //     console.log("Inward Data to Save:", data);
+  
+  //     const postdata = new Inward(data);
+  //     const savedData = await postdata.save();
+  
+  //     if (!savedData) {
+  //       return res.status(400).json({ message: "An unknown error occurred" });
+  //     }
+  
+  //     res.status(200).json({ message: "Inward data added successfully", data: savedData });
+  //   } catch (error) {
+  //     console.error("Error in postInward API:", error);
+  //     res.status(500).json({ message: "Internal Server Error", error: error.message });
+  //   }
+  // };
+
+
   exports.postInward = async (req, res, next) => {
     try {
-      let userId = req.body.userId; // Allow flexibility for manual testing without a token
-      if (!userId && req.headers["x-access-token"]) {
-        const token = req.headers["x-access-token"];
-        const decoded = jwt_decode(token);
-        userId = decoded.id;
-      }
+      // For testing: Use userId directly from the request body
+    const userId = req.body.userId;
+    // Preprocess the date to remove time
+    const rawDate = req.body.date; // e.g., "20-12-2024"
+    const [day, month, year] = rawDate.split("-");
+    const formattedDate = new Date(`${year}-${month}-${day}`); // Convert to YYYY-MM-DD
   
       // Prepare the data to save
       const data = {
         name: req.body.name,
-        commodities: req.body.commodities, // Allow handling multiple commodities
+        commodity: req.body.commodity,
+        purchase_quantity: req.body.purchase_quantity,
+        purchase_rate: req.body.purchase_rate,
+        total_purchase: req.body.total_purchase,
         userId, // Reference the user
-        // time: req.body.time,
-        date: req.body.date
+        date: formattedDate, // Only the date part is stored
       };
   
       console.log("Inward Data to Save:", data);
@@ -236,73 +360,90 @@ exports.getOutward = async (req, res) => {
     }
   };
 
-// exports.postInward = async (req, res) => {
-//     try {
-//         let userId = req.body.userId || null; // Allow userId from request body for testing
-        
-//         const { name, commodities, date } = req.body;
 
-//         if (!name || !commodities || !date) {
-//             return res.status(400).json({ message: 'Name, commodities, and date are required' });
-//         }
-
-//         const inwardEntry = new Inward({ name, commodities, userId, date });
-//         const savedData = await inwardEntry.save();
-
-//         res.status(200).json({ message: 'Inward data added successfully', data: savedData });
-//     } catch (error) {
-//         console.error('Error in postInward:', error);
-//         res.status(500).json({ message: 'Internal Server Error' });
+//   exports.postOutward = async(req,res,next) => {
+//     // const formattedDate = moment(date, "DD/MM/YYYY").toDate();
+//     let token = req.headers["x-access-token"];
+//     const { id } = jwt_decode(token)
+//     const data = {
+//         name:req.body.name,
+//         commodity:req.body.commodity,
+//         // sales_quantity:req.body.sales_quantity,
+//         sales_rate:req.body.sales_rate,
+//         total_sales:req.body.total_sales,
+//         userId:id,
+//         // time:req.body.time,
+//         date:req.body.date
 //     }
-// };
+// console.log(data.total_sales)
+//     const postdata = await new Outward(data);
+//     const resp = await postdata.save();
 
-// exports.postOutward = async (req, res) => {
-//     try {
-//         let userId = req.body.userId || null; // Allow userId from request body for testing
-
-//         const { name, commodities, date } = req.body;
-
-//         if (!name || !commodities || !date) {
-//             return res.status(400).json({ message: 'Name, commodities, and date are required' });
-//         }
-
-//         const outwardEntry = new Outward({ name, commodities, userId, date });
-//         const savedData = await outwardEntry.save();
-
-//         res.status(200).json({ message: 'Outward data added successfully', data: savedData });
-//     } catch (error) {
-//         console.error('Error in postOutward:', error);
-//         res.status(500).json({ message: 'Internal Server Error' });
+//     if(!resp){
+//         res.status(400).json({message:"An unknown error occured"})
 //     }
-// };
 
-  exports.postOutward = async(req,res,next) => {
-    // const formattedDate = moment(date, "DD/MM/YYYY").toDate();
-    let token = req.headers["x-access-token"];
-    const { id } = jwt_decode(token)
-    const data = {
-        name:req.body.name,
-        commodity:req.body.commodity,
-        // sales_quantity:req.body.sales_quantity,
-        sales_rate:req.body.sales_rate,
-        total_sales:req.body.total_sales,
-        userId:id,
-        // time:req.body.time,
-        date:req.body.date
-    }
-console.log(data.total_sales)
-    const postdata = await new Outward(data);
-    const resp = await postdata.save();
+//     res.status(200).json({message:"Data added successfully"})
+// }
 
-    if(!resp){
-        res.status(400).json({message:"An unknown error occured"})
-    }
 
-    res.status(200).json({message:"Data added successfully"})
-}
 
-// // const jwt_decode = require("jwt-decode");
-// // const Inward = require("../models/Inward");
+
+exports.postOutward = async (req, res, next) => {
+  try {
+      // Ensure the date is in the correct format (YYYY-MM-DD)
+      const rawDate = req.body.date; // e.g., "20-12-2024"
+    const [day, month, year] = rawDate.split("-");
+    const formattedDate = new Date(`${year}-${month}-${day}`); // Convert to YYYY-MM-DD
+          if (isNaN(formattedDate)) {
+          return res.status(400).json({ message: "Invalid date format. Please use 'YYYY-MM-DD'." });
+      }
+
+      // Construct the data from the request body
+      const data = {
+          name: req.body.name,
+          commodity: req.body.commodity,
+          sales_rate: req.body.sales_rate,
+          total_sales: req.body.total_sales,
+          userId: req.body.userId, // Accept userId directly from the body
+          date: formattedDate // Store the formatted date
+      };
+
+      console.log("Outward Data:", data);
+
+      // Save the data to the database
+      const postdata = new Outward(data);
+      const resp = await postdata.save();
+
+      if (!resp) {
+          return res.status(400).json({ message: "An unknown error occurred" });
+      }
+
+      res.status(200).json({ message: "Data added successfully", data: resp });
+  } catch (error) {
+      console.error("Error in postOutward:", error);
+      res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+};
+
+exports.getAllOutward = async (req, res) => {
+  try {
+      // Fetch all outward data
+      const outwardData = await Outward.find();
+
+      // Check if data exists
+      if (!outwardData || outwardData.length === 0) {
+          return res.status(404).json({ message: "No outward data found" });
+      }
+
+      // Return all outward data
+      res.status(200).json({ data: outwardData });
+  } catch (error) {
+      console.error("Error retrieving outward data:", error);
+      res.status(500).json({ message: "Server error while retrieving outward data", error: error.message });
+  }
+};
+
 
 exports.getInward = async (req, res) => {
     try {
@@ -350,9 +491,7 @@ exports.getMarkets = async (req, res) => {
         res.status(500).send("Error retrieving markets");
     }
 };
-
-
-    
+  
 
 exports.addMarket = async(req,res) =>{
     const data = {

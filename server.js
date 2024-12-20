@@ -65,8 +65,13 @@ app.use('/api/bookings', marketRoutes);
 app.use('/api', marketRoutes);
 app.use('/api', offersRoutes);
 app.use('/api', feedbackRoutes);
-app.use(inwardRoutes);
-app.use(outwardRoutes);
+// app.use(inwardRoutes);
+// app.use(outwardRoutes);
+
+app.use('/api/inward', inwardRoutes);
+app.use('/api/outward', outwardRoutes);
+
+
 
 
 app.use(express.static('client/build'))
