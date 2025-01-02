@@ -1,0 +1,4 @@
+.grid-multi-select-wrapper{
+    max-width: 300px !important;
+    overflow: scroll;
+}

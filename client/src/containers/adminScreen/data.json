@@ -1,0 +1,149 @@
+{
+    "tableData": {
+        "columns": [
+            {
+                "colLabel": "Id",
+                "dataKey": "id",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": true,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Id",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "Type",
+                "dataKey": "farmertype",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": false,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Name",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "First Name",
+                "dataKey": "firstname",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": false,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Name",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "Last Name",
+                "dataKey": "lastname",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": false,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Name",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "Address",
+                "dataKey": "address",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": false,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Name",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "Email",
+                "dataKey": "email",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": true,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Email ID",
+                    "sortField": false
+                }
+            },
+          
+            {
+                "colLabel": "Mobile Number",
+                "dataKey": "phone",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": false,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Name",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "Department",
+                "dataKey": "department.name",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": true,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Department",
+                    "sortField": false
+                }
+            },
+              {
+                "colLabel": "Active",
+                "dataKey": "active",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": false,
+                    "shouldFilter": false,
+                    "hidden": true,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "Enter Active Status",
+                    "sortField": false
+                }
+            },
+            {
+                "colLabel": "Last Update",
+                "dataKey": "updatedAt",
+                "extraProps": {
+                    "isSortable": false,
+                    "isDateField": true,
+                    "shouldFilter": false,
+                    "hidden": true,
+                    "showFilterMenu": false,
+                    "filterPlaceholder": "",
+                    "sortField": false
+                }
+            }
+        ],
+        "paginationInfo": {
+            "pageSize": 10,
+            "pageNumber": 1,
+            "totalPages": 1,
+            "totalRecords": 1
+        },
+        "screenPermission": {
+            "read": false,
+            "create": false,
+            "update": false,
+            "delete": false
+        }
+    }
+}
