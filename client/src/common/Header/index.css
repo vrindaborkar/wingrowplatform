@@ -1,0 +1,19 @@
+.menubar {
+    display: flex;
+    justify-content: space-between !important;
+}
+
+.p-sidebar-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.p-menubar-button {
+    display: none !important;
+}
+
+.p-sidebar {
+    max-width: 16rem !important;
+}
