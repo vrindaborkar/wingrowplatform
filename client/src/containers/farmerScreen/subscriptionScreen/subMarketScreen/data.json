@@ -1,0 +1,8 @@
+{
+  "screenPermission": {
+    "isread": true,
+    "iswrite": true,
+    "isdelete": true,
+    "isupdate": true
+  }
+}
