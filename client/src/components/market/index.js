@@ -140,7 +140,7 @@ const MarketComponent = props => {
                   <div className='d-inline-block'>
                     <Link to='/' className='text-d-none'>
                       <Button
-                        className='p-button-rounded flex justify-content-start'
+                        className='common-btn p-button-rounded flex justify-content-start'
                         icon='pi pi-angle-left mr-2'>
                         {t('back')}
                       </Button>

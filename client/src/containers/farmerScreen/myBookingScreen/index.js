@@ -133,7 +133,7 @@ const MyBookingScreen = props => {
             <Button
               rounded
               label='Yes'
-              icon='pi pi-check'
+              icon='common-btn pi pi-check'
               onClick={confirmDelete}
               autoFocus
               className='ml-2'

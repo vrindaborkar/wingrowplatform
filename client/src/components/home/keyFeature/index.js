@@ -22,7 +22,7 @@ export default function KeyFeatureCompnent() {
                 key={index}
                 className='flex gap-3 mb-3 align-items-center'
                 data-aos='fade-left'>
-                <div className='bg-green-400 p-3  w-full text-lg border-round-3xl flex-column'>
+                <div className='common-btn p-3  w-full text-lg border-round-3xl flex-column'>
                   {t
                     ? t(`key_feature${index + 1}`)
                     : `Key Feature ${index + 1}`}
@@ -43,7 +43,7 @@ export default function KeyFeatureCompnent() {
                 key={index + 4}
                 className='flex gap-3 mb-3 align-items-center'
                 data-aos='fade-right'>
-                <div className='bg-green-400 p-3 w-full text-lg border-round-3xl flex-column'>
+                <div className='common-btn p-3 w-full text-lg border-round-3xl flex-column'>
                   {t
                     ? t(`key_feature${index + 5}`)
                     : `Key Feature ${index + 5}`}

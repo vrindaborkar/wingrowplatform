@@ -131,7 +131,7 @@ const MarketComponent = props => {
                   <div className='d-inline-block'>
                     <Link to='/farmer' className='text-d-none'>
                       <Button
-                        className='p-button-rounded flex justify-content-start'
+                        className='common-btn p-button-rounded flex justify-content-start'
                         icon='pi pi-angle-left mr-2'>
                         {t('back')}
                       </Button>
@@ -171,7 +171,7 @@ const MarketComponent = props => {
                 <Button
                   onClick={() => handleMarket()}
                   disabled={selectedCity ? false : true}
-                  className='p-button-rounded flex justify-content-start'
+                  className='common-btn p-button-rounded flex justify-content-start'
                   icon='pi pi-angle-right mr-2'>
                   {t('Proceed')}
                 </Button>

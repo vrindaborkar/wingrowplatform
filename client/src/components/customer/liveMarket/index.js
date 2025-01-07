@@ -169,12 +169,12 @@ export default function Index() {
                       </div>
                       <div className='flex align-items-center justify-content-center text-xs gap-2'>
                         <Button
-                          className='border-round-3xl'
+                          className='common-btn border-round-3xl'
                           label={t('View_Offers')}
                           onClick={() => viewOffers(item)}
                         />
                         <Button
-                          className='border-round-3xl'
+                          className='common-btn border-round-3xl'
                           label={t('get_direction')}
                           onClick={() => window.open(item.location, '_blank')}
                         />
@@ -185,13 +185,13 @@ export default function Index() {
               </div>
               <div className='flex align-items-center justify-content-center text-xs gap-2'>
                 <Button
-                  className='border-round-3xl'
+                  className='common-btn border-round-3xl'
                   label={t('Previous')}
                   onClick={handlePrevPage}
                   disabled={currentPage === 1}
                 />
                 <Button
-                  className='border-round-3xl'
+                  className='common-btn border-round-3xl'
                   label={t('Next')}
                   onClick={handleNextPage}
                   disabled={

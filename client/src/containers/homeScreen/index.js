@@ -232,7 +232,7 @@ const HomeScreen = () => {
           <Button
             label={t('book_stall')}
             onClick={handleBookStall}
-            className='rounded'
+            className='common-btn rounded'
           />
         </div>
         <h1 className='px-2 text-2xl md:text-3xl'>

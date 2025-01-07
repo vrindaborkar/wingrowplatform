@@ -173,7 +173,7 @@ const AddOutwardComponent = props => {
           className='text-d-none w-17rem absolute'
           style={{ left: '5%' }}>
           <Button
-            className='p-button-rounded flex  justify-content-start'
+            className='common-btn p-button-rounded flex  justify-content-start'
             icon='pi pi-angle-left mr-2'>
             {t('back')}
           </Button>
@@ -291,7 +291,7 @@ const AddOutwardComponent = props => {
 
                 <div className='flex justify-content-between gap-2 w-full'>
                   <div className='mb-3 w-full'>
-                    <Button label={t('add')} className='mt-3 border-round-sm' />
+                    <Button label={t('add')} className='common-btn mt-3 border-round-sm' />
                   </div>
                   <div className='mb-3 w-full'>
                     <Button
@@ -299,7 +299,7 @@ const AddOutwardComponent = props => {
                       disabled={isLoading}
                       label={t('submit')}
                       type='submit'
-                      className='mt-3 border-round-sm'
+                      className='common-btn mt-3 border-round-sm'
                     />
                   </div>
                 </div>

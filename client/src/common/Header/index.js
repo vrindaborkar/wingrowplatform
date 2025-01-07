@@ -13,6 +13,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { logout } from '../../redux/action/auth/login'
 import { init_verification } from '../../redux/action/auth/smg91'
 import { toast } from 'react-toastify'
+import './index.css'
 
 const Header = ({ role, verified }) => {
   const { t } = useTranslation()
@@ -109,7 +110,8 @@ const Header = ({ role, verified }) => {
         label={t('home')}
         icon='pi pi-home'
         text
-        className='text-white no-outline font-bold  rounded'
+        id='home'
+        className='text-white no-outline font-bold rounded'
         onClick={() => navigate(ROUTE_PATH.BASE.HOME)}
       />
       <Button
@@ -190,7 +192,7 @@ const Header = ({ role, verified }) => {
 
   return (
     <div className='border-bottom-1 border-400'>
-      <div className='flex bg-green-400 align-items-center justify-content-between p-1 block md:hidden'>
+      <div className='background flex align-items-center justify-content-between p-1 block md:hidden'>
         <img src={WINGROW_LOGO} alt='winagrow_logo.png' className='w-5rem' />
         <Button
           icon='pi pi-bars'
@@ -269,7 +271,7 @@ const Header = ({ role, verified }) => {
       </Sidebar>
 
       <div className='hidden md:block'>
-        <Menubar start={start} end={end} className='bg-green-400' />
+        <Menubar start={start} end={end} className='background' />
       </div>
     </div>
   )
