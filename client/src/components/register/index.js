@@ -329,7 +329,7 @@ const RegisterComponent = props => {
                           label={t('signup.Next')}
                           type='button'
                           onClick={handleNextStepOrSendOTP}
-                          className='mt-3 border-round-sm'
+                          className='common-btn mt-3 border-round-sm'
                           disabled={isLoading}
                         />
                           <div className='mt-3'>
@@ -381,7 +381,7 @@ const RegisterComponent = props => {
                           <Button
                             label={t('submit')}
                             type='submit'
-                            className='mt-3 border-round-sm'
+                            className='common-btn mt-3 border-round-sm'
                           />
                         </div>
                       </div>
