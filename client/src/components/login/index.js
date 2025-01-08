@@ -3,7 +3,6 @@ import { WINGROW_LOGO, WINGROW_SLIDE_THREE } from '../../assets/images'
 import { useForm } from 'react-hook-form'
 import { FORM_FIELDS_NAME } from './constant'
 import { Button } from 'primereact/button'
-import { MSG91_AUTH_KEY, TEMPLATE_ID_LOGIN } from '../../constant/msg91'
 import MzAutoComplete from '../../common/MzForm/MzAutoComplete'
 import MzPhoneInput from '../../common/MzForm/MzPhoneInput'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +38,8 @@ const LoginComponent = props => {
       []
     ),
   })
-
+  const TEMPLATE_ID_LOGIN = process.env.REACT_APP_TEMPLATE_ID_LOGIN;
+  const MSG91_AUTH_KEY = process.env.REACT_APP_MSG91_AUTH_KEY;
   const { t } = useTranslation()
   const [step, setStep] = useState(0)
   const Navigate = useNavigate()
