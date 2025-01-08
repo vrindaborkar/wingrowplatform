@@ -1,8 +1,8 @@
 import axios from "axios";
 import {  handleAPIError } from "../common/errorHandler";
 import { baseUrl } from "../PostAPI";
-import { MSG91_BASE_URL } from "../../constant/msg91";
 
+const MSG91_BASE_URL = process.env.REACT_APP_MSG91_BASE_URL;
 export const sendVerificationCode = async (payload) => {
   const url = `${MSG91_BASE_URL}/otp?template_id=${payload.template_id}&mobile=${payload.mobile}&authkey=${payload.authkey}`;
   try {

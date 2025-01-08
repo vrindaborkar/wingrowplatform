@@ -40,6 +40,7 @@ const AccessDeniedPage = () => {
             </div>
             <img src={ACCESS_IMG} alt='Error' className='mb-5' width='80%' />
             <Button
+              className='common-btn'
               icon='pi pi-arrow-left'
               label='Go to Home'
               text

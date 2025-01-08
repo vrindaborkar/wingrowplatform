@@ -697,7 +697,7 @@ const StallComponent = props => {
               <div className='d-inline-block'>
                 <Link to={prevPath} className='text-d-none'>
                   <Button
-                    className='p-button-rounded flex justify-content-start'
+                    className='common-btn p-button-rounded flex justify-content-start'
                     icon='pi pi-angle-left mr-2'>
                     {t('back')}
                   </Button>
@@ -969,13 +969,13 @@ const StallComponent = props => {
                   label='Market Preview'
                   onClick={handlePreview}
                   disabled={!selectedMarket}
-                  className='border-2 border-round-md md:w-12rem mr-2'
+                  className='common-btn border-2 border-round-md md:w-12rem mr-2'
                   // disabled={selectedStallsRedux?.length === 0}
                 />
                 <Button
                   label='Book'
                   onClick={handleShowClick}
-                  className='border-2 border-round-md md:w-10rem mr-2'
+                  className='common-btn border-2 border-round-md md:w-10rem mr-2'
                   // disabled={selectedStallsRedux?.length === 0}
                 />
               </div>
@@ -1024,13 +1024,13 @@ const StallComponent = props => {
               <Button
                 label='Cancel'
                 onClick={() => setShowDetails(false)}
-                className='border-2 te border-round-md md:w-10rem mr-2'
+                className='common-btn border-2 te border-round-md md:w-10rem mr-2'
               />
 
               <Button
                 type='button'
                 label={t('Confirm_Booking')}
-                className='border-2 te border-round-md md:w-10rem'
+                className='common-btn border-2 te border-round-md md:w-10rem'
                 onClick={handlePayClick}
               />
             </>
@@ -1256,7 +1256,7 @@ const StallComponent = props => {
             <div className='text-center pt-5'>
               <Button
                 label='Accept & Pay'
-                className='tnc_btn'
+                className='common-btn tnc_btn'
                 onClick={handleConfirmBooking}
                 disabled={!isChecked}
               />

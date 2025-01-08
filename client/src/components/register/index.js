@@ -3,7 +3,6 @@ import { WINGROW_SLIDE_THREE, WINGROW_LOGO } from '../../assets/images'
 import { useForm } from 'react-hook-form'
 import { FORM_FIELDS_NAME } from './constant'
 import { Button } from 'primereact/button'
-import { MSG91_AUTH_KEY, TEMPLATE_ID_LOGIN } from '../../constant/msg91'
 import MzInput from '../../common/MzForm/MzInput'
 import MzPhoneInput from '../../common/MzForm/MzPhoneInput'
 import MzDropDown from '../../common/MzForm/MzDropDown/WithFloatLabel'
@@ -47,6 +46,8 @@ const RegisterComponent = props => {
     ),
   })
 
+  const TEMPLATE_ID_LOGIN = process.env.REACT_APP_TEMPLATE_ID_LOGIN;
+  const MSG91_AUTH_KEY = process.env.REACT_APP_MSG91_AUTH_KEY;
   const { t } = useTranslation()
   const [step, setStep] = useState(0)
   const [otpSent, setOtpSent] = useState(false)
@@ -329,7 +330,7 @@ const RegisterComponent = props => {
                           label={t('signup.Next')}
                           type='button'
                           onClick={handleNextStepOrSendOTP}
-                          className='mt-3 border-round-sm'
+                          className='common-btn mt-3 border-round-sm'
                           disabled={isLoading}
                         />
                           <div className='mt-3'>
@@ -381,7 +382,7 @@ const RegisterComponent = props => {
                           <Button
                             label={t('submit')}
                             type='submit'
-                            className='mt-3 border-round-sm'
+                            className='common-btn mt-3 border-round-sm'
                           />
                         </div>
                       </div>

@@ -163,7 +163,7 @@ const InOutData = props => {
           className='text-d-none absolute'
           style={{ left: '5%' }}>
           <Button
-            className='p-button-rounded flex justify-content-start'
+            className='common-btn p-button-rounded flex justify-content-start'
             icon='pi pi-angle-left mr-2'>
             {t('back')}
           </Button>
@@ -223,7 +223,7 @@ const InOutData = props => {
               <Button
                 type='submit'
                 label={t('search')}
-                className='border-2 border-round-md md:w-6rem mr-2'
+                className='common-btn border-2 border-round-md md:w-6rem mr-2'
                 disabled={isloading}
               />
             </div>

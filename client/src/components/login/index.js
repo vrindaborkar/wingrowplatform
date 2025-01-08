@@ -3,7 +3,6 @@ import { WINGROW_LOGO, WINGROW_SLIDE_THREE } from '../../assets/images'
 import { useForm } from 'react-hook-form'
 import { FORM_FIELDS_NAME } from './constant'
 import { Button } from 'primereact/button'
-import { MSG91_AUTH_KEY, TEMPLATE_ID_LOGIN } from '../../constant/msg91'
 import MzAutoComplete from '../../common/MzForm/MzAutoComplete'
 import MzPhoneInput from '../../common/MzForm/MzPhoneInput'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +38,8 @@ const LoginComponent = props => {
       []
     ),
   })
-
+  const TEMPLATE_ID_LOGIN = process.env.REACT_APP_TEMPLATE_ID_LOGIN;
+  const MSG91_AUTH_KEY = process.env.REACT_APP_MSG91_AUTH_KEY;
   const { t } = useTranslation()
   const [step, setStep] = useState(0)
   const Navigate = useNavigate()
@@ -144,7 +144,7 @@ const LoginComponent = props => {
     )
   }
   return (
-    <div className='grid grid-nogutter surface-0  text-800'>
+    <div className='grid grid-nogutter surface-0 text-800'>
       <div className='col-12 md:col-6 overflow-hidden hidden md:block lg:block'>
         <img
           src={WINGROW_SLIDE_THREE}
@@ -155,7 +155,7 @@ const LoginComponent = props => {
           }}
         />
       </div>
-      <div className='col-12 md:col-6 md:p-6 text-center flex align-items-center justify-content-center'>
+      <div className='col-12 md:col-6 md:p-2 text-center flex align-items-center justify-content-center'>
         <section>
           <div className='flex flex-column align-items-center justify-content-center p-2'>
             <div
@@ -166,7 +166,7 @@ const LoginComponent = props => {
                   'linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)',
               }}>
               <div
-                className='w-full text-center surface-card py-8 px-5 sm:px-8 flex flex-column align-items-center'
+                className='w-full text-center surface-card py-4 px-5 sm:px-8 flex flex-column align-items-center'
                 style={{ borderRadius: '53px' }}>
                 <img
                   src={WINGROW_LOGO}
@@ -198,6 +198,7 @@ const LoginComponent = props => {
                           )}
                           suggestions={FORM_FIELDS_NAME.ROLE.options}
                           dropdown
+                          className='common-btn'
                         />
                       </div>
                       <MzPhoneInput
@@ -220,7 +221,7 @@ const LoginComponent = props => {
                           e.preventDefault()
                           handleNextStep()
                         }}
-                        className='mt-3 border-round-sm'
+                        className='common-btn mt-3 border-round-sm'
                       />
                       <div className='mt-3'>
                         <p>{t('newToWingrow')} <Link to="/register" className="text-decoration-underline text-red-500">
@@ -269,7 +270,7 @@ const LoginComponent = props => {
                             disabled={isLoading}
                             label={t('OTPFORM.submit')}
                             type='submit'
-                            className='mt-3 border-round-sm'
+                            className='common-btn mt-3 border-round-sm'
                           />
                         </div>
                       </div>
