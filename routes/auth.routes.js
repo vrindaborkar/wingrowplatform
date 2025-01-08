@@ -1,7 +1,8 @@
-const verifySignUp  = require("../middlewares/verifySignUp");
+const verifySignUp = require("../middlewares/verifySignUp");
 const controller = require("../controllers/auth.controller");
 
 module.exports = function(app) {
+  // Set Global Headers
   app.use(function(req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
@@ -10,21 +11,25 @@ module.exports = function(app) {
     next();
   });
 
-  app.post("/auth/signup",controller.signup );
+  // User Authentication Routes
+  app.post("/auth/signup", controller.signup);
   app.post("/auth/signin", controller.signin);
-  app.post("/auth/feedback", controller.feedback);
+  // app.post("/auth/feedback", controller.feedback);
 
-  //admin
-  app.post("/auth/adminSignUp",controller.adminSignUp );
-  app.post("/auth/adminSignin",controller.adminSignin );
+  // Admin Authentication Routes
+  app.post("/auth/adminSignUp", controller.adminSignUp);
+  app.post("/auth/adminSignin", controller.adminSignin);
 
+  // File and Address Management
+  app.put("/image", controller.postPic);
+  app.post("/address", controller.addAddress);
 
-  // app.put("/auth/image" , controller.postPic)
-   //app.post("/auth/address", controller.addAddress);
-  // app.post("/signup",[verifySignUp.checkDuplicatePhone],controller.signup );
-  // app.post("/signin", controller.signin);
-  app.put("/image" , controller.postPic)
- app.post("/address", controller.addAddress);
-  // app.post("/auth/newpassword", controller.newpassword);
-  app.post("/check",controller.checkPhone)
+  // Phone Verification
+  app.post("/check", controller.checkPhone);
+
+  app.post("/auth/send-otp", controller.sendOtp);
+  app.post("/auth/verify-otp", controller.verifyOtp);
+  // app.post("/auth/signup", controller.signup);
+  // app.post("/auth/signin", controller.signin);
+
 };
