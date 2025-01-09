@@ -58,7 +58,7 @@ const MyBookingComponent = props => {
               <div className='d-inline-block'>
                 <Link to='/farmer' className='text-d-none'>
                   <Button
-                    className='p-button-rounded flex justify-content-start'
+                    className='common-btn p-button-rounded flex justify-content-start'
                     icon='pi pi-angle-left mr-2'>
                     {t('back')}
                   </Button>
@@ -112,7 +112,7 @@ const MyBookingComponent = props => {
                         onClick={() => {
                           handleOnDeleteRecord(stall)
                         }}
-                        className='p-3 w-full mt-auto'
+                        className='common-btn p-3 w-full mt-auto'
                       />
                     </div>
                   </div>

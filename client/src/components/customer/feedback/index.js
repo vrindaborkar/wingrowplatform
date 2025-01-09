@@ -129,7 +129,7 @@ export default function FeedbackComponent() {
                   <Button
                     label='Submit'
                     type='submit'
-                    className='mt-3 border-round-sm'
+                    className='common-btn mt-3 border-round-sm'
                   />
                 </div>
               </div>

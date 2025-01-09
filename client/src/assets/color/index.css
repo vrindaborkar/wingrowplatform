@@ -1,0 +1,35 @@
+:root {
+    --surface-ground: #ffffff;
+    --surface-section: #f8f9fa;
+    --surface-card: #ffffff;
+    --surface-hover: #f1f3f5;
+  
+    /* Store gradients in variables */
+    --primary-color: linear-gradient(105.42deg, #3AA54B 33.61%, #107C55 80.31%);
+    --primary-color-hover: #107C55; /* Optional solid color for hover effect */
+    --primary-color-text: #ffffff;
+  
+    /* Button styles */
+    --button-bg: linear-gradient(105.42deg, #3AA54B 33.61%, #107C55 80.31%);
+    --button-bg-hover: linear-gradient(105.42deg, #107C55, #107C55);
+    --button-text-color: #ffffff;
+  
+    /* Focus and hover */
+    --focus-ring: 0 0 0 3px rgba(58, 165, 75, 0.5);
+    --hover-bg: rgba(16, 124, 85, 0.1);
+}
+
+/* Apply the gradient variable to the background */
+.p-button {
+   
+    border: none !important;
+    color: var(--button-text-color) !important;
+    background-size: 200%; /* Optional: Add a nice gradient animation effect */
+}
+
+.background {
+    background: var(--primary-color);
+}
+.common-btn{
+    background: var(--button-bg);
+}

@@ -50,7 +50,7 @@ const Footer = () => {
 
   return (
     <>
-      <div className='bg-green-500 w-full md:px-8 footer-back'>
+      <div className='background w-full md:px-8 footer-back'>
         <div className=' grid grid-nogutter w-full md:p-4 px-3'>
           <div className='col-12  md:col-4 mb-2 p-1 text-center  md:text-left'>
             <div className='text-red-600  md:flex  align-items-center '>
