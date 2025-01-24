@@ -12,6 +12,7 @@ import { baseUrl } from '../../../services/PostAPI'
 import { API_PATH } from '../../../constant/urlConstant'
 import axios from 'axios'
 import { Toast } from 'primereact/toast'
+import { useTranslation } from 'react-i18next'
 export default function FeedbackComponent() {
   const {
     control,
@@ -25,6 +26,8 @@ export default function FeedbackComponent() {
       [FORM_FIELDS_NAME.RATING.name]: 0,
     },
   })
+
+  const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem('user'))
   const userId = user?.id
   const toast = useRef(null)
@@ -65,7 +68,7 @@ export default function FeedbackComponent() {
 
   const getFormErrorMessage = name => {
     return (
-      errors[name] && <span className='p-error'>{errors[name].message}</span>
+      errors[name] && <span className='p-error'>{t(errors[name].message)}</span>
     )
   }
 
@@ -78,7 +81,7 @@ export default function FeedbackComponent() {
       <Toast ref={toast} />
       <div className='md:p-4 px-2 mb-2'>
         <div className='flex align-items-center'>
-          <h2 className='mr-2 text-xl md:text-3xl'>Feedback</h2>
+          <h2 className='mr-2 text-xl md:text-3xl'>{t('feedback')}</h2>
           <hr className='flex-1 p-2' />
         </div>
         <div className='md:flex gap-2 justify-content-between'>
@@ -98,9 +101,9 @@ export default function FeedbackComponent() {
               <div className='field'>
                 <MzTextarea
                   control={control}
-                  label={FORM_FIELDS_NAME.MESSAGE.label}
+                  label={t(FORM_FIELDS_NAME.MESSAGE.label)}
                   name={FORM_FIELDS_NAME.MESSAGE.name}
-                  placeholder={FORM_FIELDS_NAME.MESSAGE.placeholder}
+                  placeholder={t(FORM_FIELDS_NAME.MESSAGE.placeholder)}
                   rules={FORM_FIELDS_NAME.MESSAGE.rules}
                   isError={errors[FORM_FIELDS_NAME.MESSAGE.name]}
                   rows={3}
@@ -109,7 +112,7 @@ export default function FeedbackComponent() {
               </div>
               <div className='field text-left'>
                 <label htmlFor={FORM_FIELDS_NAME.RATING.name}>
-                  {FORM_FIELDS_NAME.RATING.label}
+                  {t(FORM_FIELDS_NAME.RATING.label)}
                   {FORM_FIELDS_NAME.RATING.rules.isRequired && (
                     <span style={{ color: 'red' }}> *</span>
                   )}
@@ -127,7 +130,7 @@ export default function FeedbackComponent() {
               <div className='flex justify-content-between gap-2 w-full'>
                 <div className='mb-3 w-full'>
                   <Button
-                    label='Submit'
+                    label={t('submit')}
                     type='submit'
                     className='common-btn mt-3 border-round-sm'
                   />

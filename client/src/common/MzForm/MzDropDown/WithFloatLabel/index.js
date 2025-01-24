@@ -2,6 +2,7 @@ import React from 'react'
 import DropDown from '../index'
 import { classNames } from 'primereact/utils'
 import { PropTypes } from 'prop-types'
+import { Message } from 'primereact/message'
 
 const MzDropDown = props => {
   const {
@@ -55,7 +56,16 @@ const MzDropDown = props => {
           placeholder={placeholder}
         />
       </span>
-      {errorMsg}
+      {errorMsg && (
+        <Message
+          className='mt-1 flex'
+          style={{
+            borderWidth: '0 0 0 1px',
+          }}
+          severity='error'
+          content={errorMsg}
+        />
+      )}
     </div>
   )
 }
@@ -69,7 +79,7 @@ MzDropDown.defaultProps = {
   optionValue: 'value',
 }
 
-MzDropDown.protoTypes = {
+MzDropDown.propTypes = {
   labelClassName: PropTypes.string,
   filter: PropTypes.bool,
   optionLabel: PropTypes.string,

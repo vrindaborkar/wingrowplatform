@@ -157,7 +157,7 @@ const AddOutwardComponent = props => {
     const payload = {
       date: data?.date ? moment(data.date).format('YYYY/MM/DD') : null,
       name: data?.market,
-      commodities: data?.commodity,
+      commodity: data?.commodity,
       sales_rate: data?.saleRate,
       remaining_sale: data?.remainingSale,
       userId,

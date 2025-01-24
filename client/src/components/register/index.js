@@ -8,7 +8,7 @@ import MzPhoneInput from '../../common/MzForm/MzPhoneInput'
 import MzDropDown from '../../common/MzForm/MzDropDown/WithFloatLabel'
 import { useTranslation } from 'react-i18next'
 import data from './data.json'
-import MzOtpInput from '../../common/MzForm/MzOptInput'
+import MzOtpInput from '../../common/MzForm/MzOtpInput'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { init_verification } from '../../redux/action/auth/smg91'
@@ -365,7 +365,7 @@ const RegisterComponent = props => {
                         label={
                           otpSent ? `Resend OTP in ${countdown}s` : t('OTPFORM.resendOtp')
                         }
-                        className='border-none text-black bg-transparent outline-none hover:underline'
+                        className='border-round-sm hover:underline w-9 md:w-6'
                         onClick={handleResendOtp}
                         disabled={otpSent}
                       />

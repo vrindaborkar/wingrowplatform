@@ -85,7 +85,6 @@
   "product_categories": "उत्पादन श्रेणी",
   "top_selling_products": "सर्वाधिक विक्री होणारी उत्पादने",
   "carrots": "गाजर",
-  "feedback": "अभिप्राय",
   "get_direction": "दिशा मिळवा",
   "wanwadi_location": "वानवडी",
   "karvenagar_location": "कर्वेनगर",
@@ -121,10 +120,17 @@
   "saturday": "शनिवार",
   "sunday": "रविवार",
   "at": "येथे",
+  "feedback": "अभिप्राय",
   "feedback1": "तुमचा अभिप्राय आम्हाला तुमची चांगली सेवा करण्यात मदत करेल.",
   "feedback2": "कृपया खाली तुमचा अनुभव शेअर करा",
   "feedback_placeholder": "तुमचा अभिप्राय काय आहे",
-  "Fruits And": "फळे आणि",
+  "customer_feedback": "ग्राहकांचा अभिप्राय",
+  "no_feedback_available": "कोणतेही अभिप्राय उपलब्ध नाहीत",
+  "message": "संदेश",
+  "feedback_is_required": "तुमचा अभिप्राय आवश्यक आहे",
+  "rating": "रेटिंग",
+  "rating_is_required": "रेटिंग आवश्यक आहे",
+  "Fruits &": "फळे आणि",
   "Vegetables": "भाजीपाला",
   "Snacks": "खाद्यपदार्थ",
   "Pulses &": "कडधान्ये आणि",
@@ -133,7 +139,7 @@
   "Dairy": "डेयरी",
   "Products": "उत्पादने",
   "Fashion": "फॅशन",
-  "Toys & ": "खेळणी आणि",
+  "Toys &": "खेळणी आणि",
   "Baby Products": "बाळ उत्पादने",
   "Furniture": "फर्निचर",
   "Fun & ": "मजा आणि",
@@ -579,54 +585,51 @@
   "Exotic": "एक्झॉटिक",
   "Previous": "मागील",
   "Next": "पुढे",
-   "newToWingrow": "विंग्रोववर नवीन?",
-    "alreadyMember": "आधीच सदस्य?",
-    "OTPFORM":{
-      "otp": "OTP",
-      "resendOtp": "OTP पुन्हा पाठवा",
-      "otpRequired": "OTP आवश्यक आहे",
-      "back":"मागील पान",
-      "submit":"सबमिट करा",
-      "firstNameLabel": "तुमचे पहिले नाव भरा",
-      "lastNameLabel": "तुमचे आडनाव भरा",
-      "mobileNumberLabel": "तुमचा मोबाइल नंबर भरा",
-      "select_your_role": "तुमची भूमिका निवडा",
-      "addressLabel": "तुमचा पत्ता भरा"
-    },
-    "Footer":{
-      "footer_text":"विंग्रो ऍग्रीटेक. सर्व हक्क राखीव २०२४.",
-      "address":"पत्ता",
-        "about":"कंपनीबद्दल",
-        "company_name":"विंग्रो ऍग्रीटेक इनोव्हेशन्स प्रा. लि.",
-        "office_address":"ऑफिस क्र. २०८, टाइम्स स्क्वेअर बिल्डिंग, पुणे सातारा रोड, पुणे ४११०३७",
-        "company_description":"विंग्रो ऍग्रीटेकमध्ये आम्ही ग्राहक आणि शेतकऱ्यांमधील थेट संवाद सुलभ करतो. ग्राहकांना थेट शेतांमधून ताजे आणि दीर्घकाळ टिकणारे उत्पादन वाजवी किमतीत मिळते."
-    },
-   
-   
-   
-    "signupWithUs": "आमच्याशी साइन अप करा",
-    "loginNow": "लॉगिन करा",
-  "SignUpwith":"आमच्यासोबत साइन अप करा",
+  "newToWingrow": "विंग्रोववर नवीन?",
+  "alreadyMember": "आधीच सदस्य?",
+  "OTPFORM": {
+    "otp": "OTP",
+    "resendOtp": "OTP पुन्हा पाठवा",
+    "otpRequired": "OTP आवश्यक आहे",
+    "back": "मागील पान",
+    "submit": "सबमिट करा",
+    "firstNameLabel": "तुमचे पहिले नाव भरा",
+    "lastNameLabel": "तुमचे आडनाव भरा",
+    "mobileNumberLabel": "तुमचा मोबाइल नंबर भरा",
+    "select_your_role": "तुमची भूमिका निवडा",
+    "addressLabel": "तुमचा पत्ता भरा"
+  },
+  "Footer": {
+    "footer_text": "विंग्रो ऍग्रीटेक. सर्व हक्क राखीव २०२४.",
+    "address": "पत्ता",
+    "about": "कंपनीबद्दल",
+    "company_name": "विंग्रो ऍग्रीटेक इनोव्हेशन्स प्रा. लि.",
+    "office_address": "ऑफिस क्र. २०८, टाइम्स स्क्वेअर बिल्डिंग, पुणे सातारा रोड, पुणे ४११०३७",
+    "company_description": "विंग्रो ऍग्रीटेकमध्ये आम्ही ग्राहक आणि शेतकऱ्यांमधील थेट संवाद सुलभ करतो. ग्राहकांना थेट शेतांमधून ताजे आणि दीर्घकाळ टिकणारे उत्पादन वाजवी किमतीत मिळते."
+  },
+
+  "signupWithUs": "आमच्याशी साइन अप करा",
+  "loginNow": "लॉगिन करा",
+  "SignUpwith": "आमच्यासोबत साइन अप करा",
   "We got the perfect products for your needs": "आम्हाला तुमच्या गरजांसाठी परिपूर्ण उत्पादने मिळाली आहेत",
   "Help us improve your experience": "तुमचा अनुभव सुधारण्यास आम्हाला मदत करा",
   "days_since_release": "हा व्हिडिओ रिलीज होऊन {{number_of_days}} दिवस झाले आहेत",
   "signin": {
     "form": {
-      "label":{
-             "role": "भूमिका",
-      "phonenumber": "फोन नंबर"
+      "label": {
+        "role": "भूमिका",
+        "phonenumber": "फोन नंबर"
       },
       "placeholder": {
         "selectrole": "भूमिका निवडा"
       }
     },
-  
+
     "error": {
       "role_required": "भूमिका आवश्यक आहे",
       "phone_required": "फोन नंबर आवश्यक आहे"
     },
     "Fetch": "आणून द्या"
-   
   },
   "signup": {
     "form": {
@@ -634,13 +637,15 @@
       "last_name": "आडनाव",
       "phone_number": "फोन नंबर",
       "Role": "भूमिका",
+      "Producer": "निर्माता",
       "Address": "पत्ता"
     },
     "error": {
       "first_name": "पहिले नाव आवश्यक आहे",
       "last_name": "आडनाव आवश्यक आहे",
       "phone_number": "मोबाईल नंबर आवश्यक आहे",
-      "Role": "प्रकार आवश्यक आहे",
+      "Role": "भूमिका आवश्यक आहे",
+      "Producer": "निर्माता आवश्यक आहे",
       "Address": "पत्ता आवश्यक आहे"
     },
     "Next": "पुढे"

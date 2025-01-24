@@ -243,15 +243,16 @@ const InOutData = props => {
                       <div>
                         <span className='text-900 mb-3'>{inward.name}</span>
                         <div className='text-900 font-medium text-xl text-white'>
-                          {inward.market}
+                          {inward.commodity}
                         </div>
                       </div>
                     </div>
                     <div className='text-red-900'>
-                      {t('purchase_rate')}: {inward.purchase_rate}
+                      {t('purchase_rate_(Rs/Kg)')}: {inward.purchase_rate}
                     </div>
                     <div className='text-red-900'>
-                      {t('purchase_quantity')}: {inward.purchase_quantity}
+                      {t('purchase_quantity_(Rs/Kg)')}:{' '}
+                      {inward.purchase_quantity}
                     </div>
                   </div>
                 </div>
@@ -274,12 +275,20 @@ const InOutData = props => {
                   <div className='img-cover'></div>
                   <div className='overlay'></div>
                   <div className='content font-bold shadow-1 p-3 border-1 border-50 border-round h-full hover:shadow-8'>
-                    <div className='text-red-900'>{outward.name}</div>
-                    <span>{outward.market}</span>
-                    <br />
-                    <span className='text-black'>
-                      Sales Rate: {outward.sales_rate}
-                    </span>
+                    <div className='flex justify-content-between mb-2'>
+                      <div>
+                        <span className='text-900 mb-3'>{outward.name}</span>
+                        <div className='text-900 font-medium text-xl text-white'>
+                          {outward.commodity}
+                        </div>
+                      </div>
+                    </div>
+                    <div className='text-red-900'>
+                      {t('sale_rate_(Rs/Kg)')}: {outward.sales_rate}
+                    </div>
+                    <div className='text-red-900'>
+                      {t('remaining_sale_(Rs/Kg)')}: {outward.remaining_sale}
+                    </div>
                   </div>
                 </div>
               </div>
