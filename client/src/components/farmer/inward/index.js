@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { FORM_FIELDS_NAME } from './constant'
 import MzInput from '../../../common/MzForm/MzInput'
+import jwt_decode from 'jwt-decode'
 import { Button } from 'primereact/button'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import MzAutoComplete from '../../../common/MzForm/MzAutoComplete'
@@ -147,12 +148,21 @@ const AddInwardComponent = props => {
   }
 
   const onSubmit = data => {
+    const token = localStorage.getItem('token')
+
+    let userId = null
+    if (token) {
+      const decodedToken = jwt_decode(token)
+      userId = decodedToken?.id
+    }
+
     const payload = {
-      date: data?.date ? moment(data.date).format('DD/MM/YYYY') : null,
-      market: data?.market,
+      date: data?.date ? moment(data.date).format('YYYY/MM/DD') : null,
+      name: data?.market,
       commodity: data?.commodity,
       purchase_quantity: data?.purchaseQuantity,
       purchase_rate: data?.purchaseRate,
+      userId,
     }
     createInwardRecord(payload)
   }
@@ -286,7 +296,10 @@ const AddInwardComponent = props => {
 
                 <div className='flex justify-content-between gap-2 w-full'>
                   <div className='mb-3 w-full'>
-                    <Button label={t('add')} className='common-btn mt-3 border-round-sm' />
+                    <Button
+                      label={t('add')}
+                      className='common-btn mt-3 border-round-sm'
+                    />
                   </div>
                   <div className='mb-3 w-full'>
                     <Button

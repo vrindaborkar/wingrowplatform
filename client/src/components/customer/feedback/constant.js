@@ -11,21 +11,21 @@ export const FORM_FIELDS_NAME = {
   },
   MESSAGE: {
     name: 'message',
-    label: 'Message',
+    label: 'message',
     type: 'text',
-    placeholder: "What's Your Feedback",
+    placeholder: 'feedback_placeholder',
     rules: {
-      required: 'Your feedback is required',
+      required: 'feedback_is_required',
       isRequired: true,
     },
   },
   RATING: {
     name: 'rating',
-    label: 'Rating',
+    label: 'rating',
     type: 'number',
     placeholder: 'Rate us',
     rules: {
-      required: 'Rating is required',
+      required: 'rating_is_required',
       min: 1,
       max: 5,
       isRequired: true,

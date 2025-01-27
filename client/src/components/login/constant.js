@@ -3,7 +3,7 @@ export const FORM_FIELDS_NAME = {
     name: 'phoneNumber',
     label: 'signin.form.label.phonenumber',
     type: 'tel',
-    placeholder: 'Enter phone nu',
+    placeholder: 'signin.form.placeholder.phonenumber',
     rules: {
       required: 'signin.error.phone_required',
     },
