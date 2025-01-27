@@ -69,7 +69,7 @@ export const verifyCode = async (payload) => {
 
 
 export const login = async payload => {
-  const url = `${baseUrl}/auth/signin`
+  const url = `http://localhost:4000/auth/signin`
   try {
     const result = await axios.post(
       url,

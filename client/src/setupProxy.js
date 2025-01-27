@@ -9,7 +9,7 @@ module.exports = function(app) {
 
     createProxyMiddleware({
 
-      target: 'http://localhost:3001', // Replace with the URL of your API endpoint
+      target: 'http://localhost:4000', // Replace with the URL of your API endpoint
 
       changeOrigin: true,
 
