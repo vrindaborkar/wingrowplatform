@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ROUTE_PATH } from '../constant/urlConstant'
 import Header from '../common/Header'
@@ -29,6 +30,16 @@ import SubMarketScreen from '../containers/farmerScreen/subscriptionScreen/subMa
 const Routing = () => {
   const verified = useSelector(isVerify)
   const role = useSelector(userRole)
+
+  const navigate = useNavigate()
+  const [hasRedirected, setHasRedirected] = useState(false)
+
+  useEffect(() => {
+    if (role === USER_ROLE.CUSTOMER && verified && !hasRedirected) {
+      navigate(ROUTE_PATH.CUSTOMER.HOME)
+      setHasRedirected(true)
+    }
+  }, [role, verified, hasRedirected, navigate])
 
   if (role === USER_ROLE.FARMER && verified) {
     return (
@@ -72,8 +83,6 @@ const Routing = () => {
             />
           </Routes>
         </main>
-
-       
       </React.Fragment>
     )
   }
@@ -99,8 +108,6 @@ const Routing = () => {
             />
           </Routes>
         </main>
-
-     
       </React.Fragment>
     )
   }
@@ -132,7 +139,6 @@ const Routing = () => {
             <Route path='*' element={<Navigate to={ROUTE_PATH.ADMIN.HOME} />} />
           </Routes>
         </main>
-
       </React.Fragment>
     )
   }
@@ -155,7 +161,6 @@ const Routing = () => {
           <Route path='*' element={<Navigate to={ROUTE_PATH.BASE.HOME} />} />
         </Routes>
       </main>
-
     </React.Fragment>
   )
 }

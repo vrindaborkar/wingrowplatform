@@ -6,7 +6,7 @@ import { Button } from 'primereact/button'
 import MzAutoComplete from '../../common/MzForm/MzAutoComplete'
 import MzPhoneInput from '../../common/MzForm/MzPhoneInput'
 import { useTranslation } from 'react-i18next'
-import MzOptInput from '../../common/MzForm/MzOptInput'
+import MzOtpInput from '../../common/MzForm/MzOtpInput'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -186,7 +186,6 @@ const LoginComponent = props => {
                         <MzAutoComplete
                           control={control}
                           name={FORM_FIELDS_NAME.ROLE.name}
-                          // label={FORM_FIELDS_NAME.ROLE.label}
                           label={t(FORM_FIELDS_NAME.ROLE.label)}
                           optionLabel={FORM_FIELDS_NAME.ROLE.optionLabel}
                           optionValue={FORM_FIELDS_NAME.ROLE.optionValue}
@@ -214,7 +213,6 @@ const LoginComponent = props => {
                         country='in'
                       />
                       <Button
-
                         label={t('signin.Fetch')}
                         disabled={isLoading}
                         onClick={e => {
@@ -232,7 +230,7 @@ const LoginComponent = props => {
                   )}
                   {step === 1 && (
                     <>
-                      <MzOptInput
+                      <MzOtpInput
                         control={control}
                         name={FORM_FIELDS_NAME.OTP.name}
                         label={t(FORM_FIELDS_NAME.OTP.label)}
@@ -252,7 +250,7 @@ const LoginComponent = props => {
                           otpSent ? `Resend OTP in ${countdown}s` : t('OTPFORM.resendOtp')
                         }
 
-                        className='border-none text-black bg-transparent outline-none hover:underline'
+                        className='border-round-sm hover:underline w-9 md:w-6'
                         onClick={handleResendOtp}
                         disabled={otpSent}
                       />

@@ -236,7 +236,7 @@ const HomeScreen = () => {
           />
         </div>
         <h1 className='px-2 text-2xl md:text-3xl'>
-        {t("number_of_booked_stalls")} : {2000}
+          {t('number_of_booked_stalls')} : {2000}
         </h1>
         <SliderComponent slides={slides} />
         <div className='md:px-8 px-2'>
@@ -327,56 +327,58 @@ const HomeScreen = () => {
         </div>
       )}
       {filteredFeedbacks?.length > 0 && (
-      <div className='p-3'>
-        <h3 className='text-center'>Customer Feedback</h3>
+        <div className='p-3'>
+          <h3 className='text-center'>{t('customer_feedback')}</h3>
 
-        <div>
-          {filteredFeedbacks?.length === 0 ? (
-            <span>No feedback available</span>
-          ) : (
-            <Carousel
-              showIndicators={false}
-              autoplayInterval={6000}
-              value={filteredFeedbacks}
-              itemTemplate={feedback => (
-                <div
-                  className='p-4 h-full'
-                  style={{ height: '200px', overflowY: 'auto' }}>
+          <div>
+            {filteredFeedbacks?.length === 0 ? (
+              <span>{t('no_feedback_available')}</span>
+            ) : (
+              <Carousel
+                showIndicators={false}
+                autoplayInterval={6000}
+                value={filteredFeedbacks}
+                itemTemplate={feedback => (
                   <div
-                    className='text-center d-flex flex-column justify-content-between surface-0 shadow-1 p-4 border-1 border-50 border-round h-full hover:shadow-5 '
-                    style={{ height: '100%' }}>
-                    <div className='mb-3'>
-                    <h4>{`${feedback?.user?.firstname || ''} ${feedback?.user?.lastname || ''}`}</h4>
-                    </div>
-                    <div className='mb-3'>
-                      <p>{feedback?.message ?? ""}</p>
-                    </div>
-                    <div className='d-flex justify-content-center'>
-                      <Rating
-                        value={feedback?.stars}
-                        readonly
-                        stars={5}
-                        cancel={false}
-                      />
+                    className='p-4 h-full'
+                    style={{ height: '200px', overflowY: 'auto' }}>
+                    <div
+                      className='text-center d-flex flex-column justify-content-between surface-0 shadow-1 p-4 border-1 border-50 border-round h-full hover:shadow-5 '
+                      style={{ height: '100%' }}>
+                      <div className='mb-3'>
+                        <h4>{`${feedback?.user?.firstname || ''} ${
+                          feedback?.user?.lastname || ''
+                        }`}</h4>
+                      </div>
+                      <div className='mb-3'>
+                        <p>{feedback?.message ?? ''}</p>
+                      </div>
+                      <div className='d-flex justify-content-center'>
+                        <Rating
+                          value={feedback?.stars}
+                          readonly
+                          stars={5}
+                          cancel={false}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-              numScroll={3}
-              numVisible={3}
-              responsiveOptions={[
-                {
-                  breakpoint: '640px',
-                  numVisible: 1,
-                  numScroll: 1,
-                },
-              ]}
-            />
-          )}
+                )}
+                numScroll={3}
+                numVisible={3}
+                responsiveOptions={[
+                  {
+                    breakpoint: '640px',
+                    numVisible: 1,
+                    numScroll: 1,
+                  },
+                ]}
+              />
+            )}
+          </div>
         </div>
-      </div>
       )}
-       <Footer />
+      <Footer />
     </>
   )
 }

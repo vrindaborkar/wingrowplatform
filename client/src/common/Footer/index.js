@@ -115,7 +115,7 @@ const Footer = () => {
                   key={icon.id}
                   icon={icon.icon}
                   onClick={() => window.open(icon.link, '_blank')}
-                  className='bg-white border-round-md border-'
+                  className='border-round-md bg-transparent hover:text-900'
                   outlined
                   raised
                   severity={icon.severity}

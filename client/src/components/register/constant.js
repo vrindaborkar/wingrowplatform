@@ -11,7 +11,7 @@ export const FORM_FIELDS_NAME = {
 
   LAST_NAME: {
     name: 'lastname',
-    label:'signup.form.last_name',
+    label: 'signup.form.last_name',
     type: 'text',
     placeholder: 'OTPFORM.lastNameLabel',
     rules: {
@@ -58,7 +58,7 @@ export const FORM_FIELDS_NAME = {
     type: 'text',
     placeholder: 'select_producer_type',
     rules: {
-      required: 'Producer is required',
+      required: 'signup.error.Producer',
     },
   },
 
