@@ -1,0 +1,16 @@
+@import url('../../assets/color/index.css');
+.menubar {
+    display: flex;
+    justify-content: space-between !important;
+}
+
+.p-sidebar-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.p-menubar-button {
+    display: none !important;
+}

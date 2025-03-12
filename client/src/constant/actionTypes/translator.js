@@ -1,0 +1,13 @@
+export const INIT_LANGUAGE = 'INIT_LANGUAGE'
+
+export const LANGUAGE_CHANGE = {
+  START: 'LANGUAGE_CHANGE_START',
+  SUCCESS: 'LANGUAGE_CHANGE_SUCCESS',
+  FAIL: 'LANGUAGE_CHANGE_FAIL',
+}
+
+export const LANGUAGE = {
+  ENGLISH: 'en',
+  MARATHI: 'mr',
+  HINDI: 'hi',
+}

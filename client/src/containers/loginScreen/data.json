@@ -1,0 +1,32 @@
+{
+  "auth": [
+    {
+      "name": "username",
+      "label": "Email address or username",
+      "type": "text",
+      "rule": {
+        "required": true
+      }
+    },
+    {
+      "name": "password",
+      "label": "password",
+      "type": "password",
+      "rule": {
+        "required": true
+      }
+    }
+  ],
+  "type": [
+    {
+      "id": 1,
+      "name": "farmer",
+      "label": "Farmer"
+    },
+    {
+      "id": 2,
+      "name": "customer",
+      "label": "Customer"
+    }
+  ]
+}

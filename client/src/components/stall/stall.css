@@ -1,0 +1,153 @@
+.selected-stalls-details {
+  padding: 1rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.stall-name {
+  display: none;
+  position: absolute;
+  top: 2rem;
+  left: 3.4rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  z-index: 10;
+}
+
+.tooltip-wrapper:hover .stall-name {
+  display: block;
+}
+
+.selected-stalls-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.selected-stalls-details li {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.required {
+  color: red;
+}
+
+.custom-calendar input {
+  padding-right: 3rem;
+}
+
+.custom-calendar .p-inputtext {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.custom-calendar .p-datepicker-trigger {
+  background-color: #28a745;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  color: white;
+  padding: 0.5rem;
+}
+
+.custom-calendar .p-datepicker-trigger .pi {
+  font-size: 1.2rem;
+}
+
+.custom-calendar .p-calendar .p-inputtext {
+  width: calc(100% - 2rem);
+}
+
+.north {
+  transform: rotate(180deg);
+}
+
+.south {
+  transform: rotate(0deg);
+}
+
+.east {
+  transform: rotate(90deg);
+}
+
+.west {
+  transform: rotate(-90deg);
+}
+
+.market-container {
+  display: flex;
+}
+
+.top-road {
+  writing-mode: vertical-rl;
+  border: 2.5px dashed #ccc;
+  border-bottom: none;
+  /* transform: rotate(-90deg); */
+  padding-top: 15px;
+  /* padding-left: 25px; */
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  /* height: 100%; */
+  /* min-width: 50px; */
+}
+
+.left-road {
+  writing-mode: vertical-rl;
+  border: 2.5px dashed #ccc;
+  border-right: none;
+  padding-top: 35px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+}
+
+/* .right-road {
+  writing-mode: vertical-rl;
+  border: 2.5px dashed #ccc;
+  border-left: none;
+  padding-top: 5px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+} */
+
+@media (min-width: 1280px) {
+  .left-road {
+    padding: 6px;
+    height: auto;
+    padding-top: 30px;
+  }
+
+  .right-road {
+    padding: 5px;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 440px) {
+  .left-road {
+    padding-top: 10px;
+    padding-left: 5px;
+  }
+}

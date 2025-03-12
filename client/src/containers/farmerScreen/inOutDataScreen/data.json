@@ -1,0 +1,252 @@
+[
+  {
+    "stallName": "Fresh Fruits Stall",
+    "stallPrice": "$10 - $50",
+    "stallNo": "A1"
+  },
+  {
+    "stallName": "Organic Vegetables",
+    "stallPrice": "$5 - $30",
+    "stallNo": "B2"
+  },
+  {
+    "stallName": "Bakery Delights",
+    "stallPrice": "$2 - $15",
+    "stallNo": "C3"
+  },
+  {
+    "stallName": "Flower Shop",
+    "stallPrice": "$3 - $25",
+    "stallNo": "D4"
+  },
+  {
+    "stallName": "Butcher's Corner",
+    "stallPrice": "$8 - $40",
+    "stallNo": "E5"
+  },
+  {
+    "stallName": "Fish Market",
+    "stallPrice": "$12 - $60",
+    "stallNo": "F6"
+  },
+  {
+    "stallName": "Dairy Products",
+    "stallPrice": "$4 - $35",
+    "stallNo": "G7"
+  },
+  {
+    "stallName": "Spices and Herbs",
+    "stallPrice": "$1 - $10",
+    "stallNo": "H8"
+  },
+  {
+    "stallName": "Crafts and Handicrafts",
+    "stallPrice": "$5 - $50",
+    "stallNo": "I9"
+  },
+  {
+    "stallName": "Coffee and Tea Shop",
+    "stallPrice": "$3 - $20",
+    "stallNo": "J10"
+  },
+  {
+    "stallName": "Jewelry Store",
+    "stallPrice": "$10 - $100",
+    "stallNo": "K11"
+  },
+  {
+    "stallName": "Art Gallery",
+    "stallPrice": "$20 - $200",
+    "stallNo": "L12"
+  },
+  {
+    "stallName": "Antiques Shop",
+    "stallPrice": "$15 - $150",
+    "stallNo": "M13"
+  },
+  {
+    "stallName": "Books and Stationery",
+    "stallPrice": "$5 - $40",
+    "stallNo": "N14"
+  },
+  {
+    "stallName": "Toy Store",
+    "stallPrice": "$5 - $30",
+    "stallNo": "O15"
+  },
+  {
+    "stallName": "Home Decor",
+    "stallPrice": "$10 - $80",
+    "stallNo": "P16"
+  },
+  {
+    "stallName": "Electronics Store",
+    "stallPrice": "$50 - $500",
+    "stallNo": "Q17"
+  },
+  {
+    "stallName": "Fashion Boutique",
+    "stallPrice": "$20 - $200",
+    "stallNo": "R18"
+  },
+  {
+    "stallName": "Shoe Shop",
+    "stallPrice": "$15 - $100",
+    "stallNo": "S19"
+  },
+  {
+    "stallName": "Cosmetics and Beauty",
+    "stallPrice": "$5 - $50",
+    "stallNo": "T20"
+  },
+  {
+    "stallName": "Sports Equipment",
+    "stallPrice": "$10 - $150",
+    "stallNo": "U21"
+  },
+  {
+    "stallName": "Pet Supplies",
+    "stallPrice": "$5 - $40",
+    "stallNo": "V22"
+  },
+  {
+    "stallName": "Outdoor Gear",
+    "stallPrice": "$20 - $250",
+    "stallNo": "W23"
+  },
+  {
+    "stallName": "Gourmet Food",
+    "stallPrice": "$5 - $60",
+    "stallNo": "X24"
+  },
+  {
+    "stallName": "Wine and Spirits",
+    "stallPrice": "$10 - $200",
+    "stallNo": "Y25"
+  },
+  {
+    "stallName": "Furniture Store",
+    "stallPrice": "$50 - $1000",
+    "stallNo": "Z26"
+  },
+  {
+    "stallName": "Handmade Crafts",
+    "stallPrice": "$5 - $50",
+    "stallNo": "AA27"
+  },
+  {
+    "stallName": "Candle Shop",
+    "stallPrice": "$3 - $30",
+    "stallNo": "AB28"
+  },
+  {
+    "stallName": "Music Store",
+    "stallPrice": "$10 - $100",
+    "stallNo": "AC29"
+  },
+  {
+    "stallName": "Hats and Caps",
+    "stallPrice": "$5 - $40",
+    "stallNo": "AD30"
+  },
+  {
+    "stallName": "Vintage Clothing",
+    "stallPrice": "$10 - $80",
+    "stallNo": "AE31"
+  },
+  {
+    "stallName": "Photography Studio",
+    "stallPrice": "$20 - $200",
+    "stallNo": "AF32"
+  },
+  {
+    "stallName": "Comic Books",
+    "stallPrice": "$3 - $30",
+    "stallNo": "AG33"
+  },
+  {
+    "stallName": "Pottery Shop",
+    "stallPrice": "$5 - $50",
+    "stallNo": "AH34"
+  },
+  {
+    "stallName": "Vintage Vinyl Records",
+    "stallPrice": "$10 - $100",
+    "stallNo": "AI35"
+  },
+  {
+    "stallName": "Sunglasses Store",
+    "stallPrice": "$5 - $40",
+    "stallNo": "AJ36"
+  },
+  {
+    "stallName": "Tea House",
+    "stallPrice": "$3 - $20",
+    "stallNo": "AK37"
+  },
+  {
+    "stallName": "Chocolate Shop",
+    "stallPrice": "$5 - $50",
+    "stallNo": "AL38"
+  },
+  {
+    "stallName": "Fitness Equipment",
+    "stallPrice": "$20 - $300",
+    "stallNo": "AM39"
+  },
+  {
+    "stallName": "Art Supplies",
+    "stallPrice": "$5 - $60",
+    "stallNo": "AN40"
+  },
+  {
+    "stallName": "Leather Goods",
+    "stallPrice": "$10 - $150",
+    "stallNo": "AO41"
+  },
+  {
+    "stallName": "Plant Nursery",
+    "stallPrice": "$3 - $30",
+    "stallNo": "AP42"
+  },
+  {
+    "stallName": "Craft Beer",
+    "stallPrice": "$5 - $15",
+    "stallNo": "AQ43"
+  },
+  {
+    "stallName": "Gardening Tools",
+    "stallPrice": "$10 - $80",
+    "stallNo": "AR44"
+  },
+  {
+    "stallName": "Board Games",
+    "stallPrice": "$5 - $50",
+    "stallNo": "AS45"
+  },
+  {
+    "stallName": "Vintage Watches",
+    "stallPrice": "$50 - $500",
+    "stallNo": "AT46"
+  },
+  {
+    "stallName": "Kitchenware",
+    "stallPrice": "$5 - $40",
+    "stallNo": "AU47"
+  },
+  {
+    "stallName": "Home Appliances",
+    "stallPrice": "$100 - $1000",
+    "stallNo": "AV48"
+  },
+  {
+    "stallName": "Pasta and Olive Oil",
+    "stallPrice": "$5 - $30",
+    "stallNo": "AW49"
+  },
+  {
+    "stallName": "Handbags",
+    "stallPrice": "$20 - $200",
+    "stallNo": "AX50"
+  }
+]
