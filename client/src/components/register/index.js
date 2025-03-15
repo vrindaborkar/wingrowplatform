@@ -14,6 +14,8 @@ import { toast } from 'react-toastify'
 import { init_verification } from '../../redux/action/auth/smg91'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import './index.css'
+
 const RegisterComponent = props => {
   const {
     isLoading,
@@ -194,20 +196,27 @@ const RegisterComponent = props => {
             <div
               style={{
                 borderRadius: '56px',
-                padding: '1rem',
+                paddingRight: '1rem',
+                paddingLeft:'1rem',
+                paddingTop:'0rem',
+                paddingBottom:'0rem',
                 margin: '1rem',
-                background:
-                  'linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)',
+                // background:
+                //   'linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)',
               }}>
               <div
-                className='w-full text-center surface-card py-5 px-5 sm:px-8 flex flex-column align-items-center'
+                className='w-full text-center surface-card  px-5 sm:px-8 flex flex-column align-items-center'
                 style={{
-                  borderRadius: '53px',
-                  height: '600px',
-                  overflowY: 'auto',
-                  padding: '20px',
-                  border: '1px solid #ccc',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  borderRadius: '17px',
+                  // height: '600px',
+                  // overflowY: 'auto',
+                  marginTop: '1rem',
+                  paddingTop:'1rem ',
+                  paddingBottom:'1rem',
+                  // border: '1px solid #ccc',
+                  // boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  backgroundColor: '#fcfdfd', // Fixed missing quotes
+                  boxShadow: '0 0 15px rgba(57, 112, 144, 0.2)' // Fixed camelCase syntax
                 }}>
                 <img
                   src={WINGROW_LOGO}
@@ -218,7 +227,7 @@ const RegisterComponent = props => {
                 <h1 className='text-900 font-bold text-xl md:text-1xl mb-2'>
                   {t('welcome_message')}
                 </h1>
-                <div className='text-600 mb-2'>{t('SignUpwith')}</div>
+                {/* <div className='text-600 mb-2'>{t('SignUpwith')}</div> */}
 
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -229,7 +238,7 @@ const RegisterComponent = props => {
                         <MzInput
                           name={FORM_FIELDS_NAME.FIRST_NAME.name}
                           control={control}
-                          label={t(FORM_FIELDS_NAME.FIRST_NAME.label)}
+                          label={<span style={{ fontWeight: 'bold' }}>{t(FORM_FIELDS_NAME.FIRST_NAME.label)}</span>}
                           placeholder={t(FORM_FIELDS_NAME.FIRST_NAME.placeholder)}
                           rules={FORM_FIELDS_NAME.FIRST_NAME.rules}
                           isError={errors[FORM_FIELDS_NAME.FIRST_NAME.name]}
@@ -243,7 +252,7 @@ const RegisterComponent = props => {
                         <MzInput
                           name={FORM_FIELDS_NAME.LAST_NAME.name}
                           control={control}
-                          label={t(FORM_FIELDS_NAME.LAST_NAME.label)}
+                          label={<span style={{ fontWeight: 'bold' }}>{t(FORM_FIELDS_NAME.LAST_NAME.label)}</span>}
                           rules={FORM_FIELDS_NAME.LAST_NAME.rules}
                           isError={errors[FORM_FIELDS_NAME.LAST_NAME.name]}
                           placeholder={t(FORM_FIELDS_NAME.LAST_NAME.placeholder)}
@@ -259,7 +268,7 @@ const RegisterComponent = props => {
                             <MzPhoneInput
                               control={control}
                               name={FORM_FIELDS_NAME.PHONE_NUMBER.name}
-                              label={t(FORM_FIELDS_NAME.PHONE_NUMBER.label)}
+                              label={<span style={{ fontWeight: 'bold' }}>{t(FORM_FIELDS_NAME.PHONE_NUMBER.label)}</span>}
                               placeholder={t(FORM_FIELDS_NAME.PHONE_NUMBER.placeholder)}
                               rules={FORM_FIELDS_NAME.PHONE_NUMBER.rules}
                               isError={
@@ -280,7 +289,7 @@ const RegisterComponent = props => {
                           optionLabel={'name'}
                           optionValue={'value'}
                           options={data.type}
-                          label={t(FORM_FIELDS_NAME.TYPE.label)}
+                          label={<span style={{ fontWeight: 'bold' }}>{t(FORM_FIELDS_NAME.TYPE.label)}</span>}
                           rules={FORM_FIELDS_NAME.TYPE.rules}
                           isError={errors[FORM_FIELDS_NAME.TYPE.name]}
                           placeholder={t(FORM_FIELDS_NAME.TYPE.placeholder)}
@@ -292,7 +301,7 @@ const RegisterComponent = props => {
                           onChange={e => setSelectedType(e.value)}
                         />
                       </div>
-                      {selectedType === 'producer' && (
+                      {/* {selectedType === 'producer' && (
                         <div className='col-12'>
                           <MzDropDown
                             name={FORM_FIELDS_NAME.PRODUCER.name}
@@ -310,8 +319,8 @@ const RegisterComponent = props => {
                             wrapperClass={'p-float-label'}
                           />
                         </div>
-                      )}
-                      <div className='col-12'>
+                      )} */}
+                      {/* <div className='col-12'>
                         <MzInput
                           name={FORM_FIELDS_NAME.ADDRESS.name}
                           control={control}
@@ -324,7 +333,7 @@ const RegisterComponent = props => {
                           )}
                           wrapperClass={'p-float-label'}
                         />
-                      </div>
+                      </div> */}
                       <div className='col-12'>
                         <Button
                           label={t('signup.Next')}

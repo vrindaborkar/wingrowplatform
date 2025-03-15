@@ -160,14 +160,17 @@ const LoginComponent = props => {
           <div className='flex flex-column align-items-center justify-content-center p-2'>
             <div
               style={{
-                borderRadius: '56px',
-                padding: '1rem',
-                background:
-                  'linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)',
-              }}>
+               
+                margin: '1.5rem', 
+                backgroundColor: '#fcfdfd', // Fixed missing quotes
+                boxShadow: '0 0 15px rgba(57, 112, 144, 0.2)' // Fixed camelCase syntax
+                // background:
+                //   'linear-gradient(90deg, rgba(224, 52, 54, 0.6) 30%, rgba(104, 214,118, 0.4) 70%)',
+              }}
+              >
               <div
-                className='w-full text-center surface-card py-4 px-5 sm:px-8 flex flex-column align-items-center'
-                style={{ borderRadius: '53px' }}>
+                className='w-full text-center surface-card  px-5 sm:px-8 flex flex-column align-items-center'
+                style={{ borderRadius: '17px', padding:'1rem' }}>
                 <img
                   src={WINGROW_LOGO}
                   alt='Wingrow logo'
@@ -176,7 +179,7 @@ const LoginComponent = props => {
                 <h1 className='text-900 font-bold text-xl md:text-1xl mb-2'>
                   {t('welcome_message')}
                 </h1>
-                <div className='text-600 mb-2'>{t('login_here')}</div>
+                {/* <div className='text-600 mb-2'>{t('login_here')}</div> */}
                 <form
                   onSubmit={handleSubmit(onSubmit)}
                   className='mt-5 p-fluid w-full'>
@@ -186,7 +189,7 @@ const LoginComponent = props => {
                         <MzAutoComplete
                           control={control}
                           name={FORM_FIELDS_NAME.ROLE.name}
-                          label={t(FORM_FIELDS_NAME.ROLE.label)}
+                          label={<span style={{ fontWeight: 'bold' }}>Role</span>}
                           optionLabel={FORM_FIELDS_NAME.ROLE.optionLabel}
                           optionValue={FORM_FIELDS_NAME.ROLE.optionValue}
                           placeholder={t(FORM_FIELDS_NAME.ROLE.placeholder)}
@@ -203,7 +206,7 @@ const LoginComponent = props => {
                       <MzPhoneInput
                         control={control}
                         name={FORM_FIELDS_NAME.PHONE_NUMBER.name}
-                        label={t(FORM_FIELDS_NAME.PHONE_NUMBER.label)}
+                        label={<span style={{ fontWeight: 'bold' }}>{t(FORM_FIELDS_NAME.PHONE_NUMBER.label)}</span>}
                         placeholder={t(FORM_FIELDS_NAME.PHONE_NUMBER.placeholder)}
                         rules={FORM_FIELDS_NAME.PHONE_NUMBER.rules}
                         isError={errors[FORM_FIELDS_NAME.PHONE_NUMBER.name]}
@@ -222,8 +225,8 @@ const LoginComponent = props => {
                         className='common-btn mt-3 border-round-sm'
                       />
                       <div className='mt-3'>
-                        <p>{t('newToWingrow')} <Link to="/register" className="text-decoration-underline text-red-500">
-                          {t('signupWithUs')}
+                        <p>{t('newToWingrow')} <Link to="/register" className="text-decoration-underline text-green-500">
+                          {t('Sign Up')}
                         </Link></p>
                       </div>
                     </div>
