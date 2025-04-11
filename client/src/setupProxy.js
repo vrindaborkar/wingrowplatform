@@ -9,7 +9,7 @@ module.exports = function(app) {
 
     createProxyMiddleware({
 
-      target: 'http://localhost:4000', // Replace with the URL of your API endpoint
+      target: 'https://wingrowplatform.onrender.com', // Replace with the URL of your API endpoint
 
       changeOrigin: true,
 
