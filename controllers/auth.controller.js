@@ -5,7 +5,7 @@ const config = require('../config/auth.config');
 const jwt_decode = require("jwt-decode");
 const Feedback = require("../models/Feedback");
 const cloudinary = require('cloudinary').v2;
-const Otp = require("../models/otp"); // Ensure you have the correct model path
+const Otp = require("../models/Otp"); // Ensure you have the correct model path
 
 cloudinary.config({ 
   cloud_name: 'dpxzakezm', 
