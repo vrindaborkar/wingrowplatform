@@ -1,5 +1,7 @@
 const verifySignUp = require("../middlewares/verifySignUp");
+const verifyToken = require('../middlewares/verifyToken');
 const controller = require("../controllers/auth.controller");
+ const { getUserProfile, updateUserProfile } = require('../controllers/user.controller');
 
 module.exports = function(app) {
   // Set Global Headers
@@ -14,9 +16,6 @@ module.exports = function(app) {
   // User Authentication Routes
   app.post("/auth/signup", controller.signup);
   app.post("/auth/signin", controller.signin);
-  // app.post("/auth/feedback", controller.feedback);
-
-  // Admin Authentication Routes
   app.post("/auth/adminSignUp", controller.adminSignUp);
   app.post("/auth/adminSignin", controller.adminSignin);
 
@@ -29,7 +28,11 @@ module.exports = function(app) {
 
   app.post("/auth/sendOtp", controller.sendOtp);
   app.post("/auth/verify", controller.verifyOtp);
-  // app.post("/auth/signup", controller.signup);
-  // app.post("/auth/signin", controller.signin);
+ 
+
+app.get('/profile', verifyToken, controller.getUserProfile);      
+app.post('/profile', verifyToken, controller.updateUserProfile);  
+app.post('/logout', controller.logout);
+
 
 };

@@ -15,11 +15,9 @@ const offersRoutes = require('./routes/offersRoutes.routes'); // Adjust path as 
 const feedbackRoutes = require('./routes/feedback.routes');
 const inwardRoutes = require('./routes/inwardRoutes.routes');
 const outwardRoutes = require('./routes/outwardRoutes.routes');
-// const otpRoutes = require('./routes/otp.routes');
 const proxyRoutes = require("./routes/proxy.routes");
-// const authRoutes = require("./routes/auth.routes");
-
-
+const authRoutes = require("./routes/auth.routes");
+const cookieParser = require('cookie-parser');
 
 
 // const https = require('https');
@@ -46,15 +44,6 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-// const cors = require("cors");
-
-// app.use(cors({
-//     origin: "http://localhost:3000", // Allow your frontend origin
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-// }));
-
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
@@ -64,6 +53,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/stallStatus', stallStatusRoutes);
@@ -74,9 +64,7 @@ app.use('/api', marketRoutes);
 app.use('/api', offersRoutes);
 app.use('/api', feedbackRoutes);
 
-// app.use("/auth", authRoutes);
-app.use('/api', proxyRoutes);
-
+app.use('/api/auth', authRoutes);
 
 app.use('/api/inward', inwardRoutes);
 app.use('/api/outward', outwardRoutes);
