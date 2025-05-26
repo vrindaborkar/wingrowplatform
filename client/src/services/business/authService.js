@@ -18,7 +18,7 @@ const formatPhoneNumber = (phone) => {
 
 
 export const sendVerificationCode = async (payload) => {
-  const url = `https://wingrowplatform.onrender.com/auth/sendOtp`;
+  const url = `https://wingrowapp.onrender.com/auth/sendOtp`;
 
   try {
     console.log("📌 Sending OTP request with payload:", payload);
@@ -109,7 +109,7 @@ export const reSendVerificationCode = async (payload) => {
 
 
 export const verifyCode = async (payload) => {
-  const url = `https://wingrowplatform.onrender.com/auth/verify`; // Adjust the endpoint if necessary
+  const url = `https://wingrowapp.onrender.com/auth/verify`; // Adjust the endpoint if necessary
 
   try {
     console.log("📌 Sending OTP verification request:", payload);

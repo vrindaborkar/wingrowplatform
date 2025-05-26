@@ -1,5 +1,5 @@
 // export const baseUrl = process.env.REACT_APP_API_URL;
-export const baseUrl = `https://wingrowplatform.onrender.com`;
+export const baseUrl = `https://wingrowapp.onrender.com`;
 
 
 export function loadingShow(hidden) {
