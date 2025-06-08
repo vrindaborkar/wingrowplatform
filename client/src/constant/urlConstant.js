@@ -53,6 +53,7 @@ export const API_PATH = {
     BOOK: '/api/bookings/multiple-stalls',
     // BOOK_BY_USER:"/bookedstalls",
     BOOK_BY_USER: '/api/bookings/booked-stalls',
+    UPCOMING_BOOKINGS: '/api/stallstatus/bookedstalls/upcoming',
     ADD: '/stall',
     EDIT: '/stall',
     DELETE: '/bookedstalls',

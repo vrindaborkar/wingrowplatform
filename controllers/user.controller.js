@@ -353,9 +353,6 @@ exports.getOutward = async (req, res) => {
     }
   };
 
-
-
-
 exports.postOutward = async (req, res, next) => {
   try {
       // Ensure the date is in the correct format (YYYY-MM-DD)

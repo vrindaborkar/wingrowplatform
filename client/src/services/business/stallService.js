@@ -148,3 +148,23 @@ export const deleteStall = async id => {
     return handleAPIError(error.response.data.detail)
   }
 }
+
+export const fetchUpcomingBookings = async () => {
+  const url = `${baseUrl}${API_PATH.STALL.UPCOMING_BOOKINGS}`
+  const token = localStorage.getItem('token')
+  try {
+    const result = await axios.get(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': `${token}`,
+      },
+    })
+    if (result.data.error || result.status !== 200) {
+      return handleAPIError(result.data.detail)
+    }
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return handleAPIError(error)
+  }
+}

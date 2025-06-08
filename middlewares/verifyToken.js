@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const config = require('../config/auth.config');
 
 module.exports = (req, res, next) => {
-  const token = req.cookies.token;
+  // Get token from Authorization cookie
+  const token = req.cookies?.Authorization?.replace('Bearer ', '');
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized: No token found in cookies' });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.id; // Attach user ID to the request
+    const decoded = jwt.verify(token, config.secret);
+    req.userId = decoded.id;
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Unauthorized: Invalid token' });

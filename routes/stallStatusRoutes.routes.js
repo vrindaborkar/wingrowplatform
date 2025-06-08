@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Market = require('../models/Market');   // Assuming you have a Market model
 const Stalls = require('../models/Stalls');   // Stalls model
+const verifyToken = require('../middlewares/verifyToken');
 const BookedStalls = require('../models/BookedStalls');  // BookedStalls model
+const controller = require('../controllers/stalls.controller');
 
 // GET: Fetch stalls by market (ID or name) and date
 router.get('/stalls', async (req, res) => {
@@ -54,5 +56,12 @@ router.get('/stalls', async (req, res) => {
         res.status(500).json({ message: 'Server error fetching stalls' });
     }
 });
+
+// All bookings for logged-in user
+// router.get('/bookedstalls', verifyToken, controller.getbookedStalls);
+
+// Only upcoming bookings
+router.get('/bookedstalls/upcoming', verifyToken, controller.getUpcomingBookings);
+
 
 module.exports = router;

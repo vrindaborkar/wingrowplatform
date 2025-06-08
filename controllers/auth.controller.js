@@ -186,25 +186,26 @@ exports.verifyOtp = async (req, res) => {
         user = await User.create({ phone: formattedPhone });
       }
 
-      // ✅ Generate JWT
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+      // ✅ Generate JWT using config.secret
+      const token = jwt.sign({ id: user._id }, config.secret, {
+        expiresIn: "7d",
       });
 
-      // ✅ Set HTTP-only cookie
-      res.cookie("token", token, {
+      // Set cookie instead of header
+      res.cookie('Authorization', `Bearer ${token}`, {
         httpOnly: true,
-        secure: false, // Set to true in production (HTTPS)
-        sameSite: "Lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       });
 
-      // ✅ Send user info
+      // ✅ Send user info + token
       return res.status(200).json({
         type: "success",
         message: "OTP Verified & Login Successful",
+        token,
         user,
-        isNew: !user.firstname, // true if profile is not filled
+        isNew: !user.firstname
       });
     } else {
       console.warn("⚠️ OTP Verification Failed:", response.data);

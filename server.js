@@ -11,13 +11,13 @@ const stallStatusRoutes = require('./routes/stallStatusRoutes.routes');
 const cityRoutes = require('./routes/cityRoutes.routes');
 const marketRoutes = require('./routes/marketRoutes.routes');
 const offersRoutes = require('./routes/offersRoutes.routes'); // Adjust path as needed
-
 const feedbackRoutes = require('./routes/feedback.routes');
 const inwardRoutes = require('./routes/inwardRoutes.routes');
 const outwardRoutes = require('./routes/outwardRoutes.routes');
 const proxyRoutes = require("./routes/proxy.routes");
 const authRoutes = require("./routes/auth.routes");
 const cookieParser = require('cookie-parser');
+
 
 
 // const https = require('https');
@@ -39,6 +39,10 @@ const cookieParser = require('cookie-parser');
 
 const corsOptions = {
   origin: ["http://localhost:3000"],
+  //   origin: [
+  //   "http://localhost:3000",
+  //   "https://wingrow-fe.vercel.app"
+  // ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 200,
@@ -65,6 +69,8 @@ app.use('/api', offersRoutes);
 app.use('/api', feedbackRoutes);
 
 app.use('/api/auth', authRoutes);
+
+app.use('/api', stallStatusRoutes);
 
 app.use('/api/inward', inwardRoutes);
 app.use('/api/outward', outwardRoutes);
