@@ -1,4 +1,6 @@
+require('dotenv').config();
+
 module.exports = {
-    secret: "wingrow-secret-key"
+    secret: process.env.JWT_SECRET || "your-secret-key"
   };
   

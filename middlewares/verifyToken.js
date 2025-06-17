@@ -1,16 +1,24 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/auth.config');
+const config = require('../config/app.config');
 
 module.exports = (req, res, next) => {
-  // Get token from Authorization cookie
-  const token = req.cookies?.Authorization?.replace('Bearer ', '');
+  let token = null;
+
+  // Check Authorization header first
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    token = authHeader.split(' ')[1];
+  } else if (req.cookies?.Authorization) {
+    // Fallback to Authorization cookie
+    token = req.cookies.Authorization.replace('Bearer ', '');
+  }
 
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized: No token found in cookies' });
+    return res.status(401).json({ message: 'Unauthorized: No token found' });
   }
 
   try {
-    const decoded = jwt.verify(token, config.secret);
+    const decoded = jwt.verify(token, config.jwtSecret);
     req.userId = decoded.id;
     next();
   } catch (error) {

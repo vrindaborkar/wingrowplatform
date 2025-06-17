@@ -2,90 +2,70 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const mongoose = require('mongoose');
-require('dotenv/config')
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const path = require('path');
-const fileUpload = require('express-fileupload')
+const fileUpload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
+const config = require('./config/app.config');
+
+// Import routes
 const bookingRoutes = require('./routes/bookingRoutes.routes');
 const stallStatusRoutes = require('./routes/stallStatusRoutes.routes');
 const cityRoutes = require('./routes/cityRoutes.routes');
 const marketRoutes = require('./routes/marketRoutes.routes');
-const offersRoutes = require('./routes/offersRoutes.routes'); // Adjust path as needed
+const offersRoutes = require('./routes/offersRoutes.routes');
 const feedbackRoutes = require('./routes/feedback.routes');
 const inwardRoutes = require('./routes/inwardRoutes.routes');
 const outwardRoutes = require('./routes/outwardRoutes.routes');
 const proxyRoutes = require("./routes/proxy.routes");
 const authRoutes = require("./routes/auth.routes");
-const cookieParser = require('cookie-parser');
 
+// CORS configuration
+app.use(cors(config.cors));
 
+// Basic middleware (moved up to ensure body parsing before routes)
+app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload({useTempFiles: true}));
 
-// const https = require('https');
-// const fs = require('fs');
+// Load stall routes (now after body parsers)
+require("./routes/stalls.routes")(app);
 
-// // certificates
-// const privateKey = fs.readFileSync('/etc/letsencrypt/live/wingrowmarket.com/privkey.pem','utf8');
-// const certificate = fs.readFileSync('/etc/letsencrypt/live/wingrowmarket.com/cert.pem','utf8');
-// const ca = fs.readFileSync('/etc/letsencrypt/live/wingrowmarket.com/chain.pem','utf8');
-
-// const credentials = {
-//   key: privateKey,
-//   cert: certificate,
-//   ca: ca
-
-// };
-
-// const https_server = https.createServer(credentials,app)
-
-const corsOptions = {
-  origin: ["http://localhost:3000"],
-  //   origin: [
-  //   "http://localhost:3000",
-  //   "https://wingrow-fe.vercel.app"
-  // ],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+// Global headers middleware
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", config.cors.origin);
+  res.header("Access-Control-Allow-Methods", config.cors.methods);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-app.use(cors(corsOptions));
-app.use(cookieParser());
 
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/stallStatus', stallStatusRoutes);
-app.use('/api/cities', cityRoutes);
-app.use('/api/markets', marketRoutes);
-app.use('/api/bookings', marketRoutes);
-app.use('/api', marketRoutes);
-app.use('/api', offersRoutes);
-app.use('/api', feedbackRoutes);
+// Mount routes
+app.use(config.api.prefix + '/stallStatus', stallStatusRoutes);
+app.use(config.api.prefix + '/cities', cityRoutes);
+app.use(config.api.prefix + '/markets', marketRoutes);
+app.use(config.api.prefix, offersRoutes);
+app.use(config.api.prefix + '/inward', inwardRoutes);
+app.use(config.api.prefix + '/outward', outwardRoutes);
+app.use(config.api.prefix, proxyRoutes);
+app.use(config.api.prefix, authRoutes);
 
-app.use('/api/auth', authRoutes);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    status: 'error',
+    message: 'Something went wrong!'
+  });
+});
 
-app.use('/api', stallStatusRoutes);
-
-app.use('/api/inward', inwardRoutes);
-app.use('/api/outward', outwardRoutes);
-app.use('/api', proxyRoutes);
-app.use(express.static('client/build'))
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(fileUpload({useTempFiles:true}))
-
-// routes
-require("./routes/auth.routes")(app);
-require("./routes/user.routes")(app);
-require("./routes/payment.routes")(app);
-require("./routes/stalls.routes")(app);
-require("./routes/twilio.routes")(app);
-
+// Start server
+const PORT = config.port;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 mongoose.connect(process.env.DB_CONNECTION, 
   { useNewUrlParser: true,
@@ -103,19 +83,4 @@ app.get('/*', function(req, res) {
   })
 })
 
-app.use(express.json());
-
-// set port, listen for requests
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
 app.timeout = 120000;
-
-
-// // const PORT = process.env.PORT || 4000;
-// https_server.listen('8443',() => {
-//   console.log("https server running at 8443");
-// })
-
-// app.timeout = 120000;

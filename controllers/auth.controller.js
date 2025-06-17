@@ -1,10 +1,10 @@
-var bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const User = require('../models/User');
-var jwt = require("jsonwebtoken");
-const config = require('../config/auth.config');
+const jwt = require("jsonwebtoken");
 const jwt_decode = require("jwt-decode");
 const cloudinary = require('cloudinary').v2;
-const Otp = require("../models/Otp"); // Ensure you have the correct model path
+const Otp = require("../models/Otp");
+const config = require('../config/app.config');
 
 cloudinary.config({ 
   cloud_name: 'dpxzakezm', 
@@ -59,7 +59,7 @@ exports.signin = async (req, res) => {
 
     console.log("✅ User Found in DB:", user);
 
-    var token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 });
+    var token = jwt.sign({ id: user.id }, config.jwtSecret, { expiresIn: 86400 });
 
     return res.status(200).json({
       status: "success",
@@ -178,28 +178,19 @@ exports.verifyOtp = async (req, res) => {
     if (response.data?.type === "success") {
       console.log("🎉 OTP Verified Successfully!");
 
-      // ✅ Check if user exists
       let user = await User.findOne({ phone: formattedPhone });
 
-      // ✅ If not, create user with phone
       if (!user) {
         user = await User.create({ phone: formattedPhone });
       }
 
-      // ✅ Generate JWT using config.secret
-      const token = jwt.sign({ id: user._id }, config.secret, {
-        expiresIn: "7d",
+      const token = jwt.sign({ id: user._id }, config.jwtSecret, {
+        expiresIn: config.jwtExpiryTime
       });
 
-      // Set cookie instead of header
-      res.cookie('Authorization', `Bearer ${token}`, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-      });
+      // Set cookie with configuration
+      res.cookie('Authorization', `Bearer ${token}`, config.cookie);
 
-      // ✅ Send user info + token
       return res.status(200).json({
         type: "success",
         message: "OTP Verified & Login Successful",
@@ -225,37 +216,61 @@ exports.verifyOtp = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-__v');
+    const userId = req.userId;
+    const user = await User.findById(userId).select('-password'); // Exclude password from response
     
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({
+        status: "error",
+        message: "User not found"
+      });
     }
 
-    res.status(200).json({ user, isNew: !user.firstname });
-
+    res.status(200).json({
+      status: "success",
+      message: "User profile fetched successfully",
+      data: user
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({
+      status: "error",
+      message: error.message
+    });
   }
 };
 
 exports.updateUserProfile = async (req, res) => {
   try {
-    const { firstname, lastname, address, farmertype, pic, tags } = req.body;
-
-    const updatedUser = await User.findByIdAndUpdate(
-      req.userId,
-      { firstname, lastname, address, farmertype, pic, tags },
+    const userId = req.userId;
+    const updates = req.body;
+    
+    // Remove sensitive fields that shouldn't be updated directly
+    delete updates.password;
+    delete updates.role;
+    
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updates },
       { new: true }
-    );
+    ).select('-password');
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        message: "User not found"
+      });
     }
 
-    res.status(200).json({ message: 'Profile updated', user: updatedUser });
-
+    res.status(200).json({
+      status: "success",
+      message: "Profile updated successfully",
+      data: user
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Update failed', error: error.message });
+    res.status(500).json({
+      status: "error",
+      message: error.message
+    });
   }
 };
 
@@ -353,7 +368,7 @@ exports.adminSignin = async (req, res) => {
     });
 
     if (user) {
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      var token = jwt.sign({ id: user.id }, config.jwtSecret, {
         expiresIn: 86400 // 24 hours
       });
       res.status(200).send({
@@ -432,9 +447,31 @@ exports.addAddress = async (req, res) => {
   }
 };
 
-exports.logout = (req, res) => {
-  res.clearCookie("token");
-  res.status(200).json({ message: "Logged out successfully" });
+exports.logout = async (req, res) => {
+  try {
+    // Get all cookies
+    const cookies = req.cookies;
+    
+    // Clear all cookies with proper options
+    for (let cookie in cookies) {
+      res.clearCookie(cookie, config.cookie);
+    }
+
+    // Specifically clear the Authorization cookie
+    res.clearCookie('Authorization', config.cookie);
+
+    res.status(200).json({
+      status: "success",
+      message: "Logged out successfully. All sessions cleared."
+    });
+  } catch (error) {
+    console.error('Error in logout:', error);
+    res.status(500).json({
+      status: "error",
+      message: "Failed to logout",
+      error: error.message
+    });
+  }
 };
 
 

@@ -10,7 +10,7 @@ export const fetchStallList = async payload => {
     const result = await axios.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': `${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
     if (result.data.error || result.status !== 200) {
@@ -52,7 +52,7 @@ export const fetchStallBookByUserList = async () => {
     const result = await axios.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': `${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
     if (result.data.error || result.status !== 200) {
@@ -135,7 +135,7 @@ export const deleteStall = async id => {
     const result = await axios.delete(url, {
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': `${token}`,
+        Authorization: `Bearer ${token}`,
       },
       data,
     })
@@ -156,7 +156,7 @@ export const fetchUpcomingBookings = async () => {
     const result = await axios.get(url, {
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': `${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
     if (result.data.error || result.status !== 200) {

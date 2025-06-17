@@ -119,11 +119,13 @@ exports.getUpcomingBookings = async (req, res) => {
     }).lean().exec();
 
     console.log(`Found ${allBookings.length} non-cancelled bookings for user ${userId}`);
+    console.log('Server today (00:00:00):', today.toISOString());
 
     // Filter and sort bookings with normalized dates
     const bookings = allBookings
       .map(booking => {
         const normalizedDate = normalizeDate(booking.date);
+        console.log(`Booking ID: ${booking.booking_id}, Original Date: ${booking.date}, Normalized Date: ${normalizedDate ? normalizedDate.toISOString() : 'Invalid Date'}`);
         return {
           ...booking,
           normalizedDate
@@ -451,51 +453,140 @@ res.status(200).send(resp)
 // Get all bookings for a specific user (past, present, future)
 exports.getUserBookings = async (req, res) => {
   try {
-    // Get user ID from the authenticated request
     const userId = req.userId;
+    console.log('Getting all bookings for userId:', userId);
+
+    // Get today's date boundaries
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
     
-    const bookings = await BookedStalls.find({
-      bookedBy: userId
-    }).sort({ date: -1 }); // Sort by date descending (newest first)
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    // Function to convert any date format to a Date object
+    const normalizeDate = (dateStr) => {
+      if (!dateStr) return null;
+      
+      // If it's already a Date object
+      if (dateStr instanceof Date) return dateStr;
+      
+      // Try parsing as ISO date first
+      let date = new Date(dateStr);
+      if (!isNaN(date.getTime())) return date;
+      
+      // Try DD/MM/YYYY format
+      if (dateStr.includes('/')) {
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+          // Check if it's DD/MM/YYYY
+          if (parts[0].length === 2) {
+            date = new Date(parts[2], parts[1] - 1, parts[0]);
+          } 
+          // Check if it's YYYY/MM/DD
+          else if (parts[0].length === 4) {
+            date = new Date(parts[0], parts[1] - 1, parts[2]);
+          }
+          if (!isNaN(date.getTime())) return date;
+        }
+      }
+      
+      // Try YYYY-MM-DD format
+      if (dateStr.includes('-')) {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          date = new Date(parts[0], parts[1] - 1, parts[2]);
+          if (!isNaN(date.getTime())) return date;
+        }
+      }
+      
+      return null;
+    };
+
+    // Get all non-cancelled bookings for the user
+    const allBookings = await BookedStalls.find({
+      bookedBy: userId,
+      status: { $ne: 'cancelled' }
+    }).lean().exec();
+
+    console.log(`Found ${allBookings.length} total bookings for user ${userId}`);
+
+    // Process and categorize bookings
+    const processedBookings = allBookings.map(booking => {
+      const normalizedDate = normalizeDate(booking.date);
+      return {
+        ...booking,
+        normalizedDate
+      };
+    }).filter(booking => booking.normalizedDate !== null);
+
+    // Categorize bookings
+    const pastBookings = processedBookings
+      .filter(booking => booking.normalizedDate < todayStart)
+      .sort((a, b) => b.normalizedDate - a.normalizedDate); // Most recent first
+
+    const todayBookings = processedBookings
+      .filter(booking => 
+        booking.normalizedDate >= todayStart && 
+        booking.normalizedDate <= todayEnd
+      )
+      .sort((a, b) => a.normalizedDate - b.normalizedDate); // Chronological order
+
+    const futureBookings = processedBookings
+      .filter(booking => booking.normalizedDate > todayEnd)
+      .sort((a, b) => a.normalizedDate - b.normalizedDate); // Chronological order
+
+    // Function to format booking data
+    const formatBooking = (booking) => ({
+      booking_id: booking.booking_id || "",
+      market_name: booking.market_name || "",
+      status: booking.status || "",
+      date: booking.date || "",
+      time: booking.time || "",
+      total_amount: booking.total_amount || "",
+      payment_status: booking.payment_status || "",
+      payment_method: booking.payment_method || "",
+      payment_date: booking.payment_date || "",
+      payment_id: booking.payment_id || "",
+      payment_amount: booking.payment_amount || "",
+      payment_type: booking.payment_type || "",
+      market_location: booking.market_location || "",
+      market_image: booking.market_image || "",
+      market_description: booking.market_description || "",
+      market_address: booking.market_address || "",
+      market_city: booking.market_city || "",
+      market_state: booking.market_state || "",
+      market_zip: booking.market_zip || "",
+      stalls: (booking.stalls || []).map(stall => ({
+        stall_id: stall.stall_id || "",
+        stall_name: stall.stall_name || "",
+        stall_title: stall.stall_title || "",
+        stall_purchased_amount: stall.stall_purchased_amount || "",
+        stall_sale_amount: stall.stall_sale_amount || "",
+        stall_total_amount: stall.stall_total_amount || ""
+      })),
+      summary: {
+        total_amount: booking.summary?.total_amount || "",
+        total_stalls: booking.summary?.total_stalls || "",
+        total_items: booking.summary?.total_items || ""
+      }
+    });
 
     res.status(200).json({
       status: "success",
-      message: "user details fetched successfully",
-      data: bookings.map(booking => ({
-        booking_id: booking.booking_id || "",
-        market_name: booking.market_name || "",
-        status: booking.status || "",
-        date: booking.date || "",
-        time: booking.time || "",
-        total_amount: booking.total_amount || "",
-        payment_status: booking.payment_status || "",
-        payment_method: booking.payment_method || "",
-        payment_date: booking.payment_date || "",
-        payment_id: booking.payment_id || "",
-        payment_amount: booking.payment_amount || "",
-        payment_type: booking.payment_type || "",
-        market_location: booking.market_location || "",
-        market_image: booking.market_image || "",
-        market_description: booking.market_description || "",
-        market_address: booking.market_address || "",
-        market_city: booking.market_city || "",
-        market_state: booking.market_state || "",
-        market_zip: booking.market_zip || "",
-        stalls: (booking.stalls || []).map(stall => ({
-          stall_id: stall.stall_id || "",
-          stall_name: stall.stall_name || "",
-          stall_title: stall.stall_title || "",
-          stall_purchased_amount: stall.stall_purchased_amount || "",
-          stall_sale_amount: stall.stall_sale_amount || "",
-          stall_total_amount: stall.stall_total_amount || ""
-        })),
-        summary: {
-          total_amount: booking.summary?.total_amount || "",
-          total_stalls: booking.summary?.total_stalls || "",
-          total_items: booking.summary?.total_items || ""
-        }
-      }))
+      message: "User bookings fetched successfully",
+      data: {
+        past: pastBookings.map(formatBooking),
+        today: todayBookings.map(formatBooking),
+        future: futureBookings.map(formatBooking)
+      },
+      summary: {
+        total_bookings: allBookings.length,
+        past_bookings: pastBookings.length,
+        today_bookings: todayBookings.length,
+        future_bookings: futureBookings.length
+      }
     });
+
   } catch (error) {
     console.error('Error in getUserBookings:', error);
     res.status(500).json({

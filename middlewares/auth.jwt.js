@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config");
+const config = require("../config/app.config");
 const User = require("../models/User");
 const jwt_decode = require("jwt-decode");
 
@@ -26,7 +26,7 @@ exports.verifyToken = (req, res, next) => {
     return res.status(403).send({ message: "No token provided!" });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, config.jwtSecret, (err, decoded) => {
     if (err) {
       console.log("Token verification failed:", err); // Debug log
       return res.status(401).send({ message: "Unauthorized!" });
